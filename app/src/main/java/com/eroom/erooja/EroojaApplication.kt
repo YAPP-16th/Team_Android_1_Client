@@ -12,7 +12,7 @@ class EroojaApplication: Application() {
         startKoin {
             androidLogger()
             androidContext(this@EroojaApplication)
-            modules()
+            modules(mutableListOf())
         }
     }
 }
