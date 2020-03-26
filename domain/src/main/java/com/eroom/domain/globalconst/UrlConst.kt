@@ -1,6 +1,6 @@
 package com.eroom.domain.globalconst
 
 object UrlConst {
-    val DEV_URL = ""
-    val PROD_URL = ""
+    const val DEV_URL = "https://127.0.0.1"
+    const val PROD_URL = ""
 }
