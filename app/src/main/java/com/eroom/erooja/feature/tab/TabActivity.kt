@@ -4,14 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityTabBinding
 import com.eroom.erooja.feature.main.MainFragment
 import com.eroom.erooja.feature.mypage.MyPageFragment
 import com.eroom.erooja.feature.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import timber.log.Timber
 
 class TabActivity : AppCompatActivity(), TabContract.View {
     private lateinit var mainBinding: ActivityTabBinding
@@ -23,7 +21,7 @@ class TabActivity : AppCompatActivity(), TabContract.View {
         super.onCreate(savedInstanceState)
         initPresenter()
         setUpDataBinding()
-        initView()
+        initFragment()
     }
 
     private fun initPresenter() {
@@ -35,7 +33,7 @@ class TabActivity : AppCompatActivity(), TabContract.View {
         mainBinding.activity = this
     }
 
-    private fun initView() =
+    private fun initFragment() =
         fragments.apply {
             addAll(listOf(
                 MainFragment.newInstance(),
@@ -49,6 +47,14 @@ class TabActivity : AppCompatActivity(), TabContract.View {
             }
         }.run {
             loadFragment(0)
+        }
+
+
+    private fun loadFragment(index: Int) =
+        fragments.map {
+            it.apply { supportFragmentManager.beginTransaction().hide(this).commit() }
+        }[index].also {
+            supportFragmentManager.beginTransaction().show(it).commit()
         }
 
 
@@ -69,13 +75,5 @@ class TabActivity : AppCompatActivity(), TabContract.View {
         }
         return@OnNavigationItemSelectedListener false
     }
-
-    private fun loadFragment(index: Int) =
-        fragments.map {
-            it.apply { supportFragmentManager.beginTransaction().hide(this).commit() }
-        }[index].also {
-            supportFragmentManager.beginTransaction().show(it).commit()
-        }
-
 
 }
