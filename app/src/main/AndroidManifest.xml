@@ -15,7 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.tab.TabActivity"
+        <activity android:name=".feature.mypage.MyPageActivity"></activity>
+        <activity android:name=".feature.search.SearchActivity" />
+        <activity
+            android:name=".feature.tab.TabActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".feature.exam.activity.ExamActivity"
+        <activity
+            android:name=".feature.exam.activity.ExamActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/bottom_tab_feed"
+        android:id="@+id/bottom_tab_main"
         android:title="@string/nav_main"
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/bottom_tab_category"
+        android:id="@+id/bottom_tab_search"
         android:title="@string/nav_search"
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/bottom_tab_my_review"
+        android:id="@+id/bottom_tab_my_page"
         android:title="@string/nav_my_page"
         app:showAsAction="ifRoom"/>
 

@@ -10,8 +10,7 @@ import com.eroom.erooja.feature.exam.fragment.ExamFragment
 import org.koin.android.ext.android.get
 import timber.log.Timber
 
-class ExamActivity : AppCompatActivity(),
-    ExamContract.View {
+class ExamActivity : AppCompatActivity(), ExamContract.View {
     private lateinit var examBinding: ActivityExamBinding
     private lateinit var presenter: ExamPresenter
 

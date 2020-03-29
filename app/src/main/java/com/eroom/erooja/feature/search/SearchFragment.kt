@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.main
+package com.eroom.erooja.feature.search
 
 
 import android.content.Context
@@ -8,20 +8,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-import com.eroom.erooja.databinding.FragmentMainBinding
+import com.eroom.erooja.databinding.FragmentSearchBinding
 
-class MainFragment : Fragment(), MainContract.View {
-    private lateinit var mainBinding: FragmentMainBinding
-    private lateinit var presenter: MainPresenter
+/**
+ * A simple [Fragment] subclass.
+ */
+class SearchFragment : Fragment(), SearchContract.View {
+    private lateinit var searchBinding: FragmentSearchBinding
+    private lateinit var presenter: SearchPresenter
 
     companion object {
         @JvmStatic
-        fun newInstance() = MainFragment()
+        fun newInstance() = SearchFragment()
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        presenter = MainPresenter(this)
+        presenter = SearchPresenter(this)
     }
 
     override fun onCreateView(
@@ -30,12 +33,12 @@ class MainFragment : Fragment(), MainContract.View {
     ): View? {
         setUpDataBinding(inflater, container)
         initView()
-        return mainBinding.root
+        return searchBinding.root
     }
 
     private fun setUpDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        mainBinding = FragmentMainBinding.inflate(inflater, container, false)
-        mainBinding.fragment = this
+        searchBinding = FragmentSearchBinding.inflate(inflater, container, false)
+        searchBinding.fragment = this
     }
 
     private fun initView() {

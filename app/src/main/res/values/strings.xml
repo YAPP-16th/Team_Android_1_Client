@@ -4,7 +4,4 @@
     <string name="nav_main">메인</string>
     <string name="nav_search">탐색</string>
     <string name="nav_my_page">MY</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

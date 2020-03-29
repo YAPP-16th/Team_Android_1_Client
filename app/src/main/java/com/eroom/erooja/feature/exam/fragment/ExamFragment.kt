@@ -14,8 +14,8 @@ import com.eroom.erooja.databinding.FragmentMainBinding
 
 class ExamFragment : Fragment(),
     ExamFragmentContract.View {
-    lateinit var mainBinding: FragmentExamBinding
-    lateinit var presenter: ExamFragmentPresenter
+    private lateinit var mainBinding: FragmentExamBinding
+    private lateinit var presenter: ExamFragmentPresenter
 
     companion object {
         @JvmStatic

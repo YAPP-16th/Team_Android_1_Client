@@ -3,14 +3,19 @@
     <data>
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.exam.fragment.ExamFragment" />
+            type="com.eroom.erooja.feature.search.SearchFragment" />
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.main.MainFragment">
+        tools:context=".feature.search.SearchFragment">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="cccccccccccccc" />
 
     </FrameLayout>
 </layout>
