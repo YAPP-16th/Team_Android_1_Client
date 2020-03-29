@@ -16,5 +16,6 @@ class ExamPresenter(override val view: ExamContract.View,
 
             })
 
+    fun test2() = sharedPrefRepository.writePrefs("key", "value")
 
 }

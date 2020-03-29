@@ -5,6 +5,6 @@ import io.reactivex.Single
 import retrofit2.http.GET
 
 interface ServiceExample {
-    @GET("/v1/test/dummy")
+    @GET("test/dummy")
     fun getDummy(): Single<ResponseExample>
 }

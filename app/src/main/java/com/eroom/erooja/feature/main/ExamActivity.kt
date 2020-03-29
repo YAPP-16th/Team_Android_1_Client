@@ -9,6 +9,7 @@ import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityExamBinding
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 
 class ExamActivity : AppCompatActivity(), ExamContract.View {
     private lateinit var mainBinding: ActivityExamBinding
@@ -32,10 +33,11 @@ class ExamActivity : AppCompatActivity(), ExamContract.View {
     }
 
     fun test1() {
-
+        sharedPrefRepository.getPrefsStringValue("key")
     }
 
     fun testClick() {
         this.toastShort(listOf("1", "2", "3").join())
+        Timber.d("a" add "b")
     }
 }

@@ -1,8 +1,6 @@
 package com.eroom.domain.koin.repository
 
 import rx.Observable
-import rx.Subscriber
-import java.util.*
 
 interface SharedPrefRepository {
     fun writePrefs(key: String?)

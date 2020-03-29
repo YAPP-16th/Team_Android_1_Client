@@ -4,7 +4,7 @@ import android.os.Looper
 import java.lang.StringBuilder
 
 infix fun String.add(string: String): String =
-    if (Looper.myLooper()== Looper.getMainLooper())
+    if (Looper.myLooper() == Looper.getMainLooper())
         StringBuilder().apply {
             append(this@add, string)
         }.toString()
@@ -13,7 +13,7 @@ infix fun String.add(string: String): String =
     }.toString()
 
 fun List<String>.join(): String =
-    if (Looper.myLooper()== Looper.getMainLooper())
+    if (Looper.myLooper() == Looper.getMainLooper())
         StringBuilder().apply {
             for (item in this@join) {
                 append(item)
