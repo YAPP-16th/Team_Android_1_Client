@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.main
+package com.eroom.erooja.feature.exam.activity
 
 import io.reactivex.disposables.Disposable
 
