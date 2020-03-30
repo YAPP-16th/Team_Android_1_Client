@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Erooja</string>
+
+    <string name="nav_main">메인</string>
+    <string name="nav_search">탐색</string>
+    <string name="nav_my_page">MY</string>
 </resources>

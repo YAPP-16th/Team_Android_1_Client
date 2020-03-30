@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="orgDefault">#f3590f</color>
+    <color name="orgHover">#f57b40</color>
+    <color name="orgPressed">#dd4f0b</color>
+
+    <color name="subDefault">#38bbd0</color>
+    <color name="subHover">#61c9da</color>
+    <color name="subPressed">#299aac</color>
+
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorBlack">#000000</color>
 </resources>
