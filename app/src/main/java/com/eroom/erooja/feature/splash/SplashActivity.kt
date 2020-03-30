@@ -7,6 +7,7 @@ import android.os.Handler
 import androidx.databinding.DataBindingUtil
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivitySplashBinding
+import com.eroom.erooja.feature.login.LoginActivity
 import com.eroom.erooja.feature.tab.TabActivity
 
 class SplashActivity : AppCompatActivity(), SplashContract.View {
@@ -36,11 +37,8 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
 
     inner class SplashHandler : Runnable {
         override fun run() {
-            startActivity(Intent(applicationContext, TabActivity::class.java))
-            overridePendingTransition(
-                R.anim.fade_in,
-                R.anim.fade_out
-            )
+            startActivity(Intent(applicationContext, LoginActivity::class.java))
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             finish()
         }
     }

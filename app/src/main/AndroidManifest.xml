@@ -6,6 +6,8 @@
 
     <dist:module dist:instant="true" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".EroojaApplication"
         android:allowBackup="true"
@@ -15,7 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.splash.SplashActivity"
+        <activity android:name=".feature.signup.kakao.KakaoSignUpActivity"></activity>
+        <activity
+            android:name=".feature.splash.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,12 +28,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".feature.login.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".feature.tab.TabActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".feature.exam.activity.ExamActivity"
             android:screenOrientation="portrait" />
-
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
