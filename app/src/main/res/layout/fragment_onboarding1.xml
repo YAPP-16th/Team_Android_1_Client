@@ -31,7 +31,7 @@
             android:id="@+id/title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#333333"
+            android:textColor="@color/grey7"
             android:textStyle="bold"
             android:textSize="18sp"
             android:text="@string/onboarding_title1" />
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:lineSpacingExtra="10sp"
-            android:textColor="#757575"
+            android:textColor="@color/grey5"
             android:textSize="14sp"
             android:text="@string/onboarding_content1" />
     </LinearLayout>

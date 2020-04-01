@@ -32,7 +32,7 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#333333"
+            android:textColor="@color/grey7"
             android:textSize="18sp"
             android:text="@string/onboarding2_title" />
 
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:lineSpacingExtra="10sp"
-            android:textColor="#757575"
+            android:textColor="@color/grey5"
             android:textSize="14sp"
             android:text="@string/onboarding2_content" />
     </LinearLayout>
