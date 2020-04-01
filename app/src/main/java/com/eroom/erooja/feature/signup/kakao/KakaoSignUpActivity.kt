@@ -2,7 +2,6 @@ package com.eroom.erooja.feature.signup.kakao
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
