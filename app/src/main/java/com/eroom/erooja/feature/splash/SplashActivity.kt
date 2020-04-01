@@ -32,6 +32,7 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
         splashBinding.activity = this
     }
 
+
     private fun setTimber() = Timber.plant(Timber.DebugTree())
 
     override fun onResume() {
