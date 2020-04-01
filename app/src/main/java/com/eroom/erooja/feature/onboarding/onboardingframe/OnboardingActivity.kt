@@ -60,6 +60,7 @@ class OnboardingActivity : AppCompatActivity(), OnboardingContract.View {
 
     private fun finishOnboarding() {
         startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 }
 
