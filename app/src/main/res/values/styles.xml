@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/orgDefault</item>
         <item name="colorPrimaryDark">@color/colorWhite</item>
         <item name="colorAccent">@color/subDefault</item>
+
+        <item name="android:windowBackground">@color/colorWhite</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="BottomNavigationView">
