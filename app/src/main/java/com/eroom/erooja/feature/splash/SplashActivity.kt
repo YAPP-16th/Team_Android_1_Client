@@ -10,6 +10,7 @@ import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivitySplashBinding
 import com.eroom.erooja.feature.login.LoginActivity
 import com.eroom.erooja.feature.tab.TabActivity
+import timber.log.Timber
 
 class SplashActivity : AppCompatActivity(), SplashContract.View {
     private lateinit var splashBinding: ActivitySplashBinding
@@ -19,7 +20,7 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
         super.onCreate(savedInstanceState)
         initPresenter()
         setUpDataBinding()
-        Log.e("lifecycle", "onCreate")
+        setTimber()
     }
 
     private fun initPresenter() {
@@ -30,6 +31,8 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
         splashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
         splashBinding.activity = this
     }
+
+    private fun setTimber() = Timber.plant(Timber.DebugTree())
 
     override fun onResume() {
         super.onResume()
