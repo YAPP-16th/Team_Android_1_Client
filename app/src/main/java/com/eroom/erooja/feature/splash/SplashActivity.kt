@@ -34,6 +34,7 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
 
     private fun setTimber() = Timber.plant(Timber.DebugTree())
 
+
     override fun onResume() {
         super.onResume()
         splashBinding.logoImageView.alpha = 0f
