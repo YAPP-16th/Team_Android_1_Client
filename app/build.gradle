@@ -77,8 +77,6 @@ android {
 }
 
 dependencies {
-
-    androidTestImplementation 'com.google.code.findbugs:jsr305:1.3.9'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':domain')
     implementation project(path: ':data')

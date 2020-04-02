@@ -14,9 +14,9 @@ class OnboardingAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> OnboardingFirst()
-            1 -> OnboardingSecond()
-            else -> OnboardingThird()  //??
+            0 -> OnboardingFirst.newInstance()
+            1 -> OnboardingSecond.newInstance()
+            else -> OnboardingThird.newInstance()
         }
     }
 

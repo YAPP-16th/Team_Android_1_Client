@@ -13,36 +13,40 @@ import kotlinx.android.synthetic.main.activity_onboarding.*
 
 class OnboardingActivity : AppCompatActivity(), OnboardingContract.View {
     private lateinit var onboardBinding: ActivityOnboardingBinding
-    private val pagerAdapter by lazy { OnboardingAdapter(supportFragmentManager)}
+    private val pagerAdapter by lazy { OnboardingAdapter(supportFragmentManager) }
+    private val presenter by lazy { OnboardingPresenter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setUpDataBinding()
+        initViewPager()
+    }
+
+    private fun setUpDataBinding() {
         onboardBinding = DataBindingUtil.setContentView(this, R.layout.activity_onboarding)
         onboardBinding.activity = this
+    }
 
-        onboardBinding.viewPager.adapter = OnboardingAdapter@pagerAdapter
+    private fun initViewPager() {
+        onboardBinding.viewPager.adapter = pagerAdapter
         onboardBinding.viewPager.offscreenPageLimit = 2
 
-        onboardBinding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+        onboardBinding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(p0: Int) {
-
             }
-
             override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
-
             }
-
             override fun onPageSelected(p0: Int) {
                 circle_indicator.selectDot(p0)
             }
-
         })
-        onboardBinding.circleIndicator.createDotPanel(3,R.drawable.indicator_dot_off, R.drawable.indicator_dot_on, 0)
+
+        onboardBinding.circleIndicator.createDotPanel(3, R.drawable.indicator_dot_off, R.drawable.indicator_dot_on, 0)
     }
 
     fun onNextClickListener(v: View) {
-        val position : Int = onboardBinding.viewPager.currentItem
-        if(position == 2) {
+        val position: Int = onboardBinding.viewPager.currentItem
+        if (position == 2) {
             finishOnboarding()
         }
         onboardBinding.viewPager.setCurrentItem(position + 1, true)
