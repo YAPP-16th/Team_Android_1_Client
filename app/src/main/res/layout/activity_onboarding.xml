@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="activity"
+            type="com.eroom.erooja.feature.onboarding.onboardingframe.OnboardingActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".feature.onboarding.onboardingframe.OnboardingActivity">
+
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+        </androidx.viewpager.widget.ViewPager>
+        <com.eroom.domain.customview.CircleIndicator
+            android:id="@+id/circle_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintVertical_bias="0.95"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+        </com.eroom.domain.customview.CircleIndicator>
+
+        <ImageView
+            android:id="@+id/btn_skip"
+            android:layout_width="73dp"
+            android:layout_height="48dp"
+            android:onClick="@{activity::onSkipClickListener}"
+            app:srcCompat="@drawable/btn_skip_disabled"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/circle_indicator"
+            app:layout_constraintTop_toTopOf="@id/circle_indicator"/>
+
+        <ImageView
+            android:id="@+id/btn_next"
+            android:layout_width="73dp"
+            android:layout_height="48dp"
+            android:onClick="@{activity::onNextClickListener}"
+            app:srcCompat="@drawable/btn_next_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/circle_indicator"
+            app:layout_constraintTop_toTopOf="@id/circle_indicator"
+       />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

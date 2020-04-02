@@ -17,7 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.signup.kakao.KakaoSignUpActivity"></activity>
+        <activity android:name=".feature.onboarding.onboardingframe.OnboardingActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".feature.signup.kakao.KakaoSignUpActivity" />
         <activity
             android:name=".feature.splash.SplashActivity"
             android:screenOrientation="portrait">
