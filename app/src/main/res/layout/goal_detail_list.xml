@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="wrap_content"
+    android:background="@color/colorWhite"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -27,7 +28,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-
             android:text="40% 달성"
             android:textColor="@color/orgDefault" />
 
@@ -35,21 +35,26 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="@dimen/dimen_1dp"
         android:background="@color/grey3"/>
 
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dimen_150dp"
         android:layout_marginTop="@dimen/dimen_16dp"
         android:orientation="vertical">
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/view_gradient" />
 
-      <ListView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:choiceMode="multipleChoice"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_150dp"
+            android:id="@+id/goalDetailList">
 
-    </LinearLayout>
+        </androidx.recyclerview.widget.RecyclerView>
+    </FrameLayout>
 
 </LinearLayout>

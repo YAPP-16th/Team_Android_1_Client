@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorWhite"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/goal_details_parent_layout"
         android:orientation="vertical"
+        android:background="@color/colorWhite"
         android:padding="@dimen/dimen_16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -47,6 +48,7 @@
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="92dp"
+            android:background="@color/colorWhite"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -83,17 +85,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
-                    android:text="자세히"
+                    android:text="@string/more"
                     android:textColor="@color/grey5" />
             </FrameLayout>
-
-
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/linearLayout3"
             android:orientation="vertical"
+            android:background="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
@@ -101,12 +103,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:layout_marginBottom="14dp"
+                android:layout_marginTop="@dimen/dimen_14dp"
+                android:layout_marginBottom="@dimen/dimen_14dp"
                 android:textColor="@color/grey7"
                 android:textSize="@dimen/dimen_14sp"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-                tools:text="나의 리스트" />
+                android:text="나의 리스트" />
         </LinearLayout>
 
         <LinearLayout
@@ -117,12 +119,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </androidx.recyclerview.widget.RecyclerView>
+            <include layout="@layout/goal_detail_list"/>
         </LinearLayout>
 
         <LinearLayout
@@ -137,11 +134,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:layout_marginBottom="14dp"
+                android:layout_marginTop="@dimen/dimen_14dp"
+                android:layout_marginBottom="@dimen/dimen_14dp"
                 android:textColor="@color/grey7"
                 android:textSize="@dimen/dimen_14sp"
-                tools:text="참여자 목록" />
+                android:text="참여자 목록" />
         </LinearLayout>
 
         <LinearLayout
@@ -152,15 +149,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </androidx.recyclerview.widget.RecyclerView>
+            <include layout="@layout/goal_detail_list"/>
         </LinearLayout>
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>
