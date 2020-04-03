@@ -1,9 +1,9 @@
 package com.eroom.erooja.feature.goalDetail
 
-interface goalDetailContract {
+interface GoalDetailContract {
 
     interface View{
-
+        fun displayListView()
     }
 
     interface Presenter{
