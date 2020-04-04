@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalDetailsBinding
-import kotlinx.android.synthetic.main.goal_detail_desc.*
+import kotlinx.android.synthetic.main.activity_goal_details.*
 
 class GoalDetailActivity :AppCompatActivity() {
     lateinit var binding : ActivityGoalDetailsBinding
