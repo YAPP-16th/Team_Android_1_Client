@@ -119,7 +119,7 @@ dependencies {
 
     implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     implementation 'com.jakewharton.rxbinding:rxbinding-design:0.4.0'
-        // these are for retrolambda and streams api
+    // these are for retrolambda and streams api
     implementation 'com.annimon:stream:1.1.2'
 
     //firebase
