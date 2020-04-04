@@ -27,4 +27,18 @@
 
     <string name="start_guest">게스트로 시작하기</string>
 
+
+    <string name="next">다음</string>
+
+
+    <string name="please_input_nickname">닉네임을 입력하세요.</string>
+    <string name="nickname_max_info">한글 2자 이상~5자 이내</string>
+    <string name="already_using_nickname">이미 사용 중인 닉네임입니다.</string>
+    <string name="nickname_rule_info">2~5자 공백없이 입력해주세요.</string>
+    <string name="please_select_job_group">관심있는 직군을 골라주세요.</string>
+    <string name="group_development">개발 직군</string>
+    <string name="group_design">디자인 직군</string>
+    <string name="please_select_job_class">직무도 함께 골라주세요.</string>
+    <string name="job_class_select_info">직무는 추후에 변경 가능합니다.</string>
+
 </resources>
