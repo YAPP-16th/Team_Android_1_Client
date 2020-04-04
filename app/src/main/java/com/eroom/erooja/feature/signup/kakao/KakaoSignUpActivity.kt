@@ -75,7 +75,7 @@ class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
             supportFragmentManager.beginTransaction().show(it[0]).commit()
         }
     }
-
+    
     fun nextButtonClicked() {
         mPage += 1
         if (mPage > 2) {
@@ -122,3 +122,4 @@ class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
 
     override fun onBackPressed() = prevButtonClicked()
 }
+

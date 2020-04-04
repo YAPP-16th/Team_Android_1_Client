@@ -24,6 +24,7 @@
 
         <activity android:name=".feature.signup.kakao.KakaoSignUpActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".feature.splash.SplashActivity"
             android:screenOrientation="portrait">

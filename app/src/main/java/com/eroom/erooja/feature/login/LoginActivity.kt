@@ -67,7 +67,6 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         }
     }
 
-
     override val redirectSignUpActivity = {
         val intent = Intent(this, KakaoSignUpActivity::class.java)
         startActivity(intent)
