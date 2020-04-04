@@ -23,7 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
@@ -38,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/grey7"
                 android:textSize="@dimen/dimen_18sp"
+                android:textStyle="bold"
                 android:text="포트폴리오 진행하기" />
 
             <TextView
@@ -52,15 +52,46 @@
                 android:text="2020.03.05~03.07" />
         </LinearLayout>
 
-            <include layout="@layout/goal_detail_desc"
-                android:id="@+id/linearLayout2"
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/expandable_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:el_duration="1000"
+            app:el_expanded="true"
+            app:el_parallax="0.5">
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_85dp"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                bind:goalDetail = "@{goalDetail}"/>
+                android:layout_height="@dimen/dimen_85dp">
+
+                <TextView
+                    android:id="@+id/goal_desc"
+                    android:text="@string/temp_txt"
+                    android:lineSpacingExtra="15sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_85dp"
+                    android:orientation="vertical" />
+
+                <View
+                    android:id="@+id/gradient_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/view_gradient" />
+
+                <TextView
+                    android:id="@+id/more_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:onClick="@{goalDetail::moreClick}"
+                    android:text="더보기"
+                    android:textColor="@color/grey5" />
+            </FrameLayout>
+        </net.cachapa.expandablelayout.ExpandableLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,7 +100,7 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+            app:layout_constraintTop_toBottomOf="@+id/expandable_layout">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -78,50 +109,31 @@
                 android:layout_marginBottom="@dimen/dimen_14dp"
                 android:textColor="@color/grey7"
                 android:textSize="@dimen/dimen_14sp"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-                android:text="나의 리스트" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
-            <include layout="@layout/goal_detail_list"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_14dp"
-                android:layout_marginBottom="@dimen/dimen_14dp"
-                android:textColor="@color/grey7"
-                android:textSize="@dimen/dimen_14sp"
+                android:textStyle="bold"
                 android:text="참여자 목록" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linearLayout6"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/other_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
-            <include layout="@layout/goal_detail_list"/>
-        </LinearLayout>
+            bind:layout_constraintEnd_toEndOf="parent"
+            bind:layout_constraintStart_toStartOf="parent"
+            bind:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/add_list_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_14dp"
+            android:background="@drawable/ic_btn_floating_creategoal"
+            bind:layout_constraintTop_toBottomOf="@+id/other_recyclerview"
+            android:text="@string/add_goal_list"
+            android:textSize="@dimen/dimen_14sp"
+            android:textColor="@color/colorWhite"
+            tools:layout_editor_absoluteX="16dp" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
