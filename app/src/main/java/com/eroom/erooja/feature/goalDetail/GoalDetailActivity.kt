@@ -1,13 +1,14 @@
 package com.eroom.erooja.feature.goalDetail
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalDetailsBinding
-import kotlinx.android.synthetic.main.activity_goal_details.*
+import com.eroom.erooja.feature.goalDetail.othersList.OthersDetailActivity
+import kotlinx.android.synthetic.main.include_goal_desc.*
 
 class GoalDetailActivity :AppCompatActivity() {
     lateinit var binding : ActivityGoalDetailsBinding
@@ -17,28 +18,24 @@ class GoalDetailActivity :AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_goal_details)
         binding.goalDetail = this@GoalDetailActivity
 
-        initview()
+        goal_desc.showButton = false
+        goal_desc.showShadow = true
+        goal_desc.animationDuration = 300
     }
 
     fun moreClick(view:View){
+        goal_desc.toggle()
 
-        when(more_txt.text){
-            "더보기" -> {
-                gradient_view.visibility = View.INVISIBLE
-                more_txt.text="닫기"
-                Log.i("click"," INVISIBLE ")
-            }
-            "닫기" -> {
-                gradient_view.visibility = View.VISIBLE
-                more_txt.text="더보기"
-                Log.i("click"," VISIBLE ")
-
-            }
+        when(more_text.text){
+            "더보기" -> more_text.text = "닫기"
+            "닫기" -> more_text.text = "더보기"
         }
 
     }
 
-    fun initview(){
-
+    fun othersDetailClick(view:View){
+        var intent= Intent(this@GoalDetailActivity, OthersDetailActivity::class.java)
+        startActivity(intent)
     }
+
 }
