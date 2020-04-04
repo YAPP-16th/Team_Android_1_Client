@@ -18,7 +18,7 @@ public class SharedPreferenceHelper {
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault());
 
     private SharedPreferenceHelper(Context context) {
-        mPrefs = context.getSharedPreferences(Consts.Companion.getPREF_EROOJA(), 0);
+        mPrefs = context.getSharedPreferences(Consts.PREF_EROOJA, 0);
     }
 
     // SharedPreferenceHelper is a singleton pattern
