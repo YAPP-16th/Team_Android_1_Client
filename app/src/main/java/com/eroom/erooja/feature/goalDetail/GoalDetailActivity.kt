@@ -5,12 +5,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.eroom.data.entity.UserSimpleData
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalDetailsBinding
 import com.eroom.erooja.feature.goalDetail.othersList.OthersDetailActivity
+import kotlinx.android.synthetic.main.activity_goal_details.*
 import kotlinx.android.synthetic.main.include_goal_desc.*
 
-class GoalDetailActivity :AppCompatActivity() {
+class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
     lateinit var binding : ActivityGoalDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,17 +21,15 @@ class GoalDetailActivity :AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_goal_details)
         binding.goalDetail = this@GoalDetailActivity
 
-        goal_desc.showButton = false
-        goal_desc.showShadow = true
-        goal_desc.animationDuration = 300
+        initView()
     }
 
     fun moreClick(view:View){
         goal_desc.toggle()
 
         when(more_text.text){
-            "더보기" -> more_text.text = "닫기"
-            "닫기" -> more_text.text = "더보기"
+            resources.getString(R.string.more) -> more_text.text = resources.getString(R.string.close)
+            resources.getString(R.string.close) -> more_text.text = resources.getString(R.string.more)
         }
 
     }
@@ -38,4 +39,20 @@ class GoalDetailActivity :AppCompatActivity() {
         startActivity(intent)
     }
 
+    override fun getAllView(list: UserSimpleData) {
+        others_recyclerview.apply{
+            layoutManager = LinearLayoutManager(this@GoalDetailActivity)
+            adapter = GoalDetailAdapter(list)
+
+        }
+    }
+
+    fun initView(){
+        var presenter = GoalDetailPresenter(this)
+        presenter.getData()
+
+        goal_desc.showButton = false
+        goal_desc.showShadow = true
+
+    }
 }
