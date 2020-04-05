@@ -4,17 +4,19 @@ import android.content.Context
 import com.eroom.domain.BuildConfig
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.koin.repository.HttpClientRepository
+import com.eroom.domain.koin.repository.SharedPrefRepository
 import com.eroom.domain.sharedpref.SharedPreferenceHelper
+import com.eroom.domain.utils.ConverterUtil
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 
-class HttpClientRepositoryImpl(private val context: Context): HttpClientRepository {
+class HttpClientRepositoryImpl(private val sharedPrefRepository: SharedPrefRepository): HttpClientRepository {
     override fun getRefreshOkHttp(): OkHttpClient {
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor { chain: Interceptor.Chain ->
-            val refreshToken = SharedPreferenceHelper.getInstance(context).getPrefsStringValue(Consts.PREF_REFRESH_TOKEN)
+            val refreshToken = ConverterUtil._Decode(sharedPrefRepository.getPrefsStringValue(Consts.PREF_REFRESH_TOKEN))
             val request = chain.request()
             if (refreshToken.isNullOrEmpty()) {
                 request.newBuilder()
@@ -42,7 +44,7 @@ class HttpClientRepositoryImpl(private val context: Context): HttpClientReposito
     override fun getAccessOkHttp(): OkHttpClient {
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor { chain: Interceptor.Chain ->
-            val accessToken = SharedPreferenceHelper.getInstance(context).getPrefsStringValue(Consts.PREF_ACCESS_TOKEN)
+            val accessToken = ConverterUtil._Decode(sharedPrefRepository.getPrefsStringValue(Consts.PREF_ACCESS_TOKEN))
             val request = chain.request()
             if (accessToken.isNullOrEmpty()) {
                 request.newBuilder()

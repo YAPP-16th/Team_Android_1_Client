@@ -8,7 +8,7 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
 val networkModule = module {
-    single<HttpClientRepository> { HttpClientRepositoryImpl(androidApplication()) }
+    single<HttpClientRepository> { HttpClientRepositoryImpl(get()) }
 
     single<RetrofitRepository> { RetrofitRepositoryImpl(get()) }
 }
