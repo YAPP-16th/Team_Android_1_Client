@@ -12,20 +12,20 @@ import com.eroom.erooja.databinding.ActivityGoalDetailsBinding
 import com.eroom.erooja.feature.goalDetail.othersList.OthersDetailActivity
 import kotlinx.android.synthetic.main.activity_goal_details.*
 import kotlinx.android.synthetic.main.include_goal_desc.*
+import kotlinx.android.synthetic.main.include_goal_desc.view.*
+import org.koin.android.ext.android.bind
 
 class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
     lateinit var binding : ActivityGoalDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_goal_details)
-        binding.goalDetail = this@GoalDetailActivity
-
+        setUpDataBinding()
         initView()
     }
 
     fun moreClick(view:View){
-        goal_desc.toggle()
+        binding.goalDescLayout.goal_desc.toggle()
 
         when(more_text.text){
             resources.getString(R.string.more) -> more_text.text = resources.getString(R.string.close)
@@ -51,8 +51,12 @@ class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
         var presenter = GoalDetailPresenter(this)
         presenter.getData()
 
-        goal_desc.showButton = false
-        goal_desc.showShadow = true
+        binding.goalDescLayout.goal_desc.showButton = false
+        binding.goalDescLayout.goal_desc.showShadow = true
+    }
 
+    fun setUpDataBinding(){
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_goal_details)
+        binding.goalDetail = this@GoalDetailActivity
     }
 }
