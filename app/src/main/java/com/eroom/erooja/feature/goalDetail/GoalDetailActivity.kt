@@ -10,10 +10,7 @@ import com.eroom.data.entity.UserSimpleData
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalDetailsBinding
 import com.eroom.erooja.feature.goalDetail.othersList.OthersDetailActivity
-import kotlinx.android.synthetic.main.activity_goal_details.*
-import kotlinx.android.synthetic.main.include_goal_desc.*
 import kotlinx.android.synthetic.main.include_goal_desc.view.*
-import org.koin.android.ext.android.bind
 
 class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
     lateinit var binding : ActivityGoalDetailsBinding
@@ -27,9 +24,9 @@ class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
     fun moreClick(view:View){
         binding.goalDescLayout.goal_desc.toggle()
 
-        when(more_text.text){
-            resources.getString(R.string.more) -> more_text.text = resources.getString(R.string.close)
-            resources.getString(R.string.close) -> more_text.text = resources.getString(R.string.more)
+        when(binding.goalDescLayout.more_text.text){
+            resources.getString(R.string.more) -> binding.goalDescLayout.more_text.text = resources.getString(R.string.close)
+            resources.getString(R.string.close) -> binding.goalDescLayout.more_text.text = resources.getString(R.string.more)
         }
 
     }
@@ -40,7 +37,7 @@ class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
     }
 
     override fun getAllView(list: UserSimpleData) {
-        others_recyclerview.apply{
+        binding.othersRecyclerview.apply{
             layoutManager = LinearLayoutManager(this@GoalDetailActivity)
             adapter = GoalDetailAdapter(list)
 
