@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="goalDetail"
+            type="com.eroom.erooja.feature.goalDetail.GoalDetailActivity" />
+    </data>
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ru.rhanza.constraintexpandablelayout.ExpandableLayout
+        android:id="@+id/goal_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:el_animationDuration="300"
+        app:el_collapsedHeight="100dp"
+        app:el_initialState="collapsed"
+        app:el_shadowDrawable="@drawable/view_gradient_grey"
+        app:el_shadowHeight="60dp"
+        app:el_showShadow="true">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="15sp"
+            android:text="@string/temp_txt"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="14sp"
+            />
+
+    </ru.rhanza.constraintexpandablelayout.ExpandableLayout>
+
+        <TextView
+            android:id="@+id/more_text"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_gravity="right|bottom"
+            android:onClick="@{goalDetail::moreClick}"
+            android:text="더보기"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</FrameLayout>
+</layout>
+

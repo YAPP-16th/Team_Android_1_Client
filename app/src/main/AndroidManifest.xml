@@ -39,6 +39,8 @@
         <activity
             android:name=".feature.exam.activity.ExamActivity"
             android:screenOrientation="portrait" />
+        
+        <activity android:name=".feature.goalDetail.goalDetailActivity"/>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"

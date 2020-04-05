@@ -169,7 +169,7 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.3.1'
 
     //expandableLayout
-    implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+    implementation 'com.github.josinSbazin:android_ExpandableLayout:0.8'
 
     implementation 'com.github.rtoshiro.fullscreenvideoview:fullscreenvideoview:1.1.2'
 
