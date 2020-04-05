@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginStart="5.5dp"
+        android:layout_marginEnd="5.5dp">
+
+        <LinearLayout
+            android:id="@+id/item_class_border"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:background="@drawable/border_inactive_job_class"
+            android:gravity="center"
+            android:paddingTop="14dp"
+            android:paddingBottom="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/class_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="유우우엑스디자이이이인"/>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

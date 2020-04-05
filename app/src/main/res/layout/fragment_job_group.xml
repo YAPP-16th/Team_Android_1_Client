@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="fragment"
+            type="com.eroom.erooja.feature.signup.page.JobGroupFragment" />
+        <variable
+            name="view"
+            type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".feature.signup.page.JobGroupFragment">
+
+        <TextView
+            android:id="@+id/jobGroupInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/please_select_job_group"
+            android:textColor="@color/grey7"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.091" />
+
+        <LinearLayout
+            android:id="@+id/developViewGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/jobGroupInfo"
+            app:layout_constraintVertical_bias="0.13"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/selectedDevelopmentImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{fragment.isDevelop ? view.GONE : view.VISIBLE}"
+                app:srcCompat="@drawable/ic_icon_developer_normal" />
+
+            <ImageView
+                android:id="@+id/unselectedDevelopmentImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{fragment.isDevelop ? view.VISIBLE : view.GONE}"
+                app:srcCompat="@drawable/ic_icon_developer_pressed"
+                tools:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/developmentText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="@string/group_development"
+                android:layout_marginTop="13dp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/developViewGroup"
+            app:layout_constraintVertical_bias="0.19"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/unselectedDesignImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{fragment.isDesign ? view.GONE : view.VISIBLE}"
+                app:srcCompat="@drawable/ic_icon_designer_normal" />
+
+            <ImageView
+                android:id="@+id/selectedDesignImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{fragment.isDesign ? view.VISIBLE : view.GONE}"
+                app:srcCompat="@drawable/ic_icon_designer_pressed"
+                tools:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/designText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/group_design"
+                android:textSize="14sp"
+                android:layout_marginTop="13dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> fragment.nextButtonClicked()}"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:text="@string/next"
+            android:textColor="@{fragment.groupCheck ? @color/colorWhite : @color/grey5}"
+            android:background="@{fragment.groupCheck ? @color/orgDefault : @color/grey2}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

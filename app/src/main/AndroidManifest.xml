@@ -17,10 +17,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
         <activity android:name=".feature.onboarding.onboardingframe.OnboardingActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".feature.signup.kakao.KakaoSignUpActivity" />
+
+        <activity android:name=".feature.participants_list.ParticipantsListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.signup.kakao.KakaoSignUpActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".feature.splash.SplashActivity"
             android:screenOrientation="portrait">
@@ -40,7 +46,7 @@
             android:name=".feature.exam.activity.ExamActivity"
             android:screenOrientation="portrait" />
         
-        <activity android:name=".feature.goalDetail.goalDetailActivity"/>
+        <activity android:name=".feature.goalDetail.GoalDetailActivity"/>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"

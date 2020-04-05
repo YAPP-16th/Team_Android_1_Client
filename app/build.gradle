@@ -117,6 +117,11 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-jackson:2.4.0'
     implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
 
+    implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    implementation 'com.jakewharton.rxbinding:rxbinding-design:0.4.0'
+    // these are for retrolambda and streams api
+    implementation 'com.annimon:stream:1.1.2'
+
     //firebase
     implementation "com.google.firebase:firebase-core:17.2.3"
     implementation "com.google.firebase:firebase-auth:19.3.0"

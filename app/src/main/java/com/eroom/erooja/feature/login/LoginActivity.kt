@@ -4,14 +4,17 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.eroom.domain.customview.bottomsheet.BottomSheetFragment
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityLoginBinding
 import com.eroom.erooja.feature.signup.kakao.KakaoSignUpActivity
 import com.eroom.erooja.feature.tab.TabActivity
 import com.kakao.auth.ISessionCallback
 import com.kakao.auth.Session
+import com.kakao.usermgmt.response.MeV2Response
 import com.kakao.util.exception.KakaoException
 import timber.log.Timber
+import java.util.concurrent.Future
 
 
 class LoginActivity : AppCompatActivity(), LoginContract.View {
@@ -38,7 +41,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     }
 
     private fun initView() {
-        callback = SessionCallback(redirectSignUpActivity)
+        callback = SessionCallback(presenter.requestMe)
         Session.getCurrentSession().addCallback(callback)
         Session.getCurrentSession().checkAndImplicitOpen()
     }
@@ -55,9 +58,9 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         Session.getCurrentSession().removeCallback(callback)
     }
 
-    private class SessionCallback(val redirectSignUpActivity: () -> Unit) : ISessionCallback {
+    private class SessionCallback(val requestMe: () -> Future<MeV2Response>) : ISessionCallback {
         override fun onSessionOpened() {
-            redirectSignUpActivity()
+            requestMe()
         }
 
         override fun onSessionOpenFailed(exception: KakaoException) {
@@ -65,9 +68,13 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         }
     }
 
-    private val redirectSignUpActivity = {
+    override val redirectSignUpActivity = {
         val intent = Intent(this, KakaoSignUpActivity::class.java)
         startActivity(intent)
         finish()
     }
+
+    fun kakaoLoginButtonClicked() = loginBinding.comKakaoLogin.performClick()
+
+    fun guestLoginButtonClicked() = startActivity(Intent(this, TabActivity::class.java))
 }
