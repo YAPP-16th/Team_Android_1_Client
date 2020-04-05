@@ -8,5 +8,9 @@ class Consts {
         const val PREF_ACCESS_TOKEN = "PREF_ACCESS_TOKEN"
 
         const val BOTTOM_SHEET_KEY = "BOTTOM_SHEET_KEY"
+
+        const val IS_GUEST = "IS_GUEST"
+        const val ACCESS_TOKEN = "ACCESS_TOKEN"
+        const val REFRESH_TOKEN = "REFRESH_TOKEN"
     }
 }
