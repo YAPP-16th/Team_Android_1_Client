@@ -10,10 +10,6 @@ import com.eroom.data.entity.UserSimpleData
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalDetailsBinding
 import com.eroom.erooja.feature.goalDetail.othersList.OthersDetailActivity
-<<<<<<< HEAD
-=======
-import kotlinx.android.synthetic.main.activity_goal_details.*
->>>>>>> goalDetails
 import kotlinx.android.synthetic.main.include_goal_desc.view.*
 
 class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
