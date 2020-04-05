@@ -15,7 +15,6 @@ import com.eroom.erooja.feature.signup.page.JobClassFragment
 import com.eroom.erooja.feature.signup.page.JobGroupFragment
 import com.eroom.erooja.feature.signup.page.NicknameFragment
 
-
 class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
     private lateinit var kakaoBinding: ActivityKakaoSignUpBinding
     private lateinit var presenter: KakaoSignUpPresenter
@@ -121,3 +120,4 @@ class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
 
     override fun onBackPressed() = prevButtonClicked()
 }
+
