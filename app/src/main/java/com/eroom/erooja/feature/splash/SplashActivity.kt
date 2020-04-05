@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import androidx.databinding.DataBindingUtil
+import com.eroom.domain.globalconst.UrlConst
+import com.eroom.domain.utils.ConverterUtil
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivitySplashBinding
 import com.eroom.erooja.feature.login.LoginActivity
