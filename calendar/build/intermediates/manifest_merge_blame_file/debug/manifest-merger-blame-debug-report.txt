@@ -1,0 +1,25 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.eroom.calendar"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="23"
+8-->/Users/dokyun/github/Team_Android_1_Client/calendar/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="29" />
+9-->/Users/dokyun/github/Team_Android_1_Client/calendar/src/main/AndroidManifest.xml
+10
+11    <application>
+11-->/Users/dokyun/github/Team_Android_1_Client/calendar/src/main/AndroidManifest.xml:4:5-11:19
+12        <activity
+12-->/Users/dokyun/github/Team_Android_1_Client/calendar/src/main/AndroidManifest.xml:5:9-9:15
+13            android:name="com.eroom.calendar.AirCalendarDatePickerActivity"
+13-->/Users/dokyun/github/Team_Android_1_Client/calendar/src/main/AndroidManifest.xml:6:13-58
+14            android:screenOrientation="portrait"
+14-->/Users/dokyun/github/Team_Android_1_Client/calendar/src/main/AndroidManifest.xml:8:13-49
+15            android:windowSoftInputMode="stateAlwaysHidden" />
+15-->/Users/dokyun/github/Team_Android_1_Client/calendar/src/main/AndroidManifest.xml:7:13-60
+16    </application>
+17
+18</manifest>
