@@ -52,4 +52,6 @@
     <string name="please_search_job_class">직무와 관련된 내용을 검색해보세요.</string>
     <string name="please_search_job_goal">목표와 관련된 내용을 검색해보세요.</string>
     <string name="search_no_content">해당되는 내용이 없습니다.</string>
+    <string name="newGoal_title">어떤 목표를 달성하려고 하세요?</string>
+    <string name="edit_goal">목표를 입력해 주세요.</string>
 </resources>
