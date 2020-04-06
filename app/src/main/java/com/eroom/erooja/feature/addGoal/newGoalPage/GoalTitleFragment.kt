@@ -11,6 +11,12 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.MutableLiveData
 import com.eroom.erooja.databinding.FragmentGoalTitleBinding
+import androidx.databinding.ObservableField
+import com.eroom.erooja.R
+import com.jakewharton.rxbinding.widget.RxTextView
+import rx.android.schedulers.AndroidSchedulers
+import java.util.concurrent.TimeUnit
+
 
 class GoalTitleFragment : Fragment() {
     private lateinit var goalTitleBinding: FragmentGoalTitleBinding
@@ -61,7 +67,6 @@ class GoalTitleFragment : Fragment() {
             }
 
         })
-        //goalTitleBinding.goalTitleLengthError.visibility = if(it.length >)
     }
 
     fun onLayoutClicked() {
@@ -69,5 +74,4 @@ class GoalTitleFragment : Fragment() {
         val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         context?.let { imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY) }
     }
-
 }

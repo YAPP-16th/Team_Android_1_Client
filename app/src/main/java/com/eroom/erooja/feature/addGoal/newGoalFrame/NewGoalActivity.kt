@@ -29,17 +29,11 @@ import kotlin.collections.ArrayList
 
 class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private val REQUEST_CODE = 3000
-
     private lateinit var newGoalBinding: ActivityNewGoalBinding
     private lateinit var presenter: NewGoalContract.Presenter
-
-
     private val mFragmentList = ArrayList<Fragment>()
     private var mPage = 0
 
-
-    private var goalTitleText = ""
-    var nextClickable: ObservableField<Boolean> = ObservableField(false)
 
     private var goalDetailContentText = ""
 
@@ -48,6 +42,9 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
 
     private var isChangeable: Boolean = false
     private var goalList: ArrayList<String> = ArrayList()
+
+    private var goalTitleText = ""
+    var nextClickable: ObservableField<Boolean> = ObservableField(false)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,6 +82,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         (mFragmentList[0] as GoalTitleFragment).goalTitleCheck.observe(this, Observer {
             nextClickable.set(it)
         })
+
         (mFragmentList[1] as GoalDetailFragment).goalDetailContent.observe(this, Observer {
             goalDetailContentText = it
             Timber.e(goalDetailContentText)
@@ -105,7 +103,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         mFragmentList.apply {
             addAll(
                 listOf(
-                    GoalTitleFragment.newInstance()/*.apply { arguments = Bundle().apply { putString("key", "value") } }*/
+                    GoalTitleFragment.newInstance()
                     , GoalDetailFragment.newInstance()
                     , GoalPeriodFragment.newInstance()
                     , GoalListFragment.newInstance()
@@ -121,6 +119,8 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         setProgressBar(true)
     }
 
+
+
     private fun showFragment() {
         hideFragment()
         newGoalBinding.nextTextView.text = if(mPage == mFragmentList.size - 1) "완료" else "다음"
@@ -130,6 +130,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private fun hideFragment() = repeat(mFragmentList.size) {
         supportFragmentManager.beginTransaction().hide(mFragmentList[it]).commit()
     }
+
 
     private fun setProgressBar(isIncreasing: Boolean) {
         val progressBar = newGoalBinding.horizontalProgressBar
@@ -144,8 +145,8 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         progressBar.startAnimation(anim)
     }
 
+
     fun prevButtonClicked() {
-        hideKeyBoard()
         mPage -= 1
         if (mPage < 0) {
             finish()
@@ -182,8 +183,11 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             "수정 불가능"
         }
         this.toastLong("$content$goalTitleText \n 두번쨰 : $goalDetailContentText  \n 종료일 : $endDate\n\n $goalList")
-
+        showFragment()
+        nextClickable.set(false)
     }
+
+
 
     override fun onBackPressed() {
         prevButtonClicked()
@@ -228,5 +232,6 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private fun hideKeyBoard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
+        requestNewGoal()
     }
 }
