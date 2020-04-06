@@ -83,9 +83,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/goal_desc_layout" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.eroom.domain.customview.recyclerview.ClickableRecyclerView
             android:id="@+id/others_recyclerview"
-            android:onClick="@{goalDetail::othersDetailClick}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="10dp"
