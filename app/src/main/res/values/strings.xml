@@ -40,4 +40,6 @@
     <string name="job_class_select_info">직무는 추후에 변경 가능합니다.</string>
     <string name="participants_list_title">참여자 목록</string>
     <string name="starter_text">Starter</string>
+    <string name="newGoal_title">어떤 목표를 달성하려고 하세요?</string>
+    <string name="edit_goal">목표를 입력해 주세요.</string>
 </resources>

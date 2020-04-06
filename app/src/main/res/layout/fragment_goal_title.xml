@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="fragment"
+            type="com.eroom.erooja.feature.addGoal.newGoalPage.GoalTitleFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".feature.addGoal.newGoalPage.GoalTitleFragment">
+
+        <TextView
+            android:id="@+id/question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="11sp"
+            android:text="@string/newGoal_title"
+            android:textColor="@color/grey7"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.05" />
+
+        <EditText
+            android:id="@+id/goalTitle"
+            android:layout_width="366dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:backgroundTint="@color/grey4"
+            android:foregroundTint="@color/grey4"
+            android:hint="@string/edit_goal"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.566"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textCursorDrawable="@color/orgDefault"
+            app:layout_constraintTop_toBottomOf="@+id/question" />
+
+        <TextView
+            android:id="@+id/goalTitleLengthError"
+            android:layout_width="328dp"
+            android:layout_height="40dp"
+            android:text="목표명을 5자 이상 입력해주세요"
+            android:textColor="@color/colorError"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.566"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/goalTitle" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
