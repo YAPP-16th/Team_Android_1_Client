@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<layout>
+    <data>
+        <variable
+            name="othersDetail"
+            type="com.eroom.erooja.feature.goalDetail.othersList.OthersDetailActivity" />
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -30,6 +35,7 @@
         app:layout_constraintTop_toBottomOf="@+id/button2">
 
         <TextView
+            android:id="@+id/username_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="허수정의 리스트"
@@ -64,7 +70,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/goal_percent_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="40% 달성"
@@ -74,11 +80,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/others_detail_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12sp"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintTop_toBottomOf="@+id/goal_percent_txt" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
