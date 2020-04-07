@@ -45,8 +45,9 @@
         <activity
             android:name=".feature.exam.activity.ExamActivity"
             android:screenOrientation="portrait" />
-        
+
         <activity android:name=".feature.goalDetail.GoalDetailActivity"/>
+        <activity android:name=".feature.search.searchpage.SearchFragment"/>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
