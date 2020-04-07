@@ -10,6 +10,7 @@ import com.eroom.data.entity.UserSimpleData
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalDetailsBinding
 import com.eroom.erooja.feature.goalDetail.othersList.OthersDetailActivity
+import kotlinx.android.synthetic.main.goal_simple_list.view.*
 import kotlinx.android.synthetic.main.include_goal_desc.view.*
 
 class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
@@ -39,9 +40,16 @@ class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
     override fun getAllView(list: UserSimpleData) {
         binding.othersRecyclerview.apply{
             layoutManager = LinearLayoutManager(this@GoalDetailActivity)
-            adapter = GoalDetailAdapter(list)
+            adapter = GoalDetailAdapter(list, click())
 
         }
+    }
+    private fun click() = {  _:View ->
+        var intent = Intent(this@GoalDetailActivity, OthersDetailActivity::class.java)
+            .apply{
+            putExtra("name", binding.othersRecyclerview.username_list.text)
+            }
+        startActivityForResult(intent, 4000)
     }
 
     fun initView(){
@@ -56,4 +64,6 @@ class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_goal_details)
         binding.goalDetail = this@GoalDetailActivity
     }
+
+
 }
