@@ -44,7 +44,9 @@ class GoalDetailFragment : Fragment() {
     private fun initView() {
         goalDetailBinding.goalDetailContent.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                goalDetailContent.value = s.toString()
+
+                goalDetailContent.value = s.toString()  //activity에서 계속 보고있게 해도 되나?
+
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -61,6 +63,5 @@ class GoalDetailFragment : Fragment() {
         goalDetailBinding.goalDetailContent.requestFocus()
         val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         context?.let { imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY) }
-
     }
 }

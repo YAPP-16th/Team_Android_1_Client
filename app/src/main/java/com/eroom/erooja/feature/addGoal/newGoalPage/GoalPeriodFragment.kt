@@ -32,6 +32,7 @@ class GoalPeriodFragment : Fragment() {
         @JvmStatic
         fun newInstance() = GoalPeriodFragment()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -95,8 +96,6 @@ class GoalPeriodFragment : Fragment() {
             }
         })
     }
-
-
 
     fun onCalendarClicked() {
         (activity as NewGoalActivity).calendarCall()

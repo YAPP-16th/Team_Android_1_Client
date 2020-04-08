@@ -82,7 +82,6 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         (mFragmentList[0] as GoalTitleFragment).goalTitleCheck.observe(this, Observer {
             nextClickable.set(it)
         })
-
         (mFragmentList[1] as GoalDetailFragment).goalDetailContent.observe(this, Observer {
             goalDetailContentText = it
             Timber.e(goalDetailContentText)

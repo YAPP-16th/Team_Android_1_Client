@@ -52,7 +52,7 @@
             android:id="@+id/goalTitleLengthError"
             android:layout_width="328dp"
             android:layout_height="40dp"
-            android:text="목표명을 5자 이상 입력해주세요"
+            android:text="@string/goal_title_warning"
             android:textColor="@color/colorError"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
