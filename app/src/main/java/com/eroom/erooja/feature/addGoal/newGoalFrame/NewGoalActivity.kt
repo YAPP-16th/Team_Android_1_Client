@@ -12,8 +12,10 @@ import com.eroom.data.localclass.JobGroup
 import com.eroom.domain.utils.toastLong
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityNewGoalBinding
+import com.eroom.erooja.feature.addGoal.newGoalPage.GoalDetailFragment
 import com.eroom.erooja.feature.addGoal.newGoalPage.GoalTitleFragment
 import kotlinx.android.synthetic.main.fragment_goal_title.*
+import timber.log.Timber
 
 class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private lateinit var newGoalBinding: ActivityNewGoalBinding
@@ -29,6 +31,8 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
 //    private lateinit var designClassSelected: DesignSelected
     private var goalTitleText = ""
     var nextClickable: ObservableField<Boolean> = ObservableField(false)
+
+    private var goalDetailContentText = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +59,10 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         (mFragmentList[0] as GoalTitleFragment).goalTitleCheck.observe(this, Observer {
             nextClickable.set(it)
         })
+        (mFragmentList[1] as GoalDetailFragment).goalDetailContent.observe(this, Observer {
+            goalDetailContentText =it
+            Timber.e(goalDetailContentText)
+        })
     }
 
     private fun initFragment() {
@@ -62,6 +70,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             addAll(
                 listOf(
                     GoalTitleFragment.newInstance()/*.apply { arguments = Bundle().apply { putString("key", "value") } }*/
+                    , GoalDetailFragment.newInstance()
                     //JobGroupFragment.newInstance()
                 )
             )
@@ -109,7 +118,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     }
 
     private fun requestNewGoal() {
-        this.toastLong("$goalTitleText")
+        this.toastLong("$goalTitleText \n 두번쨰 : $goalDetailContentText" )
     }
 
     override fun onBackPressed() {
