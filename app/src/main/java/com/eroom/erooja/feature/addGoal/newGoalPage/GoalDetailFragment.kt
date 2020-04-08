@@ -9,25 +9,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.databinding.ObservableField
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.MutableLiveData
 
 import com.eroom.erooja.R
-import com.eroom.erooja.databinding.FragmentGoalTitleBinding
-import com.jakewharton.rxbinding.widget.RxTextView
-import rx.android.schedulers.AndroidSchedulers
-import java.util.concurrent.TimeUnit
+import com.eroom.erooja.databinding.FragmentGoalDetailBinding
 
 
-class GoalTitleFragment : Fragment() {
-    private lateinit var goalTitleBinding: FragmentGoalTitleBinding
-    val goalTitle: MutableLiveData<String> = MutableLiveData()
-    var goalTitleCheck: MutableLiveData<Boolean> = MutableLiveData(false)
-
+class GoalDetailFragment : Fragment() {
+    private lateinit var goalDetailBinding: FragmentGoalDetailBinding
+    val goalDetailContent: MutableLiveData<String> = MutableLiveData()
+    //var goalDetailContentCheck: MutableLiveData<Boolean> = MutableLiveData(false)
 
     companion object {
         @JvmStatic
-        fun newInstance() = GoalTitleFragment()
+        fun newInstance() = GoalDetailFragment()
     }
 
     override fun onCreateView(
@@ -37,44 +33,33 @@ class GoalTitleFragment : Fragment() {
         // Inflate the layout for this fragment
         setUpDataBinding(inflater, container)
         initView()
-        return goalTitleBinding.root
+        return goalDetailBinding.root
     }
 
     private fun setUpDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        goalTitleBinding = FragmentGoalTitleBinding.inflate(inflater, container, false)
-        goalTitleBinding.fragment = this
+        goalDetailBinding = FragmentGoalDetailBinding.inflate(inflater, container, false)
+        goalDetailBinding.fragment = this
     }
 
     private fun initView() {
-        goalTitleBinding.goalTitle.addTextChangedListener(object : TextWatcher {
+        goalDetailBinding.goalDetailContent.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                val it = s.toString().trim()
-                val len = it.length
-                goalTitleCheck.value = len > 4
-                if (len in 1..4) {
-                    goalTitleBinding.goalTitleLengthError.visibility = View.VISIBLE
-                } else {
-                    goalTitleBinding.goalTitleLengthError.visibility = View.INVISIBLE
-                    goalTitle.value = it
-                }
+                goalDetailContent.value = s.toString()  //activity에서 계속 보고있게 해도 되나?
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
             }
 
         })
-        //goalTitleBinding.goalTitleLengthError.visibility = if(it.length >)
     }
 
+
     fun onLayoutClicked() {
-        goalTitleBinding.goalTitle.requestFocus()
+        goalDetailBinding.goalDetailContent.requestFocus()
         val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         context?.let { imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY) }
     }
-
 }
