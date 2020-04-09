@@ -1,7 +1,16 @@
 package com.eroom.erooja.feature.editgoal
 
+import android.annotation.SuppressLint
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
+import android.view.MotionEvent
+import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.math.max
+import kotlin.math.min
 
 class EditGoalItemTouchHelperCallback(): ItemTouchHelper.Callback() {
     private lateinit var onItemMoveListener: OnItemMoveListener
@@ -15,8 +24,7 @@ class EditGoalItemTouchHelperCallback(): ItemTouchHelper.Callback() {
         viewHolder: RecyclerView.ViewHolder
     ): Int {
         val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
-        val swifeFlags = ItemTouchHelper.START or ItemTouchHelper.END
-        return makeMovementFlags(dragFlags, swifeFlags)
+        return makeMovementFlags(dragFlags, 0)
     }
 
     override fun onMove(
