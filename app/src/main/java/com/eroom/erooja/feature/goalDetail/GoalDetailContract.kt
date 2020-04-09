@@ -4,7 +4,7 @@ import com.eroom.data.entity.UserSimpleData
 
 interface GoalDetailContract {
     interface View{
-        fun getAllView(list : UserSimpleData)
+        fun getAllView(list : ArrayList<UserSimpleData>)
     }
 
     interface Presenter{

@@ -8,7 +8,7 @@ import com.eroom.data.entity.UserSimpleData
 import com.eroom.erooja.R
 import kotlinx.android.synthetic.main.goal_simple_list.view.*
 
-class GoalDetailAdapter(val simpleData: UserSimpleData, val click: (View) -> Unit):
+class GoalDetailAdapter(val simpleData: ArrayList<UserSimpleData>, val click: (View) -> Unit):
     RecyclerView.Adapter<Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -18,11 +18,11 @@ class GoalDetailAdapter(val simpleData: UserSimpleData, val click: (View) -> Uni
 
     }
 
-    override fun getItemCount(): Int =1
+    override fun getItemCount(): Int =simpleData.size
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(simpleData.name, simpleData.like,
-            simpleData.check1, simpleData.check2, simpleData.check3, click)
+        holder.bind(simpleData[position].name, simpleData[position].like,
+            simpleData[position].check1, simpleData[position].check2, simpleData[position].check3, click)
     }
 
 

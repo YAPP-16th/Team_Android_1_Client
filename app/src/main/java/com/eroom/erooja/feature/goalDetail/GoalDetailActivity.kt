@@ -37,7 +37,7 @@ class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
         startActivity(intent)
     }
 
-    override fun getAllView(list: UserSimpleData) {
+    override fun getAllView(list: ArrayList<UserSimpleData>) {
         binding.othersRecyclerview.apply{
             layoutManager = LinearLayoutManager(this@GoalDetailActivity)
             adapter = GoalDetailAdapter(list, click())

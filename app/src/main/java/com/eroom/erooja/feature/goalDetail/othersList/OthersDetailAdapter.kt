@@ -8,7 +8,6 @@ import com.eroom.data.entity.UserSimpleData
 import com.eroom.erooja.R
 import kotlinx.android.synthetic.main.goal_detail_list.view.*
 
-//리스트뷰로 구현하기
 class OthersDetailAdapter(val simpleData: UserSimpleData):
     RecyclerView.Adapter<Holder>() {
 
@@ -21,19 +20,15 @@ class OthersDetailAdapter(val simpleData: UserSimpleData):
 
     override fun getItemCount(): Int =1
 
+    //하나의 클래스에서 데이터를 다 불러올 수 있는 방법 찾아보기
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(simpleData.name, simpleData.percent,
-            simpleData.check1, simpleData.check2, simpleData.check3)
+        holder.bind(simpleData.check1)
     }
-
-
 }
 
 class Holder(itemView: View) : RecyclerView.ViewHolder(itemView){
-    fun bind(name:String, percent: Int, check1:String, check2:String, check3:String){
+    fun bind(check:String){
 
-        itemView.detail_checkbox.text=check1
-
-
+        itemView.detail_checkbox.text=check
     }
 }
