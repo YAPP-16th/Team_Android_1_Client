@@ -13,10 +13,21 @@
         android:layout_height="match_parent"
         tools:context=".feature.editgoal.EditGoalActivity">
 
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/orgDefault"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/editGoalRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
             tools:listitem="@layout/item_edit_goal"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,7 +1,8 @@
 package com.eroom.erooja.feature.editgoal
 
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Canvas
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,17 +33,30 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
     }
 
     private fun initView() {
-        mAdapter = EditGoalAdapter(presenter.callback, arrayListOf("a", "b", "c"), this)
+        mAdapter = EditGoalAdapter(presenter.callback,
+            arrayListOf("a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a"),
+            this, editGoalBinding.switch1.isChecked, deleteList)
         val mCallback = EditGoalItemTouchHelperCallback(mAdapter)
+
         mItemTouchHelper = ItemTouchHelper(mCallback).apply { attachToRecyclerView(
             editGoalBinding.editGoalRecycler.apply {
                 adapter = mAdapter
                 layoutManager = LinearLayoutManager(this@EditGoalActivity)
             }
         ) }
+        editGoalBinding.switch1.setOnCheckedChangeListener { _, isChecked ->
+            mAdapter.toggleMode = isChecked
+            mAdapter.notifyDataSetChanged()
+        }
     }
 
     override fun onStartDrag(holder: EditGoalViewHolder) {
         mItemTouchHelper.startDrag(holder)
+    }
+
+    private val deleteList = { position: Int ->
+        mAdapter.list.removeAt(position)
+        mAdapter.notifyItemRemoved(position)
+        mAdapter.notifyItemRangeChanged(position, mAdapter.itemCount)
     }
 }

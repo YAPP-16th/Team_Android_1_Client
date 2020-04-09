@@ -3,17 +3,22 @@ package com.eroom.erooja.feature.editgoal
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Switch
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.eroom.erooja.databinding.ItemEditGoalBinding
+import timber.log.Timber
 import java.util.*
 
 class EditGoalAdapter(
     callback : DiffUtil.ItemCallback<String>,
-    private val list: ArrayList<String>,
-    private val startDragListener: OnStartDragListener
+    val list: ArrayList<String>,
+    private val startDragListener: OnStartDragListener,
+    var toggleMode: Boolean,
+    private val deleted: (Int) -> Unit
     ) : ListAdapter<String, RecyclerView.ViewHolder>(callback), EditGoalItemTouchHelperCallback.OnItemMoveListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -24,7 +29,10 @@ class EditGoalAdapter(
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as EditGoalViewHolder).bind(list[position], startDragListener)
+        if (toggleMode)
+            (holder as EditGoalViewHolder).bindDelete(list[position], deleted)
+        else
+            (holder as EditGoalViewHolder).bind(list[position], startDragListener)
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
@@ -42,11 +50,26 @@ class EditGoalViewHolder(val binding: ItemEditGoalBinding): RecyclerView.ViewHol
     @SuppressLint("ClickableViewAccessibility")
     fun bind(text: String, startDragListener: EditGoalAdapter.OnStartDragListener) {
         binding.sampleText.text = text
-        binding.itemAll.setOnTouchListener { v, event ->
-            if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                startDragListener.onStartDrag(this)
+        binding.trigger.visibility = View.GONE
+        binding.itemAll.setOnLongClickListener {
+            it.setOnTouchListener { v, event ->
+                if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+                    startDragListener.onStartDrag(this)
+                }
+                return@setOnTouchListener false
             }
-            return@setOnTouchListener false
+            it.setOnTouchListener { v, event -> return@setOnTouchListener false }
+            return@setOnLongClickListener true
+        }
+    }
+
+    fun bindDelete(text: String, deleted: (Int) -> Unit) {
+        binding.sampleText.text = text
+        binding.trigger.apply {
+            setOnClickListener {
+                deleted(adapterPosition)
+            }
+            visibility = View.VISIBLE
         }
     }
 }
