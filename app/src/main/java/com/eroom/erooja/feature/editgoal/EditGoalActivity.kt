@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.eroom.domain.utils.dpToPx
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityEditGoalBinding
 
@@ -78,7 +79,7 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
                 mEditGoalAdapter.notifyItemRemoved(position)
                 mEditGoalAdapter.notifyItemRangeChanged(position, mEditGoalAdapter.itemCount)
             }
-        })
+        }, dpToPx(this, 100f), dpToPx(this, 18f))
         mItemDeleteTouchHelper = ItemTouchHelper(swipeController).apply {
             attachToRecyclerView(editGoalBinding.deleteGoalRecycler.apply {
                 addItemDecoration(object :RecyclerView.ItemDecoration() {

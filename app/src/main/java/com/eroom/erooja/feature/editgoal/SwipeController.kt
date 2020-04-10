@@ -16,10 +16,13 @@ class SwipeController(): ItemTouchHelper.Callback() {
     private var buttonInstance: RectF? = null
     private var currentItemViewHolder: RecyclerView.ViewHolder? = null
     private var buttonsActions: SwipeControllerActions? = null
-    private val buttonWidth = 300f
+    private var buttonWidth = 300f
+    private var textSize = 60f
 
-    constructor(buttonsActions: SwipeControllerActions?) : this() {
+    constructor(buttonsActions: SwipeControllerActions?, buttonWidth: Float, textSize: Float) : this() {
         this.buttonsActions = buttonsActions
+        this.buttonWidth = buttonWidth
+        this.textSize = textSize
     }
 
     override fun getMovementFlags(
@@ -226,7 +229,6 @@ class SwipeController(): ItemTouchHelper.Callback() {
         button: RectF,
         p: Paint
     ) {
-        val textSize = 60f
         p.color = Color.WHITE
         p.isAntiAlias = true
         p.textSize = textSize
