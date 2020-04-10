@@ -29,5 +29,13 @@
             android:layout_height="match_parent"
             android:layout_marginTop="50dp"
             tools:listitem="@layout/item_edit_goal"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/deleteGoalRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:layout_marginTop="50dp"
+            tools:listitem="@layout/item_edit_goal"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

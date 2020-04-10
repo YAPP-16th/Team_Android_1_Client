@@ -2,8 +2,10 @@ package com.eroom.erooja.feature.editgoal
 
 import android.graphics.Canvas
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,8 +15,12 @@ import com.eroom.erooja.databinding.ActivityEditGoalBinding
 class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAdapter.OnStartDragListener {
     lateinit var presenter: EditGoalPresenter
     lateinit var editGoalBinding: ActivityEditGoalBinding
-    lateinit var mAdapter: EditGoalAdapter
-    lateinit var mItemTouchHelper: ItemTouchHelper
+    lateinit var mEditGoalAdapter: EditGoalAdapter
+    lateinit var mDeleteGoalAdapter: DeleteGoalAdapter
+    lateinit var mItemEditTouchHelper: ItemTouchHelper
+    lateinit var mItemDeleteTouchHelper: ItemTouchHelper
+    lateinit var swipeController: SwipeController
+    var list = mutableListOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,30 +39,71 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
     }
 
     private fun initView() {
-        mAdapter = EditGoalAdapter(presenter.callback,
-            arrayListOf("a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c", "a"),
-            this, editGoalBinding.switch1.isChecked, deleteList)
-        val mCallback = EditGoalItemTouchHelperCallback(mAdapter)
+        editRecyclerInit()
+        deleteRecyclerInit()
 
-        mItemTouchHelper = ItemTouchHelper(mCallback).apply { attachToRecyclerView(
+        editGoalBinding.switch1.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                editGoalBinding.editGoalRecycler.visibility = View.GONE
+                editGoalBinding.deleteGoalRecycler.visibility = View.VISIBLE
+            } else {
+                editGoalBinding.editGoalRecycler.visibility = View.VISIBLE
+                editGoalBinding.deleteGoalRecycler.visibility = View.GONE
+            }
+            mEditGoalAdapter.notifyDataSetChanged()
+            mDeleteGoalAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun editRecyclerInit() {
+        mEditGoalAdapter = EditGoalAdapter(presenter.callback,
+            this,
+            this)
+        val mCallback = EditGoalItemTouchHelperCallback(mEditGoalAdapter)
+        mItemEditTouchHelper = ItemTouchHelper(mCallback).apply { attachToRecyclerView(
             editGoalBinding.editGoalRecycler.apply {
-                adapter = mAdapter
+                adapter = mEditGoalAdapter
                 layoutManager = LinearLayoutManager(this@EditGoalActivity)
             }
         ) }
-        editGoalBinding.switch1.setOnCheckedChangeListener { _, isChecked ->
-            mAdapter.toggleMode = isChecked
-            mAdapter.notifyDataSetChanged()
+    }
+
+    private fun deleteRecyclerInit() {
+        mDeleteGoalAdapter = DeleteGoalAdapter(presenter.callback, this)
+        swipeController = SwipeController(object : SwipeControllerActions() {
+            override fun onRightClicked(position: Int) {
+                list.removeAt(position)
+                mDeleteGoalAdapter.notifyItemRemoved(position)
+                mDeleteGoalAdapter.notifyItemRangeChanged(position, mDeleteGoalAdapter.itemCount)
+                mEditGoalAdapter.notifyItemRemoved(position)
+                mEditGoalAdapter.notifyItemRangeChanged(position, mEditGoalAdapter.itemCount)
+            }
+        })
+        mItemDeleteTouchHelper = ItemTouchHelper(swipeController).apply {
+            attachToRecyclerView(editGoalBinding.deleteGoalRecycler.apply {
+                addItemDecoration(object :RecyclerView.ItemDecoration() {
+                    override fun onDraw(
+                        c: Canvas,
+                        parent: RecyclerView,
+                        state: RecyclerView.State
+                    ) {
+                        swipeController.onDraw(c)
+                    }
+                })
+            })
+        }
+        editGoalBinding.deleteGoalRecycler.apply {
+            adapter = mDeleteGoalAdapter
+            layoutManager = LinearLayoutManager(this@EditGoalActivity)
+            addItemDecoration(object : RecyclerView.ItemDecoration() {
+                override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+                    swipeController.onDraw(c)
+                }
+            })
         }
     }
 
     override fun onStartDrag(holder: EditGoalViewHolder) {
-        mItemTouchHelper.startDrag(holder)
-    }
-
-    private val deleteList = { position: Int ->
-        mAdapter.list.removeAt(position)
-        mAdapter.notifyItemRemoved(position)
-        mAdapter.notifyItemRangeChanged(position, mAdapter.itemCount)
+        mItemEditTouchHelper.startDrag(holder)
     }
 }
