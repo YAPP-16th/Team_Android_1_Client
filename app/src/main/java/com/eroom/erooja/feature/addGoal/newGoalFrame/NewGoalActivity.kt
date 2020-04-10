@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
-import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
@@ -21,8 +20,6 @@ import com.eroom.calendar.AirCalendarDatePickerActivity
 import com.eroom.calendar.core.AirCalendarIntent
 import com.eroom.domain.utils.ProgressBarAnimation
 import com.eroom.erooja.feature.addGoal.newGoalPage.GoalListFragment
-import kotlinx.android.synthetic.main.activity_new_goal.*
-import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -33,16 +30,11 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private lateinit var presenter: NewGoalContract.Presenter
     private val mFragmentList = ArrayList<Fragment>()
     private var mPage = 0
-
-
     private var goalDetailContentText = ""
-
     private var startDate: String = ""
     private var endDate = ""
-
     private var isChangeable: Boolean = false
     private var goalList: ArrayList<String> = ArrayList()
-
     private var goalTitleText = ""
     var nextClickable: ObservableField<Boolean> = ObservableField(false)
 
@@ -84,7 +76,6 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         })
         (mFragmentList[1] as GoalDetailFragment).goalDetailContent.observe(this, Observer {
             goalDetailContentText = it
-            Timber.e(goalDetailContentText)
         })
         (mFragmentList[2] as GoalPeriodFragment).isChangeable.observe(this, Observer {
             isChangeable = it

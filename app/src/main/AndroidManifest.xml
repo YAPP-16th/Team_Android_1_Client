@@ -22,29 +22,26 @@
         <activity
             android:name=".feature.editgoal.EditGoalActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".feature.addGoal.newGoalFrame.NewGoalActivity"
-            android:screenOrientation="portrait">
+
+        <activity android:name=".feature.addGoal.newGoalFrame.NewGoalActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".feature.onboarding.onboardingframe.OnboardingActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".feature.participants_list.ParticipantsListActivity"
             android:screenOrientation="portrait" />
-
-
-
         <activity
             android:name=".feature.signup.kakao.KakaoSignUpActivity"
             android:screenOrientation="portrait">
-
         </activity>
+
+
         <activity
             android:name=".feature.splash.SplashActivity"
             android:screenOrientation="portrait"></activity>
@@ -59,7 +56,6 @@
             android:name=".feature.exam.activity.ExamActivity"
             android:screenOrientation="portrait" />
 
-
         <activity android:name=".feature.goalDetail.GoalDetailActivity"
             android:screenOrientation="portrait"/>
 
@@ -68,9 +64,7 @@
         
         <activity android:name=".feature.search.search_detail_page.SearchDetailActivity"
             android:screenOrientation="portrait"/>
-        
 
-        <activity android:name=".feature.goalDetail.GoalDetailActivity" />
         <activity android:name="com.eroom.calendar.AirCalendarDatePickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 

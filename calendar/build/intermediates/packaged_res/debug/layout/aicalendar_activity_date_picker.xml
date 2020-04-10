@@ -34,19 +34,19 @@
                         android:src="@drawable/ic_icon_navi_close_black" />
                 </RelativeLayout>
 
-<!--                <TextView-->
-<!--                    android:text="재설정"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_centerVertical="true"-->
-<!--                    android:layout_alignParentRight="true"-->
-<!--                    android:textColor="@color/colorTest"-->
-<!--                    android:gravity="center"-->
-<!--                    android:paddingLeft="16dp"-->
-<!--                    android:paddingRight="16dp"-->
-<!--                    android:textSize="17sp"-->
-<!--                    android:layout_alignParentEnd="true"-->
-<!--                    android:id="@+id/rl_reset_btn" />-->
+                <!--                <TextView-->
+                <!--                    android:text="재설정"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    android:layout_centerVertical="true"-->
+                <!--                    android:layout_alignParentRight="true"-->
+                <!--                    android:textColor="@color/colorTest"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:paddingLeft="16dp"-->
+                <!--                    android:paddingRight="16dp"-->
+                <!--                    android:textSize="17sp"-->
+                <!--                    android:layout_alignParentEnd="true"-->
+                <!--                    android:id="@+id/rl_reset_btn" />-->
 
 
             </RelativeLayout>

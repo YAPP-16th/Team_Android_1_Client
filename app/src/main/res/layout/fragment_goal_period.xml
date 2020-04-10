@@ -5,11 +5,11 @@
     tools:context=".feature.addGoal.newGoalPage.GoalPeriodFragment">
 
     <data>
+
         <variable
             name="fragment"
             type="com.eroom.erooja.feature.addGoal.newGoalPage.GoalPeriodFragment" />
     </data>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -35,7 +35,6 @@
             android:id="@+id/start_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="84dp"
             android:lineSpacingExtra="15sp"
             android:text="@string/startDate"
@@ -152,6 +151,4 @@
         </RadioGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </layout>
