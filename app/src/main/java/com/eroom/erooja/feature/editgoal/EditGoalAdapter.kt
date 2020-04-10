@@ -6,19 +6,19 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.eroom.erooja.databinding.ItemEditGoalBinding
 import timber.log.Timber
 import java.util.*
+import kotlin.collections.ArrayList
 
 class EditGoalAdapter(
     callback : DiffUtil.ItemCallback<String>,
-    val list: ArrayList<String>,
-    private val startDragListener: OnStartDragListener,
-    var toggleMode: Boolean,
-    private val deleted: (Int) -> Unit
+    var activity: EditGoalActivity,
+    private val startDragListener: OnStartDragListener
     ) : ListAdapter<String, RecyclerView.ViewHolder>(callback), EditGoalItemTouchHelperCallback.OnItemMoveListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -26,17 +26,14 @@ class EditGoalAdapter(
         return EditGoalViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = activity.list.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (toggleMode)
-            (holder as EditGoalViewHolder).bindDelete(list[position], deleted)
-        else
-            (holder as EditGoalViewHolder).bind(list[position], startDragListener)
+        (holder as EditGoalViewHolder).bind(activity.list[position], startDragListener)
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
-        Collections.swap(list, fromPosition, toPosition)
+        Collections.swap(activity.list, fromPosition, toPosition)
         notifyItemMoved(fromPosition, toPosition)
         return true
     }
@@ -60,16 +57,6 @@ class EditGoalViewHolder(val binding: ItemEditGoalBinding): RecyclerView.ViewHol
             }
             it.setOnTouchListener { v, event -> return@setOnTouchListener false }
             return@setOnLongClickListener true
-        }
-    }
-
-    fun bindDelete(text: String, deleted: (Int) -> Unit) {
-        binding.sampleText.text = text
-        binding.trigger.apply {
-            setOnClickListener {
-                deleted(adapterPosition)
-            }
-            visibility = View.VISIBLE
         }
     }
 }
