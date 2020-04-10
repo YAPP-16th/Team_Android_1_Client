@@ -46,7 +46,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/goal_detail_title"
             app:layout_constraintTop_toBottomOf="@+id/goal_detail_title"
-            android:layout_marginTop="39dp"/>
+            android:layout_marginTop="39dp"
+            tools:ignore="RtlHardcoded" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
