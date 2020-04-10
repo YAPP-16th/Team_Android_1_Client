@@ -1,2 +1,3 @@
 include ':app', ':domain', ':data'
 rootProject.name='Erooja'
+include ':calendar'
