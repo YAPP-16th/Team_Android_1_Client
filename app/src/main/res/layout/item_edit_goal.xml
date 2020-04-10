@@ -4,6 +4,7 @@
         android:orientation="horizontal" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/item_all"
+        android:background="@color/orgHover2"
         android:layout_margin="10dp">
 
         <TextView
@@ -11,7 +12,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="30dp"
-            android:background="@color/orgHover2"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -22,14 +22,13 @@
             android:id="@+id/trigger"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:gravity="center"
             android:textColor="@color/colorWhite"
-            android:text="삭제"
+            android:text="호엥을 누르세영"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/colorError" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

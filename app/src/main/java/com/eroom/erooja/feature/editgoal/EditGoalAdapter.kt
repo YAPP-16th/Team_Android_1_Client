@@ -47,16 +47,12 @@ class EditGoalViewHolder(val binding: ItemEditGoalBinding): RecyclerView.ViewHol
     @SuppressLint("ClickableViewAccessibility")
     fun bind(text: String, startDragListener: EditGoalAdapter.OnStartDragListener) {
         binding.sampleText.text = text
-        binding.trigger.visibility = View.GONE
-        binding.itemAll.setOnLongClickListener {
-            it.setOnTouchListener { v, event ->
-                if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                    startDragListener.onStartDrag(this)
-                }
-                return@setOnTouchListener false
+        binding.trigger.setOnTouchListener { v, event ->
+            if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+                startDragListener.onStartDrag(this)
             }
-            it.setOnTouchListener { v, event -> return@setOnTouchListener false }
-            return@setOnLongClickListener true
+            return@setOnTouchListener false
         }
+
     }
 }

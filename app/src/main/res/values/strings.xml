@@ -40,4 +40,9 @@
     <string name="job_class_select_info">직무는 추후에 변경 가능합니다.</string>
     <string name="participants_list_title">참여자 목록</string>
     <string name="starter_text">Starter</string>
+    <string name="filter_text">필터</string>
+    <string name="complete_text">완료</string>
+    <string name="development_text">개발</string>
+    <string name="design_text">디자인</string>
+    <string name="reset_text">초기화</string>
 </resources>

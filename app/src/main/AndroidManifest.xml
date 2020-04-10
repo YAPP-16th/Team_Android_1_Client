@@ -17,20 +17,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
-        <activity android:name=".feature.editgoal.EditGoalActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".feature.onboarding.onboardingframe.OnboardingActivity"
+        <activity android:name=".feature.filter.FilterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.editgoal.EditGoalActivity"
             android:screenOrientation="portrait">
         </activity>
-
-        <activity android:name=".feature.participants_list.ParticipantsListActivity"
+        <activity
+            android:name=".feature.onboarding.onboardingframe.OnboardingActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".feature.participants_list.ParticipantsListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".feature.signup.kakao.KakaoSignUpActivity"
@@ -38,7 +35,11 @@
         <activity
             android:name=".feature.splash.SplashActivity"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".feature.login.LoginActivity"
@@ -49,8 +50,7 @@
         <activity
             android:name=".feature.exam.activity.ExamActivity"
             android:screenOrientation="portrait" />
-        
-        <activity android:name=".feature.goalDetail.GoalDetailActivity"/>
+        <activity android:name=".feature.goalDetail.GoalDetailActivity" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
