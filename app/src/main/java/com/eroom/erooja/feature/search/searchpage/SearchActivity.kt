@@ -2,10 +2,13 @@ package com.eroom.erooja.feature.search.searchpage
 
 
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import com.eroom.data.localclass.DesignClass
+import com.eroom.data.localclass.DevelopClass
 import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivitySearchBinding
@@ -15,6 +18,7 @@ import com.eroom.erooja.feature.search.searchframe.SearchNoContentFragment
 import com.google.android.material.tabs.TabLayout
 import com.jakewharton.rxbinding.widget.RxTextView
 import kotlinx.android.synthetic.main.activity_search.*
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 
@@ -25,6 +29,8 @@ class SearchActivity : AppCompatActivity(), SearchContract.View {
     var changeNum : Int = 0
     var searchframe: ArrayList<Fragment> = ArrayList()
     val searchword: MutableLiveData<String> = MutableLiveData()
+    lateinit var searchAdapter: ArrayAdapter<String>
+    var autosearch = ArrayList<String>()
 
     private lateinit var searchBinding: ActivitySearchBinding
     //private lateinit var presenter: SearchPresenter
@@ -75,6 +81,13 @@ class SearchActivity : AppCompatActivity(), SearchContract.View {
             }
         })
 
+        for (i in 0 until 9){
+            autosearch.add(DesignClass.getArray()[i].getName())
+            autosearch.add(DevelopClass.getArray()[i].getName())
+        }
+
+        searchAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line,autosearch)
+        searchBinding.searchEditText.setAdapter(searchAdapter)
 
         RxTextView.textChanges(searchBinding.searchEditText)
             .debounce (300, TimeUnit.MILLISECONDS)
@@ -83,14 +96,13 @@ class SearchActivity : AppCompatActivity(), SearchContract.View {
             .subscribe {
                 //Todo
                 searchword.value = it
-                this@SearchActivity.toastShort("${it.length}")
+                //this@SearchActivity.toastShort("${it.length}")
 
                 searchword.value.run{
                    changeNum = if(it.isEmpty()) search_tablayout.selectedTabPosition
                                 else 2 //Temp!
                 }
                 loadFragment(changeNum)
-
             }
     }
 

@@ -27,13 +27,14 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_icon_navi_arrow_left" />
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/search_edit_text"
                 android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="13sp"
                 android:background="@null"
+                android:completionThreshold="1"
                 android:hint="@string/please_enter_search_input"
                 android:textSize="14sp" />
 
