@@ -52,7 +52,7 @@
             android:screenOrientation="portrait" />
 
         <activity android:name=".feature.goalDetail.GoalDetailActivity"/>
-        <activity android:name=".feature.search.searchpage.SearchFragment"/>
+        <activity android:name=".feature.search.searchpage.SearchActivity"/>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
