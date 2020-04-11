@@ -145,7 +145,6 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         intent.isMonthLabels(false)
         intent.setSelectButtonText("선택") //the select button text
 
-        intent.setResetBtnText("리셋") //the reset button text
 
         intent.setWeekStart(Calendar.MONDAY)
         intent.setWeekDaysLanguage(AirCalendarIntent.Language.KO) //language for the weekdays

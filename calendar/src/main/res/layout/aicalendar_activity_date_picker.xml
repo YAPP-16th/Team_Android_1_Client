@@ -22,30 +22,31 @@
                 <RelativeLayout
                     android:id="@+id/rl_iv_back_btn_bg"
                     android:layout_width="50dp"
-                    android:layout_height="100dp"/>
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="16dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:id="@+id/iv_back_btn"
-                    android:src="@drawable/aricalendar_btn_back" />
+                    android:layout_height="100dp" >
 
-                <TextView
-                    android:text="재설정"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:textColor="@color/colorTest"
-                    android:gravity="center"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:textSize="17sp"
-                    android:layout_alignParentEnd="true"
-                    android:id="@+id/rl_reset_btn" />
+                    <ImageView
+                        android:id="@+id/iv_back_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="-2dp"
+                        android:layout_marginLeft="-2dp"
+                        android:layout_marginTop="3dp"
+                        android:src="@drawable/ic_icon_navi_close_black" />
+                </RelativeLayout>
+
+<!--                <TextView-->
+<!--                    android:text="재설정"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_alignParentRight="true"-->
+<!--                    android:textColor="@color/colorTest"-->
+<!--                    android:gravity="center"-->
+<!--                    android:paddingLeft="16dp"-->
+<!--                    android:paddingRight="16dp"-->
+<!--                    android:textSize="17sp"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:id="@+id/rl_reset_btn" />-->
 
 
             </RelativeLayout>
