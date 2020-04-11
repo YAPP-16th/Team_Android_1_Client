@@ -95,12 +95,6 @@ public class AirCalendarIntent  extends Intent implements Parcelable {
         this.putExtra(AirCalendarDatePickerActivity.SELECT_TEXT, selectText);
     }
 
-    /**
-     * Sets the reset button text
-     */
-    public void setResetBtnText(String resetBtnText) {
-        this.putExtra(AirCalendarDatePickerActivity.RESET_TEXT, resetBtnText);
-    }
 
 
     /**

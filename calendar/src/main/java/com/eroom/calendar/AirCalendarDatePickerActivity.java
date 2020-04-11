@@ -47,7 +47,6 @@ public class AirCalendarDatePickerActivity extends AppCompatActivity implements 
     public final static String EXTRA_FIXED_START_DAY = "FIXED_START_DAY";
 
     public final static String SELECT_TEXT = "SELECT_TEXT";
-    public final static String RESET_TEXT = "RESET_TEXT";
     public final static String CUSTOM_WEEK_ABREVIATIONS = "CUSTOM_WEEK_ABREVIATIONS";
     public final static String WEEK_LANGUAGE = "WEEK_LANGUAGE";
     public final static String WEEK_START = "WEEK_START";
@@ -65,7 +64,6 @@ public class AirCalendarDatePickerActivity extends AppCompatActivity implements 
     private TextView tv_end_date;
     private TextView tv_popup_msg;
     private TextView tv_done_btn;
-    private TextView tv_reset_btn;
 
     private TextView tv_day_one;
     private TextView tv_day_two;
@@ -162,7 +160,6 @@ public class AirCalendarDatePickerActivity extends AppCompatActivity implements 
         tv_end_date = findViewById(R.id.tv_start_date);
         tv_popup_msg = findViewById(R.id.tv_popup_msg);
         rl_checkout_select_info_popup = findViewById(R.id.rl_checkout_select_info_popup);
-        tv_reset_btn = findViewById(R.id.rl_reset_btn);
         rl_popup_select_checkout_info_ok = findViewById(R.id.rl_popup_select_checkout_info_ok);
         rl_checkout_select_info_popup = findViewById(R.id.rl_checkout_select_info_popup);
         rl_iv_back_btn_bg = findViewById(R.id.rl_iv_back_btn_bg);
@@ -195,9 +192,6 @@ public class AirCalendarDatePickerActivity extends AppCompatActivity implements 
 
         if (getIntent().hasExtra(SELECT_TEXT)) {
             tv_done_btn.setText(getIntent().getStringExtra(SELECT_TEXT));
-        }
-        if (getIntent().hasExtra(RESET_TEXT)) {
-            tv_reset_btn.setText(getIntent().getStringExtra(RESET_TEXT));
         }
 
         if (weekDays.isEmpty()) {
@@ -325,16 +319,6 @@ public class AirCalendarDatePickerActivity extends AppCompatActivity implements 
                 resultIntent.putExtra(RESULT_STATE, "done");
                 setResult(RESULT_OK, resultIntent);
                 finish();
-            }
-        });
-
-        tv_reset_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SELECT_START_DATE = "";
-                SELECT_END_DATE = "";
-                setContentView(R.layout.aicalendar_activity_date_picker);
-                init();
             }
         });
 
