@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="search"
-            type="com.eroom.erooja.feature.search.searchpage.SearchFragment" />
+            type="com.eroom.erooja.feature.search.searchpage.SearchActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,15 +53,28 @@
                 android:id="@+id/position_tabitem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/job_class" />
+                android:text="@string/job_class" >
+            </com.google.android.material.tabs.TabItem>
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/goal_tabitem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/job_goal" />
+                android:text="@string/job_goal" >
+
+            </com.google.android.material.tabs.TabItem>
 
         </com.google.android.material.tabs.TabLayout>
+
+        <FrameLayout
+            android:id="@+id/search_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_tablayout">
+
+        </FrameLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
