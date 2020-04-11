@@ -1,10 +1,11 @@
-package com.eroom.erooja.feature.goalDetail
+package com.eroom.erooja.feature.goalDetail.othersList
 
 import com.eroom.data.entity.UserSimpleData
 
-interface GoalDetailContract {
+interface OthersDetailContract {
     interface View{
-        fun getAllView(list : ArrayList<UserSimpleData>)
+        fun getAllView(list : UserSimpleData)
+
     }
 
     interface Presenter{

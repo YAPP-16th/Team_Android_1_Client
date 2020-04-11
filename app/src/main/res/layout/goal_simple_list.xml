@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<layout>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:padding="14sp"
+    android:layout_height="200dp"
     android:background="@drawable/view_shadow"
-    android:layout_height="230dp">
+    android:orientation="vertical"
+    android:paddingLeft="14sp"
+    android:paddingEnd="14sp"
+    android:paddingRight="14sp"
+    android:paddingBottom="14sp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -20,9 +22,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginRight="8dp"
-            android:textStyle="bold"
-            android:textSize="13sp"
             android:textColor="@color/grey7"
+            android:textSize="15sp"
+            android:textStyle="bold"
             tools:text="김채원의 리스트" />
 
         <TextView
@@ -55,23 +57,24 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey3"/>
+        android:background="@color/grey3" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <CheckBox
                 android:id="@+id/checkbox1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@drawable/state_checkbox"
-                android:textSize="15sp"
-                android:textColor="@color/grey5"/>
+                android:textColor="@color/grey5"
+                android:textSize="13sp" />
 
             <CheckBox
                 android:id="@+id/checkbox2"
@@ -79,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:button="@drawable/state_checkbox"
                 android:textColor="@color/grey5"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
             <CheckBox
                 android:id="@+id/checkbox3"
@@ -87,13 +90,15 @@
                 android:layout_height="wrap_content"
                 android:button="@drawable/state_checkbox"
                 android:textColor="@color/grey5"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
         </LinearLayout>
 
         <View
+            android:id="@+id/gradient_view"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            android:background="@drawable/view_gradient_white"/>
+            android:background="@drawable/view_gradient_white" />
 
     </FrameLayout>
 </LinearLayout>
+</layout>

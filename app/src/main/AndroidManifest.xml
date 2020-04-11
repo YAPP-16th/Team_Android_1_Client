@@ -47,6 +47,7 @@
             android:screenOrientation="portrait" />
         
         <activity android:name=".feature.goalDetail.GoalDetailActivity"/>
+        <activity android:name=".feature.goalDetail.othersList.OthersDetailActivity"/>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
