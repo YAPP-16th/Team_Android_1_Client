@@ -30,8 +30,6 @@ import java.util.concurrent.TimeUnit
 class SearchFragment : FragmentActivity(), SearchContract.View {
 
     var searchframe: ArrayList<Fragment> = ArrayList()
-
-    val tabLayoutTextArray = arrayOf("직무","직군")
     val searchword: MutableLiveData<String> = MutableLiveData()
 
     private lateinit var searchBinding: ActivitySearchBinding
@@ -59,16 +57,8 @@ class SearchFragment : FragmentActivity(), SearchContract.View {
     }
 
     private fun initView() {
+//        searchBinding.searchTablayout.setSelectedTabIndicator()
 
-        searchBinding.viewpager2.apply {
-            adapter = SearchFrameAdapter(this@SearchFragment)
-            orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        }
-
-
-        TabLayoutMediator(tablayout,viewpager2){tab,position->
-            tab.text = tabLayoutTextArray[position]
-        }.attach()
         RxTextView.textChanges(searchBinding.searchEditText)
             .debounce (300, TimeUnit.MILLISECONDS)
             .map{it.toString()}
