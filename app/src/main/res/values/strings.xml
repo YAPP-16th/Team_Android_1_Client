@@ -40,6 +40,7 @@
     <string name="job_class_select_info">직무는 추후에 변경 가능합니다.</string>
     <string name="participants_list_title">참여자 목록</string>
     <string name="starter_text">Starter</string>
+
     <string name="job_class">직무</string>
     <string name="job_group">직군</string>
     <string name="job_goal">목표</string>
@@ -47,4 +48,11 @@
     <string name="please_search_job_class">직무와 관련된 내용을 검색해보세요.</string>
     <string name="please_search_job_goal">목표와 관련된 내용을 검색해보세요.</string>
     <string name="search_no_content">해당되는 내용이 없습니다.</string>
+
+    <string name="filter_text">필터</string>
+    <string name="complete_text">완료</string>
+    <string name="development_text">개발</string>
+    <string name="design_text">디자인</string>
+    <string name="reset_text">초기화</string>
+
 </resources>
