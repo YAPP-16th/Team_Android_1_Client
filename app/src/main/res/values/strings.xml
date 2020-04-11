@@ -45,4 +45,11 @@
     <string name="development_text">개발</string>
     <string name="design_text">디자인</string>
     <string name="reset_text">초기화</string>
+    <string name="job_class">직무</string>
+    <string name="job_group">직군</string>
+    <string name="job_goal">목표</string>
+    <string name="please_enter_search_input">검색어를 입력해주세요.</string>
+    <string name="please_search_job_class">직무와 관련된 내용을 검색해보세요.</string>
+    <string name="please_search_job_goal">목표와 관련된 내용을 검색해보세요.</string>
+    <string name="search_no_content">해당되는 내용이 없습니다.</string>
 </resources>

@@ -50,11 +50,9 @@
         <activity
             android:name=".feature.exam.activity.ExamActivity"
             android:screenOrientation="portrait" />
-        
-        <activity android:name=".feature.goalDetail.GoalDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".feature.goalDetail.othersList.OthersDetailActivity"
-            android:screenOrientation="portrait"/>
+
+        <activity android:name=".feature.goalDetail.GoalDetailActivity"/>
+        <activity android:name=".feature.search.searchpage.SearchActivity"/>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
