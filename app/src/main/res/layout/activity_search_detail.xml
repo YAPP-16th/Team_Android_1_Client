@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="search"
-            type="com.eroom.erooja.feature.search.searchpage.SearchActivity" />
+            name="searchdetail"
+            type="com.eroom.erooja.feature.search.search_detail_page.SearchDetailActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,6 +25,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{searchdetail::back}"
                 android:src="@drawable/ic_icon_navi_arrow_left" />
 
             <AutoCompleteTextView

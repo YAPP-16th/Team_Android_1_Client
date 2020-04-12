@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="50dp"
+        android:paddingBottom="50dp"
+        android:layout_gravity="center"
+        android:background="@drawable/boader_round"
+        android:gravity="center"
+        android:text="@string/search_no_goal_list"
+        android:textColor="@color/grey5"
+        android:textSize="14sp" />
+</FrameLayout>
