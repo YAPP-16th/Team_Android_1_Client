@@ -8,6 +8,7 @@ import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityTabBinding
 import com.eroom.erooja.feature.main.MainFragment
 import com.eroom.erooja.feature.mypage.MyPageFragment
+import com.eroom.erooja.feature.search.search_main.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class TabActivity : AppCompatActivity(), TabContract.View {
@@ -36,7 +37,7 @@ class TabActivity : AppCompatActivity(), TabContract.View {
         fragments.apply {
             addAll(listOf(
                 MainFragment.newInstance(),
-               // SearchActivity.newInstance(),
+               SearchFragment.newInstance(),
                 MyPageFragment.newInstance()
             ))
         }.map {
