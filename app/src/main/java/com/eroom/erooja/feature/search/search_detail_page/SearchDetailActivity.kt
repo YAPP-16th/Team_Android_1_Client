@@ -1,7 +1,8 @@
-package com.eroom.erooja.feature.search.searchpage
+package com.eroom.erooja.feature.search.search_detail_page
 
 
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -9,31 +10,29 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import com.eroom.data.localclass.DesignClass
 import com.eroom.data.localclass.DevelopClass
-import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
-import com.eroom.erooja.databinding.ActivitySearchBinding
-import com.eroom.erooja.feature.search.searchframe.SearchJobClassFragment
-import com.eroom.erooja.feature.search.searchframe.SearchJobGoalFragment
-import com.eroom.erooja.feature.search.searchframe.SearchNoContentFragment
+import com.eroom.erooja.databinding.ActivitySearchDetailBinding
+import com.eroom.erooja.feature.search.search_detail_frame.SearchJobClassFragment
+import com.eroom.erooja.feature.search.search_detail_frame.SearchJobGoalFragment
+import com.eroom.erooja.feature.search.search_detail_frame.SearchNoContentFragment
 import com.google.android.material.tabs.TabLayout
 import com.jakewharton.rxbinding.widget.RxTextView
-import kotlinx.android.synthetic.main.activity_search.*
-import timber.log.Timber
+import kotlinx.android.synthetic.main.activity_search_detail.*
 import java.util.concurrent.TimeUnit
 
 
 /**
  * A simple [Fragment] subclass.
  */
-class SearchActivity : AppCompatActivity(), SearchContract.View {
+class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
     var changeNum : Int = 0
-    var searchframe: ArrayList<Fragment> = ArrayList()
+    var searchDeatilFrame: ArrayList<Fragment> = ArrayList()
     val searchword: MutableLiveData<String> = MutableLiveData()
     lateinit var searchAdapter: ArrayAdapter<String>
     var autosearch = ArrayList<String>()
 
-    private lateinit var searchBinding: ActivitySearchBinding
-    //private lateinit var presenter: SearchPresenter
+    private lateinit var searchDetailBinding: ActivitySearchDetailBinding
+    //private lateinit var presenter: SearchDetailPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpDataBinding()
@@ -42,7 +41,7 @@ class SearchActivity : AppCompatActivity(), SearchContract.View {
     }
 
     private fun initFragment() =
-        searchframe.apply {
+        searchDeatilFrame.apply {
             addAll(listOf(
                 SearchJobClassFragment.newInstance(),
                 SearchJobGoalFragment.newInstance(),
@@ -59,19 +58,19 @@ class SearchActivity : AppCompatActivity(), SearchContract.View {
 
 
     private fun loadFragment(index: Int) =
-        searchframe.map {
+        searchDeatilFrame.map {
             it.apply { supportFragmentManager.beginTransaction().hide(this).commit() }
         }[index].also {
             supportFragmentManager.beginTransaction().show(it).commit()
         }
 
     private fun setUpDataBinding(){
-        searchBinding = DataBindingUtil.setContentView(this, R.layout.activity_search)
-        searchBinding.search = this@SearchActivity
+        searchDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_search_detail)
+        searchDetailBinding.searchdetail = this@SearchDetailActivity
     }
 
     private fun initView() {
-        searchBinding.searchTablayout.addOnTabSelectedListener(object :
+        searchDetailBinding.searchTablayout.addOnTabSelectedListener(object :
             TabLayout.OnTabSelectedListener {
             override fun onTabReselected(p0: TabLayout.Tab?) {}
             override fun onTabUnselected(p0: TabLayout.Tab?) {}
@@ -87,16 +86,16 @@ class SearchActivity : AppCompatActivity(), SearchContract.View {
         }
 
         searchAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line,autosearch)
-        searchBinding.searchEditText.setAdapter(searchAdapter)
+        searchDetailBinding.searchEditText.setAdapter(searchAdapter)
 
-        RxTextView.textChanges(searchBinding.searchEditText)
+        RxTextView.textChanges(searchDetailBinding.searchEditText)
             .debounce (300, TimeUnit.MILLISECONDS)
             .map{it.toString()}
             .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
             .subscribe {
                 //Todo
                 searchword.value = it
-                //this@SearchActivity.toastShort("${it.length}")
+                //this@SearchDetailActivity.toastShort("${it.length}")
 
                 searchword.value.run{
                    changeNum = if(it.isEmpty()) search_tablayout.selectedTabPosition
@@ -113,6 +112,10 @@ class SearchActivity : AppCompatActivity(), SearchContract.View {
             1 -> loadFragment(1)
         }
 
+    }
+
+    fun back(view : View){
+        finish()
     }
 }
 

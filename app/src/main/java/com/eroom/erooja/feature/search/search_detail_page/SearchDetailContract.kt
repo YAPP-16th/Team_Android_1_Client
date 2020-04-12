@@ -1,6 +1,6 @@
-package com.eroom.erooja.feature.search.searchpage
+package com.eroom.erooja.feature.search.search_detail_page
 
-interface SearchContract {
+interface SearchDetailContract {
     interface View {
         fun changeView(pos : Int)
     }
