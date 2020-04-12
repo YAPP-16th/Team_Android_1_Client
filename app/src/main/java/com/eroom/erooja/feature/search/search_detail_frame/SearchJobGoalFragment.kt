@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.search.searchframe
+package com.eroom.erooja.feature.search.search_detail_frame
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,18 +7,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.eroom.erooja.R
 
-class SearchJobClassFragment : Fragment() {
+class SearchJobGoalFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = SearchJobClassFragment()
+        fun newInstance() = SearchJobGoalFragment()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_search_job_class, container, false)
+        return inflater.inflate(R.layout.fragment_search_job_goal, container, false)
     }
 
 }
