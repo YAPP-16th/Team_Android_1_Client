@@ -10,121 +10,102 @@
             type="com.eroom.erooja.feature.goalDetail.GoalDetailActivity" />
     </data>
 
+<ScrollView
+    android:background="@color/grey1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintlayout"
+        android:id="@+id/goal_details_parent_layout"
+        android:orientation="vertical"
+        android:background="@color/grey1"
+        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/coordinatorlayout"
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:descendantFocusability="blocksDescendants">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.core.widget.NestedScrollView
+            <TextView
+                android:id="@+id/goal_name_txt"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:text="포트폴리오 진행하기"
+                android:textColor="@color/grey7"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/goal_details_parent_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/grey1"
-                android:orientation="vertical"
-                android:padding="16dp">
+            <TextView
+                android:id="@+id/goal_date_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:layout_marginBottom="13dp"
+                android:fontFamily="sans-serif"
+                android:text="2020.03.05~03.07"
+                android:textColor="#9e9e9e"
+                android:textSize="10sp"
+                android:textStyle="normal" />
+        </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/linearLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:id="@+id/goal_desc_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            bind:layout_constraintEnd_toEndOf="parent"
+            bind:layout_constraintStart_toStartOf="parent"
+            bind:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-                    <TextView
-                        android:id="@+id/goal_name_txt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="포트폴리오 진행하기"
-                        android:textColor="@color/grey7"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+            <include
+                layout="@layout/include_goal_desc"
+                tools:layout_editor_absoluteX="16dp"
+                bind:goalDetail="@{goalDetail}"/>
+        </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/goal_date_txt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="13dp"
-                        android:layout_marginBottom="13dp"
-                        android:fontFamily="sans-serif"
-                        android:text="2020.03.05~03.07"
-                        android:textColor="#9e9e9e"
-                        android:textSize="10sp"
-                        android:textStyle="normal" />
-                </LinearLayout>
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/people_list"
+            android:textColor="@color/grey7"
+            android:textSize="14sp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/goal_desc_layout" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/others_recyclerview"
+            android:onClick="@{goalDetail::othersDetailClick}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            bind:layout_constraintEnd_toEndOf="parent"
+            bind:layout_constraintStart_toStartOf="parent"
+            bind:layout_constraintTop_toBottomOf="@+id/textView2"/>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/goal_desc_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    bind:layout_constraintEnd_toEndOf="@+id/linearLayout"
-                    bind:layout_constraintStart_toStartOf="@+id/linearLayout"
-                    bind:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-                    <include
-                        layout="@layout/include_goal_desc"
-                        bind:goalDetail="@{goalDetail}" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="14dp"
-                    android:paddingBottom="14dp"
-                    android:text="@string/people_list"
-                    android:textColor="@color/grey7"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    bind:layout_constraintEnd_toEndOf="@+id/linearLayout"
-                    bind:layout_constraintStart_toStartOf="@+id/linearLayout"
-                    bind:layout_constraintTop_toBottomOf="@+id/goal_desc_layout" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/others_recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:elevation="10dp"
-                    android:onClick="@{goalDetail::othersDetailClick}"
-                    android:overScrollMode="never"
-                    bind:layout_constraintBottom_toBottomOf="@+id/goal_details_parent_layout"
-                    bind:layout_constraintEnd_toEndOf="parent"
-                    bind:layout_constraintStart_toStartOf="parent"
-                    bind:layout_constraintTop_toBottomOf="@+id/textView2"
-                    bind:layout_constraintVertical_bias="0.0" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.core.widget.NestedScrollView>
         <Button
-        android:id="@+id/add_list_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@drawable/ic_btn_floating_creategoal"
-        android:text="@string/add_goal_list"
-        android:textColor="@color/colorWhite"
-        android:textSize="14sp"
-        app:layout_behavior="com.eroom.domain.customview.AddListScrollBehavior"
-        bind:layout_constraintBottom_toBottomOf="@+id/constraintlayout"
-        bind:layout_constraintEnd_toEndOf="parent"
-        bind:layout_constraintStart_toStartOf="parent" />
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            android:id="@+id/add_list_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/ic_btn_floating_creategoal"
+            bind:layout_constraintTop_toBottomOf="@+id/others_recyclerview"
+            android:text="@string/add_goal_list"
+            android:textSize="14sp"
+            android:textColor="@color/colorWhite"
+            tools:layout_editor_absoluteX="16dp" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
+</ScrollView>
 </layout>
