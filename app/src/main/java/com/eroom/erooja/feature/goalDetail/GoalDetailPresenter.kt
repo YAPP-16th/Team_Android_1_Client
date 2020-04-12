@@ -7,6 +7,8 @@ class GoalDetailPresenter(override var view: GoalDetailContract.View)
     :GoalDetailContract.Presenter{
 
     var tempdata: ArrayList<UserSimpleData> = arrayListOf(UserSimpleData("sehee", 40, 20,"ㄸㄸㄸ","ㅁㄴㅇㄹ","ㄴㅇㄹㄴㅇ"),
+        UserSimpleData("somebody", 99, 22, "im shefm", "asdfe", " asdfeasg"),
+        UserSimpleData("somebody", 99, 22, "im shefm", "asdfe", " asdfeasg"),
         UserSimpleData("somebody", 99, 22, "im shefm", "asdfe", " asdfeasg"))
 
 
