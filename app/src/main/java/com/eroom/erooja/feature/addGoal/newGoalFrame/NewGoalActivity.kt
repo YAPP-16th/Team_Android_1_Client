@@ -1,8 +1,10 @@
 package com.eroom.erooja.feature.addGoal.newGoalFrame
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
@@ -112,6 +114,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     }
 
     fun nextButtonClicked() {
+        hideKeyBoard()
         nextClickable.get()?.let {
             if (it) {
                 mPage += 1
@@ -190,5 +193,10 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             }
         }
 
+    }
+
+    private fun hideKeyBoard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
     }
 }
