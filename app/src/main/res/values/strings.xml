@@ -58,8 +58,12 @@
     <string name="goal_detail_content">이 목표는 애프터이펙트/모션그래픽 역량 \n함양을 위한 단기간 영상 제작 프로젝트입니다. \n간단한 모션 제작을 통해 ~하려 합니다. \n(내용 생략 가능)</string>
     <string name="goal_title_warning">목표명을 5자 이상 입력해주세요.</string>
     <string name="goal_period_title">목표 기간을 설정해주세요.</string>
-    <string name="startDate">시작일</string>
-    <string name="endDate">종료일</string>
+    <string name="startDate">시작</string>
+    <string name="endDate">종료</string>
     <string name="period">기간</string>
     <string name="isPeriodModifiable">수정 가능</string>
+    <string name="changeable_text">추후 기간 수정이 가능한 목표인가요?</string>
+    <string name="end_date_content"><u>YYYY년 MM월 DD일</u></string>
+    <string name="changeable">수정 가능</string>
+    <string name="unchangeable">수정 불가능</string>
 </resources>

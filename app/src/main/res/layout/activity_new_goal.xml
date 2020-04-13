@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_icon_navi_arrow_left" />
+            app:srcCompat="@drawable/ic_icon_navi_arrow_left"
+            android:onClick="@{() -> activity.prevButtonClicked()}"/>
 
         <TextView
             android:id="@+id/next_text_view"
