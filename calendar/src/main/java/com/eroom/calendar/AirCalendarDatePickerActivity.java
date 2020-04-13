@@ -1,9 +1,13 @@
 package com.eroom.calendar;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.inputmethodservice.InputMethodService;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -106,12 +110,29 @@ public class AirCalendarDatePickerActivity extends AppCompatActivity implements 
     private int maxYear = -1;
     private int mSetStartYear = -1;
 
+    /**
+     * close opened soft keyboard.
+     *
+     * @param mActivity context
+     */
+    public static void hideSoftKeyboard(Activity mActivity) {
+        try {
+            View view = mActivity.getCurrentFocus();
+            if (view != null) {
+                InputMethodManager inputManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aicalendar_activity_date_picker);
 
+        hideSoftKeyboard(this);
         Intent getData = getIntent();
         FLAG = getData.getStringExtra(EXTRA_FLAG) != null ? getData.getStringExtra(EXTRA_FLAG) : "all";
         isBooking = getData.getBooleanExtra(EXTRA_IS_BOOIKNG, false);
@@ -149,6 +170,8 @@ public class AirCalendarDatePickerActivity extends AppCompatActivity implements 
             language = AirCalendarIntent.Language.valueOf(getIntent().getStringExtra(WEEK_LANGUAGE));
             AirCalendarUtils.setLanguage(language);
         }
+
+
 
         init();
 
