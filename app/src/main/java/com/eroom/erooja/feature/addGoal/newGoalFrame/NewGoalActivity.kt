@@ -174,7 +174,6 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
 
         intent.isMonthLabels(false)
         intent.setSelectButtonText("선택") //the select button text
-
         intent.setWeekStart(Calendar.MONDAY)
         intent.setWeekDaysLanguage(AirCalendarIntent.Language.KO) //language for the weekdays
         startActivityForResult(intent, REQUEST_CODE)

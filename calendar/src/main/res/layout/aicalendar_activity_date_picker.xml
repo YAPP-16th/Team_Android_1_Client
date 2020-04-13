@@ -133,7 +133,8 @@
                             android:layout_marginLeft="16dp"
                             android:textStyle="bold"
                             android:text="-"
-                            android:textColor="@color/colorTest"
+                            android:gravity="center"
+                            android:textColor="@color/orgDefault"
                             android:textSize="16sp" />
 
                         <View
@@ -295,7 +296,7 @@
         android:id="@+id/rl_done_btn"
         android:layout_width="270dp"
         android:layout_height="48dp"
-        android:background="@color/colorTest"
+        android:background="@color/orgDefault"
         android:layout_marginBottom="17dp"
         android:gravity="center"
         android:layout_alignParentBottom="true"
