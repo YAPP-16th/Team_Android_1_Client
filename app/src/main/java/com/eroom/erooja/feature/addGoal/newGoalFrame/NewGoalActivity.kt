@@ -30,7 +30,6 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private var mPage = 0
 
     private val REQUEST_CODE = 3000
-    private var endDateData = ""
 
     //    private var nicknameText = ""
 //    private lateinit var groupSelected: JobGroup
@@ -41,6 +40,11 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
 
     private var goalDetailContentText = ""
 
+    private var startDate: String =""
+    private var endDate = ""
+
+    private var isChangeable:Boolean = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,10 +52,18 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         setUpDataBinding()
         initFragment()
         observeData()
+        setDefaultPeriod()
     }
 
     private fun initPresenter() {
         presenter = NewGoalPresenter(this)
+    }
+
+    private fun setDefaultPeriod() {
+        var today: Calendar = Calendar.getInstance()
+        today.timeInMillis = System.currentTimeMillis()
+        startDate = "" + today.get(Calendar.YEAR) + "년 " +  (today.get(Calendar.MONTH) + 1) + "월 " + today.get(Calendar.DAY_OF_MONTH) + "일"
+        endDate = startDate
     }
 
     private fun setUpDataBinding() {
@@ -70,6 +82,13 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             goalDetailContentText =it
             Timber.e(goalDetailContentText)
         })
+        (mFragmentList[2] as GoalPeriodFragment).isChangeable.observe(this, Observer {
+            isChangeable = it
+        })
+//        (mFragmentList[2] as GoalPeriodFragment).endDate.observe(this, Observer {
+//            this.endDate = it
+//            Timber.e(endDate)
+//        })
         //(mFragmentList[2] as GoalPeriodFragment).goalPerio
     }
 
@@ -109,7 +128,6 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private fun showFragment() {
         hideFragment()
         supportFragmentManager.beginTransaction().show(mFragmentList[mPage]).commit()
-        //if(mPage == ..)
     }
 
     private fun hideFragment() = repeat(mFragmentList.size) {
@@ -123,11 +141,18 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             return
         }
         showFragment()
-        nextClickable.set(false)
+        observeData()
     }
 
     private fun requestNewGoal() {
-        this.toastLong("$goalTitleText \n 두번쨰 : $goalDetailContentText" )
+        var content =""
+        if(isChangeable) {
+            content = "수정가능"
+        } else{
+            content = "수정 불가능"
+        }
+        this.toastLong("$content$goalTitleText \n 두번쨰 : $goalDetailContentText  \n 종료일 : $endDate")
+
     }
 
     override fun onBackPressed() {
@@ -140,11 +165,12 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         intent.isBooking(false)
         intent.isSelect(false)
 
-        intent.setStartDate(2020, 4, 11)
+        var today: Calendar = Calendar.getInstance()
+        today.timeInMillis = System.currentTimeMillis()
+        intent.setStartDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH) + 1, today.get(Calendar.DAY_OF_MONTH))
 
         intent.isMonthLabels(false)
         intent.setSelectButtonText("선택") //the select button text
-
 
         intent.setWeekStart(Calendar.MONDAY)
         intent.setWeekDaysLanguage(AirCalendarIntent.Language.KO) //language for the weekdays
@@ -157,7 +183,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             if (data != null) {
                 val endDate = data.getStringExtra(AirCalendarDatePickerActivity.RESULT_SELECT_END_DATE) ?: "-"
                 if (endDate != "-") {
-                    endDateData = endDate
+                    this.endDate = endDate
                     val time = endDate.split("-")
                     (mFragmentList[2] as GoalPeriodFragment).setEndDate("${time[0]}년 ${time[1]}월 ${time[2]}일")
                 }

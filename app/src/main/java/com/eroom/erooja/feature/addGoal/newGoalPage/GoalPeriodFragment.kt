@@ -1,11 +1,15 @@
 package com.eroom.erooja.feature.addGoal.newGoalPage
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import android.widget.CompoundButton
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.FragmentGoalPeriodBinding
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalActivity
@@ -15,6 +19,10 @@ import java.util.*
 
 class GoalPeriodFragment : Fragment() {
     private lateinit var goalPeriodBinding: FragmentGoalPeriodBinding
+//    val startDate: MutableLiveData<String> = MutableLiveData()
+//    val endDate: MutableLiveData<String> = MutableLiveData()
+      var isChangeable: MutableLiveData<Boolean> = MutableLiveData(true) //초기값 : 수정가능
+
     //val
     companion object {
         @JvmStatic
@@ -36,13 +44,55 @@ class GoalPeriodFragment : Fragment() {
     }
 
     private fun initView() {
-        setStartDate()
+        setDefaultStartDate()
+        setDefaultEndDate()
+        setRadioButtonListener()
     }
 
-    private fun setStartDate() {
+    private fun setDefaultStartDate() {
         val currentTime: Date = Calendar.getInstance().time
         goalPeriodBinding.startDateContent.text = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault()).format(currentTime)
     }
+
+    private fun setDefaultEndDate() {
+        val currentTime: Date = Calendar.getInstance().time
+        val endDate = (SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault()).format(currentTime)).toString()
+
+        val content = SpannableString(endDate)
+        content.setSpan(UnderlineSpan(), 0, content.length, 0)
+        goalPeriodBinding.endDateContent.text = content
+    }
+
+    private fun setRadioButtonListener() {
+        goalPeriodBinding.changeableBtn.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            isChangeable.value = isChecked
+            if(isChecked) {
+                buttonView.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_pressed_background)
+                buttonView.setTextColor(ContextCompat.getColor(requireContext(), R.color.orgDefault))
+            } else {
+                buttonView.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_default_background)
+                buttonView.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey4))
+            }
+        })
+
+        goalPeriodBinding.unchangeableBtn.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            isChangeable.value = !isChecked
+            if(isChecked) {
+                buttonView.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_pressed_background)
+                buttonView.setTextColor(ContextCompat.getColor(requireContext(), R.color.orgDefault))
+
+                //초기 '수정가능'버튼 색 변경 위함
+                goalPeriodBinding.changeableBtn.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_default_background)
+                goalPeriodBinding.changeableBtn.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey4))
+
+            } else {
+                buttonView.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_default_background)
+                buttonView.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey4))
+            }
+        })
+    }
+
+
 
     fun onCalendarClicked() {
         (activity as NewGoalActivity).calendarCall()
@@ -50,6 +100,8 @@ class GoalPeriodFragment : Fragment() {
 
     fun setEndDate(endDate:String) {
         goalPeriodBinding.endDateContent.text = endDate
-
+        val content = SpannableString(endDate)
+        content.setSpan(UnderlineSpan(), 0, content.length, 0)
+        goalPeriodBinding.endDateContent.text = content
     }
 }
