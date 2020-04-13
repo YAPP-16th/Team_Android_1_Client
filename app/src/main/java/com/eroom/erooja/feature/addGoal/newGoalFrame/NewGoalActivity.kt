@@ -197,11 +197,10 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             today.get(Calendar.MONTH) + 1,
             today.get(Calendar.DAY_OF_MONTH)
         )
-
+        
         intent.isMonthLabels(false)
         intent.setSelectButtonText("선택") //the select button text
         intent.setStartDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH) + 1, today.get(Calendar.DAY_OF_MONTH))
-
         intent.isMonthLabels(false)
         intent.setSelectButtonText("선택") //the select button text
         intent.setWeekStart(Calendar.MONDAY)
