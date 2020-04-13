@@ -10,4 +10,5 @@
     <color name="colorTest">#1abc9c</color>
     <color name="colorMonthTextColor">#252525</color>
     <color name="color_old_day_text_color">#bbbbbb</color>
+    <color name="orgDefault">#f3590f</color>
 </resources>
