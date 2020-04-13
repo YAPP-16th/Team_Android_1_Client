@@ -50,8 +50,8 @@
     <string name="endDate">종료</string>
     <string name="period">기간</string>
     <string name="isPeriodModifiable">수정 가능</string>
-    <string name="changeable_text">추후 기간 수정이 가능한 목표인가요?</string>
+    <string name="changeable_text">추후 기간 설정이 가능한 목표인가요?</string>
     <string name="end_date_content"><u>YYYY년 MM월 DD일</u></string>
-    <string name="changeable">수정 가능</string>
-    <string name="unchangeable">수정 불가능</string>
+    <string name="changeable">설정 가능</string>
+    <string name="unchangeable">설정 불가능</string>
 </resources>
