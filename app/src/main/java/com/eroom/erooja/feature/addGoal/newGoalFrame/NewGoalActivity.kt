@@ -30,14 +30,21 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private lateinit var presenter: NewGoalContract.Presenter
     private val mFragmentList = ArrayList<Fragment>()
     private var mPage = 0
-    private var goalDetailContentText = ""
-    private var startDate: String = ""
-    private var endDate = ""
-    private var isChangeable: Boolean = false
-    private var goalList: ArrayList<String> = ArrayList()
+
+    //    private var nicknameText = ""
+//    private lateinit var groupSelected: JobGroup
+//    private lateinit var devClassSelected: DevelopSelected
+//    private lateinit var designClassSelected: DesignSelected
     private var goalTitleText = ""
     var nextClickable: ObservableField<Boolean> = ObservableField(false)
+    private var goalList = ArrayList<String>()
 
+    private var goalDetailContentText = ""
+
+    private var startDate: String =""
+    private var endDate = ""
+
+    private var isChangeable:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,10 +62,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private fun setDefaultPeriod() {
         var today: Calendar = Calendar.getInstance()
         today.timeInMillis = System.currentTimeMillis()
-        startDate =
-            "" + today.get(Calendar.YEAR) + "년 " + (today.get(Calendar.MONTH) + 1) + "월 " + today.get(
-                Calendar.DAY_OF_MONTH
-            ) + "일"
+        startDate = "" + today.get(Calendar.YEAR) + "년 " +  (today.get(Calendar.MONTH) + 1) + "월 " + today.get(Calendar.DAY_OF_MONTH) + "일"
         endDate = startDate
     }
 
@@ -165,16 +169,16 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         }
     }
 
+
+
     private fun requestNewGoal() {
-        var content = ""
-        content = if (isChangeable) {
-            "수정가능"
-        } else {
-            "수정 불가능"
+        var content =""
+        if(isChangeable) {
+            content = "수정가능"
+        } else{
+            content = "수정 불가능"
         }
-        this.toastLong("$content$goalTitleText \n 두번쨰 : $goalDetailContentText  \n 종료일 : $endDate\n\n $goalList")
-        showFragment()
-        nextClickable.set(false)
+        this.toastLong("$content$goalTitleText \n 두번쨰 : $goalDetailContentText  \n 종료일 : $endDate")
     }
 
 
@@ -195,6 +199,10 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             today.get(Calendar.MONTH) + 1,
             today.get(Calendar.DAY_OF_MONTH)
         )
+
+        intent.isMonthLabels(false)
+        intent.setSelectButtonText("선택") //the select button text
+        intent.setStartDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH) + 1, today.get(Calendar.DAY_OF_MONTH))
 
         intent.isMonthLabels(false)
         intent.setSelectButtonText("선택") //the select button text
