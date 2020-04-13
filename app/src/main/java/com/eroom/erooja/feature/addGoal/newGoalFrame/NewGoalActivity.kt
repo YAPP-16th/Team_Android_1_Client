@@ -113,8 +113,6 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         setProgressBar(true)
     }
 
-
-
     private fun showFragment() {
         hideFragment()
         newGoalBinding.nextTextView.text = if(mPage == mFragmentList.size - 1) "완료" else "다음"
@@ -230,6 +228,5 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private fun hideKeyBoard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
-        requestNewGoal()
     }
 }
