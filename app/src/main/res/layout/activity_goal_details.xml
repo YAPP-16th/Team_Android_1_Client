@@ -118,7 +118,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/participant_list_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/participants_list_title"
@@ -141,7 +141,7 @@
                         bind:layout_constraintBottom_toBottomOf="@+id/goal_details_parent_layout"
                         bind:layout_constraintEnd_toEndOf="parent"
                         bind:layout_constraintStart_toStartOf="parent"
-                        bind:layout_constraintTop_toBottomOf="@+id/textView2"
+                        bind:layout_constraintTop_toBottomOf="@+id/participant_list_text"
                         bind:layout_constraintVertical_bias="0.0" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

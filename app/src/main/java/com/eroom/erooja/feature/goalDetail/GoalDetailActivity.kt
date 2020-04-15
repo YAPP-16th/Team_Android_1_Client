@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.UserSimpleData
+import com.eroom.domain.utils.add
+import com.eroom.domain.utils.statusBarColor
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalDetailsBinding
 import com.eroom.erooja.feature.goalDetail.othersList.OthersDetailActivity
@@ -37,11 +39,14 @@ class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
             adapter = GoalDetailAdapter(list, click())
 
         }
+        binding.participantListText.text = binding.participantListText.text.toString() add "(${list.size})"
     }
-    private fun click() = {  _:View ->
+    private fun click() = {  _:View, index:Int ->
         var intent = Intent(this@GoalDetailActivity, OthersDetailActivity::class.java)
             .apply{
-            putExtra("name", binding.othersRecyclerview.username_list.text)
+                putExtra("index", index)
+                putExtra("name", binding.othersRecyclerview.username_list.text)
+                putExtra("date", binding.goalDateTxt.text)
             }
         startActivityForResult(intent, 4000)
     }
@@ -49,9 +54,12 @@ class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
     fun initView(){
         var presenter = GoalDetailPresenter(this)
         presenter.getData()
+        statusBarColor(this@GoalDetailActivity, R.color.subLight3)
 
-        binding.goalDescLayout.goal_desc.showButton = false
-        binding.goalDescLayout.goal_desc.showShadow = false
+        binding.goalDescLayout.goal_desc.apply{
+            this.showButton = false
+            this.showShadow = false
+        }
     }
 
     fun setUpDataBinding(){

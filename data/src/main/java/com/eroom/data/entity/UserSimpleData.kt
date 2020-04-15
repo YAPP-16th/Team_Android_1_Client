@@ -1,7 +1,22 @@
 package com.eroom.data.entity
 
-data class UserSimpleData(var name:String = "김채원", var like:Int = 40,
-                          var percent:Int = 50 ,
-                          var check1:String = "포트폴리오 표지 정하기 (1일)",
-                          var check2:String ="포트폴리오 쪽수 정하기",
-                          var check3:String = "포트폴리오 쪽수 정하기")
+data class UserSimpleData(var index:Int, var name:String, var like:Int, var check1:String,
+                          var check2:String, var check3:String){
+
+    lateinit var tempdata: ArrayList<UserSimpleData>
+
+    fun getUserSimpleData(): ArrayList<UserSimpleData> {
+        tempdata = arrayListOf(
+            UserSimpleData(0,"sehee", 40, "ㄸㄸㄸ", "ㅁㄴㅇㄹ", "ㄴㅇㄹㄴㅇ"),
+            UserSimpleData(1,"somebody", 99, "im shefm", "asdfe", " asdfeasg"),
+            UserSimpleData(2,"somebody", 99, "im shefm", "asdfe", " asdfeasg"),
+            UserSimpleData(3,"somebody", 99, "im shefm", "asdfe", " asdfeasg")
+        )
+
+    return tempdata
+    }
+
+    fun getUserDetailList(index:Int) : UserSimpleData {
+        return getUserSimpleData()[index]
+    }
+}
