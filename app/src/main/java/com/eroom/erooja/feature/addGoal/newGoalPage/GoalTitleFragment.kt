@@ -9,15 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-
-import com.eroom.erooja.R
 import com.eroom.erooja.databinding.FragmentGoalTitleBinding
-import com.jakewharton.rxbinding.widget.RxTextView
-import rx.android.schedulers.AndroidSchedulers
-import java.util.concurrent.TimeUnit
-
 
 class GoalTitleFragment : Fragment() {
     private lateinit var goalTitleBinding: FragmentGoalTitleBinding

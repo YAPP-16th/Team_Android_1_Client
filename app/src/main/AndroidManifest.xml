@@ -23,7 +23,6 @@
             android:name=".feature.editgoal.EditGoalActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".feature.addGoal.newGoalFrame.NewGoalActivity"
-            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

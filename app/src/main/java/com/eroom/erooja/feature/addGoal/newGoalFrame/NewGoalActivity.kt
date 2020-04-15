@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
@@ -18,13 +19,17 @@ import com.eroom.erooja.feature.addGoal.newGoalPage.GoalPeriodFragment
 import com.eroom.erooja.feature.addGoal.newGoalPage.GoalTitleFragment
 import com.eroom.calendar.AirCalendarDatePickerActivity
 import com.eroom.calendar.core.AirCalendarIntent
+import com.eroom.domain.utils.ProgressBarAnimation
 import com.eroom.erooja.feature.addGoal.newGoalPage.GoalListFragment
+import kotlinx.android.synthetic.main.activity_new_goal.*
 import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
 
 
 class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
+    private val REQUEST_CODE = 3000
+
     private lateinit var newGoalBinding: ActivityNewGoalBinding
     private lateinit var presenter: NewGoalContract.Presenter
 
@@ -32,21 +37,17 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private val mFragmentList = ArrayList<Fragment>()
     private var mPage = 0
 
-    private val REQUEST_CODE = 3000
 
-    //    private var nicknameText = ""
-//    private lateinit var groupSelected: JobGroup
-//    private lateinit var devClassSelected: DevelopSelected
-//    private lateinit var designClassSelected: DesignSelected
     private var goalTitleText = ""
     var nextClickable: ObservableField<Boolean> = ObservableField(false)
 
     private var goalDetailContentText = ""
 
-    private var startDate: String =""
+    private var startDate: String = ""
     private var endDate = ""
 
-    private var isChangeable:Boolean = false
+    private var isChangeable: Boolean = false
+    private var goalList: ArrayList<String> = ArrayList()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +66,10 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private fun setDefaultPeriod() {
         var today: Calendar = Calendar.getInstance()
         today.timeInMillis = System.currentTimeMillis()
-        startDate = "" + today.get(Calendar.YEAR) + "년 " +  (today.get(Calendar.MONTH) + 1) + "월 " + today.get(Calendar.DAY_OF_MONTH) + "일"
+        startDate =
+            "" + today.get(Calendar.YEAR) + "년 " + (today.get(Calendar.MONTH) + 1) + "월 " + today.get(
+                Calendar.DAY_OF_MONTH
+            ) + "일"
         endDate = startDate
     }
 
@@ -82,17 +86,19 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             nextClickable.set(it)
         })
         (mFragmentList[1] as GoalDetailFragment).goalDetailContent.observe(this, Observer {
-            goalDetailContentText =it
+            goalDetailContentText = it
             Timber.e(goalDetailContentText)
         })
         (mFragmentList[2] as GoalPeriodFragment).isChangeable.observe(this, Observer {
             isChangeable = it
         })
-//        (mFragmentList[2] as GoalPeriodFragment).endDate.observe(this, Observer {
-//            this.endDate = it
-//            Timber.e(endDate)
-//        })
-        //(mFragmentList[2] as GoalPeriodFragment).goalPerio
+        (mFragmentList[3] as GoalListFragment).goalList.observe(this, Observer {
+            this.goalList.addAll(it)
+            nextClickable.set(!it.isNullOrEmpty())
+        })
+        (mFragmentList[3] as GoalListFragment).goalListCheck.observe(this, Observer {
+            nextClickable.set(it)
+        })
     }
 
     private fun initFragment() {
@@ -103,7 +109,6 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
                     , GoalDetailFragment.newInstance()
                     , GoalPeriodFragment.newInstance()
                     , GoalListFragment.newInstance()
-                    //JobGroupFragment.newInstance()
                 )
             )
         }.also {
@@ -113,6 +118,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             }
             supportFragmentManager.beginTransaction().show(it[0]).commit()
         }
+        setProgressBar(true)
     }
 
     fun nextButtonClicked() {
@@ -123,9 +129,13 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
                 if (mPage > mFragmentList.size - 1) {
                     finish()
                     return
+                } else if (mPage == mFragmentList.size - 1) {
+                    nextClickable.set(!goalList.isNullOrEmpty())
                 }
+                setProgressBar(true)
                 showFragment()
             }
+
         }
 
     }
@@ -139,24 +149,39 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         supportFragmentManager.beginTransaction().hide(mFragmentList[it]).commit()
     }
 
+    private fun setProgressBar(isIncreasing: Boolean) {
+        val progressBar = newGoalBinding.horizontalProgressBar
+        val prev = if(isIncreasing) {
+            (progressBar.max.toDouble() / mFragmentList.size) * (mPage)
+        } else{
+            (progressBar.max.toDouble() / mFragmentList.size) * (mPage + 2)
+        }
+        val next = (100.0 / mFragmentList.size) * (mPage + 1)
+        val anim = ProgressBarAnimation(progressBar, prev.toFloat(), next.toFloat())
+        anim.duration = 250
+        progressBar.startAnimation(anim)
+    }
+
     fun prevButtonClicked() {
+        hideKeyBoard()
         mPage -= 1
         if (mPage < 0) {
             finish()
             return
         }
+        nextClickable.set(true)
+        setProgressBar(false)
         showFragment()
-        observeData()
     }
 
     private fun requestNewGoal() {
-        var content =""
-        if(isChangeable) {
-            content = "수정가능"
-        } else{
-            content = "수정 불가능"
+        var content = ""
+        content = if (isChangeable) {
+            "수정가능"
+        } else {
+            "수정 불가능"
         }
-        this.toastLong("$content$goalTitleText \n 두번쨰 : $goalDetailContentText  \n 종료일 : $endDate")
+        this.toastLong("$content$goalTitleText \n 두번쨰 : $goalDetailContentText  \n 종료일 : $endDate\n\n $goalList")
 
     }
 
@@ -172,7 +197,11 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
 
         var today: Calendar = Calendar.getInstance()
         today.timeInMillis = System.currentTimeMillis()
-        intent.setStartDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH) + 1, today.get(Calendar.DAY_OF_MONTH))
+        intent.setStartDate(
+            today.get(Calendar.YEAR),
+            today.get(Calendar.MONTH) + 1,
+            today.get(Calendar.DAY_OF_MONTH)
+        )
 
         intent.isMonthLabels(false)
         intent.setSelectButtonText("선택") //the select button text
@@ -185,7 +214,8 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
             if (data != null) {
-                val endDate = data.getStringExtra(AirCalendarDatePickerActivity.RESULT_SELECT_END_DATE) ?: "-"
+                val endDate =
+                    data.getStringExtra(AirCalendarDatePickerActivity.RESULT_SELECT_END_DATE) ?: "-"
                 if (endDate != "-") {
                     this.endDate = endDate
                     val time = endDate.split("-")
