@@ -121,27 +121,9 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         setProgressBar(true)
     }
 
-    fun nextButtonClicked() {
-        hideKeyBoard()
-        nextClickable.get()?.let {
-            if (it) {
-                mPage += 1
-                if (mPage > mFragmentList.size - 1) {
-                    finish()
-                    return
-                } else if (mPage == mFragmentList.size - 1) {
-                    nextClickable.set(!goalList.isNullOrEmpty())
-                }
-                setProgressBar(true)
-                showFragment()
-            }
-
-        }
-
-    }
-
     private fun showFragment() {
         hideFragment()
+        newGoalBinding.nextTextView.text = if(mPage == mFragmentList.size - 1) "완료" else "다음"
         supportFragmentManager.beginTransaction().show(mFragmentList[mPage]).commit()
     }
 
@@ -151,9 +133,9 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
 
     private fun setProgressBar(isIncreasing: Boolean) {
         val progressBar = newGoalBinding.horizontalProgressBar
-        val prev = if(isIncreasing) {
+        val prev = if (isIncreasing) {
             (progressBar.max.toDouble() / mFragmentList.size) * (mPage)
-        } else{
+        } else {
             (progressBar.max.toDouble() / mFragmentList.size) * (mPage + 2)
         }
         val next = (100.0 / mFragmentList.size) * (mPage + 1)
@@ -174,6 +156,24 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         showFragment()
     }
 
+    fun nextButtonClicked() {
+        hideKeyBoard()
+        nextClickable.get()?.let {
+            if (it) {
+                mPage += 1
+                if (mPage > mFragmentList.size - 1) {
+                    requestNewGoal()
+                    finish()
+                    return
+                } else if (mPage == mFragmentList.size - 1) {
+                    nextClickable.set(!goalList.isNullOrEmpty())
+                }
+                setProgressBar(true)
+                showFragment()
+            }
+        }
+    }
+
     private fun requestNewGoal() {
         var content = ""
         content = if (isChangeable) {
@@ -187,7 +187,6 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
 
     override fun onBackPressed() {
         prevButtonClicked()
-        requestNewGoal()
     }
 
     fun calendarCall() {
