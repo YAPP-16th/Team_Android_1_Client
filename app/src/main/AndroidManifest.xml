@@ -25,7 +25,7 @@
         </activity>
         <activity
             android:name=".feature.onboarding.onboardingframe.OnboardingActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".feature.participants_list.ParticipantsListActivity"
             android:screenOrientation="portrait" />
@@ -52,7 +52,9 @@
             android:screenOrientation="portrait" />
 
         <activity android:name=".feature.goalDetail.GoalDetailActivity"/>
-        <activity android:name=".feature.search.searchpage.SearchActivity"/>
+
+        <activity android:name=".feature.search.search_detail_page.SearchDetailActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
