@@ -28,6 +28,7 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
     val goalList: MutableLiveData<ArrayList<String>> = MutableLiveData(ArrayList())
     var goalListCheck: MutableLiveData<Boolean> = MutableLiveData(false)
 
+
     companion object {
         @JvmStatic
         fun newInstance() = GoalListFragment()
@@ -65,7 +66,7 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
                         return false
                     } else {
                         this.goalList.value?.add(v?.text.toString().trim())
-                        goalListCheck.value = goalList.value?.size!! >0
+                        goalListCheck.value = goalList.value?.size!! > 0
                         v?.text = ""
                         goalListBinding.goalListRecycler.adapter?.notifyDataSetChanged()
                     }
@@ -76,4 +77,6 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
         }
         return true
     }
+
 }
+
