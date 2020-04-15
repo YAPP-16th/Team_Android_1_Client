@@ -57,6 +57,9 @@
         <activity android:name=".feature.goalDetail.othersList.OthersDetailActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".feature.search.search_detail_page.SearchDetailActivity"
+            android:screenOrientation="portrait"/>
+
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
