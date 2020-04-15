@@ -85,7 +85,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             isChangeable = it
         })
         (mFragmentList[3] as GoalListFragment).goalList.observe(this, Observer {
-            this.goalList.addAll(it)
+            this.goalList = it
             nextClickable.set(!it.isNullOrEmpty())
         })
         (mFragmentList[3] as GoalListFragment).goalListCheck.observe(this, Observer {
@@ -159,6 +159,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
                     finish()
                     return
                 } else if (mPage == mFragmentList.size - 1) {
+                    //observeData()
                     nextClickable.set(!goalList.isNullOrEmpty())
                 }
                 setProgressBar(true)
@@ -170,11 +171,11 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
 
 
     private fun requestNewGoal() {
-        var content =""
-        if(isChangeable) {
-            content = "수정가능"
-        } else{
-            content = "수정 불가능"
+        var content = ""
+        content = if (isChangeable) {
+            "수정가능"
+        } else {
+            "수정 불가능"
         }
         this.toastLong("$content$goalTitleText \n 두번쨰 : $goalDetailContentText  \n 종료일 : $endDate")
     }

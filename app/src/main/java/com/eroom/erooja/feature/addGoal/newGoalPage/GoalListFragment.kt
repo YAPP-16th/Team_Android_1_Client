@@ -65,7 +65,9 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
                         context?.toastShort("한 글자 이상 입력해주세요")
                         return false
                     } else {
-                        this.goalList.value?.add(v?.text.toString().trim())
+                        val temp = goalList.value ?: ArrayList()
+                        val temp2 = temp.apply { add(v?.text.toString().trim()) }
+                        this.goalList.value =  temp2
                         goalListCheck.value = goalList.value?.size!! > 0
                         v?.text = ""
                         goalListBinding.goalListRecycler.adapter?.notifyDataSetChanged()
