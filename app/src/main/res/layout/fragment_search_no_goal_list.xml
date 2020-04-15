@@ -11,7 +11,7 @@
         android:paddingTop="50dp"
         android:paddingBottom="50dp"
         android:layout_gravity="center"
-        android:background="@drawable/boader_round"
+        android:background="@drawable/boader_round_grey"
         android:gravity="center"
         android:text="@string/search_no_goal_list"
         android:textColor="@color/grey5"
