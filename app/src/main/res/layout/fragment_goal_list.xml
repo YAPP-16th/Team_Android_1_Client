@@ -33,11 +33,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <androidx.core.widget.NestedScrollView
-            android:id="@+id/scrollview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="30dp"
             android:scrollbarThumbVertical="@color/orgDefault"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/goal_period_title"
@@ -46,10 +45,10 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:paddingHorizontal="16dp"
-                android:paddingTop="6dp"
-                android:orientation="vertical">
+                android:paddingTop="6dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/goalListRecycler"
@@ -70,15 +69,15 @@
                         android:layout_height="55dp"
                         android:background="@drawable/goal_list_item_textview"
                         android:cursorVisible="true"
-                        android:hint="@string/goal_item_hint"
-                        android:maxLines="1"
                         android:gravity="center_vertical"
+                        android:hint="@string/goal_item_hint"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
                         android:paddingVertical="10dp"
                         android:paddingStart="40dp"
                         android:textCursorDrawable="@drawable/edit_text_cursor"
-                        android:textSize="16sp"
-                        android:inputType="text"
-                        android:imeOptions="actionNext"/>
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:id="@+id/goal_dot"

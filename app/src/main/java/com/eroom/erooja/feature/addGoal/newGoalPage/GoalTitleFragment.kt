@@ -9,8 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+
 import androidx.lifecycle.MutableLiveData
 import com.eroom.erooja.databinding.FragmentGoalTitleBinding
+
 
 class GoalTitleFragment : Fragment() {
     private lateinit var goalTitleBinding: FragmentGoalTitleBinding
@@ -27,7 +29,6 @@ class GoalTitleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         setUpDataBinding(inflater, container)
         initView()
         return goalTitleBinding.root
@@ -59,9 +60,7 @@ class GoalTitleFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
             }
-
         })
-        //goalTitleBinding.goalTitleLengthError.visibility = if(it.length >)
     }
 
     fun onLayoutClicked() {

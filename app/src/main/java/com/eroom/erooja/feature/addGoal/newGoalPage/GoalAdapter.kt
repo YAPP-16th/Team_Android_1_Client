@@ -25,6 +25,7 @@ class GoalAdapter(
 
     override fun getItemCount(): Int = goalList.size
 
+
     inner class ViewHolder(itemGoalListBinding: ItemGoalListBinding) :
         RecyclerView.ViewHolder(itemGoalListBinding.root) {
         fun bind(goalContent: String) {

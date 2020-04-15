@@ -17,16 +17,35 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+<<<<<<< HEAD
         <activity android:name=".feature.filter.FilterActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".feature.editgoal.EditGoalActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".feature.addGoal.newGoalFrame.NewGoalActivity"
+=======
+        <activity android:name=".feature.addGoal.newGoalFrame.NewGoalActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".feature.onboarding.onboardingframe.OnboardingActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".feature.participants_list.ParticipantsListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.signup.kakao.KakaoSignUpActivity"
+>>>>>>> ce20a8c23ee0b1733de10c22c42548b1b6182f00
+            android:screenOrientation="portrait">
+
+<<<<<<< HEAD
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -44,6 +63,8 @@
             android:name=".feature.signup.kakao.KakaoSignUpActivity"
             android:screenOrientation="portrait">
 
+=======
+>>>>>>> ce20a8c23ee0b1733de10c22c42548b1b6182f00
         </activity>
         <activity
             android:name=".feature.splash.SplashActivity"
@@ -58,10 +79,13 @@
         <activity
             android:name=".feature.exam.activity.ExamActivity"
             android:screenOrientation="portrait" />
+<<<<<<< HEAD
 
 
         <activity android:name=".feature.search.searchpage.SearchActivity"/>
 
+=======
+>>>>>>> ce20a8c23ee0b1733de10c22c42548b1b6182f00
         <activity android:name=".feature.goalDetail.GoalDetailActivity" />
         <activity android:name="com.eroom.calendar.AirCalendarDatePickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

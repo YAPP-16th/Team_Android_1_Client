@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
-import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
@@ -21,8 +20,6 @@ import com.eroom.calendar.AirCalendarDatePickerActivity
 import com.eroom.calendar.core.AirCalendarIntent
 import com.eroom.domain.utils.ProgressBarAnimation
 import com.eroom.erooja.feature.addGoal.newGoalPage.GoalListFragment
-import kotlinx.android.synthetic.main.activity_new_goal.*
-import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -37,17 +34,15 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private val mFragmentList = ArrayList<Fragment>()
     private var mPage = 0
 
-
     private var goalTitleText = ""
     var nextClickable: ObservableField<Boolean> = ObservableField(false)
 
     private var goalDetailContentText = ""
 
-    private var startDate: String = ""
-    private var endDate = ""
-
     private var isChangeable: Boolean = false
     private var goalList: ArrayList<String> = ArrayList()
+    private var startDate: String =""
+    private var endDate = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +65,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             "" + today.get(Calendar.YEAR) + "년 " + (today.get(Calendar.MONTH) + 1) + "월 " + today.get(
                 Calendar.DAY_OF_MONTH
             ) + "일"
+        startDate = "" + today.get(Calendar.YEAR) + "년 " +  (today.get(Calendar.MONTH) + 1) + "월 " + today.get(Calendar.DAY_OF_MONTH) + "일"
         endDate = startDate
     }
 
@@ -87,7 +83,6 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         })
         (mFragmentList[1] as GoalDetailFragment).goalDetailContent.observe(this, Observer {
             goalDetailContentText = it
-            Timber.e(goalDetailContentText)
         })
         (mFragmentList[2] as GoalPeriodFragment).isChangeable.observe(this, Observer {
             isChangeable = it
@@ -121,9 +116,11 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         setProgressBar(true)
     }
 
+
     private fun showFragment() {
         hideFragment()
         newGoalBinding.nextTextView.text = if(mPage == mFragmentList.size - 1) "완료" else "다음"
+
         supportFragmentManager.beginTransaction().show(mFragmentList[mPage]).commit()
     }
 
@@ -182,8 +179,9 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             "수정 불가능"
         }
         this.toastLong("$content$goalTitleText \n 두번쨰 : $goalDetailContentText  \n 종료일 : $endDate\n\n $goalList")
-
     }
+
+
 
     override fun onBackPressed() {
         prevButtonClicked()
@@ -201,6 +199,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             today.get(Calendar.MONTH) + 1,
             today.get(Calendar.DAY_OF_MONTH)
         )
+        intent.setStartDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH) + 1, today.get(Calendar.DAY_OF_MONTH))
 
         intent.isMonthLabels(false)
         intent.setSelectButtonText("선택") //the select button text
@@ -213,8 +212,10 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
             if (data != null) {
-                val endDate =
-                    data.getStringExtra(AirCalendarDatePickerActivity.RESULT_SELECT_END_DATE) ?: "-"
+
+
+                val endDate = data.getStringExtra(AirCalendarDatePickerActivity.RESULT_SELECT_END_DATE) ?: "-"
+
                 if (endDate != "-") {
                     this.endDate = endDate
                     val time = endDate.split("-")

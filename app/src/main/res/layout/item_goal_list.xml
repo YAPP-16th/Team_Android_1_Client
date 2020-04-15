@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="goal_item"
             type="String" />
@@ -32,6 +34,5 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:src="@drawable/goal_list_dot_activate" />
-
     </FrameLayout>
 </layout>

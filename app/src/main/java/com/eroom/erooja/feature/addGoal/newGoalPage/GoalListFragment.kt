@@ -1,21 +1,17 @@
 package com.eroom.erooja.feature.addGoal.newGoalPage
 
-import android.content.Context
 import android.os.Bundle
-import android.text.InputType
-import android.util.Log
+
 import android.view.KeyEvent
+
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.FragmentGoalListBinding
@@ -24,7 +20,6 @@ import com.eroom.erooja.databinding.FragmentGoalListBinding
 class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
     private lateinit var goalListBinding: FragmentGoalListBinding
 
-    //private var goalList: MutableLiveData<List<String>> = MutableLiveData()
     val goalList: MutableLiveData<ArrayList<String>> = MutableLiveData(ArrayList())
     var goalListCheck: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -65,15 +60,15 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
                         return false
                     } else {
                         this.goalList.value?.add(v?.text.toString().trim())
-                        goalListCheck.value = goalList.value?.size!! >0
+                        goalListCheck.value = goalList.value?.size!! > 0
                         v?.text = ""
                         goalListBinding.goalListRecycler.adapter?.notifyDataSetChanged()
                     }
                 }
-
             }
             return false
         }
         return true
     }
+
 }
