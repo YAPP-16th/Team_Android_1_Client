@@ -64,4 +64,6 @@
     <string name="end_date_content"><u>YYYY년 MM월 DD일</u></string>
     <string name="changeable">설정 가능</string>
     <string name="unchangeable">설정 불가능</string>
+    <string name="insert_content">리스트의 내용을 입력해주세요.</string>
+    <string name="goal_list_title">목표 기간 내 달성할 리스트를\n만들어보세요.</string>
 </resources>

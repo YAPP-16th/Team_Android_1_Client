@@ -21,7 +21,16 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".feature.editgoal.EditGoalActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".feature.addGoal.newGoalFrame.NewGoalActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
         <activity
             android:name=".feature.onboarding.onboardingframe.OnboardingActivity"
@@ -29,13 +38,7 @@
         <activity
             android:name=".feature.participants_list.ParticipantsListActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".feature.addGoal.newGoalFrame.NewGoalActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
 
         <activity
