@@ -24,12 +24,6 @@ class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
 
     fun moreClick(view:View){
         binding.goalDescLayout.goal_desc.toggle()
-
-        when(binding.goalDescLayout.more_text.text){
-            resources.getString(R.string.more) -> binding.goalDescLayout.more_text.text = resources.getString(R.string.close)
-            resources.getString(R.string.close) -> binding.goalDescLayout.more_text.text = resources.getString(R.string.more)
-        }
-
     }
 
     fun othersDetailClick(view:View){
@@ -57,7 +51,7 @@ class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
         presenter.getData()
 
         binding.goalDescLayout.goal_desc.showButton = false
-        binding.goalDescLayout.goal_desc.showShadow = true
+        binding.goalDescLayout.goal_desc.showShadow = false
     }
 
     fun setUpDataBinding(){

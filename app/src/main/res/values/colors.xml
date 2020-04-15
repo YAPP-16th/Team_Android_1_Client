@@ -12,6 +12,7 @@
 
     <color name="subLight1">#C8ECF2</color>
     <color name="subLight2">#9FDEE8</color>
+    <color name="subLight3">#F6F6FF</color>
     <color name="subHover1">#76D0DF</color>
     <color name="subHover2">#61c9da</color>
     <color name="subDefault">#38BBD0</color>
@@ -28,7 +29,9 @@
     <color name="grey5">#757575</color>
     <color name="grey6">#424242</color>
     <color name="grey7">#333333</color>
+    <color name="grey8">#b3757575</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorBlack2">#191919</color>
 
     <color name="colorError">#D32F2F</color>
     <color name="colorWarning">#F9A825</color>

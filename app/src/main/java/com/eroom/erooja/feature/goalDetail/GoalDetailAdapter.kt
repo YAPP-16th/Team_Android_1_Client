@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.eroom.data.entity.UserSimpleData
+import com.eroom.domain.utils.add
 import com.eroom.erooja.R
 import kotlinx.android.synthetic.main.goal_simple_list.view.*
 
@@ -29,13 +30,13 @@ class GoalDetailAdapter(val simpleData: ArrayList<UserSimpleData>, val click: (V
 }
 
 class Holder(itemView: View) : RecyclerView.ViewHolder(itemView){
-    fun bind(name:String, number: Int, check1:String, check2:String, check3:String, click: (View) -> Unit ){
-        itemView.username_list.text = "${name}의 리스트"
-        itemView.putin_number_txt.text = "${number}명이 담아감"
+    fun bind(name:String, number: Int, text1:String, text2:String, text3:String, click: (View) -> Unit ){
+        itemView.username_list.text = name add " 님의 리스트"
+        itemView.putin_number_txt.text = number.toString() add "명이 선택"
 
-        itemView.checkbox1.text=check1
-        itemView.checkbox2.text=check2
-        itemView.checkbox3.text=check3
+        itemView.text1.text=text1
+        itemView.text2.text=text2
+        itemView.text3.text=text3
 
         itemView.setOnClickListener{ click(itemView.gradient_view)}
 
