@@ -18,6 +18,7 @@ import com.eroom.erooja.feature.addGoal.newGoalPage.GoalPeriodFragment
 import com.eroom.erooja.feature.addGoal.newGoalPage.GoalTitleFragment
 import com.eroom.calendar.AirCalendarDatePickerActivity
 import com.eroom.calendar.core.AirCalendarIntent
+import com.eroom.erooja.feature.addGoal.newGoalPage.GoalListFragment
 import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
@@ -101,6 +102,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
                     GoalTitleFragment.newInstance()/*.apply { arguments = Bundle().apply { putString("key", "value") } }*/
                     , GoalDetailFragment.newInstance()
                     , GoalPeriodFragment.newInstance()
+                    , GoalListFragment.newInstance()
                     //JobGroupFragment.newInstance()
                 )
             )
