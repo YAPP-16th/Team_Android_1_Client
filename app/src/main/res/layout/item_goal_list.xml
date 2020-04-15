@@ -17,11 +17,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/goal_list_item_textview"
-            android:hint="@string/insert_content"
+            android:hint="테스ㅜ"
             android:maxLines="1"
+            android:cursorVisible="true"
+            android:textCursorDrawable="@drawable/edit_text_cursor"
             android:paddingVertical="13dp"
             android:paddingLeft="50dp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+
+
+
+            />
 
         <ImageView
             android:id="@+id/goal_dot"

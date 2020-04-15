@@ -18,11 +18,7 @@ import com.eroom.erooja.databinding.ItemGoalListBinding
 import timber.log.Timber
 
 
-/**
- * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
- * specified [OnListFragmentInteractionListener].
- * TODO: Replace the implementation with code for your data type.
- */
+
 class GoalAdapter(
     //private var goalList: MutableLiveData<List<String>>
     private var goalList: ArrayList<String>
@@ -42,39 +38,33 @@ class GoalAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //val item: String? = goalList[position]
-        holder.itemGoalListBinding.goalContent.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, event ->
+        holder.itemGoalListBinding.goalContent.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
             if (event == null || event.action != KeyEvent.ACTION_DOWN) {
-                return@OnEditorActionListener false
-            }
-            when (actionId) {
-                EditorInfo.IME_ACTION_UNSPECIFIED -> {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
+
                     Log.e("GoalAdapter", "들어옴!")
 //                    goalList.add(position,"")
 //
 //                    notifyItemInserted(position)
 
-                    var len = holder.itemGoalListBinding.goalContent.text.trim().length
-                    Log.e(
-                        "GoalAdapter",
-                        holder.itemGoalListBinding.goalContent.text.toString() + "길이 : " + len
-                    )
-
+                    var len = v.text.trim().length
                     if (len < 1) {
 
-                        holder.itemView.context.toastShort("한 글자 이상 입력해주세요")
+                        v.context.toastShort("한 글자 이상 입력해주세요")
                         return@OnEditorActionListener false
                     } else {
                         goalList.add(position + 1, "")
                         holder.itemGoalListBinding.goalDot.setImageResource(R.drawable.goal_list_dot_activate)
-                        holder.itemGoalListBinding.goalContent.inputType = InputType.TYPE_NULL
+                        v.inputType = InputType.TYPE_NULL
                         this.notifyItemInserted(position + 1)
+
                     }
 
                 }
-                else -> {                // 기본 엔터키 동작
-
-                }
+                return@OnEditorActionListener false
             }
+            holder.itemGoalListBinding.goalContent.context.toastShort("" + actionId)
+
             true
         })
     }
