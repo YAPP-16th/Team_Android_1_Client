@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".feature.addGoal.newGoalPage.GoalListFragment">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.eroom.erooja.feature.addGoal.newGoalPage.GoalListFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/goal_period_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@color/colorWhite"
+            android:lineSpacingExtra="11sp"
+            android:paddingStart="20dp"
+            android:text="@string/goal_list_title"
+            android:textColor="@color/grey7"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.216"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scrollbarThumbVertical="@color/orgDefault"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/goal_period_title"
+            app:layout_constraintVertical_bias="0.0"
+            android:layout_marginBottom="50dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/goalListRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+
+                android:layout_marginTop="30dp"
+
+                tools:itemCount="1"
+
+                tools:layout_editor_absoluteX="0dp"
+                tools:listitem="@layout/item_goal_list" />
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
