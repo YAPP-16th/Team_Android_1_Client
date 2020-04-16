@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:lineSpacingExtra="11sp"
             android:text="@string/goal_period_title"
-            android:textColor="@color/grey7"
+            android:textColor="@color/grey8"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -35,12 +35,11 @@
             android:id="@+id/start_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_marginTop="84dp"
+            android:layout_marginTop="70dp"
             android:lineSpacingExtra="15sp"
             android:text="@string/startDate"
-            android:textColor="#757575"
-            android:textSize="15.5sp"
+            android:textColor="@color/grey7"
+            android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/goal_period_title"
             app:layout_constraintHorizontal_bias="0.0"
@@ -55,8 +54,8 @@
             android:layout_marginStart="148dp"
             android:lineSpacingExtra="15sp"
             android:text="@string/endDate"
-            android:textColor="#757575"
-            android:textSize="15.5sp"
+            android:textColor="@color/grey7"
+            android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/start_date"
             app:layout_constraintTop_toTopOf="@+id/start_date" />
@@ -65,90 +64,85 @@
             android:id="@+id/is_changeable_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="228dp"
+            android:layout_marginTop="173dp"
             android:lineSpacingExtra="15sp"
             android:text="@string/changeable_text"
-            android:textColor="#757575"
-            android:textSize="15.5sp"
+            android:textColor="@color/grey7"
+            android:textSize="15sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.163"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/start_date_content"
             app:layout_constraintTop_toBottomOf="@+id/goal_period_title" />
 
         <TextView
             android:id="@+id/start_date_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
             android:lineSpacingExtra="15sp"
             android:text="YYYY년 MM월 DD일"
-            android:textColor="#757575"
-            android:textSize="15.5sp"
+            android:textColor="@color/grey8"
+            android:textSize="17sp"
             app:layout_constraintBottom_toTopOf="@+id/is_changeable_text"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/start_date"
             app:layout_constraintTop_toBottomOf="@+id/start_date"
-            app:layout_constraintVertical_bias="0.205" />
+            app:layout_constraintVertical_bias="0.3" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="48dp"
+            android:gravity="center_vertical"
             android:onClick="@{() -> fragment.onCalendarClicked()}"
             app:layout_constraintBottom_toBottomOf="@id/start_date_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/start_date_content"
+            app:layout_constraintLeft_toLeftOf="@id/end_date"
             app:layout_constraintTop_toTopOf="@id/start_date_content">
 
             <TextView
                 android:id="@+id/endDateContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="15sp"
+                android:lineSpacingExtra="17sp"
                 android:text="@string/end_date_content"
                 android:textColor="@color/orgDefault"
-                android:textSize="15.5sp" />
+                android:textSize="17sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:paddingTop="3dp"
-                android:src="@drawable/ic_icon_calendar_normal_copy" />
+
+                android:src="@drawable/ic_icon_calendar_check_active" />
         </LinearLayout>
 
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.169"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/is_changeable_text"
             app:layout_constraintTop_toBottomOf="@+id/is_changeable_text">
 
             <RadioButton
                 android:id="@+id/changeable_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_width="120dp"
+                android:layout_height="45dp"
                 android:background="@drawable/button_pressed_background"
                 android:button="@null"
                 android:gravity="center"
                 android:minWidth="100dp"
-                android:textColor="@color/orgDefault"
-                android:text="@string/changeable" />
+                android:text="@string/changeable"
+                android:textSize="15sp"
+                android:textColor="@color/orgDefault" />
 
             <RadioButton
                 android:id="@+id/unchangeable_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_width="120dp"
+                android:layout_height="45dp"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/button_default_background"
                 android:button="@null"
                 android:gravity="center"
                 android:minWidth="100dp"
-                android:textColor="@color/grey4"
-                android:text="@string/unchangeable" />
+                android:text="@string/unchangeable"
+                android:textSize="15sp"
+                android:textColor="@color/grey4" />
         </RadioGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
