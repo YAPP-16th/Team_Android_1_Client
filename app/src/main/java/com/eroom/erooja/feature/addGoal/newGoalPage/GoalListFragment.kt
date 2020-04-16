@@ -71,6 +71,11 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
                         goalListCheck.value = goalList.value?.size!! > 0
                         v?.text = ""
                         goalListBinding.goalListRecycler.adapter?.notifyDataSetChanged()
+
+                        v?.post(kotlinx.coroutines.Runnable {
+                            v.isFocusableInTouchMode = true
+                            v.requestFocus()
+                        })
                     }
                 }
 
