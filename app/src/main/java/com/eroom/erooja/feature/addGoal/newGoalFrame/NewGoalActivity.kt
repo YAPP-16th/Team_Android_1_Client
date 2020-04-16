@@ -41,7 +41,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
 
     private var isChangeable: Boolean = false
     private var goalList: ArrayList<String> = ArrayList()
-    private var startDate: String =""
+    private var startDate: String = ""
     private var endDate = ""
 
 
@@ -65,7 +65,10 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             "" + today.get(Calendar.YEAR) + "년 " + (today.get(Calendar.MONTH) + 1) + "월 " + today.get(
                 Calendar.DAY_OF_MONTH
             ) + "일"
-        startDate = "" + today.get(Calendar.YEAR) + "년 " +  (today.get(Calendar.MONTH) + 1) + "월 " + today.get(Calendar.DAY_OF_MONTH) + "일"
+        startDate =
+            "" + today.get(Calendar.YEAR) + "년 " + (today.get(Calendar.MONTH) + 1) + "월 " + today.get(
+                Calendar.DAY_OF_MONTH
+            ) + "일"
         endDate = startDate
     }
 
@@ -119,7 +122,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
 
     private fun showFragment() {
         hideFragment()
-        newGoalBinding.nextTextView.text = if(mPage == mFragmentList.size - 1) "완료" else "다음"
+        newGoalBinding.nextTextView.text = if (mPage == mFragmentList.size - 1) "완료" else "다음"
 
         supportFragmentManager.beginTransaction().show(mFragmentList[mPage]).commit()
     }
@@ -159,11 +162,9 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             if (it) {
                 mPage += 1
                 if (mPage > mFragmentList.size - 1) {
-                    requestNewGoal()
-                    finish()
+                    redirectNewGoalFinish()
                     return
                 } else if (mPage == mFragmentList.size - 1) {
-                    //observeData()
                     nextClickable.set(!goalList.isNullOrEmpty())
                 }
                 setProgressBar(true)
@@ -172,17 +173,30 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         }
     }
 
-    private fun requestNewGoal() {
-        //observeData()
+    private fun redirectNewGoalFinish() {
+        if (networkRequest()) {
+            val intent = Intent(this, NewGoalFinishActivity::class.java)
+            intent.putExtra("goalTitle", goalTitleText)
+            startActivity(intent)
+            finish()
+        }
+
+    }
+
+
+    /**
+     * 목표명, 목표 상세명, 목표 종료일, 목표 목록을 서버로 요청하는 함수(이 함수가 false를 반환할 경우 다음 화면으로 넘어가면 안됨.)*/
+    private fun networkRequest(): Boolean {
         var content = ""
         content = if (isChangeable) {
             "수정가능"
         } else {
             "수정 불가능"
         }
-        this.toastLong("$content$goalTitleText \n 두번쨰 : $goalDetailContentText  \n 종료일 : $endDate\n\n $goalList")
-    }
+        this.toastLong("테스트 : $content$goalTitleText \n 두번쨰 : $goalDetailContentText  \n 종료일 : $endDate\n\n $goalList")
 
+        return true
+    }
 
 
     override fun onBackPressed() {
@@ -201,7 +215,11 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             today.get(Calendar.MONTH) + 1,
             today.get(Calendar.DAY_OF_MONTH)
         )
-        intent.setStartDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH) + 1, today.get(Calendar.DAY_OF_MONTH))
+        intent.setStartDate(
+            today.get(Calendar.YEAR),
+            today.get(Calendar.MONTH) + 1,
+            today.get(Calendar.DAY_OF_MONTH)
+        )
 
         intent.isMonthLabels(false)
         intent.setSelectButtonText("선택") //the select button text
@@ -216,7 +234,8 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             if (data != null) {
 
 
-                val endDate = data.getStringExtra(AirCalendarDatePickerActivity.RESULT_SELECT_END_DATE) ?: "-"
+                val endDate =
+                    data.getStringExtra(AirCalendarDatePickerActivity.RESULT_SELECT_END_DATE) ?: "-"
 
                 if (endDate != "-") {
                     this.endDate = endDate

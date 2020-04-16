@@ -17,14 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".feature.addGoal.newGoalFrame.NewGoalFinishActivity" />
         <activity
             android:name=".feature.filter.FilterActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".feature.editgoal.EditGoalActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".feature.addGoal.newGoalFrame.NewGoalActivity"
             android:screenOrientation="portrait">
@@ -36,23 +35,19 @@
         </activity>
         <activity
             android:name=".feature.onboarding.onboardingframe.OnboardingActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".feature.participants_list.ParticipantsListActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".feature.onboarding.onboardingframe.OnboardingActivity"
-            android:screenOrientation="portrait"></activity>
-
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".feature.signup.kakao.KakaoSignUpActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".feature.splash.SplashActivity"
-            android:screenOrientation="portrait"></activity>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".feature.login.LoginActivity"
             android:screenOrientation="portrait" />
@@ -62,10 +57,7 @@
         <activity
             android:name=".feature.exam.activity.ExamActivity"
             android:screenOrientation="portrait" />
-
-
         <activity android:name=".feature.search.searchpage.SearchActivity" />
-
         <activity android:name=".feature.goalDetail.GoalDetailActivity" />
         <activity
             android:name="com.eroom.calendar.AirCalendarDatePickerActivity"
@@ -74,7 +66,6 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
-
     </application>
 
 </manifest>
