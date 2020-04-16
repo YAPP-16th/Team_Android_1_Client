@@ -57,12 +57,18 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
                 if (len != null) {
                     if (len < 1) {
                         context?.toastShort("한 글자 이상 입력해주세요")
+                        if(goalList.value?.size == 0){
+                            goalListBinding.goalListSizeErrorTextview.visibility = View.VISIBLE
+                        }
                         return false
                     } else {
                         val temp = goalList.value ?: ArrayList()
                         val temp2 = temp.apply { add(v?.text.toString().trim()) }
                         this.goalList.value =  temp2
+
                         goalListCheck.value = goalList.value?.size!! > 0
+                        goalListBinding.goalListSizeErrorTextview.visibility = View.INVISIBLE
+
                         v?.text = ""
                         goalListBinding.goalListRecycler.adapter?.notifyDataSetChanged()
 
