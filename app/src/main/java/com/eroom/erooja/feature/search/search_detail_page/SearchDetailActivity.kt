@@ -25,8 +25,8 @@ import java.util.concurrent.TimeUnit
  * A simple [Fragment] subclass.
  */
 class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
-    var changeNum : Int = 0
-    var searchDeatilFrame: ArrayList<Fragment> = ArrayList()
+    var changeNum: Int = 0
+    lateinit var searchDetailFrame: ArrayList<Fragment>
     val searchword: MutableLiveData<String> = MutableLiveData()
     lateinit var searchAdapter: ArrayAdapter<String>
     var autosearch = ArrayList<String>()
@@ -40,13 +40,16 @@ class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
         initFragment()
     }
 
-    private fun initFragment() =
-        searchDeatilFrame.apply {
-            addAll(listOf(
-                SearchJobClassFragment.newInstance(),
-                SearchJobGoalFragment.newInstance(),
-                SearchNoContentFragment.newInstance()
-            ))
+    private fun initFragment() {
+        searchDetailFrame = ArrayList()
+        searchDetailFrame.apply {
+            addAll(
+                listOf(
+                    SearchJobClassFragment.newInstance(),
+                    SearchJobGoalFragment.newInstance(),
+                    SearchNoContentFragment.newInstance()
+                )
+            )
         }.map {
             it.apply {
                 supportFragmentManager.beginTransaction()
@@ -55,10 +58,10 @@ class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
         }.run {
             loadFragment(0)
         }
-
+    }
 
     private fun loadFragment(index: Int) =
-        searchDeatilFrame.map {
+        searchDetailFrame.map {
             it.apply { supportFragmentManager.beginTransaction().hide(this).commit() }
         }[index].also {
             supportFragmentManager.beginTransaction().show(it).commit()
@@ -106,15 +109,13 @@ class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
     }
 
 
-    override fun changeView(pos : Int){
+    override fun changeView(pos: Int){
         when(pos){
             0 -> loadFragment(0)
             1 -> loadFragment(1)
         }
-
     }
-
-    fun back(view : View){
+    fun back(v: View){
         finish()
     }
 }

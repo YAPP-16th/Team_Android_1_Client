@@ -16,9 +16,9 @@ import com.eroom.erooja.feature.search.search_main_frame.SearchNoGoalListFragmen
 import com.google.android.material.tabs.TabLayout
 
 class SearchFragment : Fragment(), SearchContract.View{
-    var searchFrame: ArrayList<Fragment> = ArrayList()
+    //var searchFrame: ArrayList<Fragment> = ArrayList()
     private lateinit var searchBinding: FragmentSearchBinding
-    private lateinit var presenter: SearchFragment
+    //private lateinit var presenter: SearchFragment
 
 
     companion object {
@@ -74,7 +74,7 @@ class SearchFragment : Fragment(), SearchContract.View{
         })
     }
 
-    fun searchClick(view :View){
+    fun searchClick(v: View){
         activity?.let {
             var intent = Intent(context, SearchDetailActivity::class.java)
             startActivity(intent)
@@ -90,9 +90,8 @@ class SearchFragment : Fragment(), SearchContract.View{
         }
 
 
-//    private fun loadChildFragment(index: Int)()
+    //private fun loadChildFragment(index: Int)()
 
     private fun changeView(pos: Int){
-
     }
 }
