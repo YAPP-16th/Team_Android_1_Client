@@ -20,10 +20,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:background="@color/colorWhite"
+            android:background="@null"
             android:lineSpacingExtra="11sp"
             android:paddingStart="20dp"
-            android:paddingBottom="30dp"
+
             android:text="@string/goal_list_title"
             android:textColor="@color/grey7"
             android:textSize="20sp"
@@ -33,72 +33,85 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-        <androidx.core.widget.NestedScrollView
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="10dp"
-            android:scrollbarThumbVertical="@color/orgDefault"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/goal_period_title"
-            app:layout_constraintVertical_bias="0.0"
-            tools:layout_editor_absoluteX="0dp">
+            app:layout_constraintVertical_bias="0.0">
 
-            <LinearLayout
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/scrollView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingHorizontal="16dp"
-                android:paddingTop="6dp">
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:scrollbarThumbVertical="@color/orgDefault"
+                tools:layout_editor_absoluteX="0dp">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/goalListRecycler"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:itemCount="5"
-                    tools:layout_editor_absoluteX="0dp"
-                    tools:listitem="@layout/item_goal_list" />
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="6dp">
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp">
-
-                    <EditText
-                        android:id="@+id/goal_content_edittext"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/goalListRecycler"
                         android:layout_width="match_parent"
-                        android:layout_height="55dp"
-                        android:background="@drawable/goal_list_item_textview"
-                        android:cursorVisible="true"
-                        android:gravity="center_vertical"
-                        android:hint="@string/goal_item_hint"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:paddingVertical="10dp"
-                        android:paddingStart="40dp"
-                        android:textCursorDrawable="@drawable/edit_text_cursor"
-                        android:textSize="16sp" />
+                        android:layout_height="wrap_content"
+                        tools:itemCount="5"
+                        tools:layout_editor_absoluteX="0dp"
+                        tools:listitem="@layout/item_goal_list" />
 
-                    <ImageView
-                        android:id="@+id/goal_dot"
-                        android:layout_width="7dp"
-                        android:layout_height="7dp"
-                        android:layout_gravity="center_vertical"
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp">
+
+                        <EditText
+                            android:id="@+id/goal_content_edittext"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:background="@drawable/goal_list_item_textview"
+                            android:cursorVisible="true"
+                            android:gravity="center_vertical"
+                            android:hint="@string/goal_item_hint"
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:paddingVertical="10dp"
+                            android:paddingStart="40dp"
+                            android:textCursorDrawable="@drawable/edit_text_cursor"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:id="@+id/goal_dot"
+                            android:layout_width="7dp"
+                            android:layout_height="7dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="20dp"
+                            android:src="@drawable/goal_list_dot_inactivate" />
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/goal_list_size_error_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:src="@drawable/goal_list_dot_inactivate" />
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/goal_list_size_error_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="0dp"
-                    android:text="@string/goal_list_size_error"
-                    android:textColor="@color/colorError"
-                    android:visibility="invisible" />
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+                        android:layout_marginTop="0dp"
+                        android:text="@string/goal_list_size_error"
+                        android:textColor="@color/colorError"
+                        android:visibility="invisible" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+            <View
+                android:id="@+id/blur_view"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@drawable/view_gradient_alpha_to_white"
+                android:visibility="invisible"/>
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
