@@ -6,11 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.UserSimpleData
+import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.statusBarColor
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityOthersListBinding
 
-class OthersDetailActivity :AppCompatActivity(), OthersDetailContract.View {
+class OthersDetailActivity : AppCompatActivity(), OthersDetailContract.View {
     lateinit var binding : ActivityOthersListBinding
     lateinit var presenter : OthersDetailPresenter
     var index = 0
@@ -30,11 +31,11 @@ class OthersDetailActivity :AppCompatActivity(), OthersDetailContract.View {
     }
 
     fun initView(){
-        index = intent.getIntExtra("index",4000)
+        index = intent.getIntExtra(Consts.INDEX, Consts.INDEX_NUM)
         presenter = OthersDetailPresenter(this)
         presenter.getData(index)
-        binding.usernameList.text = intent.getStringExtra("name")
-        binding.goalDateTxt.text = intent.getStringExtra("date")
+        binding.usernameList.text = intent.getStringExtra(Consts.NAME)
+        binding.goalDateTxt.text = intent.getStringExtra(Consts.DATE)
 
         statusBarColor(this@OthersDetailActivity, R.color.subLight3)
     }
@@ -44,7 +45,7 @@ class OthersDetailActivity :AppCompatActivity(), OthersDetailContract.View {
         binding.othersDetail = this@OthersDetailActivity
     }
 
-    fun back(view : View){
+    fun back(v: View){
         finish()
     }
 

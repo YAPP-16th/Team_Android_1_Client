@@ -10,6 +10,6 @@ interface OthersDetailContract {
 
     interface Presenter{
         var view:View
-        fun getData(index:Int)
+        fun getData(index: Int)
     }
 }

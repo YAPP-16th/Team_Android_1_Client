@@ -17,7 +17,7 @@ class AddListScrollBehavior(context: Context, attrs: AttributeSet) : Coordinator
     }
     var isShowing: Boolean = false
     var isHiding: Boolean = false
-    var dyDirectionSum: Int = 0
+    //var dyDirectionSum: Int = 0
 
 
     override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout, child: Button, directTargetChild: View, target: View, axes: Int): Boolean {
@@ -25,10 +25,10 @@ class AddListScrollBehavior(context: Context, attrs: AttributeSet) : Coordinator
     }
     override fun onNestedScroll(coordinatorLayout: CoordinatorLayout, child: Button, target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, type: Int) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed,
-            dxUnconsumed, dyUnconsumed);
-        if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE) {
+            dxUnconsumed, dyUnconsumed)
+        if (dyConsumed > 0 && child.visibility == View.VISIBLE) {
             hideView(child)
-        } else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE) {
+        } else if (dyConsumed < 0 && child.visibility != View.VISIBLE) {
             showView(child)
         }
     }
@@ -55,7 +55,7 @@ class AddListScrollBehavior(context: Context, attrs: AttributeSet) : Coordinator
         })
         animator.start()
     }
-    fun showView(view: View) {
+    private fun showView(view: View) {
         if (isShowing || view.visibility == View.VISIBLE)
             return
         var animator: ViewPropertyAnimator = view.animate()

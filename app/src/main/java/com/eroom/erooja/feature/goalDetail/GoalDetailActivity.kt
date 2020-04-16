@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.UserSimpleData
+import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.add
 import com.eroom.domain.utils.statusBarColor
 import com.eroom.erooja.R
@@ -15,8 +16,8 @@ import com.eroom.erooja.feature.goalDetail.othersList.OthersDetailActivity
 import kotlinx.android.synthetic.main.goal_simple_list.view.*
 import kotlinx.android.synthetic.main.include_goal_desc.view.*
 
-class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
-    lateinit var binding : ActivityGoalDetailsBinding
+class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
+    lateinit var binding: ActivityGoalDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,11 +25,11 @@ class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
         initView()
     }
 
-    fun moreClick(view:View){
+    fun moreClick(v: View){
         binding.goalDescLayout.goal_desc.toggle()
     }
 
-    fun othersDetailClick(view:View){
+    fun othersDetailClick(v: View){
         var intent= Intent(this@GoalDetailActivity, OthersDetailActivity::class.java)
         startActivity(intent)
     }
@@ -44,9 +45,9 @@ class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
     private fun click() = {  _:View, index:Int ->
         var intent = Intent(this@GoalDetailActivity, OthersDetailActivity::class.java)
             .apply{
-                putExtra("index", index)
-                putExtra("name", binding.othersRecyclerview.username_list.text)
-                putExtra("date", binding.goalDateTxt.text)
+                putExtra(Consts.INDEX, index)
+                putExtra(Consts.NAME, binding.othersRecyclerview.username_list.text)
+                putExtra(Consts.DATE, binding.goalDateTxt.text)
             }
         startActivityForResult(intent, 4000)
     }
@@ -57,8 +58,8 @@ class GoalDetailActivity :AppCompatActivity(), GoalDetailContract.View {
         statusBarColor(this@GoalDetailActivity, R.color.subLight3)
 
         binding.goalDescLayout.goal_desc.apply{
-            this.showButton = false
-            this.showShadow = false
+            showButton = false
+            showShadow = false
         }
     }
 
