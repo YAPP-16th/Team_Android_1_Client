@@ -17,14 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".feature.addGoal.newGoalFrame.NewGoalFinishActivity" />
         <activity
             android:name=".feature.filter.FilterActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".feature.editgoal.EditGoalActivity"
             android:screenOrientation="portrait" />
-
 
         <activity
             android:name=".feature.addGoal.newGoalFrame.NewGoalActivity"
@@ -37,7 +36,7 @@
         </activity>
         <activity
             android:name=".feature.onboarding.onboardingframe.OnboardingActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".feature.participants_list.ParticipantsListActivity"
             android:screenOrientation="portrait" />
@@ -49,8 +48,7 @@
 
         <activity
             android:name=".feature.splash.SplashActivity"
-            android:screenOrientation="portrait"></activity>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".feature.login.LoginActivity"
             android:screenOrientation="portrait" />
@@ -70,6 +68,7 @@
         <activity android:name=".feature.search.search_detail_page.SearchDetailActivity"
             android:screenOrientation="portrait"/>
 
+
         <activity
             android:name="com.eroom.calendar.AirCalendarDatePickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -77,7 +76,6 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
-
     </application>
 
 </manifest>

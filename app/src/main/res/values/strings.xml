@@ -69,4 +69,7 @@
     <string name="goal_period_title">목표 기간을 설정해주세요.</string>
     <string name="insert_content">리스트의 내용을 입력해주세요.</string>
     <string name="goal_list_size_error">1개 이상의 리스트를 추가해주세요.</string>
+    <string name="goal_title_string">애프터이펙트 익스프레션 예제 연습</string>
+    <string name="navigate_to_goal">목표로 이동하기</string>
+    <string name="new_goal_is_starting">새로운 목표가 시작되었습니다!</string>
 </resources>
