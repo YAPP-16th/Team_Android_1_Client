@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/search_tablayout"
+                app:layout_constraintBottom_toTopOf="@+id/search_main_tablayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="목표탐색"
+                    android:text="@string/search_goal"
                     android:layout_gravity="center"
                     android:textColor="@color/colorBlack"
                     android:textSize="24sp"
@@ -46,6 +46,10 @@
                     android:layout_width="1dp"
                     android:layout_height="0dp"
                     android:layout_weight="1"/>
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_icon_navi_filter"/>
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -60,6 +64,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabMode="scrollable"
+                app:tabTextColor="@color/grey4"
+                app:tabSelectedTextColor="@color/orgDefault"
+                app:tabIndicatorColor="@color/orgDefault"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
