@@ -28,10 +28,6 @@
         <activity
             android:name=".feature.addGoal.newGoalFrame.NewGoalActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".feature.onboarding.onboardingframe.OnboardingActivity"
@@ -46,7 +42,13 @@
 
         <activity
             android:name=".feature.splash.SplashActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".feature.login.LoginActivity"
             android:screenOrientation="portrait" />
@@ -64,7 +66,7 @@
         
         <activity android:name=".feature.search.search_detail_page.SearchDetailActivity"
             android:screenOrientation="portrait"/>
-        
+
         <activity
             android:name="com.eroom.calendar.AirCalendarDatePickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
