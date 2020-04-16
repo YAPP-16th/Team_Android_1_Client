@@ -9,48 +9,39 @@
             type="com.eroom.erooja.feature.goalDetail.GoalDetailActivity" />
     </data>
 
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <ru.rhanza.constraintexpandablelayout.ExpandableLayout
-        android:id="@+id/goal_desc"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:el_animationDuration="300"
-        app:el_collapsedHeight="100dp"
-        app:el_initialState="collapsed"
-        app:el_shadowDrawable="@drawable/view_gradient_grey"
-        app:el_shadowHeight="60dp"
-        app:el_showShadow="true">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="38dp"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lineSpacingExtra="15sp"
-            android:text="@string/temp_txt"
-            android:background="@android:color/transparent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textSize="14sp"
-            />
+        <ru.rhanza.constraintexpandablelayout.ExpandableLayout
+            android:id="@+id/goal_desc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:el_animationDuration="300"
+            app:el_collapsedHeight="100dp"
+            app:el_initialState="collapsed"
+            app:el_shadowHeight="60dp"
+            app:el_showShadow="true">
 
-    </ru.rhanza.constraintexpandablelayout.ExpandableLayout>
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:lineSpacingExtra="11sp"
+                android:text="@string/temp_txt"
+                android:textSize="14sp"
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/grey5"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/more_text"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:layout_gravity="right|bottom"
-            android:onClick="@{goalDetail::moreClick}"
-            android:text="더보기"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        </ru.rhanza.constraintexpandablelayout.ExpandableLayout>
 
-</FrameLayout>
+    </FrameLayout>
 </layout>
 

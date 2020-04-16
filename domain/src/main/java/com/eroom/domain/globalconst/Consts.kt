@@ -12,5 +12,10 @@ class Consts {
         const val IS_GUEST = "IS_GUEST"
         const val ACCESS_TOKEN = "ACCESS_TOKEN"
         const val REFRESH_TOKEN = "REFRESH_TOKEN"
+
+        const val INDEX_NUM = 4000
+        const val NAME = "name"
+        const val DATE = "date"
+        const val INDEX = "index"
     }
 }
