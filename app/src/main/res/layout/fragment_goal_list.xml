@@ -61,7 +61,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="10dp">
+                    android:paddingTop="10dp">
 
                     <EditText
                         android:id="@+id/goal_content_edittext"
@@ -75,9 +75,7 @@
                         android:paddingVertical="10dp"
                         android:paddingStart="40dp"
                         android:textCursorDrawable="@drawable/edit_text_cursor"
-                        android:textSize="16sp"
-                        android:inputType="text"
-                        android:imeOptions="actionNext"/>
+                        android:textSize="16sp" />
 
                     <ImageView
                         android:id="@+id/goal_dot"
@@ -86,8 +84,17 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="20dp"
                         android:src="@drawable/goal_list_dot_inactivate" />
-
                 </FrameLayout>
+
+                <TextView
+                    android:id="@+id/goal_list_size_error_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="0dp"
+                    android:text="@string/goal_list_size_error"
+                    android:textColor="@color/colorError"
+                    android:visibility="invisible" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
