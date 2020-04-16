@@ -49,6 +49,7 @@ class GoalTitleFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
                 val it = s.toString().trim()
                 val len = it.length
+                goalTitleBinding.goalTitleLength.text = "$len/50"
                 goalTitleCheck.value = len > 4
                 if (len in 1..4) {
                     goalTitleBinding.goalTitleLengthError.visibility = View.VISIBLE
