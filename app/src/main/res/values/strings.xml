@@ -24,7 +24,6 @@
     <string name="close">닫기</string>
     <string name="start_guest">게스트로 시작하기</string>
     <string name="next">다음</string>
-
     <string name="please_input_nickname">닉네임을 입력하세요.</string>
     <string name="nickname_max_info">한글 2자 이상~5자 이내</string>
     <string name="already_using_nickname">이미 사용 중인 닉네임입니다.</string>
@@ -36,7 +35,6 @@
     <string name="job_class_select_info">직무는 추후에 변경 가능합니다.</string>
     <string name="participants_list_title">참여자 리스트</string>
     <string name="starter_text">Starter</string>
-
     <string name="filter_text">필터</string>
     <string name="complete_text">완료</string>
     <string name="development_text">개발</string>

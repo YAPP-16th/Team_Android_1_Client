@@ -30,7 +30,6 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -45,7 +44,6 @@
             android:screenOrientation="portrait">
         </activity>
 
-
         <activity
             android:name=".feature.splash.SplashActivity"
             android:screenOrientation="portrait" />
@@ -58,7 +56,6 @@
         <activity
             android:name=".feature.exam.activity.ExamActivity"
             android:screenOrientation="portrait" />
-
         <activity android:name=".feature.goalDetail.GoalDetailActivity"
             android:screenOrientation="portrait"/>
 
@@ -67,8 +64,7 @@
         
         <activity android:name=".feature.search.search_detail_page.SearchDetailActivity"
             android:screenOrientation="portrait"/>
-
-
+        
         <activity
             android:name="com.eroom.calendar.AirCalendarDatePickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

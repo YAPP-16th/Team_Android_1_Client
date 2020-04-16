@@ -44,9 +44,7 @@ class GoalDetailFragment : Fragment() {
     private fun initView() {
         goalDetailBinding.goalDetailContent.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-
-                goalDetailContent.value = s.toString()  //activity에서 계속 보고있게 해도 되나?
-
+                goalDetailContent.value = s.toString()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="goal_item"
             type="String" />
@@ -25,26 +27,12 @@
             android:textSize="16sp"
             tools:text="dafsd" />
 
-
-
-        <EditText
-            android:id="@+id/goal_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/goal_list_item_textview"
-            android:hint="@string/insert_content"
-            android:maxLines="1"
-            android:paddingVertical="13dp"
-            android:paddingLeft="50dp"
-            android:textSize="20sp" />
-
         <ImageView
             android:id="@+id/goal_dot"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
-            android:src="@drawable/goal_list_dot_inactivate" />
-
+            android:src="@drawable/goal_list_dot_activate" />
     </FrameLayout>
 </layout>

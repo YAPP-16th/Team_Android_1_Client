@@ -1,3 +1,4 @@
+
 package com.eroom.erooja.feature.addGoal.newGoalFrame
 
 import android.app.Activity
@@ -26,24 +27,24 @@ import kotlin.collections.ArrayList
 
 class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private val REQUEST_CODE = 3000
+
     private lateinit var newGoalBinding: ActivityNewGoalBinding
     private lateinit var presenter: NewGoalContract.Presenter
+
+
     private val mFragmentList = ArrayList<Fragment>()
     private var mPage = 0
 
-    //    private var nicknameText = ""
-//    private lateinit var groupSelected: JobGroup
-//    private lateinit var devClassSelected: DevelopSelected
-//    private lateinit var designClassSelected: DesignSelected
     private var goalTitleText = ""
     var nextClickable: ObservableField<Boolean> = ObservableField(false)
-    private var goalList = ArrayList<String>()
 
     private var goalDetailContentText = ""
-    private var isChangeable: Boolean = false
 
+    private var isChangeable: Boolean = false
+    private var goalList: ArrayList<String> = ArrayList()
     private var startDate: String = ""
     private var endDate = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +62,14 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private fun setDefaultPeriod() {
         var today: Calendar = Calendar.getInstance()
         today.timeInMillis = System.currentTimeMillis()
-        startDate = "" + today.get(Calendar.YEAR) + "년 " +  (today.get(Calendar.MONTH) + 1) + "월 " + today.get(Calendar.DAY_OF_MONTH) + "일"
+        startDate =
+            "" + today.get(Calendar.YEAR) + "년 " + (today.get(Calendar.MONTH) + 1) + "월 " + today.get(
+                Calendar.DAY_OF_MONTH
+            ) + "일"
+        startDate =
+            "" + today.get(Calendar.YEAR) + "년 " + (today.get(Calendar.MONTH) + 1) + "월 " + today.get(
+                Calendar.DAY_OF_MONTH
+            ) + "일"
         endDate = startDate
     }
 
@@ -96,7 +104,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         mFragmentList.apply {
             addAll(
                 listOf(
-                    GoalTitleFragment.newInstance()
+                    GoalTitleFragment.newInstance()/*.apply { arguments = Bundle().apply { putString("key", "value") } }*/
                     , GoalDetailFragment.newInstance()
                     , GoalPeriodFragment.newInstance()
                     , GoalListFragment.newInstance()
@@ -112,16 +120,17 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         setProgressBar(true)
     }
 
+
     private fun showFragment() {
         hideFragment()
         newGoalBinding.nextTextView.text = if (mPage == mFragmentList.size - 1) "완료" else "다음"
+
         supportFragmentManager.beginTransaction().show(mFragmentList[mPage]).commit()
     }
 
     private fun hideFragment() = repeat(mFragmentList.size) {
         supportFragmentManager.beginTransaction().hide(mFragmentList[it]).commit()
     }
-
 
     private fun setProgressBar(isIncreasing: Boolean) {
         val progressBar = newGoalBinding.horizontalProgressBar
@@ -136,8 +145,8 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         progressBar.startAnimation(anim)
     }
 
-
     fun prevButtonClicked() {
+        hideKeyBoard()
         mPage -= 1
         if (mPage < 0) {
             finish()
@@ -186,6 +195,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             "수정 불가능"
         }
         this.toastLong("테스트 : $content$goalTitleText \n 두번쨰 : $goalDetailContentText  \n 종료일 : $endDate\n\n $goalList")
+
         return true
     }
 
@@ -206,9 +216,12 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             today.get(Calendar.MONTH) + 1,
             today.get(Calendar.DAY_OF_MONTH)
         )
-        intent.isMonthLabels(false)
-        intent.setSelectButtonText("선택") //the select button text
-        intent.setStartDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH) + 1, today.get(Calendar.DAY_OF_MONTH))
+        intent.setStartDate(
+            today.get(Calendar.YEAR),
+            today.get(Calendar.MONTH) + 1,
+            today.get(Calendar.DAY_OF_MONTH)
+        )
+
         intent.isMonthLabels(false)
         intent.setSelectButtonText("선택") //the select button text
         intent.setWeekStart(Calendar.MONDAY)
@@ -220,8 +233,11 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
             if (data != null) {
+
+
                 val endDate =
                     data.getStringExtra(AirCalendarDatePickerActivity.RESULT_SELECT_END_DATE) ?: "-"
+
                 if (endDate != "-") {
                     this.endDate = endDate
                     val time = endDate.split("-")

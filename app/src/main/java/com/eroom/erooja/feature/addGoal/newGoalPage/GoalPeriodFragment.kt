@@ -1,3 +1,4 @@
+
 package com.eroom.erooja.feature.addGoal.newGoalPage
 
 import android.content.Context
@@ -23,16 +24,15 @@ import java.util.*
 
 class GoalPeriodFragment : Fragment() {
     private lateinit var goalPeriodBinding: FragmentGoalPeriodBinding
-//    val startDate: MutableLiveData<String> = MutableLiveData()
+    //    val startDate: MutableLiveData<String> = MutableLiveData()
 //    val endDate: MutableLiveData<String> = MutableLiveData()
-      var isChangeable: MutableLiveData<Boolean> = MutableLiveData(true) //초기값 : 수정가능
+    var isChangeable: MutableLiveData<Boolean> = MutableLiveData(true) //초기값 : 수정가능
 
     //val
     companion object {
         @JvmStatic
         fun newInstance() = GoalPeriodFragment()
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -96,6 +96,8 @@ class GoalPeriodFragment : Fragment() {
             }
         })
     }
+
+
 
     fun onCalendarClicked() {
         (activity as NewGoalActivity).calendarCall()
