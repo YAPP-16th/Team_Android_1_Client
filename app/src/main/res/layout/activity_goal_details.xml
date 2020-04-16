@@ -68,7 +68,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="60dp"
-                            android:lineSpacingExtra="18sp"
+                            android:lineSpacingExtra="12sp"
                             android:text="삼성디자인멤버쉽 2019년도 사전과제 해보기"
                             android:textColor="@color/colorBlack2"
                             android:textSize="24sp"
