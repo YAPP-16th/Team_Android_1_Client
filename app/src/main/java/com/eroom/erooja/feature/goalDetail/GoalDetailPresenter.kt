@@ -4,7 +4,6 @@ import com.eroom.data.entity.UserSimpleData
 
 class GoalDetailPresenter(override var view: GoalDetailContract.View)
     :GoalDetailContract.Presenter{
-
     var tempdata = UserSimpleData(4,"somebody", 99, "im shefm", "asdfe", " asdfeasg")
         .getUserSimpleData()
 
