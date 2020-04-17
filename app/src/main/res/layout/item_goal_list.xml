@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="goal_item"
+            type="String" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="7dp">
+
+        <TextView
+            android:id="@+id/goal_content_textview"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/goal_list_item_textview"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:paddingVertical="10dp"
+            android:paddingStart="40dp"
+            android:textColor="@color/grey7"
+            android:textSize="16sp"
+            tools:text="dafsd" />
+
+        <ImageView
+            android:id="@+id/goal_dot"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/goal_list_dot_activate" />
+    </FrameLayout>
+</layout>
