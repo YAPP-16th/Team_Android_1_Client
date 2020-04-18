@@ -6,11 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eroom.erooja.databinding.ItemGoalListBinding
 
 
-class GoalAdapter(
-    //private var goalList: MutableLiveData<List<String>>
-    private var goalList: ArrayList<String>
-) : RecyclerView.Adapter<GoalAdapter.ViewHolder>() {
+class GoalAdapter : RecyclerView.Adapter<GoalAdapter.ViewHolder>() {
     lateinit var itemGoalListBinding: ItemGoalListBinding
+    var goalList: ArrayList<String> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)

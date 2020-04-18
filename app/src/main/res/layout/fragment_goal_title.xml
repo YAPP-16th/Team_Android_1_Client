@@ -44,6 +44,8 @@
             android:textColor="@color/colorBlack"
             android:textCursorDrawable="@drawable/edit_text_cursor"
             android:textSize="16sp"
+            android:singleLine="true"
+            android:lines="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.566"
             app:layout_constraintStart_toStartOf="parent"
