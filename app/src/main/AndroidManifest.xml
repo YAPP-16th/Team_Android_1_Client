@@ -61,7 +61,7 @@
         <activity android:name=".feature.goalDetail.GoalDetailActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".feature.goalDetail.othersList.OthersDetailActivity"
+        <activity android:name=".feature.completedGoal.CompletedGoalActivity"
             android:screenOrientation="portrait"/>
         
         <activity android:name=".feature.search.search_detail_page.SearchDetailActivity"
@@ -70,6 +70,9 @@
         <activity
             android:name="com.eroom.calendar.AirCalendarDatePickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <activity android:name=".feature.ongoingGoal.OngoingGoalActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"

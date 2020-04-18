@@ -12,9 +12,9 @@ import com.eroom.domain.utils.add
 import com.eroom.domain.utils.statusBarColor
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalDetailsBinding
-import com.eroom.erooja.feature.goalDetail.othersList.OthersDetailActivity
+import com.eroom.erooja.feature.completedGoal.CompletedGoalActivity
 import kotlinx.android.synthetic.main.goal_simple_list.view.*
-import kotlinx.android.synthetic.main.include_goal_desc.view.*
+import kotlinx.android.synthetic.main.include_completed_goal_desc.view.*
 
 class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     lateinit var binding: ActivityGoalDetailsBinding
@@ -30,7 +30,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     }
 
     fun othersDetailClick(v: View){
-        var intent= Intent(this@GoalDetailActivity, OthersDetailActivity::class.java)
+        var intent= Intent(this@GoalDetailActivity, CompletedGoalActivity::class.java)
         startActivity(intent)
     }
 
@@ -43,7 +43,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         binding.participantListText.text = binding.participantListText.text.toString() add "(${list.size})"
     }
     private fun click() = {  _:View, index:Int ->
-        var intent = Intent(this@GoalDetailActivity, OthersDetailActivity::class.java)
+        var intent = Intent(this@GoalDetailActivity, CompletedGoalActivity::class.java)
             .apply{
                 putExtra(Consts.INDEX, index)
                 putExtra(Consts.NAME, binding.othersRecyclerview.username_list.text)
