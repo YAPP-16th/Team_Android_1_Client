@@ -13,7 +13,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitRepositoryImpl(private val okHttpRepo: HttpClientRepository): RetrofitRepository {
-    private val versionInfo = "v1/"
+    private val versionInfo = "api/v1/"
 
     @SuppressLint("DefaultLocale")
     override fun getRefreshRetrofit(): Retrofit {
