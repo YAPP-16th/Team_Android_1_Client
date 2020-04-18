@@ -8,8 +8,8 @@ import com.eroom.domain.utils.ConverterUtil
 import timber.log.Timber
 
 class SplashPresenter(override val view: SplashContract.View,
-                      val sharedPrefRepository: SharedPrefRepository,
-                      val postRefreshTokenUseCase: PostRefreshTokenUseCase
+                      private val sharedPrefRepository: SharedPrefRepository,
+                      private val postRefreshTokenUseCase: PostRefreshTokenUseCase
 ) : SplashContract.Presenter {
 
     override fun initDelay() {
