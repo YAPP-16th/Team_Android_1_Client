@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.signup.page
+package com.eroom.erooja.feature.signup.page.jobclass
 
 
 import android.os.Bundle
@@ -9,10 +9,8 @@ import android.view.ViewGroup
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.eroom.data.localclass.*
 
-import com.eroom.erooja.R
 import com.eroom.erooja.databinding.FragmentJobClassBinding
 import com.eroom.erooja.feature.signup.kakao.KakaoSignUpActivity
 
@@ -31,7 +29,8 @@ class JobClassFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = JobClassFragment()
+        fun newInstance() =
+            JobClassFragment()
     }
 
     override fun onCreateView(
@@ -58,14 +57,26 @@ class JobClassFragment : Fragment() {
             JobGroup.DEVELOP -> {
                 val list = DevelopClass.getArray()
                 mDevelopClassInfo.value = DevelopSelected(list, ArrayList<Boolean>().apply { repeat(list.size){add(false)} })
-                mDevelopClassInfo.value?.let {info -> context?.let { ct -> mDevelopAdapter = DevelopClassAdapter(info, ct, itemDevClicked) }}
+                mDevelopClassInfo.value?.let {info -> context?.let { ct -> mDevelopAdapter =
+                    DevelopClassAdapter(
+                        info,
+                        ct,
+                        itemDevClicked
+                    )
+                }}
                 jobClassBinding.classRecycler.adapter = mDevelopAdapter
                 jobClassBinding.classRecycler.layoutManager = GridLayoutManager(context, 2)
             }
             JobGroup.DESIGN -> {
                 val list: ArrayList<DesignClass> = DesignClass.getArray()
                 mDesignClassInfo.value = DesignSelected(list, ArrayList<Boolean>().apply { repeat(list.size){add(false)} })
-                mDesignClassInfo.value?.let {info -> context?.let { ct -> mDesignAdapter = DesignClassAdapter(info, ct, itemDesignClicked) }}
+                mDesignClassInfo.value?.let {info -> context?.let { ct -> mDesignAdapter =
+                    DesignClassAdapter(
+                        info,
+                        ct,
+                        itemDesignClicked
+                    )
+                }}
                 jobClassBinding.classRecycler.adapter = mDesignAdapter
                 jobClassBinding.classRecycler.layoutManager = GridLayoutManager(context, 2)
             }

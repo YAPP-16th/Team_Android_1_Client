@@ -5,13 +5,13 @@
     <data>
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.signup.page.JobClassFragment" />
+            type="com.eroom.erooja.feature.signup.page.jobclass.JobClassFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.signup.page.JobClassFragment">
+        tools:context=".feature.signup.page.jobclass.JobClassFragment">
 
         <TextView
             android:id="@+id/jobClassInfo"

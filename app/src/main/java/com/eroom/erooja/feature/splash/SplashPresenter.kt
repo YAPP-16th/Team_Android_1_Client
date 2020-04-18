@@ -1,7 +1,7 @@
 package com.eroom.erooja.feature.splash
 
 import android.os.Handler
-import com.eroom.domain.api.usecase.PostRefreshTokenUseCase
+import com.eroom.domain.api.usecase.auth.PostRefreshTokenUseCase
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.koin.repository.SharedPrefRepository
 import com.eroom.domain.utils.ConverterUtil

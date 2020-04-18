@@ -11,9 +11,9 @@ import com.eroom.data.localclass.JobGroup
 import com.eroom.domain.utils.toastLong
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityKakaoSignUpBinding
-import com.eroom.erooja.feature.signup.page.JobClassFragment
-import com.eroom.erooja.feature.signup.page.JobGroupFragment
-import com.eroom.erooja.feature.signup.page.NicknameFragment
+import com.eroom.erooja.feature.signup.page.jobclass.JobClassFragment
+import com.eroom.erooja.feature.signup.page.jobgroup.JobGroupFragment
+import com.eroom.erooja.feature.signup.page.nickname.NicknameFragment
 
 class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
     private lateinit var kakaoBinding: ActivityKakaoSignUpBinding
