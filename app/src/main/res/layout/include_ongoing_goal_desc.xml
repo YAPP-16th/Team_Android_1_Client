@@ -5,26 +5,29 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="goalDetail"
-            type="com.eroom.erooja.feature.goalDetail.GoalDetailActivity" />
+            name="mygoal"
+            type="com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
         android:layout_marginEnd="38dp"
+        android:background="@color/orgDefault"
         android:orientation="vertical">
 
         <ru.rhanza.constraintexpandablelayout.ExpandableLayout
             android:id="@+id/goal_desc"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:el_animationDuration="300"
             app:el_collapsedHeight="100dp"
             app:el_initialState="collapsed"
-            app:el_shadowHeight="60dp"
-            app:el_showShadow="true">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/text"
@@ -33,15 +36,16 @@
                 android:background="@android:color/transparent"
                 android:lineSpacingExtra="11sp"
                 android:text="@string/temp_txt"
+                android:textColor="@color/colorWhite"
                 android:textSize="14sp"
-                android:layout_marginBottom="20dp"
-                android:textColor="@color/grey5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </ru.rhanza.constraintexpandablelayout.ExpandableLayout>
 
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 

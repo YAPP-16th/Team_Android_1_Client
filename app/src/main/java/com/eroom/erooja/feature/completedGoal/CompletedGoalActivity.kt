@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.goalDetail.othersList
+package com.eroom.erooja.feature.completedGoal
 
 import android.os.Bundle
 import android.view.View
@@ -11,9 +11,10 @@ import com.eroom.domain.utils.statusBarColor
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityOthersListBinding
 
-class OthersDetailActivity : AppCompatActivity(), OthersDetailContract.View {
+class CompletedGoalActivity : AppCompatActivity(),
+    CompletedGoalContract.View {
     lateinit var binding : ActivityOthersListBinding
-    lateinit var presenter : OthersDetailPresenter
+    lateinit var presenter : CompletedGoalPresenter
     var index = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,24 +26,24 @@ class OthersDetailActivity : AppCompatActivity(), OthersDetailContract.View {
 
     override fun getAllView(list: UserSimpleData) {
         binding.othersDetailRecyclerview.apply{
-            layoutManager = LinearLayoutManager(this@OthersDetailActivity)
+            layoutManager = LinearLayoutManager(this@CompletedGoalActivity)
             adapter = OthersDetailAdapter(list)
         }
     }
 
     fun initView(){
         index = intent.getIntExtra(Consts.INDEX, Consts.INDEX_NUM)
-        presenter = OthersDetailPresenter(this)
+        presenter = CompletedGoalPresenter(this)
         presenter.getData(index)
         binding.usernameList.text = intent.getStringExtra(Consts.NAME)
         binding.goalDateTxt.text = intent.getStringExtra(Consts.DATE)
 
-        statusBarColor(this@OthersDetailActivity, R.color.subLight3)
+        statusBarColor(this@CompletedGoalActivity, R.color.subLight3)
     }
 
     fun setUpDataBinding(){
         binding = DataBindingUtil.setContentView(this, R.layout.activity_others_list)
-        binding.othersDetail = this@OthersDetailActivity
+        binding.othersDetail = this@CompletedGoalActivity
     }
 
     fun back(v: View){
