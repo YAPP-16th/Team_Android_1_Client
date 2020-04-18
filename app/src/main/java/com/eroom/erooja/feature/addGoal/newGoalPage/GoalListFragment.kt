@@ -21,6 +21,7 @@ import com.eroom.erooja.databinding.FragmentGoalListBinding
 
 class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
     private lateinit var goalListBinding: FragmentGoalListBinding
+    private lateinit var mAdapter: GoalAdapter
 
     val goalList: MutableLiveData<ArrayList<String>> = MutableLiveData(ArrayList())
     var goalListCheck: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -47,7 +48,8 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
     }
 
     private fun initView() {
-        goalListBinding.goalListRecycler.adapter = GoalAdapter(goalList.value!!)
+        mAdapter = GoalAdapter()
+        goalListBinding.goalListRecycler.adapter = mAdapter
         goalListBinding.goalListRecycler.layoutManager = LinearLayoutManager(requireContext())
         goalListBinding.scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
             if (scrollY < 20) {
@@ -80,7 +82,8 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
                         goalListBinding.goalListSizeErrorTextview.visibility = View.INVISIBLE
 
                         v.text = ""
-                        goalListBinding.goalListRecycler.adapter?.notifyDataSetChanged()
+                        mAdapter.goalList = this.goalList.value ?: ArrayList()
+                        mAdapter.notifyItemInserted(mAdapter.goalList.size + 1)
                         requestFocus(v)
                     }
                 }
