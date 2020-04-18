@@ -13,6 +13,7 @@ import com.kakao.auth.ISessionCallback
 import com.kakao.auth.Session
 import com.kakao.usermgmt.response.MeV2Response
 import com.kakao.util.exception.KakaoException
+import org.koin.android.ext.android.get
 import timber.log.Timber
 import java.util.concurrent.Future
 
@@ -32,7 +33,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     private fun initPresenter() {
         presenter =
-            LoginPresenter(this)
+            LoginPresenter(this, get(), get())
     }
 
     private fun setUpDataBinding() {
@@ -70,6 +71,12 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     override val redirectSignUpActivity = {
         val intent = Intent(this, KakaoSignUpActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    override val redirectMainActivity = {
+        val intent = Intent(this, TabActivity::class.java)
         startActivity(intent)
         finish()
     }

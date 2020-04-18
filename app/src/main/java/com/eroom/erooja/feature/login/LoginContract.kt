@@ -6,6 +6,7 @@ import java.util.concurrent.Future
 interface LoginContract {
     interface View {
         val redirectSignUpActivity: () -> Unit
+        val redirectMainActivity: () -> Unit
     }
 
     interface Presenter {
