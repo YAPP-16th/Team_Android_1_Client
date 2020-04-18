@@ -1,7 +1,7 @@
 package com.eroom.erooja.feature.login
 
 import android.annotation.SuppressLint
-import com.eroom.domain.api.usecase.PostKakaoLoginUseCase
+import com.eroom.domain.api.usecase.auth.PostKakaoLoginUseCase
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.koin.repository.SharedPrefRepository
 import com.eroom.domain.utils.ConverterUtil
