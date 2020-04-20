@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityTabBinding
 import com.eroom.erooja.feature.main.MainFragment
@@ -16,6 +17,9 @@ class TabActivity : AppCompatActivity(), TabContract.View {
     private lateinit var presenter: TabPresenter
 
     private var fragments: ArrayList<Fragment> = ArrayList()
+
+    val FINISH_INTERVAL_TIME: Long = 2000
+    private var backPressedTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,4 +84,16 @@ class TabActivity : AppCompatActivity(), TabContract.View {
         mainBinding.mainBottomTab.selectedItemId = R.id.bottom_tab_search
     }
 
+    override fun onBackPressed() {
+        val tempTime = System.currentTimeMillis()
+        val intervalTime = tempTime - backPressedTime
+
+        if (intervalTime in 0..FINISH_INTERVAL_TIME) {
+            super.onBackPressed()
+        }
+        else {
+            backPressedTime = tempTime
+            this.toastShort(resources.getString(R.string.back_button_click))
+        }
+    }
 }
