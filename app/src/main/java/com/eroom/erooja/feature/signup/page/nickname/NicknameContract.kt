@@ -6,11 +6,14 @@ interface NicknameContract {
         fun hideCheckImage()
         fun showErrorImage()
         fun hideErrorImage()
+        fun setDuplicatedNickname()
+        fun unsetDuplicatedNickname()
         fun setValidatedNickname()
         fun unsetValidatedNickname()
     }
 
     interface Presenter {
         val view: View
+        fun checkNickname(nickname: String)
     }
 }

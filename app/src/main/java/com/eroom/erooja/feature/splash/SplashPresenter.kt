@@ -1,7 +1,7 @@
 package com.eroom.erooja.feature.splash
 
 import android.os.Handler
-import com.eroom.domain.api.usecase.auth.PostRefreshTokenUseCase
+import com.eroom.domain.api.usecase.auth.GetRefreshTokenUseCase
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.koin.repository.SharedPrefRepository
 import com.eroom.domain.utils.ConverterUtil
@@ -9,7 +9,7 @@ import timber.log.Timber
 
 class SplashPresenter(override val view: SplashContract.View,
                       private val sharedPrefRepository: SharedPrefRepository,
-                      private val postRefreshTokenUseCase: PostRefreshTokenUseCase
+                      private val postRefreshTokenUseCase: GetRefreshTokenUseCase
 ) : SplashContract.Presenter {
 
     override fun initDelay() {
@@ -33,7 +33,7 @@ class SplashPresenter(override val view: SplashContract.View,
                 if (sharedPrefRepository.getPrefsBooleanValue(Consts.IS_GUEST, false))
                     view.navigateToMain()
                 else {
-                    postRefreshTokenUseCase.postRefreshToken()
+                    postRefreshTokenUseCase.getRefreshToken()
                         .subscribe({
                             sharedPrefRepository.writePrefs(Consts.ACCESS_TOKEN, ConverterUtil._Encode(it.token))
                             sharedPrefRepository.writePrefs(Consts.REFRESH_TOKEN, ConverterUtil._Encode(it.token))

@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.eroom.domain.globalconst.Consts
 
 import com.eroom.erooja.databinding.FragmentNicknameBinding
 import com.eroom.erooja.feature.signup.kakao.KakaoSignUpActivity
 import com.jakewharton.rxbinding.widget.RxTextView
+import kotlinx.android.synthetic.main.fragment_nickname.*
 import org.koin.android.ext.android.get
 import java.util.concurrent.TimeUnit
 
@@ -60,20 +62,28 @@ class NicknameFragment : Fragment(), NicknameContract.View {
                 nickname.value = it
                 nicknameBinding.nicknameLengthError.visibility =
                     if (!it.contains(" ")) {
-                        if (it.length in 1..1) View.VISIBLE else View.INVISIBLE
+                        if (it.length in 1..1) {
+                            unsetValidatedNickname()
+                            View.VISIBLE
+                        } else View.INVISIBLE
                     } else View.VISIBLE
                 if (!it.contains(" ")) {
                     if (it.length >= 2)
                         presenter.checkNickname(it)
                     else {
+                        unsetDuplicatedNickname()
+                        unsetValidatedNickname()
                         hideCheckImage()
                         hideErrorImage()
                     }
                 } else {
+                    unsetDuplicatedNickname()
+                    unsetValidatedNickname()
                     showErrorImage()
                     hideCheckImage()
                 }
             }
+        arguments?.let { nicknameBinding.nicknameText.setText(it.getString(Consts.NICKNAME) ?: "") }
     }
 
     fun nextButtonClicked() {
@@ -96,6 +106,14 @@ class NicknameFragment : Fragment(), NicknameContract.View {
 
     override fun hideErrorImage() {
         nicknameBinding.nicknameDuplicatedCheckError.visibility = View.GONE
+    }
+
+    override fun setDuplicatedNickname() {
+        nicknameDuplicatedTextError.visibility = View.VISIBLE
+    }
+
+    override fun unsetDuplicatedNickname() {
+        nicknameDuplicatedTextError.visibility = View.INVISIBLE
     }
 
     override fun setValidatedNickname() = nicknameCheck.set(true)

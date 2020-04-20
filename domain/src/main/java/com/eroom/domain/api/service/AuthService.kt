@@ -10,8 +10,8 @@ import retrofit2.http.Query
 
 interface AuthService {
     @GET("auth/token/refresh")
-    fun refreshToken(): Single<TokenResponse>
+    fun getRefreshToken(): Single<TokenResponse>
 
     @POST("auth/kakao")
-    fun kakaoLogin(@Query("by") by: String, @Body kakaoLoginRequest: KakaoLoginRequest): Single<TokenResponse>
+    fun postKakaoLogin(@Query("by") by: String, @Body kakaoLoginRequest: KakaoLoginRequest): Single<TokenResponse>
 }

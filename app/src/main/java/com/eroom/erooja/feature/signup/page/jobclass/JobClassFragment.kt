@@ -9,23 +9,25 @@ import android.view.ViewGroup
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
+import com.eroom.data.entity.JobClass
 import com.eroom.data.localclass.*
 
 import com.eroom.erooja.databinding.FragmentJobClassBinding
 import com.eroom.erooja.feature.signup.kakao.KakaoSignUpActivity
+import org.koin.android.ext.android.get
 
 /**
  * A simple [Fragment] subclass.
  */
-class JobClassFragment : Fragment() {
+class JobClassFragment : Fragment(), JobClassContract.View {
     private lateinit var jobClassBinding: FragmentJobClassBinding
+    private lateinit var presenter: JobClassPresenter
+    private lateinit var selectGroupClasses: ArrayList<JobClass>
     val classCheck: ObservableField<Boolean> = ObservableField(false)
 
-    val mDevelopClassInfo: MutableLiveData<DevelopSelected> = MutableLiveData()
-    val mDesignClassInfo: MutableLiveData<DesignSelected> = MutableLiveData()
+    val mSelectedClassInfo: MutableLiveData<ArrayList<Long>> = MutableLiveData()
 
-    private lateinit var mDevelopAdapter: DevelopClassAdapter
-    private lateinit var mDesignAdapter: DesignClassAdapter
+    private lateinit var mAdapter: ClassAdapter
 
     companion object {
         @JvmStatic
@@ -37,10 +39,13 @@ class JobClassFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        initPresenter()
         setUpDataBinding(inflater, container)
-        initView()
         return jobClassBinding.root
+    }
+
+    private fun initPresenter() {
+        presenter = JobClassPresenter(this, get(), get())
     }
 
     private fun setUpDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
@@ -48,64 +53,40 @@ class JobClassFragment : Fragment() {
         jobClassBinding.fragment = this
     }
 
-    private fun initView() {
-
+    fun settingSelectedId(selected: ArrayList<Long>) {
+        mSelectedClassInfo.value = selected
     }
 
-    fun settingGroup(jobGroup: JobGroup?) = jobGroup?.let {
-        when (it) {
-            JobGroup.DEVELOP -> {
-                val list = DevelopClass.getArray()
-                mDevelopClassInfo.value = DevelopSelected(list, ArrayList<Boolean>().apply { repeat(list.size){add(false)} })
-                mDevelopClassInfo.value?.let {info -> context?.let { ct -> mDevelopAdapter =
-                    DevelopClassAdapter(
-                        info,
-                        ct,
-                        itemDevClicked
-                    )
-                }}
-                jobClassBinding.classRecycler.adapter = mDevelopAdapter
-                jobClassBinding.classRecycler.layoutManager = GridLayoutManager(context, 2)
-            }
-            JobGroup.DESIGN -> {
-                val list: ArrayList<DesignClass> = DesignClass.getArray()
-                mDesignClassInfo.value = DesignSelected(list, ArrayList<Boolean>().apply { repeat(list.size){add(false)} })
-                mDesignClassInfo.value?.let {info -> context?.let { ct -> mDesignAdapter =
-                    DesignClassAdapter(
-                        info,
-                        ct,
-                        itemDesignClicked
-                    )
-                }}
-                jobClassBinding.classRecycler.adapter = mDesignAdapter
-                jobClassBinding.classRecycler.layoutManager = GridLayoutManager(context, 2)
-            }
-        }
+    fun settingGroup(jobGroup: JobGroup?) {
+        jobGroup?.let {
+            presenter.getJobGroups(it) }
     }
 
-    private val itemDevClicked = { position: Int ->
-        mDevelopClassInfo.value?.let { it.isSelected[position] = !it.isSelected[position] }
-        mDevelopAdapter.notifyDataSetChanged()
-        checkInfo()
+    override fun settingGroupView(jobClasses: ArrayList<JobClass>) {
+        selectGroupClasses = jobClasses
+        context?.let { mSelectedClassInfo.value?.let { selectedList: ArrayList<Long> ->
+            mAdapter = ClassAdapter(jobClasses, it, itemClicked, selectedList)
+        }}
+        jobClassBinding.classRecycler.adapter = mAdapter
+        jobClassBinding.classRecycler.layoutManager = GridLayoutManager(context, 2)
     }
 
-    private val itemDesignClicked = { position: Int ->
-        mDesignClassInfo.value?.let { it.isSelected[position] = !it.isSelected[position] }
-        mDesignAdapter.notifyDataSetChanged()
+    private val itemClicked = { classId: Long, isSelected: Boolean ->
+        if (isSelected)
+            mSelectedClassInfo.value = mSelectedClassInfo.value.apply { this?.remove(classId) }
+        else
+            mSelectedClassInfo.value = (mSelectedClassInfo.value ?: ArrayList()).apply { add(classId) }
+        mAdapter.notifyDataSetChanged()
         checkInfo()
     }
 
     private fun checkInfo() {
         var result = false
-        mDevelopClassInfo.value?.let {
-            it.isSelected.forEach { boolean ->
-                result = result || boolean
-            }
-        }
-        mDesignClassInfo.value?.let {
-            it.isSelected.forEach { boolean ->
-                result = result || boolean
-            }
+        mSelectedClassInfo.value?.let {
+            for (selectInfo in it)
+                for (classInfo in selectGroupClasses) {
+                    if (selectInfo == classInfo.id) result = true
+                }
         }
         classCheck.set(result)
     }

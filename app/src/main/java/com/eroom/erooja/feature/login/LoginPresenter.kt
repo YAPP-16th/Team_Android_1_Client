@@ -56,7 +56,7 @@ class LoginPresenter(override val view: LoginContract.View,
                 sharedPrefRepository.writePrefs(Consts.REFRESH_TOKEN, ConverterUtil._Encode(it.refreshToken))
                 logout()
                 if (it.isAdditionalInfoNeeded)
-                    view.redirectSignUpActivity()
+                    view.redirectSignUpActivity(nickname)
                 else {
                     sharedPrefRepository.writePrefs(Consts.AUTO_LOGIN, true)
                     view.redirectMainActivity()

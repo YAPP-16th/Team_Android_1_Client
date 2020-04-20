@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.eroom.domain.customview.bottomsheet.BottomSheetFragment
+import com.eroom.domain.globalconst.Consts
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityLoginBinding
 import com.eroom.erooja.feature.signup.kakao.KakaoSignUpActivity
@@ -69,8 +70,8 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         }
     }
 
-    override val redirectSignUpActivity = {
-        val intent = Intent(this, KakaoSignUpActivity::class.java)
+    override val redirectSignUpActivity = { nickname: String? ->
+        val intent = Intent(this, KakaoSignUpActivity::class.java).apply { putExtra(Consts.NICKNAME, nickname ?: "") }
         startActivity(intent)
     }
 

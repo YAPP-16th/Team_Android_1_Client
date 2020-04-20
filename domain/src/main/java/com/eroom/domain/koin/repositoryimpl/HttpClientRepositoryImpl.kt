@@ -1,7 +1,7 @@
 package com.eroom.domain.koin.repositoryimpl
 
 import com.eroom.domain.BuildConfig
-import com.eroom.domain.api.usecase.auth.PostRefreshTokenUseCase
+import com.eroom.domain.api.usecase.auth.GetRefreshTokenUseCase
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.koin.repository.AccessClientRepository
 import com.eroom.domain.koin.repository.GuestClientRepository
@@ -11,7 +11,6 @@ import com.eroom.domain.utils.ConverterUtil
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -48,7 +47,7 @@ class RefreshClientRepositoryImpl(private val sharedPrefRepository: SharedPrefRe
 }
 
 class AccessClientRepositoryImpl(private val sharedPrefRepository: SharedPrefRepository,
-                                 private val postRefreshTokenUseCase: PostRefreshTokenUseCase
+                                 private val postRefreshTokenUseCase: GetRefreshTokenUseCase
 ): AccessClientRepository {
     override fun getAccessOkHttp(): OkHttpClient {
         val httpClient = OkHttpClient.Builder()
@@ -59,12 +58,10 @@ class AccessClientRepositoryImpl(private val sharedPrefRepository: SharedPrefRep
             val refreshTime = sharedPrefRepository.getPrefsLongValue(Consts.TOKEN_TIME_KEY)
             val newTime = Date().time
             if (newTime - refreshTime > 1200000) {
-                accessToken = postRefreshTokenUseCase.postRefreshToken().blockingGet().token
+                accessToken = postRefreshTokenUseCase.getRefreshToken().blockingGet().token
                 sharedPrefRepository.writePrefs(Consts.ACCESS_TOKEN, ConverterUtil._Encode(accessToken))
             }
             var request = chain.request()
-            Timber.e(accessToken)
-            Timber.e("Bearer $accessToken")
             if (accessToken.isNotEmpty()) {
                 request = request.newBuilder()
                     .method(request.method(), request.body())
