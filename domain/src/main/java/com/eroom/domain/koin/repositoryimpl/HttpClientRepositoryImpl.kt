@@ -58,8 +58,10 @@ class AccessClientRepositoryImpl(private val sharedPrefRepository: SharedPrefRep
             val refreshTime = sharedPrefRepository.getPrefsLongValue(Consts.TOKEN_TIME_KEY)
             val newTime = Date().time
             if (newTime - refreshTime > 1200000) {
-                accessToken = postRefreshTokenUseCase.getRefreshToken().blockingGet().token
+                val response = postRefreshTokenUseCase.getRefreshToken().blockingGet()
+                accessToken = response.token
                 sharedPrefRepository.writePrefs(Consts.ACCESS_TOKEN, ConverterUtil._Encode(accessToken))
+                sharedPrefRepository.writePrefs(Consts.REFRESH_TOKEN, ConverterUtil._Encode(response.refreshToken))
             }
             var request = chain.request()
             if (accessToken.isNotEmpty()) {

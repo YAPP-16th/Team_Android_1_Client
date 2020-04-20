@@ -46,6 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="김현수 님의 관심 직무"
+                    android:text="@{fragment.nicknameText}"
                     android:textColor="@color/grey5"
                     android:textSize="24sp"
                     android:layout_marginStart="16dp"
@@ -63,6 +64,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginStart="16dp"
                     tools:text="영상/모션 디자인"
+                    android:text="@{fragment.randomJobText}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/userNameInfo" />
 

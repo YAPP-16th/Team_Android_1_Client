@@ -26,6 +26,7 @@ class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
     private var nicknameText = ""
     private lateinit var groupSelected: JobGroup
     private var classSelected: ArrayList<Long> = ArrayList()
+    private var groupId: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +54,9 @@ class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
         })
         (mFragmentList[2] as JobClassFragment).mSelectedClassInfo.observe(this, Observer {
             classSelected = it
+        })
+        (mFragmentList[2] as JobClassFragment).mGroupId.observe(this, Observer {
+            groupId = it
         })
     }
 
@@ -104,7 +108,7 @@ class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
     }
 
     fun requestUserInfo() {
-        presenter.requestUserInfo(nicknameText, classSelected)
+        presenter.requestUserInfo(nicknameText, classSelected.apply { groupId?.let { add(it) } })
     }
 
     override fun navigateToMain() {
