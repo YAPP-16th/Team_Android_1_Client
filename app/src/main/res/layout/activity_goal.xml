@@ -10,9 +10,15 @@
             type="com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity" />
     </data>
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/coordinatorlayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/goal_details_parent_layout"
@@ -35,7 +41,8 @@
                             android:id="@+id/backButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/ic_icon_navi_arrow_left"
+                            android:onClick="@{mygoal::backClick}"
+                            android:background="@drawable/ic_icon_navi_arrow_left_white"
                             bind:layout_constraintStart_toStartOf="parent"
                             bind:layout_constraintTop_toTopOf="parent" />
 
@@ -138,31 +145,29 @@
                         android:id="@+id/mygoal_recyclerview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="100dp"
                         android:elevation="10dp"
-                        android:padding="8dp"
                         android:overScrollMode="never"
-                        bind:layout_constraintBottom_toTopOf="@id/save_list_btn"
+                        android:padding="8dp"
+                        bind:layout_constraintBottom_toBottomOf="parent"
                         bind:layout_constraintEnd_toEndOf="parent"
                         bind:layout_constraintStart_toStartOf="@+id/participant_list_text"
                         bind:layout_constraintTop_toBottomOf="@+id/participant_list_text" />
-
-                    <Button
-                        android:id="@+id/save_list_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|center"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="50dp"
-                        android:background="@drawable/btn_floating_savechange"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_behavior="com.eroom.domain.customview.AddListScrollBehavior"
-                        bind:layout_constraintBottom_toBottomOf="parent"
-                        bind:layout_constraintEnd_toEndOf="parent"
-                        bind:layout_constraintStart_toStartOf="@+id/mygoal_recyclerview"
-                        bind:layout_constraintTop_toBottomOf="@+id/mygoal_recyclerview" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+        </androidx.core.widget.NestedScrollView>
+
+        <Button
+            android:id="@+id/save_list_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:background="@drawable/btn_floating_savechange"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            bind:layout_constraintTop_toBottomOf="parent"
+            bind:layout_constraintEnd_toEndOf="parent"
+            bind:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

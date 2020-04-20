@@ -9,7 +9,7 @@
             type="com.eroom.erooja.feature.goalDetail.GoalDetailActivity" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
@@ -39,8 +39,17 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/keyword_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="ui, ux ~, Android, IOS"
+                app:layout_constraintStart_toStartOf="@id/text"
+                app:layout_constraintTop_toBottomOf="@+id/text" />
+
         </ru.rhanza.constraintexpandablelayout.ExpandableLayout>
 
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 

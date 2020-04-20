@@ -8,6 +8,7 @@ import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.UserSimpleData
 import com.eroom.domain.utils.statusBarColor
+import com.eroom.domain.utils.toastLong
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalBinding
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
@@ -31,22 +32,14 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     override fun getAllView(list: ArrayList<UserSimpleData>) {
         binding.mygoalRecyclerview.apply{
             layoutManager = LinearLayoutManager(this@OngoingGoalActivity)
-            adapter = OngoingGoalAdapter(list)
+            adapter = OngoingGoalAdapter(list, saveChange)
         }
-//        if (binding.mygoalRecyclerview.ongoing_detail_checkbox.isChecked) {
-//            isChecked.set(true)
-//            binding.mygoalRecyclerview.ongoing_detail_checkbox.apply {
-//                paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-//                setTextColor(context.getColor(R.color.grey4))
-//            }
-//        } else {
-//            isChecked.set(false)
-//            binding.mygoalRecyclerview.ongoing_detail_checkbox.apply {
-//                paintFlags = 0
-//                setTextColor(context.getColor(R.color.grey7))
-//            }
-//        }
     }
+
+    private val saveChange = { b:Boolean ->
+        isChecked.set(b)
+        if(b) binding.saveListBtn.animate().translationY(-300f).withLayer()
+        else binding.saveListBtn.animate().translationY(300f).withLayer() }
 
     fun initView() {
         var presenter = OngoingGoalPresenter(this)
@@ -58,9 +51,17 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
             showButton = false
             showShadow = false
         }
+
     }
 
-    fun moreClick(view: View){
+    fun moreClick(v: View){
         binding.goalDescLayout.goal_desc.toggle()
+    }
+
+    fun backClick(v: View){
+        if(isChecked.get()!!){
+            this.toastLong("변경된 리스트 내역을 저장하시겠어요?")
+        }
+        //else finish()
     }
 }
