@@ -2,14 +2,14 @@ package com.eroom.domain.api.usecase.member
 
 import com.eroom.data.request.NicknameRequest
 import com.eroom.domain.api.service.MemberService
-import com.eroom.domain.koin.repository.RetrofitRepository
+import com.eroom.domain.koin.repository.AccessRetrofitRepository
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class GetNicknameDuplicityUseCase(retrofitRepository: RetrofitRepository) {
+class GetNicknameDuplicityUseCase(retrofitRepository: AccessRetrofitRepository) {
     private val memberService = retrofitRepository
-        .getGuestRetrofit()
+        .getAccessRetrofit()
         .create(MemberService::class.java)
 
     fun postKakaoLogin(nickname: String): Single<Boolean> = memberService

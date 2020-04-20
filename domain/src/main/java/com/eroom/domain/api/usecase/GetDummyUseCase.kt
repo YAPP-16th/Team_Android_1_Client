@@ -2,12 +2,12 @@ package com.eroom.domain.api.usecase
 
 import com.eroom.data.response.ResponseExample
 import com.eroom.domain.api.service.ServiceExample
-import com.eroom.domain.koin.repository.RetrofitRepository
+import com.eroom.domain.koin.repository.GuestRetrofitRepository
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class GetDummyUseCase(retrofitRepository: RetrofitRepository) {
+class GetDummyUseCase(retrofitRepository: GuestRetrofitRepository) {
     private val examService = retrofitRepository
         .getGuestRetrofit()
         .create(ServiceExample::class.java)

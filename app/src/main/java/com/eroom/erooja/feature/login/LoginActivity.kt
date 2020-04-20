@@ -82,5 +82,8 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     fun kakaoLoginButtonClicked() = loginBinding.comKakaoLogin.performClick()
 
-    fun guestLoginButtonClicked() = startActivity(Intent(this, TabActivity::class.java))
+    fun guestLoginButtonClicked() {
+        presenter.guestLoginSetting()
+        startActivity(Intent(this, TabActivity::class.java))
+    }
 }

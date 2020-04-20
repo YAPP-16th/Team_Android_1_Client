@@ -1,14 +1,19 @@
 package com.eroom.domain.koin.modules
 
-import com.eroom.domain.koin.repository.HttpClientRepository
-import com.eroom.domain.koin.repository.RetrofitRepository
-import com.eroom.domain.koin.repositoryimpl.HttpClientRepositoryImpl
-import com.eroom.domain.koin.repositoryimpl.RetrofitRepositoryImpl
-import org.koin.android.ext.koin.androidApplication
+import com.eroom.domain.koin.repository.*
+import com.eroom.domain.koin.repositoryimpl.*
 import org.koin.dsl.module
 
 val networkModule = module {
-    single<HttpClientRepository> { HttpClientRepositoryImpl(get(), get()) }
+    single<RefreshClientRepository> { RefreshClientRepositoryImpl(get()) }
 
-    single<RetrofitRepository> { RetrofitRepositoryImpl(get()) }
+    single<AccessClientRepository> { AccessClientRepositoryImpl(get(), get()) }
+
+    single<GuestClientRepository> { GuestClientRepositoryImpl() }
+
+    single<RefreshRetrofitRepository> { RefreshRetrofitRepositoryImpl(get()) }
+
+    single<AccessRetrofitRepository> { AccessRetrofitRepositoryImpl(get()) }
+
+    single<GuestRetrofitRepository> { GuestRetrofitRepositoryImpl(get()) }
 }
