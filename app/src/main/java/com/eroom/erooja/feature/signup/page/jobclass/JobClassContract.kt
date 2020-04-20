@@ -6,6 +6,7 @@ import com.eroom.data.localclass.JobGroup
 interface JobClassContract {
     interface View {
         fun settingGroupView(jobClasses: ArrayList<JobClass>)
+        fun settingGroupId(id: Long)
     }
 
     interface Presenter {

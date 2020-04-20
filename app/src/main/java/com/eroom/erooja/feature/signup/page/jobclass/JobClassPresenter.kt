@@ -30,6 +30,7 @@ class JobClassPresenter(
         getJobGroupAndClassUseCase.getJobGroupAndClass(groupId)
             .subscribe({
                 view.settingGroupView(it.jobInterests)
+                view.settingGroupId(groupId)
             },{
                 Timber.e(it.localizedMessage)
             })

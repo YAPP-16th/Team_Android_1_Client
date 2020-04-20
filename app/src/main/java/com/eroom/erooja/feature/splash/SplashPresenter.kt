@@ -43,6 +43,7 @@ class SplashPresenter(override val view: SplashContract.View,
                                 view.navigateToMain()
                         },{
                             Timber.e(it.localizedMessage)
+                            view.navigateToLogin()
                         })
                 }
             }

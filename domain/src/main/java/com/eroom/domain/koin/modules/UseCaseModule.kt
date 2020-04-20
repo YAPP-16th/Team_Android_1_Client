@@ -4,9 +4,7 @@ import com.eroom.domain.api.usecase.auth.PostKakaoLoginUseCase
 import com.eroom.domain.api.usecase.auth.GetRefreshTokenUseCase
 import com.eroom.domain.api.usecase.job.GetJobGroupAndClassUseCase
 import com.eroom.domain.api.usecase.job.GetJobGroupUseCase
-import com.eroom.domain.api.usecase.member.PostNicknameDuplicityUseCase
-import com.eroom.domain.api.usecase.member.PutJobInterestsUseCase
-import com.eroom.domain.api.usecase.member.PutNicknameUseCase
+import com.eroom.domain.api.usecase.member.*
 import org.koin.dsl.module
 
 val usecaseModule = module {
@@ -23,4 +21,8 @@ val usecaseModule = module {
     factory { PutNicknameUseCase(get()) }
 
     factory { PutJobInterestsUseCase(get()) }
+
+    factory { GetMemberInfoUseCase(get()) }
+
+    factory { GetMemberJobInterestsUseCase(get()) }
 }

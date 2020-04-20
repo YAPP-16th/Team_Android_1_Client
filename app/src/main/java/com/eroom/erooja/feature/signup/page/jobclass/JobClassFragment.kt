@@ -26,6 +26,7 @@ class JobClassFragment : Fragment(), JobClassContract.View {
     val classCheck: ObservableField<Boolean> = ObservableField(false)
 
     val mSelectedClassInfo: MutableLiveData<ArrayList<Long>> = MutableLiveData()
+    val mGroupId: MutableLiveData<Long> = MutableLiveData()
 
     private lateinit var mAdapter: ClassAdapter
 
@@ -97,4 +98,7 @@ class JobClassFragment : Fragment(), JobClassContract.View {
         }
     }
 
+    override fun settingGroupId(id: Long) {
+        mGroupId.value = id
+    }
 }
