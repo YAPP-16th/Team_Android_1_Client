@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.eroom.erooja.databinding.FragmentMainBinding
+import com.eroom.erooja.feature.tab.TabActivity
 
 class MainFragment : Fragment(), MainContract.View {
     private lateinit var mainBinding: FragmentMainBinding
@@ -42,4 +43,5 @@ class MainFragment : Fragment(), MainContract.View {
 
     }
 
+    fun navigateToSearchTab() = (activity as TabActivity).changeTabToSearch()
 }

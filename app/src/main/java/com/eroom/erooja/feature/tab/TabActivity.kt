@@ -76,4 +76,8 @@ class TabActivity : AppCompatActivity(), TabContract.View {
         return@OnNavigationItemSelectedListener false
     }
 
+    fun changeTabToSearch() {
+        mainBinding.mainBottomTab.selectedItemId = R.id.bottom_tab_search
+    }
+
 }
