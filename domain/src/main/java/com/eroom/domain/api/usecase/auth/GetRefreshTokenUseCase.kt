@@ -10,14 +10,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
-class PostRefreshTokenUseCase(retrofitRepository: RefreshRetrofitRepository, private val sharedPrefRepository: SharedPrefRepository) {
+class GetRefreshTokenUseCase(retrofitRepository: RefreshRetrofitRepository, private val sharedPrefRepository: SharedPrefRepository) {
     private val authService = retrofitRepository
         .getRefreshRetrofit()
         .create(AuthService::class.java)
 
-    fun postRefreshToken(): Single<TokenResponse> {
+    fun getRefreshToken(): Single<TokenResponse> {
         sharedPrefRepository.writePrefs(Consts.TOKEN_TIME_KEY, Date().time)
-        return authService.refreshToken()
+        return authService.getRefreshToken()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

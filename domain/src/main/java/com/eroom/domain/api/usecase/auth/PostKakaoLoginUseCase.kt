@@ -19,7 +19,7 @@ class PostKakaoLoginUseCase(retrofitRepository: GuestRetrofitRepository, private
     fun postKakaoLogin(kakaoId: Long): Single<TokenResponse> {
         sharedPrefRepository.writePrefs(Consts.TOKEN_TIME_KEY, Date().time)
         return authService
-            .kakaoLogin(by = "ID", kakaoLoginRequest = KakaoLoginRequest(kakaoId.toString()))
+            .postKakaoLogin(by = "ID", kakaoLoginRequest = KakaoLoginRequest(kakaoId.toString()))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

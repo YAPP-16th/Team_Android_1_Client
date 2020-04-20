@@ -1,13 +1,18 @@
 package com.eroom.domain.api.service
 
+import com.eroom.data.request.IdListRequest
 import com.eroom.data.request.NicknameRequest
+import com.eroom.data.response.UserInfoResponse
 import io.reactivex.Single
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface MemberService {
     @POST("member/nickname/duplicity")
-    fun getNicknameDuplicity(@Body nickname: NicknameRequest): Single<Boolean>
+    fun postNicknameDuplicity(@Body nickname: NicknameRequest): Single<Boolean>
+
+    @PUT("member/nickname")
+    fun putNickname(@Body nickname: NicknameRequest): Single<UserInfoResponse>
+
+    @PUT("member/jobInterests")
+    fun putJobInterests(@Body ids: IdListRequest): Single<Long>
 }

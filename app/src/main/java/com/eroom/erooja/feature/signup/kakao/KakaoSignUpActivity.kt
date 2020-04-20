@@ -1,19 +1,20 @@
 package com.eroom.erooja.feature.signup.kakao
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.eroom.data.localclass.DesignSelected
-import com.eroom.data.localclass.DevelopSelected
 import com.eroom.data.localclass.JobGroup
-import com.eroom.domain.utils.toastLong
+import com.eroom.domain.globalconst.Consts
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityKakaoSignUpBinding
 import com.eroom.erooja.feature.signup.page.jobclass.JobClassFragment
 import com.eroom.erooja.feature.signup.page.jobgroup.JobGroupFragment
 import com.eroom.erooja.feature.signup.page.nickname.NicknameFragment
+import com.eroom.erooja.feature.tab.TabActivity
+import org.koin.android.ext.android.get
 
 class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
     private lateinit var kakaoBinding: ActivityKakaoSignUpBinding
@@ -24,8 +25,7 @@ class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
 
     private var nicknameText = ""
     private lateinit var groupSelected: JobGroup
-    private lateinit var devClassSelected: DevelopSelected
-    private lateinit var designClassSelected: DesignSelected
+    private var classSelected: ArrayList<Long> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,7 @@ class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
     }
 
     private fun initPresenter() {
-        presenter = KakaoSignUpPresenter(this)
+        presenter = KakaoSignUpPresenter(this, get(), get(), get())
     }
 
     private fun setUpDataBinding() {
@@ -51,18 +51,16 @@ class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
         (mFragmentList[1] as JobGroupFragment).jobGroup.observe(this, Observer {
             groupSelected = it
         })
-        (mFragmentList[2] as JobClassFragment).mDevelopClassInfo.observe(this, Observer {
-            devClassSelected = it
-        })
-        (mFragmentList[2] as JobClassFragment).mDesignClassInfo.observe(this, Observer {
-            designClassSelected = it
+        (mFragmentList[2] as JobClassFragment).mSelectedClassInfo.observe(this, Observer {
+            classSelected = it
         })
     }
 
     private fun initFragment() {
+        val getIntent = intent
         mFragmentList.apply {
             addAll(listOf(
-                NicknameFragment.newInstance()/*.apply { arguments = Bundle().apply { putString("key", "value") } }*/,
+                NicknameFragment.newInstance().apply { arguments = Bundle().apply { putString(Consts.NICKNAME, getIntent.getStringExtra(Consts.NICKNAME)) } },
                 JobGroupFragment.newInstance(),
                 JobClassFragment.newInstance()
             ))
@@ -90,7 +88,10 @@ class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
     private fun showFragment() {
         hideFragment()
         supportFragmentManager.beginTransaction().show(mFragmentList[mPage]).commit()
-        if (mPage==2) (mFragmentList[mPage] as JobClassFragment).settingGroup(groupSelected)
+        if (mPage==2) {
+            (mFragmentList[mPage] as JobClassFragment).settingGroup(groupSelected)
+            (mFragmentList[mPage] as JobClassFragment).settingSelectedId(classSelected)
+        }
     }
 
     fun prevButtonClicked() {
@@ -103,19 +104,15 @@ class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
     }
 
     fun requestUserInfo() {
-        var index = 0
-        var text = ""
-        when (groupSelected) {
-            JobGroup.DEVELOP -> devClassSelected.isSelected.forEach {
-                if (it) text += "${devClassSelected.classEnum[index]}\n"
-                index++
-            }
-            JobGroup.DESIGN -> designClassSelected.isSelected.forEach {
-                if (it) text += "${designClassSelected.classEnum[index]}\n"
-                index++
-            }
-        }
-        this.toastLong("$nicknameText\n${groupSelected.name}\n${text}")
+        presenter.requestUserInfo(nicknameText, classSelected)
+    }
+
+    override fun navigateToMain() {
+        startActivity(
+            Intent(this, TabActivity::class.java).addFlags(
+                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            )
+        )
     }
 
     override fun onBackPressed() = prevButtonClicked()
