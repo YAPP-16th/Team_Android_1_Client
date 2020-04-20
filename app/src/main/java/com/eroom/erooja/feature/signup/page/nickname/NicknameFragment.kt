@@ -58,9 +58,20 @@ class NicknameFragment : Fragment(), NicknameContract.View {
             .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
             .subscribe {
                 nickname.value = it
-                nicknameBinding.nicknameLengthError.visibility = if (!it.contains(" ") && it.length in 1..1) View.VISIBLE else View.INVISIBLE
-                if (!it.contains(" ") && it.length >= 2) {
-                    presenter.checkNickname(it)
+                nicknameBinding.nicknameLengthError.visibility =
+                    if (!it.contains(" ")) {
+                        if (it.length in 1..1) View.VISIBLE else View.INVISIBLE
+                    } else View.VISIBLE
+                if (!it.contains(" ")) {
+                    if (it.length >= 2)
+                        presenter.checkNickname(it)
+                    else {
+                        hideCheckImage()
+                        hideErrorImage()
+                    }
+                } else {
+                    showErrorImage()
+                    hideCheckImage()
                 }
             }
     }
@@ -80,11 +91,11 @@ class NicknameFragment : Fragment(), NicknameContract.View {
     }
 
     override fun showErrorImage() {
-        nicknameBinding.nicknameDuplicatedCheck.visibility = View.VISIBLE
+        nicknameBinding.nicknameDuplicatedCheckError.visibility = View.VISIBLE
     }
 
     override fun hideErrorImage() {
-        nicknameBinding.nicknameDuplicatedCheck.visibility = View.GONE
+        nicknameBinding.nicknameDuplicatedCheckError.visibility = View.GONE
     }
 
     override fun setValidatedNickname() = nicknameCheck.set(true)
