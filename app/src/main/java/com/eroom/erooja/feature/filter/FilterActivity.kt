@@ -96,7 +96,7 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
         classCheck.set(false)
     }
 
-    fun completeButtonClicked() {
+    fun closeButtonClicked() {
         if (classCheck.get()!!) {
             var index = 0
             var result = ""

@@ -35,10 +35,11 @@ class MainPresenter(
                         classList.add(jobClass)
                     }
                 }
-                val a = Math.random() * 100
-                val index = (a % classList.size).toInt()
-                if (classList.size != 0)
+                if (classList.size != 0) {
+                    val a = Math.random() * 100
+                    val index = (a % classList.size).toInt()
                     view.setJobInterestInfo(classList[index].name, classList[index].id, classList.size)
+                }
             },{
                 Timber.e(it.localizedMessage)
             })

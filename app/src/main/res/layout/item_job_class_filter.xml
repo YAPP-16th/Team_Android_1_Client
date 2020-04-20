@@ -12,10 +12,10 @@
             android:layout_height="wrap_content"
             android:background="@drawable/border_inactive_job_class"
             android:gravity="center"
-            android:paddingTop="7dp"
-            android:paddingBottom="7dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
+            android:paddingTop="9dp"
+            android:paddingBottom="9dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
             android:orientation="vertical">
 
             <TextView
@@ -36,10 +36,10 @@
             android:layout_marginStart="10dp"
             android:visibility="gone"
             tools:visibility="visible"
-            android:paddingTop="7dp"
-            android:paddingBottom="7dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
+            android:paddingTop="9dp"
+            android:paddingBottom="9dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
             android:orientation="vertical">
 
             <TextView
