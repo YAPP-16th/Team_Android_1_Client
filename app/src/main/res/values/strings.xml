@@ -75,4 +75,5 @@
 
     <string name="back_button_click">한번 더 뒤로가기를 누르시면 종료됩니다</string>
     <string name="goal_contain_job_question">어떤 직무와 관련된 목표인가요?</string>
+    <string name="duplicated_is_ok_text">*중복 선택 가능</string>
 </resources>

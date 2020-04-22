@@ -5,46 +5,38 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.eroom.data.entity.JobClass
 import com.eroom.data.localclass.*
+import com.eroom.data.response.JobGroupAndClassResponse
 import com.eroom.erooja.databinding.ItemGroupJobBinding
 
-class JobGroupAdapter(
-    private val jobGroup: ArrayList<JobGroup>,
-    private val mDevelopClassInfo: DevelopSelected,
-    private val mDesignClassInfo: DesignSelected,
-    private val itemDevClicked: (Int) -> Unit,
-    private val itemDesignClicked: (Int) -> Unit
-): RecyclerView.Adapter<JobGroupViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobGroupViewHolder {
-        val binding = ItemGroupJobBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return JobGroupViewHolder(binding, parent.context, mDevelopClassInfo, mDesignClassInfo, itemDevClicked, itemDesignClicked)
+class JobGroupAdapter(val context: Context,
+                      private var jobList: List<JobGroupAndClassResponse>,
+                      private var selectedIds: ArrayList<Long>,
+                      private val itemClick: (Long, Boolean) -> Unit
+) : RecyclerView.Adapter<JobGroupAdapter.ViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val mBinding = ItemGroupJobBinding.inflate(inflater, parent, false)
+        return ViewHolder(mBinding)
     }
 
-    override fun getItemCount(): Int = jobGroup.size
-
-    override fun onBindViewHolder(holder: JobGroupViewHolder, position: Int) {
-        holder.bind(jobGroup[position])
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(jobList[position].name, context, jobList[position].jobInterests)
     }
 
-}
 
-class JobGroupViewHolder(
-    val binding: ItemGroupJobBinding,
-    val context: Context,
-    private val mDevelopClassInfo: DevelopSelected,
-    private val mDesignClassInfo: DesignSelected,
-    private val itemDevClicked: (Int) -> Unit,
-    private val itemDesignClicked: (Int) -> Unit
-): RecyclerView.ViewHolder(binding.root) {
-    fun bind(jobGroup: JobGroup) {
-        binding.groupText.text = jobGroup.groupName
-        val mAdapter = when (jobGroup) {
-            JobGroup.DEVELOP -> JobDevelopClassAdapter(mDevelopClassInfo, itemDevClicked, context)
-            JobGroup.DESIGN -> JobDesignClassAdapter(mDesignClassInfo, itemDesignClicked, context)
-        }
-        binding.jobClassRecycler.apply {
-            adapter = mAdapter
-            layoutManager = LinearLayoutManager(context)
+    override fun getItemCount(): Int = jobList.size
+
+
+    inner class ViewHolder(private val mBinding: ItemGroupJobBinding) : RecyclerView.ViewHolder(mBinding.root) {
+        fun bind(groupText: String, context: Context, list: ArrayList<JobClass>) {
+            mBinding.groupText.text = groupText
+            mBinding.jobClassRecycler.apply {
+                adapter = JobClassAdapter(list, context, selectedIds, itemClick)
+                layoutManager = LinearLayoutManager(context)
+            }
         }
     }
 }
