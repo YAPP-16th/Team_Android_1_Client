@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.databinding.ObservableField
 
 import androidx.lifecycle.MutableLiveData
 import com.eroom.erooja.databinding.FragmentGoalTitleBinding
@@ -18,7 +19,7 @@ class GoalTitleFragment : Fragment() {
     private lateinit var goalTitleBinding: FragmentGoalTitleBinding
     val goalTitle: MutableLiveData<String> = MutableLiveData()
     var goalTitleCheck: MutableLiveData<Boolean> = MutableLiveData(false)
-
+    val underlineError: ObservableField<Boolean> = ObservableField(false)
 
     companion object {
         @JvmStatic
@@ -48,9 +49,11 @@ class GoalTitleFragment : Fragment() {
                 goalTitleCheck.value = len > 4
                 if (len in 1..4) {
                     goalTitleBinding.goalTitleLengthError.visibility = View.VISIBLE
+                    underlineError.set(true)
                 } else {
                     goalTitleBinding.goalTitleLengthError.visibility = View.INVISIBLE
                     goalTitle.value = it
+                    underlineError.set(false)
                 }
             }
 
@@ -63,6 +66,8 @@ class GoalTitleFragment : Fragment() {
             }
         })
     }
+
+    fun getTitleTextLength() = goalTitleBinding.goalTitle.text.length
 
     fun onLayoutClicked() {
         goalTitleBinding.goalTitle.requestFocus()

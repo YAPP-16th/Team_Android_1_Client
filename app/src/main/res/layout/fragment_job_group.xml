@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:text="@string/please_select_job_group"
             android:textColor="@color/grey7"
-            android:textSize="18sp"
+            android:textSize="19sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +61,7 @@
                 android:id="@+id/developmentText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 android:text="@string/group_development"
                 android:layout_marginTop="13dp" />
         </LinearLayout>
@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/group_design"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 android:layout_marginTop="13dp" />
         </LinearLayout>
 

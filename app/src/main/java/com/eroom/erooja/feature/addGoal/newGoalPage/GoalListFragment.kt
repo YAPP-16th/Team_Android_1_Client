@@ -23,6 +23,8 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
     private lateinit var goalListBinding: FragmentGoalListBinding
     private lateinit var mAdapter: GoalAdapter
 
+    private val goalItem: ArrayList<String> = ArrayList()
+
     val goalList: MutableLiveData<ArrayList<String>> = MutableLiveData(ArrayList())
     var goalListCheck: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -48,8 +50,7 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
     }
 
     private fun initView() {
-        mAdapter = GoalAdapter()
-        goalListBinding.goalListRecycler.adapter = mAdapter
+        loadRecyclerView()
         goalListBinding.goalListRecycler.layoutManager = LinearLayoutManager(requireContext())
         goalListBinding.scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
             if (scrollY < 20) {
@@ -69,21 +70,19 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
                     if (len < 1) {
                         requestFocus(v)
                         context?.toastShort("한 글자 이상 입력해주세요")
-                        if (goalList.value?.size == 0) {
+                        if (goalItem.size == 0) {
                             goalListBinding.goalListSizeErrorTextview.visibility = View.VISIBLE
                         }
                         return false
                     } else {
-                        val temp = goalList.value ?: ArrayList()
-                        val temp2 = temp.apply { add(v.text.toString().trim()) }
-                        this.goalList.value = temp2
+                        goalItem.add(v.text.toString().trim())
+                        this.goalList.value = goalItem
 
-                        goalListCheck.value = goalList.value?.size!! > 0
+                        goalListCheck.value = goalItem.size > 0
                         goalListBinding.goalListSizeErrorTextview.visibility = View.INVISIBLE
 
                         v.text = ""
-                        mAdapter.goalList = this.goalList.value ?: ArrayList()
-                        mAdapter.notifyItemInserted(mAdapter.goalList.size + 1)
+                        loadRecyclerView()
                         requestFocus(v)
                     }
                 }
@@ -91,6 +90,17 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
             return false
         }
         return true
+    }
+
+    private val deleteItem = { position: Int ->
+        goalItem.removeAt(position)
+        this.goalList.value = goalItem
+        loadRecyclerView()
+    }
+
+    private fun loadRecyclerView() {
+        mAdapter = GoalAdapter(goalItem, deleteItem)
+        goalListBinding.goalListRecycler.adapter = mAdapter
     }
 
     private fun requestFocus(v: View) {

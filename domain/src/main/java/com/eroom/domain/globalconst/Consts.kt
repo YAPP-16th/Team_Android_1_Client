@@ -21,5 +21,8 @@ class Consts {
         const val INDEX = "index"
 
         const val NICKNAME = "NICKNAME"
+
+        const val GOAL_TITLE = "GOAL_TITLE"
+        const val ADD_NEW_GOAL_RESULT_ID = "ADD_NEW_GOAL_RESULT_ID"
     }
 }

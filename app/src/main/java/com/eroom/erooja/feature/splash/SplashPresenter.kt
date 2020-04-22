@@ -36,7 +36,7 @@ class SplashPresenter(override val view: SplashContract.View,
                     postRefreshTokenUseCase.getRefreshToken()
                         .subscribe({
                             sharedPrefRepository.writePrefs(Consts.ACCESS_TOKEN, ConverterUtil._Encode(it.token))
-                            sharedPrefRepository.writePrefs(Consts.REFRESH_TOKEN, ConverterUtil._Encode(it.token))
+                            sharedPrefRepository.writePrefs(Consts.REFRESH_TOKEN, ConverterUtil._Encode(it.refreshToken))
                             if (it.isAdditionalInfoNeeded)
                                 view.navigateToSignUp()
                             else

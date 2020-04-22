@@ -14,13 +14,15 @@ import androidx.lifecycle.Observer
 import com.eroom.domain.utils.toastLong
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityNewGoalBinding
-import com.eroom.erooja.feature.addGoal.newGoalPage.GoalDetailFragment
-import com.eroom.erooja.feature.addGoal.newGoalPage.GoalPeriodFragment
-import com.eroom.erooja.feature.addGoal.newGoalPage.GoalTitleFragment
 import com.eroom.calendar.AirCalendarDatePickerActivity
 import com.eroom.calendar.core.AirCalendarIntent
+import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.ProgressBarAnimation
-import com.eroom.erooja.feature.addGoal.newGoalPage.GoalListFragment
+import com.eroom.domain.utils.toLocalDateFormat
+import com.eroom.domain.utils.toastShort
+import com.eroom.erooja.feature.addGoal.newGoalPage.*
+import com.eroom.erooja.feature.addGoal.newGoalPage.selectjob.SelectJobFragment
+import org.koin.android.ext.android.get
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -29,22 +31,19 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private val REQUEST_CODE = 3000
 
     private lateinit var newGoalBinding: ActivityNewGoalBinding
-    private lateinit var presenter: NewGoalContract.Presenter
-
+    private lateinit var presenter: NewGoalPresenter
 
     private val mFragmentList = ArrayList<Fragment>()
     private var mPage = 0
-
-    private var goalTitleText = ""
     var nextClickable: ObservableField<Boolean> = ObservableField(false)
 
+    private var selectedIds: ArrayList<Long> = ArrayList()
+    private var goalTitleText = ""
     private var goalDetailContentText = ""
-
-    private var isChangeable: Boolean = false
+    private var isDateFixed: Boolean = false
     private var goalList: ArrayList<String> = ArrayList()
     private var startDate: String = ""
     private var endDate = ""
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +55,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     }
 
     private fun initPresenter() {
-        presenter = NewGoalPresenter(this)
+        presenter = NewGoalPresenter(this, get())
     }
 
     private fun setDefaultPeriod() {
@@ -66,11 +65,8 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
             "" + today.get(Calendar.YEAR) + "년 " + (today.get(Calendar.MONTH) + 1) + "월 " + today.get(
                 Calendar.DAY_OF_MONTH
             ) + "일"
-        startDate =
-            "" + today.get(Calendar.YEAR) + "년 " + (today.get(Calendar.MONTH) + 1) + "월 " + today.get(
-                Calendar.DAY_OF_MONTH
-            ) + "일"
-        endDate = startDate
+        //2020-05-25T00:00:00
+        endDate = toLocalDateFormat(today.get(Calendar.YEAR), (today.get(Calendar.MONTH) + 1), today.get(Calendar.DAY_OF_MONTH))
     }
 
     private fun setUpDataBinding() {
@@ -79,23 +75,29 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     }
 
     private fun observeData() {
-        (mFragmentList[0] as GoalTitleFragment).goalTitle.observe(this, Observer {
-            goalTitleText = it
-        })
-        (mFragmentList[0] as GoalTitleFragment).goalTitleCheck.observe(this, Observer {
+        (mFragmentList[0] as SelectJobFragment).selectCheck.observe(this, Observer {
             nextClickable.set(it)
         })
-        (mFragmentList[1] as GoalDetailFragment).goalDetailContent.observe(this, Observer {
+        (mFragmentList[0] as SelectJobFragment).selectList.observe(this, Observer {
+            selectedIds = it
+        })
+        (mFragmentList[1] as GoalTitleFragment).goalTitle.observe(this, Observer {
+            goalTitleText = it
+        })
+        (mFragmentList[1] as GoalTitleFragment).goalTitleCheck.observe(this, Observer {
+            nextClickable.set(it)
+        })
+        (mFragmentList[2] as GoalDetailFragment).goalDetailContent.observe(this, Observer {
             goalDetailContentText = it
         })
-        (mFragmentList[2] as GoalPeriodFragment).isChangeable.observe(this, Observer {
-            isChangeable = it
+        (mFragmentList[3] as GoalPeriodFragment).isChangeable.observe(this, Observer {
+            isDateFixed = !it
         })
-        (mFragmentList[3] as GoalListFragment).goalList.observe(this, Observer {
+        (mFragmentList[4] as GoalListFragment).goalList.observe(this, Observer {
             this.goalList = it
             nextClickable.set(!it.isNullOrEmpty())
         })
-        (mFragmentList[3] as GoalListFragment).goalListCheck.observe(this, Observer {
+        (mFragmentList[4] as GoalListFragment).goalListCheck.observe(this, Observer {
             nextClickable.set(it)
         })
     }
@@ -104,10 +106,11 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         mFragmentList.apply {
             addAll(
                 listOf(
-                    GoalTitleFragment.newInstance()/*.apply { arguments = Bundle().apply { putString("key", "value") } }*/
-                    , GoalDetailFragment.newInstance()
-                    , GoalPeriodFragment.newInstance()
-                    , GoalListFragment.newInstance()
+                    SelectJobFragment.newInstance(),
+                    GoalTitleFragment.newInstance()/*.apply { arguments = Bundle().apply { putString("key", "value") } }*/,
+                    GoalDetailFragment.newInstance(),
+                    GoalPeriodFragment.newInstance(),
+                    GoalListFragment.newInstance()
                 )
             )
         }.also {
@@ -115,11 +118,10 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
                 supportFragmentManager.beginTransaction().add(R.id.newGoalFrame, it[index])
                     .hide(it[index]).commit()
             }
-            supportFragmentManager.beginTransaction().show(it[0]).commit()
+            supportFragmentManager.beginTransaction().show(it[mPage]).commit()
         }
         setProgressBar(true)
     }
-
 
     private fun showFragment() {
         hideFragment()
@@ -162,11 +164,20 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         nextClickable.get()?.let {
             if (it) {
                 mPage += 1
-                if (mPage > mFragmentList.size - 1) {
-                    redirectNewGoalFinish()
-                    return
-                } else if (mPage == mFragmentList.size - 1) {
-                    nextClickable.set(!goalList.isNullOrEmpty())
+                when {
+                    mPage > mFragmentList.size - 1 -> {
+                        networkRequest()
+                        return
+                    }
+                    mPage == mFragmentList.size - 1 -> {
+                        nextClickable.set(!goalList.isNullOrEmpty())
+                    }
+                    mPage == 1 -> {
+                        nextClickable.set((mFragmentList[1] as GoalTitleFragment).getTitleTextLength() > 4)
+                    }
+                    else -> {
+                        nextClickable.set(true)
+                    }
                 }
                 setProgressBar(true)
                 showFragment()
@@ -174,31 +185,19 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         }
     }
 
-    private fun redirectNewGoalFinish() {
-        if (networkRequest()) {
-            val intent = Intent(this, NewGoalFinishActivity::class.java)
-            intent.putExtra("goalTitle", goalTitleText)
-            startActivity(intent)
-            finish()
-        }
-
+    override fun redirectNewGoalFinish(resultId: Long) {
+        val intent = Intent(this, NewGoalFinishActivity::class.java)
+        intent.putExtra(Consts.GOAL_TITLE, goalTitleText)
+        intent.putExtra(Consts.ADD_NEW_GOAL_RESULT_ID, resultId)
+        startActivity(intent)
+        finish()
     }
-
 
     /**
      * 목표명, 목표 상세명, 목표 종료일, 목표 목록을 서버로 요청하는 함수(이 함수가 false를 반환할 경우 다음 화면으로 넘어가면 안됨.)*/
-    private fun networkRequest(): Boolean {
-        var content = ""
-        content = if (isChangeable) {
-            "수정가능"
-        } else {
-            "수정 불가능"
-        }
-        this.toastLong("테스트 : $content$goalTitleText \n 두번쨰 : $goalDetailContentText  \n 종료일 : $endDate\n\n $goalList")
-
-        return true
+    private fun networkRequest() {
+        presenter.addNewGoal(goalTitleText, goalDetailContentText, isDateFixed, endDate, selectedIds, goalList)
     }
-
 
     override fun onBackPressed() {
         prevButtonClicked()
@@ -209,13 +208,8 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         intent.isBooking(false)
         intent.isSelect(false)
 
-        var today: Calendar = Calendar.getInstance()
+        val today: Calendar = Calendar.getInstance()
         today.timeInMillis = System.currentTimeMillis()
-        intent.setStartDate(
-            today.get(Calendar.YEAR),
-            today.get(Calendar.MONTH) + 1,
-            today.get(Calendar.DAY_OF_MONTH)
-        )
         intent.setStartDate(
             today.get(Calendar.YEAR),
             today.get(Calendar.MONTH) + 1,
@@ -233,23 +227,25 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
             if (data != null) {
-
-
                 val endDate =
                     data.getStringExtra(AirCalendarDatePickerActivity.RESULT_SELECT_END_DATE) ?: "-"
 
                 if (endDate != "-") {
-                    this.endDate = endDate
                     val time = endDate.split("-")
-                    (mFragmentList[2] as GoalPeriodFragment).setEndDate("${time[0]}년 ${time[1]}월 ${time[2]}일")
+                    (mFragmentList[3] as GoalPeriodFragment).setEndDate("${time[0]}년 ${time[1]}월 ${time[2]}일")
+                    this.endDate = toLocalDateFormat(time[0], time[1], time[2])
                 }
             }
         }
-
     }
 
     private fun hideKeyBoard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
+    }
+
+    override fun failRequest() {
+        mPage -= 1
+        this.toastShort("목표생성을 실패하였습니다")
     }
 }
