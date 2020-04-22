@@ -29,7 +29,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
 
     }
 
-    override fun getAllView(list: ArrayList<UserSimpleData>) {
+    override fun setAllView(list: ArrayList<UserSimpleData>) {
         binding.mygoalRecyclerview.apply{
             layoutManager = LinearLayoutManager(this@OngoingGoalActivity)
             adapter = OngoingGoalAdapter(list, saveChange)

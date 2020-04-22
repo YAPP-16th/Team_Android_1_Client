@@ -8,7 +8,7 @@ class OngoingGoalPresenter(override var view: OngoingGoalContract.View)
         .getUserSimpleData()
 
     override fun getData() {
-        view.getAllView(tempdata)
+        view.setAllView(tempdata)
 
     }
 }
