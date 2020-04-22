@@ -148,6 +148,7 @@
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="20dp"
             android:backgroundTint="@color/colorWhite"
+            android:onClick="@{() -> fragment.navigateToAddGoal()}"
             app:backgroundTint="@color/colorWhite"
             app:srcCompat="@drawable/ic_add_goal_flag"
             app:layout_constraintEnd_toEndOf="parent"

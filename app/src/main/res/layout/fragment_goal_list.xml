@@ -5,7 +5,6 @@
     tools:context=".feature.addGoal.newGoalPage.GoalListFragment">
 
     <data>
-
         <variable
             name="fragment"
             type="com.eroom.erooja.feature.addGoal.newGoalPage.GoalListFragment" />

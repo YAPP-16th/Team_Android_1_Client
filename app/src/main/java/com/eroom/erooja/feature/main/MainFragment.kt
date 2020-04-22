@@ -2,6 +2,7 @@ package com.eroom.erooja.feature.main
 
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import androidx.databinding.ObservableField
 import com.eroom.domain.utils.fromHtml
 
 import com.eroom.erooja.databinding.FragmentMainBinding
+import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalActivity
 import com.eroom.erooja.feature.tab.TabActivity
 import org.koin.android.ext.android.get
 
@@ -56,6 +58,8 @@ class MainFragment : Fragment(), MainContract.View {
     }
 
     fun navigateToSearchTab() = (activity as TabActivity).changeTabToSearch()
+
+    fun navigateToAddGoal() = (activity as TabActivity).navigateToNewGoal()
 
     override fun setNickname(nickname: String) = nicknameText.set("$nickname 님의 관심직무")
 

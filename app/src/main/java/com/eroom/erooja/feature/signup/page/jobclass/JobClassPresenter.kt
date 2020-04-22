@@ -35,6 +35,4 @@ class JobClassPresenter(
                 Timber.e(it.localizedMessage)
             })
     }
-
-
 }
