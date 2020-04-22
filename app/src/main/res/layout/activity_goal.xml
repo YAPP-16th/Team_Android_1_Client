@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="mygoal"
+            type="com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/coordinatorlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/goal_details_parent_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/linearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/orgDefault"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        bind:layout_constraintTop_toTopOf="parent">
+
+                        <ImageButton
+                            android:id="@+id/backButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="@{mygoal::backClick}"
+                            android:background="@drawable/ic_icon_navi_arrow_left_white"
+                            bind:layout_constraintStart_toStartOf="parent"
+                            bind:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_icon_navi_menu_white"
+                            bind:layout_constraintBottom_toBottomOf="@+id/backButton"
+                            bind:layout_constraintEnd_toEndOf="parent"
+                            bind:layout_constraintHorizontal_bias="0.95"
+                            bind:layout_constraintStart_toEndOf="@+id/backButton"
+                            bind:layout_constraintTop_toTopOf="@+id/backButton" />
+
+                        <TextView
+                            android:id="@+id/goal_date_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="13dp"
+                            android:fontFamily="sans-serif"
+                            android:text="2020.03.05~03.07"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="12sp"
+                            android:textStyle="normal"
+                            bind:layout_constraintBottom_toTopOf="@+id/goal_name_txt"
+                            bind:layout_constraintStart_toStartOf="@+id/goal_name_txt"
+                            bind:layout_constraintTop_toBottomOf="@+id/backButton" />
+
+                        <TextView
+                            android:id="@+id/goal_name_txt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginBottom="24dp"
+                            android:lineSpacingExtra="12sp"
+                            android:paddingEnd="18dp"
+                            android:text="애프터이펙트 익스프레션 학습을 통한 모션그래픽 제작"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            bind:layout_constraintBottom_toBottomOf="parent"
+                            bind:layout_constraintEnd_toEndOf="parent"
+                            bind:layout_constraintStart_toStartOf="parent"
+                            bind:layout_constraintTop_toBottomOf="@id/goal_date_txt" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/goal_desc_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/boader_bottom_round_org"
+                        bind:layout_constraintEnd_toEndOf="@+id/linearLayout"
+                        bind:layout_constraintStart_toStartOf="@+id/linearLayout"
+                        bind:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_wb_incandescent_25_px"
+                            bind:layout_constraintEnd_toStartOf="@+id/include"
+                            bind:layout_constraintStart_toStartOf="parent"
+                            bind:layout_constraintTop_toTopOf="parent" />
+
+                        <include
+                            android:id="@+id/include"
+                            layout="@layout/include_ongoing_goal_desc"
+                            bind:mygoal ="@{mygoal}"
+                            tools:layout_editor_absoluteX="48dp" />
+
+                        <ImageButton
+                            android:id="@+id/more_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|center"
+                            android:background="@drawable/ic_icon_small_arrow_right_white"
+                            android:onClick="@{mygoal::moreClick}"
+                            bind:layout_constraintStart_toStartOf="@id/include"
+                            bind:layout_constraintEnd_toEndOf="@id/include"
+                            bind:layout_constraintTop_toBottomOf="@id/include"/>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/participant_list_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="28dp"
+                        android:text="40% 달성중"
+                        android:textColor="@color/grey7"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        bind:layout_constraintEnd_toEndOf="@+id/linearLayout"
+                        bind:layout_constraintStart_toStartOf="@+id/linearLayout"
+                        bind:layout_constraintTop_toBottomOf="@+id/goal_desc_layout" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/mygoal_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="100dp"
+                        android:elevation="10dp"
+                        android:overScrollMode="never"
+                        android:padding="8dp"
+                        bind:layout_constraintBottom_toBottomOf="parent"
+                        bind:layout_constraintEnd_toEndOf="parent"
+                        bind:layout_constraintStart_toStartOf="@+id/participant_list_text"
+                        bind:layout_constraintTop_toBottomOf="@+id/participant_list_text" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <Button
+            android:id="@+id/save_list_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:background="@drawable/btn_floating_savechange"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            bind:layout_constraintTop_toBottomOf="parent"
+            bind:layout_constraintEnd_toEndOf="parent"
+            bind:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
