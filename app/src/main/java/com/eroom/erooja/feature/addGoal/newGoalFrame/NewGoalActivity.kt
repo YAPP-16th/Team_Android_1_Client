@@ -44,6 +44,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private var goalList: ArrayList<String> = ArrayList()
     private var startDate: String = ""
     private var endDate = ""
+    private var additionalGoalList = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,6 +100,9 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         })
         (mFragmentList[4] as GoalListFragment).goalListCheck.observe(this, Observer {
             nextClickable.set(it)
+        })
+        (mFragmentList[4] as GoalListFragment).writingText.observe(this, Observer {
+            additionalGoalList = it
         })
     }
 
@@ -193,10 +197,11 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         finish()
     }
 
-    /**
-     * 목표명, 목표 상세명, 목표 종료일, 목표 목록을 서버로 요청하는 함수(이 함수가 false를 반환할 경우 다음 화면으로 넘어가면 안됨.)*/
     private fun networkRequest() {
-        presenter.addNewGoal(goalTitleText, goalDetailContentText, isDateFixed, endDate, selectedIds, goalList)
+        if (additionalGoalList.isNotEmpty())
+            presenter.addNewGoal(goalTitleText, goalDetailContentText, isDateFixed, endDate, selectedIds, goalList.apply { add(additionalGoalList) })
+        else
+            presenter.addNewGoal(goalTitleText, goalDetailContentText, isDateFixed, endDate, selectedIds, goalList)
     }
 
     override fun onBackPressed() {

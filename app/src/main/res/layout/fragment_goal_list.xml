@@ -91,6 +91,7 @@
                             android:layout_height="7dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="20dp"
+                            android:tint="@{fragment.isExistWritingText ? @color/orgDefault : @color/grey4}"
                             android:src="@drawable/goal_list_dot_inactivate" />
 
                     </FrameLayout>

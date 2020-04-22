@@ -12,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.core.widget.doAfterTextChanged
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.eroom.domain.utils.toastShort
@@ -27,6 +29,9 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
 
     val goalList: MutableLiveData<ArrayList<String>> = MutableLiveData(ArrayList())
     var goalListCheck: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    val isExistWritingText: ObservableField<Boolean> = ObservableField()
+    val writingText: MutableLiveData<String> = MutableLiveData()
 
     companion object {
         @JvmStatic
@@ -60,6 +65,10 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
             }
         }
         goalListBinding.goalContentEdittext.setOnEditorActionListener(this)
+        goalListBinding.goalContentEdittext.doAfterTextChanged {
+            isExistWritingText.set(it?.length ?: 0 > 0)
+            writingText.value = it.toString()
+        }
     }
 
     override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
