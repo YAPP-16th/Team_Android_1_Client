@@ -6,31 +6,30 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.localclass.*
+import com.eroom.data.response.JobGroupAndClassResponse
 import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityFilterBinding
+import org.koin.android.ext.android.get
 
 class FilterActivity : AppCompatActivity(), FilterContract.View {
-    lateinit var presenter: FilterPresenter
-    lateinit var filterBinding: ActivityFilterBinding
-    lateinit var mAdapter: JobGroupAdapter
+    private lateinit var presenter: FilterPresenter
+    private lateinit var filterBinding: ActivityFilterBinding
+    private lateinit var mAdapter: JobGroupAdapter
 
     val classCheck: ObservableField<Boolean> = ObservableField(false)
-
-    private lateinit var mDevelopClassInfo: DevelopSelected
-    private lateinit var mDesignClassInfo: DesignSelected
+    private val selectedId: ArrayList<Long> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initPresenter()
         setUpDataBinding()
-        initInfo()
         initView()
     }
 
     private fun initPresenter() {
-        presenter = FilterPresenter(this)
+        presenter = FilterPresenter(this, get(), get())
     }
 
     private fun setUpDataBinding() {
@@ -38,78 +37,45 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
         filterBinding.activity = this
     }
 
-    private fun initInfo() {
-        mDevelopClassInfo = DevelopSelected(DevelopClass.getArray(), ArrayList<Boolean>().apply { repeat(DevelopClass.getArray().size){add(false)} })
-        mDesignClassInfo = DesignSelected(DesignClass.getArray(), ArrayList<Boolean>().apply { repeat(DesignClass.getArray().size){add(false)} })
+    private fun initView() {
+        presenter.getJobGroups()
     }
 
-    private fun initView() {
-        val group = JobGroup.getGroup()
-        mAdapter = JobGroupAdapter(
-            group,
-            mDevelopClassInfo,
-            mDesignClassInfo,
-            itemDevClicked,
-            itemDesignClicked
-        )
+    override fun reRequestClassByGroup(jobGroupList: ArrayList<com.eroom.data.entity.JobGroup>) =
+        jobGroupList.map {
+            it.id
+        }.toList().let {
+            presenter.getJobGroupAndClasses(it)
+        }
+
+    override fun updateJobGroupAndClass(result: List<JobGroupAndClassResponse>) {
+        mAdapter = JobGroupAdapter(this, result, selectedId, itemClick)
         filterBinding.jobGroupRecycler.apply {
             adapter = mAdapter
-            layoutManager = LinearLayoutManager(this@FilterActivity)
+            layoutManager = LinearLayoutManager(context)
         }
     }
 
-    private val itemDevClicked = { position: Int ->
-        mDevelopClassInfo.let { it.isSelected[position] = !it.isSelected[position] }
+    private val itemClick = { id: Long, preState: Boolean ->
+        if (preState)
+            selectedId.remove(id)
+        else
+            selectedId.add(id)
+        checkSelect()
         mAdapter.notifyDataSetChanged()
-        checkInfo()
-    }
-
-    private val itemDesignClicked = { position: Int ->
-        mDesignClassInfo.let { it.isSelected[position] = !it.isSelected[position] }
-        mAdapter.notifyDataSetChanged()
-        checkInfo()
-    }
-
-    private fun checkInfo() {
-        var result = false
-        mDevelopClassInfo.let {
-            it.isSelected.forEach { boolean ->
-                result = result || boolean
-            }
-        }
-        mDesignClassInfo.let {
-            it.isSelected.forEach { boolean ->
-                result = result || boolean
-            }
-        }
-        classCheck.set(result)
     }
 
     fun resetButtonClicked() {
-        repeat(DevelopClass.getArray().size) {
-            mDevelopClassInfo.isSelected[it] = false
-        }
-        repeat(DesignClass.getArray().size) {
-            mDesignClassInfo.isSelected[it] = false
-        }
+        selectedId.clear()
         mAdapter.notifyDataSetChanged()
         classCheck.set(false)
     }
 
-    fun completeButtonClicked() {
-        if (classCheck.get()!!) {
-            var index = 0
-            var result = ""
-            mDevelopClassInfo.isSelected.forEach {
-                if (it) result += mDevelopClassInfo.classEnum[index].getName() + "\n"
-                index++
-            }
-            index = 0
-            mDesignClassInfo.isSelected.forEach {
-                if (it) result += mDesignClassInfo.classEnum[index].getName() + "\n"
-                index++
-            }
-            this.toastShort(result)
-        }
+    fun closeButtonClicked() {
+        finish()
+    }
+
+    private fun checkSelect() {
+        classCheck.set(selectedId.size != 0)
     }
 }

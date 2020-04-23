@@ -5,7 +5,6 @@
     tools:context=".feature.addGoal.newGoalPage.GoalListFragment">
 
     <data>
-
         <variable
             name="fragment"
             type="com.eroom.erooja.feature.addGoal.newGoalPage.GoalListFragment" />
@@ -82,6 +81,7 @@
                             android:maxLines="1"
                             android:paddingVertical="10dp"
                             android:paddingStart="40dp"
+                            android:paddingEnd="20dp"
                             android:textCursorDrawable="@drawable/edit_text_cursor"
                             android:textSize="16sp" />
 
@@ -91,6 +91,7 @@
                             android:layout_height="7dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="20dp"
+                            android:tint="@{fragment.isExistWritingText ? @color/orgDefault : @color/grey4}"
                             android:src="@drawable/goal_list_dot_inactivate" />
 
                     </FrameLayout>

@@ -1,5 +1,10 @@
 package com.eroom.erooja.feature.login
 
+import android.annotation.SuppressLint
+import com.eroom.domain.api.usecase.auth.PostKakaoLoginUseCase
+import com.eroom.domain.globalconst.Consts
+import com.eroom.domain.koin.repository.SharedPrefRepository
+import com.eroom.domain.utils.ConverterUtil
 import com.kakao.network.ErrorResult
 import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.LogoutResponseCallback
@@ -9,7 +14,10 @@ import com.kakao.usermgmt.response.model.Profile
 import com.kakao.usermgmt.response.model.UserAccount
 import timber.log.Timber
 
-class LoginPresenter(override val view: LoginContract.View) : LoginContract.Presenter {
+class LoginPresenter(override val view: LoginContract.View,
+                     private val postKakaoLoginUseCase: PostKakaoLoginUseCase,
+                     private val sharedPrefRepository: SharedPrefRepository
+) : LoginContract.Presenter {
 
     override val requestMe =  {
         UserManagement.getInstance().me(object : MeV2ResponseCallback() {
@@ -26,18 +34,37 @@ class LoginPresenter(override val view: LoginContract.View) : LoginContract.Pres
                 Timber.d("user id : " + response.id)
                 val kakaoAccount: UserAccount = response.kakaoAccount
                 val profile: Profile? = kakaoAccount.profile
+                var nickname: String? = null
+                var thumbnailImage: String? = null
                 if(profile != null) {
+                    nickname = profile.nickname
+                    thumbnailImage = profile.thumbnailImageUrl
                     Timber.d("nickname: " + profile.nickname)
                     Timber.d("profile image: " + profile.profileImageUrl)
                     Timber.d("thumbnail image: " + profile.thumbnailImageUrl)
-                } else {
-                    // 프로필 획득 불가
                 }
-                logout()
-                //if 회원정보 없을 경우
-                //redirectSignUpActivity()
+                checkUserInfo(response.id, nickname, thumbnailImage)
             }
         })
+    }
+
+    @SuppressLint("CheckResult")
+    private fun checkUserInfo(userId: Long, nickname: String?, thumbnailImage: String?) {
+        postKakaoLoginUseCase.postKakaoLogin(userId)
+            .subscribe({
+                sharedPrefRepository.writePrefs(Consts.ACCESS_TOKEN, ConverterUtil._Encode(it.token))
+                sharedPrefRepository.writePrefs(Consts.REFRESH_TOKEN, ConverterUtil._Encode(it.refreshToken))
+                logout()
+                if (it.isAdditionalInfoNeeded)
+                    view.redirectSignUpActivity(nickname)
+                else {
+                    sharedPrefRepository.writePrefs(Consts.AUTO_LOGIN, true)
+                    view.redirectMainActivity()
+                }
+            },{
+                Timber.e(it.localizedMessage)
+                logout()
+            })
     }
 
     private fun logout() = UserManagement.getInstance()
@@ -46,4 +73,11 @@ class LoginPresenter(override val view: LoginContract.View) : LoginContract.Pres
                 Timber.i("KAKAO_API 로그아웃 완료")
             }
         })
+
+    override fun guestLoginSetting() {
+        sharedPrefRepository.writePrefs(Consts.IS_GUEST, true)
+        sharedPrefRepository.writePrefs(Consts.AUTO_LOGIN, true)
+        sharedPrefRepository.writePrefs(Consts.ACCESS_TOKEN, "")
+        sharedPrefRepository.writePrefs(Consts.REFRESH_TOKEN, "")
+    }
 }

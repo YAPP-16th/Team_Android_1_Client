@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.signup.page
+package com.eroom.erooja.feature.signup.page.jobgroup
 
 
 import android.os.Bundle
@@ -26,7 +26,8 @@ class JobGroupFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = JobGroupFragment()
+        fun newInstance() =
+            JobGroupFragment()
     }
 
     override fun onCreateView(

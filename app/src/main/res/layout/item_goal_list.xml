@@ -23,6 +23,7 @@
             android:maxLines="1"
             android:paddingVertical="10dp"
             android:paddingStart="40dp"
+            android:paddingEnd="30dp"
             android:textColor="@color/grey7"
             android:textSize="16sp"
             tools:text="dafsd" />

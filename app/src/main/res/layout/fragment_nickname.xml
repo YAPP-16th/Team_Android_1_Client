@@ -5,7 +5,7 @@
     <data>
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.signup.page.NicknameFragment" />
+            type="com.eroom.erooja.feature.signup.page.nickname.NicknameFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:text="@string/please_input_nickname"
             android:textColor="@color/grey7"
-            android:textSize="18sp"
+            android:textSize="19sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +30,7 @@
             android:id="@+id/nicknameText"
             android:layout_width="220dp"
             android:layout_height="55dp"
-            android:textSize="14sp"
+            android:textSize="15sp"
             android:gravity="center"
             android:ems="10"
             android:inputType="textPersonName"
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:textColor="@color/colorError"
-            android:textSize="10sp"
+            android:textSize="12sp"
             android:visibility="invisible"
             android:text="@string/already_using_nickname"
             app:layout_constraintEnd_toEndOf="parent"
@@ -95,8 +95,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{() -> fragment.nextButtonClicked()}"
-            android:padding="12dp"
-            android:textSize="14sp"
+            android:padding="16dp"
+            android:textSize="16sp"
             android:text="@string/next"
             android:textColor="@{fragment.nicknameCheck ? @color/colorWhite : @color/grey5}"
             android:background="@{fragment.nicknameCheck ? @color/orgDefault : @color/grey2}"

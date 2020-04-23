@@ -6,7 +6,7 @@
         <import type="android.view.View"/>
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.signup.page.JobGroupFragment" />
+            type="com.eroom.erooja.feature.signup.page.jobgroup.JobGroupFragment" />
         <variable
             name="view"
             type="android.view.View" />
@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.signup.page.JobGroupFragment">
+        tools:context=".feature.signup.page.jobgroup.JobGroupFragment">
 
         <TextView
             android:id="@+id/jobGroupInfo"
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:text="@string/please_select_job_group"
             android:textColor="@color/grey7"
-            android:textSize="18sp"
+            android:textSize="19sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +61,7 @@
                 android:id="@+id/developmentText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 android:text="@string/group_development"
                 android:layout_marginTop="13dp" />
         </LinearLayout>
@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/group_design"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 android:layout_marginTop="13dp" />
         </LinearLayout>
 
@@ -107,8 +107,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{() -> fragment.nextButtonClicked()}"
-            android:padding="12dp"
-            android:textSize="14sp"
+            android:padding="16dp"
+            android:textSize="16sp"
             android:text="@string/next"
             android:textColor="@{fragment.groupCheck ? @color/colorWhite : @color/grey5}"
             android:background="@{fragment.groupCheck ? @color/orgDefault : @color/grey2}"

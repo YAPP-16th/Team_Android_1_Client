@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.eroom.domain.customview.bottomsheet.BottomSheetFragment
+import com.eroom.domain.globalconst.Consts
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityLoginBinding
 import com.eroom.erooja.feature.signup.kakao.KakaoSignUpActivity
@@ -13,6 +14,7 @@ import com.kakao.auth.ISessionCallback
 import com.kakao.auth.Session
 import com.kakao.usermgmt.response.MeV2Response
 import com.kakao.util.exception.KakaoException
+import org.koin.android.ext.android.get
 import timber.log.Timber
 import java.util.concurrent.Future
 
@@ -32,7 +34,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     private fun initPresenter() {
         presenter =
-            LoginPresenter(this)
+            LoginPresenter(this, get(), get())
     }
 
     private fun setUpDataBinding() {
@@ -68,13 +70,21 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         }
     }
 
-    override val redirectSignUpActivity = {
-        val intent = Intent(this, KakaoSignUpActivity::class.java)
+    override val redirectSignUpActivity = { nickname: String? ->
+        val intent = Intent(this, KakaoSignUpActivity::class.java).apply { putExtra(Consts.NICKNAME, nickname ?: "") }
+        startActivity(intent)
+    }
+
+    override val redirectMainActivity = {
+        val intent = Intent(this, TabActivity::class.java)
         startActivity(intent)
         finish()
     }
 
     fun kakaoLoginButtonClicked() = loginBinding.comKakaoLogin.performClick()
 
-    fun guestLoginButtonClicked() = startActivity(Intent(this, TabActivity::class.java))
+    fun guestLoginButtonClicked() {
+        presenter.guestLoginSetting()
+        startActivity(Intent(this, TabActivity::class.java))
+    }
 }

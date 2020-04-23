@@ -5,13 +5,13 @@
     <data>
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.signup.page.JobClassFragment" />
+            type="com.eroom.erooja.feature.signup.page.jobclass.JobClassFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.signup.page.JobClassFragment">
+        tools:context=".feature.signup.page.jobclass.JobClassFragment">
 
         <TextView
             android:id="@+id/jobClassInfo"
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:text="@string/please_select_job_class"
             android:textColor="@color/grey7"
-            android:textSize="18sp"
+            android:textSize="19sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:text="@string/job_class_select_info"
             android:layout_marginTop="10dp"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,8 +60,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{() -> fragment.nextButtonClicked()}"
-            android:padding="12dp"
-            android:textSize="14sp"
+            android:padding="16dp"
+            android:textSize="16sp"
             android:text="@string/next"
             android:textColor="@{fragment.classCheck ? @color/colorWhite : @color/grey5}"
             android:background="@{fragment.classCheck ? @color/orgDefault : @color/grey2}"

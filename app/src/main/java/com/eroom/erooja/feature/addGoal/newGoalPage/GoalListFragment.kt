@@ -12,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.core.widget.doAfterTextChanged
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.eroom.domain.utils.toastShort
@@ -23,8 +25,13 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
     private lateinit var goalListBinding: FragmentGoalListBinding
     private lateinit var mAdapter: GoalAdapter
 
+    private val goalItem: ArrayList<String> = ArrayList()
+
     val goalList: MutableLiveData<ArrayList<String>> = MutableLiveData(ArrayList())
     var goalListCheck: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    val isExistWritingText: ObservableField<Boolean> = ObservableField()
+    val writingText: MutableLiveData<String> = MutableLiveData()
 
     companion object {
         @JvmStatic
@@ -48,8 +55,7 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
     }
 
     private fun initView() {
-        mAdapter = GoalAdapter()
-        goalListBinding.goalListRecycler.adapter = mAdapter
+        loadRecyclerView()
         goalListBinding.goalListRecycler.layoutManager = LinearLayoutManager(requireContext())
         goalListBinding.scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
             if (scrollY < 20) {
@@ -59,6 +65,10 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
             }
         }
         goalListBinding.goalContentEdittext.setOnEditorActionListener(this)
+        goalListBinding.goalContentEdittext.doAfterTextChanged {
+            isExistWritingText.set(it?.length ?: 0 > 0)
+            writingText.value = it.toString()
+        }
     }
 
     override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
@@ -69,21 +79,19 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
                     if (len < 1) {
                         requestFocus(v)
                         context?.toastShort("한 글자 이상 입력해주세요")
-                        if (goalList.value?.size == 0) {
+                        if (goalItem.size == 0) {
                             goalListBinding.goalListSizeErrorTextview.visibility = View.VISIBLE
                         }
                         return false
                     } else {
-                        val temp = goalList.value ?: ArrayList()
-                        val temp2 = temp.apply { add(v.text.toString().trim()) }
-                        this.goalList.value = temp2
+                        goalItem.add(v.text.toString().trim())
+                        this.goalList.value = goalItem
 
-                        goalListCheck.value = goalList.value?.size!! > 0
+                        goalListCheck.value = goalItem.size > 0
                         goalListBinding.goalListSizeErrorTextview.visibility = View.INVISIBLE
 
                         v.text = ""
-                        mAdapter.goalList = this.goalList.value ?: ArrayList()
-                        mAdapter.notifyItemInserted(mAdapter.goalList.size + 1)
+                        loadRecyclerView()
                         requestFocus(v)
                     }
                 }
@@ -91,6 +99,17 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
             return false
         }
         return true
+    }
+
+    private val deleteItem = { position: Int ->
+        goalItem.removeAt(position)
+        this.goalList.value = goalItem
+        loadRecyclerView()
+    }
+
+    private fun loadRecyclerView() {
+        mAdapter = GoalAdapter(goalItem, deleteItem)
+        goalListBinding.goalListRecycler.adapter = mAdapter
     }
 
     private fun requestFocus(v: View) {

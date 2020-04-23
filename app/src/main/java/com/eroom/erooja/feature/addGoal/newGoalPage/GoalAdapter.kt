@@ -6,9 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eroom.erooja.databinding.ItemGoalListBinding
 
 
-class GoalAdapter : RecyclerView.Adapter<GoalAdapter.ViewHolder>() {
+class GoalAdapter(private var goalList: ArrayList<String>, private val deleteClick: (Int) -> Unit) : RecyclerView.Adapter<GoalAdapter.ViewHolder>() {
     lateinit var itemGoalListBinding: ItemGoalListBinding
-    var goalList: ArrayList<String> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -28,6 +27,7 @@ class GoalAdapter : RecyclerView.Adapter<GoalAdapter.ViewHolder>() {
         RecyclerView.ViewHolder(itemGoalListBinding.root) {
         fun bind(goalContent: String) {
             itemGoalListBinding.goalContentTextview.text = goalContent
+            itemGoalListBinding.goalDot.setOnClickListener { deleteClick(adapterPosition) }
         }
     }
 }
