@@ -7,19 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.eroom.data.localclass.DesignClass
-import com.eroom.data.localclass.DevelopClass
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.FragmentSearchBinding
 import com.eroom.erooja.feature.filter.FilterActivity
 import com.eroom.erooja.feature.search.search_detail_page.SearchDetailActivity
 import com.eroom.erooja.feature.search.search_main_frame.SearchNoGoalListFragment
-import com.google.android.material.tabs.TabLayout
+import org.koin.android.ext.android.get
 
-class SearchFragment : Fragment(), SearchContract.View{
-    //var searchFrame: ArrayList<Fragment> = ArrayList()
+
+class SearchFragment : Fragment(), SearchContract.View {
     private lateinit var searchBinding: FragmentSearchBinding
-    //private lateinit var presenter: SearchFragment
+    private lateinit var presenter: SearchPresenter
 
 
     companion object {
@@ -29,7 +27,7 @@ class SearchFragment : Fragment(), SearchContract.View{
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-       // presenter = SearchPresenter(this)
+       presenter = SearchPresenter(this, get())
     }
 
     override fun onCreateView(
@@ -52,27 +50,15 @@ class SearchFragment : Fragment(), SearchContract.View{
     }
 
     private fun initView() {
-        for (i in 0 until 9) {
-            searchBinding.searchMainTablayout.addTab(
-                searchBinding.searchMainTablayout.newTab().setText(
-                    DesignClass.getArray()[i].getName())
-            )
-            searchBinding.searchMainTablayout.addTab(
-            searchBinding.searchMainTablayout.newTab().setText(
-                DevelopClass.getArray()[i].getName())
-            )
+        presenter.getAlignedJobInterest()
+    }
 
+    override fun setAlignedJobInterest(interest: MutableSet<String>) {
+        interest.forEach {
+            searchBinding.searchMainTablayout.addTab(
+                searchBinding.searchMainTablayout.newTab().setText(it)
+            )
         }
-
-        searchBinding.searchMainTablayout.addOnTabSelectedListener(object :
-            TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(p0: TabLayout.Tab?) {}
-            override fun onTabUnselected(p0: TabLayout.Tab?) {}
-            override fun onTabSelected(p0: TabLayout.Tab) {
-                var pos = p0.position
-                changeView(pos)
-            }
-        })
     }
 
     fun searchClick(v: View){
