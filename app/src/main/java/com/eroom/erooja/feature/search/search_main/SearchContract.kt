@@ -6,7 +6,7 @@ import com.eroom.data.entity.JobClass
 interface SearchContract{
     interface View{
         fun setAlignedJobInterest(interest: MutableSet<String>)
-        fun setUserJobInterest(interest: ArrayList<JobClass>)
+        fun setUserJobInterest(interest: MutableSet<JobClass>)
     }
 
     interface Presenter{

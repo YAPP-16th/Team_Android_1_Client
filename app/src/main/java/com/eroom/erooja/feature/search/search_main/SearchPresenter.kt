@@ -17,7 +17,7 @@ class SearchPresenter(override val view:SearchContract.View,
         getMemberJobInterestsUseCase.getMemberJobInterests()
             .subscribe({
                 val userJobInterest = mutableSetOf<String>()
-                val userJobInterestList =ArrayList<JobClass>()
+                val userJobInterestList = mutableSetOf<JobClass>()
                 for (group in it) {
                     group.jobInterests.map { jobclass ->
                         userJobInterest.add(jobclass.name)

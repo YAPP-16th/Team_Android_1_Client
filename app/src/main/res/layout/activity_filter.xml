@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="true"
-            app:layout_constraintBottom_toTopOf="@id/resetButton"
+            app:layout_constraintBottom_toTopOf="@id/completeButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/closeButton">
@@ -71,14 +71,14 @@
         </androidx.core.widget.NestedScrollView>
 
         <LinearLayout
-            android:id="@+id/resetButton"
+            android:id="@+id/completeButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="@{activity.classCheck ? @color/orgDefault : @color/grey3}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:onClick="@{() -> activity.resetButtonClicked()}"
+            android:onClick="@{() -> activity.completeButtonClicked()}"
             android:gravity="center"
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent">
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textColor="@{activity.classCheck ? @color/colorWhite : @color/grey5}"
-                android:text="@string/reset_text"/>
+                android:text="@string/complete_text"/>
         </LinearLayout>
 
 

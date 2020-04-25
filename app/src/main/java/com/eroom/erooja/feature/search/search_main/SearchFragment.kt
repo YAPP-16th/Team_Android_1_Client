@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.size
+import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import com.eroom.data.entity.JobClass
 import com.eroom.erooja.R
@@ -13,16 +15,20 @@ import com.eroom.erooja.databinding.FragmentSearchBinding
 import com.eroom.erooja.feature.filter.FilterActivity
 import com.eroom.erooja.feature.search.search_detail_page.SearchDetailActivity
 import com.eroom.erooja.feature.search.search_main_frame.SearchNoGoalListFragment
+import com.kakao.usermgmt.StringSet.name
 import org.koin.android.ext.android.get
 import timber.log.Timber
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class SearchFragment : Fragment(), SearchContract.View {
     private lateinit var searchBinding: FragmentSearchBinding
     private lateinit var presenter: SearchPresenter
-    private lateinit var selectedGroupClassesNum: ArrayList<Long>
-
-
+    private var selectedGroupClassesNum = ArrayList<Long>()
+    private var selectedGroupClassesName = ArrayList<String>()
+    private var comfirmCheck : ObservableField<Boolean> = ObservableField(true)
 
     companion object {
         @JvmStatic
@@ -58,15 +64,21 @@ class SearchFragment : Fragment(), SearchContract.View {
     }
 
     override fun setAlignedJobInterest(interest: MutableSet<String>) {
-        interest.forEach {
-            searchBinding.searchMainTablayout.addTab(
-                searchBinding.searchMainTablayout.newTab().setText(it)
-            )
+        when(searchBinding.searchMainTablayout.tabCount) {
+            0 -> {
+                interest.forEach {
+                    searchBinding.searchMainTablayout.addTab(
+                        searchBinding.searchMainTablayout.newTab().setText(it)
+                    )
+                }
+            }
+            else -> {
+                Timber.i("PASS")
+            }
         }
     }
 
-    override fun setUserJobInterest(interest: ArrayList<JobClass>) {
-        selectedGroupClassesNum = ArrayList()
+    override fun setUserJobInterest(interest: MutableSet<JobClass>) {
         interest.map{
             selectedGroupClassesNum.add(it.id)
         }
@@ -86,22 +98,55 @@ class SearchFragment : Fragment(), SearchContract.View {
                     .commit()
            // loadChildFragment(0)
         }
-
-
     //private fun loadChildFragment(index: Int)()
 
     private fun changeView(pos: Int){
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode ==1000 && resultCode==1000 ) {
+            selectedGroupClassesName.clear()
+            selectedGroupClassesNum.clear()
+
+            val result1 = data?.getSerializableExtra("selectedId") as ArrayList<Long>
+            val result2 = data?.getSerializableExtra("HashMap") as HashMap<Long, String>
+
+            repeat(result1.size) {
+                result2.get(result1[it])?.let { it ->
+                    selectedGroupClassesName.add(it) }
+
+                selectedGroupClassesNum.add(result1[it])
+            }
+
+
+            comfirmCheck.let{
+                updateTab(selectedGroupClassesName) }
+                .also{ comfirmCheck.set(false) }
+        }
+    }
+
+
+    private fun updateTab(it: ArrayList<String>){
+        searchBinding.searchMainTablayout.removeAllTabs()
+
+        it.forEach {
+            searchBinding.searchMainTablayout.addTab(
+                searchBinding.searchMainTablayout.newTab().setText(it)
+            )
+        }
+    }
+
     fun openSearchFilter() {
         val intent = Intent(activity, FilterActivity::class.java)
+        var number = ArrayList<Long>()
 
         repeat(selectedGroupClassesNum.size){
-            intent.putExtra("search_${selectedGroupClassesNum[it]}",selectedGroupClassesNum[it])
-            Timber.i("search test! ")
+            number.add(selectedGroupClassesNum[it])
         }
-        startActivity(intent)
 
-        //startActivity(Intent(activity, FilterActivity::class.java))
+        intent.putExtra("search",number)
+        startActivityForResult(intent, 1000)
     }
 }
