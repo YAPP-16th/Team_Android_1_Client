@@ -2,6 +2,7 @@ package com.eroom.erooja.feature.main
 
 import android.annotation.SuppressLint
 import com.eroom.data.entity.JobClass
+import com.eroom.domain.api.usecase.goal.GetInterestedGoalsUseCase
 import com.eroom.domain.api.usecase.member.GetMemberInfoUseCase
 import com.eroom.domain.api.usecase.member.GetMemberJobInterestsUseCase
 import com.eroom.domain.globalconst.Consts
@@ -14,7 +15,8 @@ class MainPresenter(
     override val view: MainContract.View,
     private val sharedPrefRepository: SharedPrefRepository,
     private val getMemberInfoUseCase: GetMemberInfoUseCase,
-    private val getMemberJobInterestUseCase: GetMemberJobInterestsUseCase
+    private val getMemberJobInterestUseCase: GetMemberJobInterestsUseCase,
+    private val getInterestedGoalsUseCase: GetInterestedGoalsUseCase
 ) : MainContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
@@ -42,11 +44,21 @@ class MainPresenter(
                 if (classList.size != 0) {
                     val a = Math.random() * 100
                     val index = (a % classList.size).toInt()
-                    view.setJobInterestInfo(classList[index].name, classList[index].id, classList.size)
+                    view.setJobInterestInfo(classList[index].name, classList[index].id, classList)
                 }
             },{
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
+    }
+
+    @SuppressLint("CheckResult")
+    override fun getInterestedGoals(interestId: Long) {
+        getInterestedGoalsUseCase.getInterestedGoals(interestId, 3, 0)
+            .subscribe({
+                view.setNewGoalBrowse(it.content)
+            },{
+                Timber.e(it.localizedMessage)
+            })
     }
 
     fun isGuest() = sharedPrefRepository.getPrefsBooleanValue(Consts.IS_GUEST)

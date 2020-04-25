@@ -70,6 +70,10 @@ class TabActivity : AppCompatActivity(), TabContract.View {
         mainBinding.mainBottomTab.selectedItemId = R.id.bottom_tab_search
     }
 
+    fun changeTabToMyPage() {
+        mainBinding.mainBottomTab.selectedItemId = R.id.bottom_tab_my_page
+    }
+
     override fun onBackPressed() {
         val tempTime = System.currentTimeMillis()
         val intervalTime = tempTime - backPressedTime

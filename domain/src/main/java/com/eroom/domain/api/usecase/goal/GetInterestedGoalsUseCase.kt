@@ -1,20 +1,19 @@
 package com.eroom.domain.api.usecase.goal
 
-import com.eroom.data.request.NewGoalRequest
-import com.eroom.data.response.NewGoalResponse
+import com.eroom.data.response.InterestedGoalsResponse
 import com.eroom.domain.api.service.GoalService
-import com.eroom.domain.koin.repository.AccessRetrofitRepository
+import com.eroom.domain.koin.repository.GuestRetrofitRepository
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class PostNewGoalUseCase(retrofitRepository: AccessRetrofitRepository) {
+class GetInterestedGoalsUseCase(retrofitRepository: GuestRetrofitRepository) {
     private val goalService = retrofitRepository
-        .getAccessRetrofit()
+        .getGuestRetrofit()
         .create(GoalService::class.java)
 
-    fun postNewGoal(newGoalRequest: NewGoalRequest): Single<NewGoalResponse> = goalService
-        .postNewGoal(newGoalRequest)
+    fun getInterestedGoals(interestId: Long, size: Int, page: Int): Single<InterestedGoalsResponse> = goalService
+        .getInterestedGoals(interestId, size, page)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 }

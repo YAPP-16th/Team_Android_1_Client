@@ -30,4 +30,11 @@
         <item name="android:textSize">10dp</item>
     </style>
 
+    <style name="Theme.EroojaDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowBackground">@color/transparentWhite</item>
+    </style>
+
+
 </resources>

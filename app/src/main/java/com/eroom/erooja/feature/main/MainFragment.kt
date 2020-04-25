@@ -10,16 +10,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ObservableField
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.eroom.data.entity.GoalContent
+import com.eroom.data.entity.JobClass
+import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.fromHtml
+import com.eroom.domain.utils.toastShort
 
 import com.eroom.erooja.databinding.FragmentMainBinding
+import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalActivity
+import com.eroom.erooja.feature.search.search_detail_page.SearchDetailActivity
 import com.eroom.erooja.feature.tab.TabActivity
 import org.koin.android.ext.android.get
 
 class MainFragment : Fragment(), MainContract.View {
     private lateinit var mainBinding: FragmentMainBinding
     private lateinit var presenter: MainPresenter
+
+    private lateinit var mNewGoalAdapter: NewGoalBrowseAdapter
 
     val nicknameText: ObservableField<String> = ObservableField()
     val randomJobText: ObservableField<String> = ObservableField()
@@ -31,7 +40,7 @@ class MainFragment : Fragment(), MainContract.View {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        presenter = MainPresenter(this, get(), get(), get())
+        presenter = MainPresenter(this, get(), get(), get(), get())
     }
 
     override fun onCreateView(
@@ -59,13 +68,35 @@ class MainFragment : Fragment(), MainContract.View {
 
     fun navigateToSearchTab() = (activity as TabActivity).changeTabToSearch()
 
+    fun navigateToMyPageTab() = (activity as TabActivity).changeTabToMyPage()
+
     fun navigateToAddGoal() = (activity as TabActivity).navigateToNewGoal()
+
+    fun navigateToSearchActivity() = startActivity(Intent(activity, SearchDetailActivity::class.java))
 
     override fun setNickname(nickname: String) = nicknameText.set("$nickname 님의 관심직무")
 
-    override fun setJobInterestInfo(randomJob: String, randomJobId: Long, size: Int) {
+    override fun setJobInterestInfo(randomJob: String, randomJobId: Long, classList: ArrayList<JobClass>) {
         randomJobText.set(randomJob)
-        mainBinding.userInterestInfoCount.text = fromHtml("외 <u>${size - 1}개</u>")
+        var contentString = ""
+        for (classItem in classList) {
+            contentString += classItem.name + ", "
+        }
+        mainBinding.userInterestInfoCount.setOnClickListener {
+            startActivity(Intent(activity, EroojaDialogActivity::class.java).apply {
+                putExtra(Consts.DIALOG_TITLE, "관심직무")
+                putExtra(Consts.DIALOG_CONTENT, contentString)
+            })
+        }
+        presenter.getInterestedGoals(randomJobId)
+    }
+
+    override fun setNewGoalBrowse(content: ArrayList<GoalContent>) {
+        mNewGoalAdapter = NewGoalBrowseAdapter(content, randomJobText.get() ?: "")
+        mainBinding.newGoalRecycler.apply {
+            adapter = mNewGoalAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
     }
 
     override fun onDestroy() {
