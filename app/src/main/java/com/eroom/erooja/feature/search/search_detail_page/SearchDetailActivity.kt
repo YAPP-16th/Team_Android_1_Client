@@ -10,14 +10,21 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import com.eroom.data.localclass.DesignClass
 import com.eroom.data.localclass.DevelopClass
+import com.eroom.data.response.SearchGoalResponse
+import com.eroom.domain.utils.getKeyFromValue
+import com.eroom.domain.utils.toastLong
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivitySearchDetailBinding
 import com.eroom.erooja.feature.search.search_detail_frame.SearchJobClassFragment
 import com.eroom.erooja.feature.search.search_detail_frame.SearchJobGoalFragment
 import com.eroom.erooja.feature.search.search_detail_frame.SearchNoContentFragment
+import com.eroom.erooja.singleton.JobClassHashMap
 import com.google.android.material.tabs.TabLayout
 import com.jakewharton.rxbinding.widget.RxTextView
 import kotlinx.android.synthetic.main.activity_search_detail.*
+import org.koin.android.ext.android.get
+import rx.android.schedulers.AndroidSchedulers
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 
@@ -32,7 +39,7 @@ class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
     var autosearch = ArrayList<String>()
 
     private lateinit var searchDetailBinding: ActivitySearchDetailBinding
-    //private lateinit var presenter: SearchDetailPresenter
+    private lateinit var presenter: SearchDetailPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpDataBinding()
@@ -58,6 +65,8 @@ class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
         }.run {
             loadFragment(0)
         }
+
+        presenter = SearchDetailPresenter(this, get())
     }
 
     private fun loadFragment(index: Int) =
@@ -94,20 +103,38 @@ class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
         RxTextView.textChanges(searchDetailBinding.searchEditText)
             .debounce (300, TimeUnit.MILLISECONDS)
             .map{it.toString()}
-            .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 //Todo
                 searchword.value = it
-                //this@SearchDetailActivity.toastShort("${it.length}")
 
                 searchword.value.run{
                    changeNum = if(it.isEmpty()) search_tablayout.selectedTabPosition
                                 else 2 //Temp!
+
                 }
+
+                try {
+                   // val key = JobClassHashMap.hashmap.getKeyFromValue(searchword.value!!)
+                    for((k, v) in JobClassHashMap.hashmap){
+                        if(v == searchword.value!!){
+                            presenter.getUserGoal(k)
+                            this.toastLong("${k}")
+                        }
+                    }
+                }
+
+                catch (e: NullPointerException){
+                    this.toastLong("null")
+                }
+
                 loadFragment(changeNum)
             }
     }
 
+    override fun searchGoal(search: ArrayList<SearchGoalResponse>) {
+        this.toastLong("${search.map{ it.title }}")
+    }
 
     override fun changeView(pos: Int){
         when(pos){
