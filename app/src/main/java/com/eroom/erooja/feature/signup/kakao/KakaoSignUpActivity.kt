@@ -108,7 +108,7 @@ class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
     }
 
     fun requestUserInfo() {
-        presenter.requestUserInfo(nicknameText, classSelected.apply { groupId?.let { add(it) } })
+        presenter.requestUserInfo(nicknameText, classSelected)
     }
 
     override fun navigateToMain() {
@@ -120,5 +120,10 @@ class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
     }
 
     override fun onBackPressed() = prevButtonClicked()
+
+    override fun onDestroy() {
+        presenter.onCleared()
+        super.onDestroy()
+    }
 }
 

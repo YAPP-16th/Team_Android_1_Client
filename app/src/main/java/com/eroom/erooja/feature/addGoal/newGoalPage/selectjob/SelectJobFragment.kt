@@ -82,4 +82,9 @@ class SelectJobFragment : Fragment(), SelectJobContract.View {
     private fun checkSelect() {
         selectCheck.value = selectedId.size != 0
     }
+
+    override fun onDestroy() {
+        presenter.onCleared()
+        super.onDestroy()
+    }
 }

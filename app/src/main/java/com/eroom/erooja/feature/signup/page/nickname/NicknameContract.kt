@@ -15,5 +15,6 @@ interface NicknameContract {
     interface Presenter {
         val view: View
         fun checkNickname(nickname: String)
+        fun onCleared()
     }
 }

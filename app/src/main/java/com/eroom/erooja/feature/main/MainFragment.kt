@@ -67,4 +67,9 @@ class MainFragment : Fragment(), MainContract.View {
         randomJobText.set(randomJob)
         mainBinding.userInterestInfoCount.text = fromHtml("외 <u>${size - 1}개</u>")
     }
+
+    override fun onDestroy() {
+        presenter.onCleared()
+        super.onDestroy()
+    }
 }

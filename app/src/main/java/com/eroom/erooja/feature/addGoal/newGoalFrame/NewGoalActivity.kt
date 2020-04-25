@@ -253,4 +253,9 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         mPage -= 1
         this.toastShort("목표생성을 실패하였습니다")
     }
+
+    override fun onDestroy() {
+        presenter.onCleared()
+        super.onDestroy()
+    }
 }

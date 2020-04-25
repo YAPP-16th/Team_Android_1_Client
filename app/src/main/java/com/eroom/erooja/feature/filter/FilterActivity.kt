@@ -78,4 +78,9 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
     private fun checkSelect() {
         classCheck.set(selectedId.size != 0)
     }
+
+    override fun onDestroy() {
+        presenter.onCleared()
+        super.onDestroy()
+    }
 }

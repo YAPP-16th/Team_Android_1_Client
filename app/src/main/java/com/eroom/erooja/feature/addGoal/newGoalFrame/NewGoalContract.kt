@@ -18,5 +18,6 @@ interface NewGoalContract {
             interestIdList: ArrayList<Long>,
             todoList: ArrayList<String>
         )
+        fun onCleared()
     }
 }

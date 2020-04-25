@@ -8,5 +8,6 @@ interface KakaoSignUpContract {
     interface Presenter {
         val view: View
         fun requestUserInfo(nickname: String, ids: ArrayList<Long>)
+        fun onCleared()
     }
 }
