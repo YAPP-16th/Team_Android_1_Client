@@ -4,7 +4,7 @@ class EndGoalPopUpPresenter(override var view: EndGoalPopUpContract.View) :
     EndGoalPopUpContract.Presenter {
 
     override fun getData() {
-        view.setView(50)
+        view.setView(90)
     }
 
 }

@@ -25,12 +25,12 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
     }
 
     override fun setView(achieveRate: Int) {
-        when((achieveRate - 1) / 10) {
-            0, 1, 2, 3 -> {
+        when {
+            achieveRate <= 40 -> {
                 endGoalPopUpBinding.achieveRateTitle.text = "목표를 ${achieveRate}% 달성했어요..."
                 endGoalPopUpBinding.achieveRateImage.setImageResource(R.drawable.ic_achieve_rate_under_40)
             }
-            4, 5, 6 -> {
+            achieveRate < 70 -> {
                 endGoalPopUpBinding.achieveRateTitle.text = "목표를 ${achieveRate}% 달성했어요..."
                 endGoalPopUpBinding.achieveRateImage.setImageResource(R.drawable.ic_achieve_rate_40_to_70)
             }
@@ -39,7 +39,6 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
                 endGoalPopUpBinding.achieveOver70Background.visibility = View.VISIBLE
                 endGoalPopUpBinding.achieveRateTitle.text = "목표를 ${achieveRate}% 달성했습니다!"
             }
-
         }
     }
 
@@ -50,5 +49,10 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
     override fun initView() {
         presenter = EndGoalPopUpPresenter(this)
         presenter.getData()
+    }
+
+    override fun navigateToSearchGoal() {
+        finish()
+        //목표탐색뷰로 넘어가는 로직 추가
     }
 }

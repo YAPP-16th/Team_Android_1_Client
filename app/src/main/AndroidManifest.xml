@@ -18,7 +18,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.endPopUp.EndGoalPopUpActivity"></activity>
+        <activity android:name=".feature.endPopUp.EndGoalPopUpActivity"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".feature.addGoal.newGoalFrame.NewGoalFinishActivity" />
         <activity
             android:name=".feature.filter.FilterActivity"

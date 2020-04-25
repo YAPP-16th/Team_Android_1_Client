@@ -5,6 +5,7 @@ interface EndGoalPopUpContract {
         fun setView(achieveRate: Int)
         fun navigateToMainPage()
         fun initView()
+        fun navigateToSearchGoal()
     }
 
     interface Presenter {

@@ -27,48 +27,45 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <FrameLayout
-            android:id="@+id/frameLayout"
+        <ImageView
+            android:id="@+id/achieve_over_70_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_img_achieve_rate_paper"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
-
-            <ImageView
-                android:id="@+id/achieve_rate_image"
-                android:layout_width="190dp"
-                android:layout_height="190dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="142dp"
-                android:src="@drawable/ic_achieve_rate_40_to_70" />
-
-            <ImageView
-                android:id="@+id/achieve_over_70_background"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_img_achieve_rate_paper"
-                android:visibility="invisible"/>
+            app:layout_constraintVertical_bias="0.06" />
 
 
-        </FrameLayout>
+        <ImageView
+            android:id="@+id/achieve_rate_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_achieve_rate_over_70"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.25" />
+
 
         <TextView
             android:id="@+id/achieve_rate_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="55dp"
             android:gravity="center_horizontal"
             android:lineSpacingExtra="14sp"
             android:text="목표를 80% 달성했습니다!"
             android:textColor="@color/grey7"
             android:textSize="21sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/frameLayout" />
+            app:layout_constraintTop_toBottomOf="@id/achieve_rate_image"
+            app:layout_constraintVertical_bias="0.15" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -76,7 +73,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:lineSpacingExtra="11sp"
-            android:text="@string/new_goal_is_starting"
+            android:text="열심히 달려온 당신, 칭찬의 박수 짝짝짝.\n새로운 목표에서 리스트를 시작해보세요."
             android:textColor="@color/grey5"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -92,7 +89,7 @@
             android:layout_marginBottom="28dp"
             android:background="@color/orgDefault"
             android:gravity="center"
-            android:onClick="@{() -> activity.navigateToGoalDetail()}"
+            android:onClick="@{() -> activity.navigateToSearchGoal()}"
             android:text="@string/lookup_new_goal"
             android:textColor="@color/colorWhite"
             android:textSize="16sp"
