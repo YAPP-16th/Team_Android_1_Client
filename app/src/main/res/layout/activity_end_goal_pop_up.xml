@@ -19,13 +19,35 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:onClick="@{() -> activity.navigateToMainPage()}"
-            android:paddingHorizontal="10dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:paddingBottom="10dp"
             android:src="@drawable/ic_icon_navi_close_black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/goal_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="35dp"
+            android:paddingEnd="35dp"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="14sp"
+            android:text="목표를 80% 달성했습니다!"
+            android:textColor="@color/grey7"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:elegantTextHeight="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.11" />
 
         <ImageView
             android:id="@+id/achieve_over_70_background"
@@ -48,26 +70,32 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.25" />
-
+            app:layout_constraintVertical_bias="0.34" />
 
         <TextView
-            android:id="@+id/achieve_rate_title"
+            android:id="@+id/achieve_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:gravity="center_horizontal"
-            android:lineSpacingExtra="14sp"
-            android:text="목표를 80% 달성했습니다!"
-            android:textColor="@color/grey7"
-            android:textSize="21sp"
+            android:lineSpacingExtra="20sp"
+            android:textColor="@color/orgDefault"
+            android:textSize="15sp"
+            android:background="@drawable/achieve_rate_background"
+            android:text="89% 달성"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/achieve_rate_image"
-            app:layout_constraintVertical_bias="0.15" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.66" />
+
 
         <TextView
+            android:id="@+id/achieve_maxim"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -76,9 +104,11 @@
             android:text="열심히 달려온 당신, 칭찬의 박수 짝짝짝.\n새로운 목표에서 리스트를 시작해보세요."
             android:textColor="@color/grey5"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/achieve_rate_title" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.75" />
 
         <TextView
             android:id="@+id/rl_done_btn"

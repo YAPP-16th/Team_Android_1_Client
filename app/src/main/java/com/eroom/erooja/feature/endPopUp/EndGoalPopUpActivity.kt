@@ -24,20 +24,28 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
         endGoalPopUpBinding.activity = this
     }
 
-    override fun setView(achieveRate: Int) {
+    override fun setView(goalTitle: String, achieveRate: Int) {
+        val badMaxim: String = "‘오늘 하나는 내일 둘의 가치가 있다.’는 말이 있죠.\n" +
+                "다음 목표는 더 힘내서 달성해봅시다!"
+        val goodMaxim: String = "열심히 달려온 당신, 칭찬의 박수 짝짝짝.\n" +
+                "새로운 목표에서 리스트를 시작해보세요."
+
+        endGoalPopUpBinding.goalTitle.text = goalTitle.trim()
+        endGoalPopUpBinding.achieveRate.text = "${achieveRate}% 달성"
+
         when {
             achieveRate <= 40 -> {
-                endGoalPopUpBinding.achieveRateTitle.text = "목표를 ${achieveRate}% 달성했어요..."
                 endGoalPopUpBinding.achieveRateImage.setImageResource(R.drawable.ic_achieve_rate_under_40)
+                endGoalPopUpBinding.achieveMaxim.text = badMaxim
             }
             achieveRate < 70 -> {
-                endGoalPopUpBinding.achieveRateTitle.text = "목표를 ${achieveRate}% 달성했어요..."
                 endGoalPopUpBinding.achieveRateImage.setImageResource(R.drawable.ic_achieve_rate_40_to_70)
+                endGoalPopUpBinding.achieveMaxim.text = badMaxim
             }
             else -> {
                 endGoalPopUpBinding.achieveRateImage.setImageResource(R.drawable.ic_achieve_rate_over_70)
                 endGoalPopUpBinding.achieveOver70Background.visibility = View.VISIBLE
-                endGoalPopUpBinding.achieveRateTitle.text = "목표를 ${achieveRate}% 달성했습니다!"
+                endGoalPopUpBinding.achieveMaxim.text = goodMaxim
             }
         }
     }
