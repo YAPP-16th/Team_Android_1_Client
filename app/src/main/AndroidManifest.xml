@@ -64,7 +64,7 @@
             android:name=".feature.goalDetail.GoalDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.completedGoal.CompletedGoalActivity"
+            android:name=".feature.otherList.OtherListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".feature.search.search_detail_page.SearchDetailActivity"

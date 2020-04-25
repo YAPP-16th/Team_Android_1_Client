@@ -20,6 +20,7 @@ import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.databinding.FragmentMainBinding
 import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalActivity
+import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
 import com.eroom.erooja.feature.search.search_detail_page.SearchDetailActivity
 import com.eroom.erooja.feature.tab.TabActivity
 import org.koin.android.ext.android.get
@@ -92,11 +93,17 @@ class MainFragment : Fragment(), MainContract.View {
     }
 
     override fun setNewGoalBrowse(content: ArrayList<GoalContent>) {
-        mNewGoalAdapter = NewGoalBrowseAdapter(content, randomJobText.get() ?: "")
+        mNewGoalAdapter = NewGoalBrowseAdapter(content, randomJobText.get() ?: "", clicked)
         mainBinding.newGoalRecycler.apply {
             adapter = mNewGoalAdapter
             layoutManager = LinearLayoutManager(context)
         }
+    }
+
+    private val clicked = { goalId: Long ->
+        startActivity(Intent(activity, GoalDetailActivity::class.java).apply {
+            putExtra(Consts.GOAL_ID, goalId)
+        })
     }
 
     override fun onDestroy() {

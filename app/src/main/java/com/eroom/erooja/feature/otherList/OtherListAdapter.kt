@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.completedGoal
+package com.eroom.erooja.feature.otherList
 
 import android.view.LayoutInflater
 import android.view.View

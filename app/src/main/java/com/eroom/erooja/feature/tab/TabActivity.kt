@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.eroom.data.entity.JobGroup
+import com.eroom.data.response.JobGroupAndClassResponse
 import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityTabBinding
@@ -12,7 +14,9 @@ import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalActivity
 import com.eroom.erooja.feature.main.MainFragment
 import com.eroom.erooja.feature.mypage.MyPageFragment
 import com.eroom.erooja.feature.search.search_main.SearchFragment
+import com.eroom.erooja.singleton.JobClassHashMap.hashmap
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.koin.android.ext.android.get
 
 class TabActivity : AppCompatActivity(), TabContract.View {
     private lateinit var mainBinding: ActivityTabBinding
@@ -30,10 +34,11 @@ class TabActivity : AppCompatActivity(), TabContract.View {
         initPresenter()
         setUpDataBinding()
         initFragment()
+        initView()
     }
 
     private fun initPresenter() {
-        presenter = TabPresenter(this)
+        presenter = TabPresenter(this, get(), get())
         listener = presenter.listener
     }
 
@@ -65,6 +70,26 @@ class TabActivity : AppCompatActivity(), TabContract.View {
         }[index].also {
             supportFragmentManager.beginTransaction().show(it).commit()
         }
+
+    private fun initView() {
+        presenter.getJobGroups()
+    }
+
+    override fun reRequestClassByGroup(jobGroupList: ArrayList<JobGroup>) =
+        jobGroupList.map {
+            it.id //직군 (디자인 or 개발) 불러오기
+        }.toList().let {
+            presenter.getJobGroupAndClasses(it)
+        }
+
+    //직무 직군 object 에 다 가져오는 함수임
+    override fun updateJobGroupAndClass(result: List<JobGroupAndClassResponse>) {
+        for(i in result){
+            for(j in i.jobInterests){
+                hashmap[j.id] = j.name
+            }
+        }
+    }
 
     fun changeTabToSearch() {
         mainBinding.mainBottomTab.selectedItemId = R.id.bottom_tab_search

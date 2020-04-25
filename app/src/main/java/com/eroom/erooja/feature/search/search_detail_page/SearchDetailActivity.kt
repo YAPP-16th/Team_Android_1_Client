@@ -119,7 +119,7 @@ class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
                     for((k, v) in JobClassHashMap.hashmap){
                         if(v == searchword.value!!){
                             presenter.getUserGoal(k)
-                            this.toastLong("${k}")
+                            this.toastLong("$k")
                         }
                     }
                 }

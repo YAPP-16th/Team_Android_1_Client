@@ -27,5 +27,6 @@ class Consts {
         const val DIALOG_TITLE = "DIALOG_TITLE"
         const val DIALOG_CONTENT = "DIALOG_CONTENT"
         const val DIALOG_RESULT = "DIALOG_RESULT"
+        const val GOAL_ID = "GOAL_ID"
     }
 }

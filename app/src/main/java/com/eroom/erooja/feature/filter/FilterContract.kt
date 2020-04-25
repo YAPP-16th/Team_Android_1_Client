@@ -14,6 +14,5 @@ interface FilterContract {
         fun getJobGroups()
         fun getJobGroupAndClasses(groupIds: List<Long>)
         fun onCleared()
-
     }
 }
