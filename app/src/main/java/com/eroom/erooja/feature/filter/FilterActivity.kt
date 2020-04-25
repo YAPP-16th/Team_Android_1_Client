@@ -63,12 +63,6 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
             layoutManager = LinearLayoutManager(context)
         }
 
-        for(i in result){
-            for(j in i.jobInterests){
-                hashmap.put(j.id, j.name)
-            }
-        }
-
         checkSelect()
     }
 
