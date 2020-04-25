@@ -5,17 +5,19 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.eroom.data.localclass.*
 import com.eroom.data.response.JobGroupAndClassResponse
-import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityFilterBinding
 import org.koin.android.ext.android.get
+
+
+
 
 class FilterActivity : AppCompatActivity(), FilterContract.View {
     private lateinit var presenter: FilterPresenter
     private lateinit var filterBinding: ActivityFilterBinding
     private lateinit var mAdapter: JobGroupAdapter
+    private lateinit var hashmap: HashMap<Long, String>
 
     val classCheck: ObservableField<Boolean> = ObservableField(false)
     private val selectedId: ArrayList<Long> = ArrayList()
@@ -30,6 +32,7 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
 
     private fun initPresenter() {
         presenter = FilterPresenter(this, get(), get())
+
     }
 
     private fun setUpDataBinding() {
@@ -43,17 +46,32 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
 
     override fun reRequestClassByGroup(jobGroupList: ArrayList<com.eroom.data.entity.JobGroup>) =
         jobGroupList.map {
-            it.id
+            it.id //직군 (디자인 or 개발) 불러오기
         }.toList().let {
             presenter.getJobGroupAndClasses(it)
         }
 
+    //직무 직군 버튼 다 가져오는 함수임
     override fun updateJobGroupAndClass(result: List<JobGroupAndClassResponse>) {
+        val interestNum = intent.getSerializableExtra("search") as ArrayList<Long>
+        for(i in interestNum){
+            selectedId.add(i)
+        }
+
         mAdapter = JobGroupAdapter(this, result, selectedId, itemClick)
         filterBinding.jobGroupRecycler.apply {
             adapter = mAdapter
             layoutManager = LinearLayoutManager(context)
         }
+
+        hashmap = HashMap()
+        for(i in result){
+            for(j in i.jobInterests){
+                hashmap.put(j.id, j.name)
+            }
+        }
+
+        checkSelect()
     }
 
     private val itemClick = { id: Long, preState: Boolean ->
@@ -65,10 +83,13 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
         mAdapter.notifyDataSetChanged()
     }
 
-    fun resetButtonClicked() {
-        selectedId.clear()
-        mAdapter.notifyDataSetChanged()
-        classCheck.set(false)
+    fun completeButtonClicked() {
+        val result1 = intent.putExtra("selectedId",selectedId)
+        val result2 = intent.putExtra("HashMap", hashmap)
+        setResult(1000, result1)
+        setResult(1000, result2)
+        finish()
+
     }
 
     fun closeButtonClicked() {
