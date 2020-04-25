@@ -29,6 +29,5 @@ class SearchPresenter(override val view:SearchContract.View,
             },{
                 Timber.i(it.localizedMessage)
             })
-
     }
 }

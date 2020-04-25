@@ -75,6 +75,7 @@ class SearchFragment : Fragment(), SearchContract.View {
             else -> {
                 Timber.i("PASS")
             }
+
         }
     }
 
