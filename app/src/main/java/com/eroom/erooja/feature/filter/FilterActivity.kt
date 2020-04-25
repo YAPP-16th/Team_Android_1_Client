@@ -88,7 +88,8 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
         val result2 = intent.putExtra("HashMap", hashmap)
         setResult(1000, result1)
         setResult(1000, result2)
-        finish()
+
+        if(classCheck.get()!!) finish()
 
     }
 
