@@ -58,7 +58,7 @@ class MainPresenter(
                 view.setNewGoalBrowse(it.content)
             },{
                 Timber.e(it.localizedMessage)
-            })
+            }) addTo compositeDisposable
     }
 
     fun isGuest() = sharedPrefRepository.getPrefsBooleanValue(Consts.IS_GUEST)

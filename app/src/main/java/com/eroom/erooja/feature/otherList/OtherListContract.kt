@@ -1,8 +1,8 @@
-package com.eroom.erooja.feature.completedGoal
+package com.eroom.erooja.feature.otherList
 
 import com.eroom.data.entity.UserSimpleData
 
-interface CompletedGoalContract {
+interface OtherListContract {
     interface View{
         fun getAllView(list : UserSimpleData)
 

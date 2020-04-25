@@ -1,6 +1,7 @@
 package com.eroom.domain.api.service
 
 import com.eroom.data.entity.JobGroup
+import com.eroom.data.response.JobClassResponse
 import com.eroom.data.response.JobGroupAndClassResponse
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -13,4 +14,7 @@ interface JobService {
 
     @GET("jobGroup/{jobGroupId}")
     fun getJobClassByGroupId(@Path("jobGroupId") jobGroupId: Long): Observable<JobGroupAndClassResponse>
+
+    @GET("jobInterest/{id}")
+    fun getJobClassById(@Path("id") id: Long): Observable<JobClassResponse>
 }

@@ -31,7 +31,8 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:lineSpacingExtra="11sp"
-                android:text="@string/temp_txt"
+                tools:text="@string/temp_txt"
+                android:text="@{goalDetail.description}"
                 android:textSize="14sp"
                 android:layout_marginBottom="20dp"
                 android:textColor="@color/grey5"
@@ -44,7 +45,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="ui, ux ~, Android, IOS"
+                tools:text="ui, ux ~, Android, IOS"
+                android:text="@{goalDetail.jobClass}"
                 app:layout_constraintStart_toStartOf="@id/text"
                 app:layout_constraintTop_toBottomOf="@+id/text" />
 

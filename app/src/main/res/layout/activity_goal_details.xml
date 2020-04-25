@@ -37,6 +37,7 @@
                         android:id="@+id/backButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{() -> goalDetail.navigationToBack()}"
                         android:background="@drawable/ic_icon_navi_arrow_left"
                         bind:layout_constraintStart_toStartOf="parent"
                         bind:layout_constraintTop_toTopOf="parent" />
@@ -58,7 +59,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="13dp"
                             android:fontFamily="sans-serif"
-                            android:text="2020.03.05~03.07"
+                            tools:text="2020.03.05~03.07"
                             android:textColor="@color/grey5"
                             android:textSize="12sp"
                             android:textStyle="normal" />
@@ -69,7 +70,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="60dp"
                             android:lineSpacingExtra="12sp"
-                            android:text="삼성디자인멤버쉽 2019년도 사전과제 해보기"
+                            tools:text="삼성디자인멤버쉽 2019년도 사전과제 해보기"
                             android:textColor="@color/colorBlack2"
                             android:textSize="24sp"
                             android:textStyle="bold" />
@@ -131,6 +132,7 @@
                         android:id="@+id/others_recyclerview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:minHeight="1000dp"
                         android:elevation="10dp"
                         android:padding="8dp"
                         android:onClick="@{goalDetail::othersDetailClick}"
