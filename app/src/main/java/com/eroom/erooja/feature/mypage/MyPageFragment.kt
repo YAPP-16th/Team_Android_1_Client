@@ -53,6 +53,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
             presenter.getUserInfo()
             //presenter.getMemberJobInterest()
         }
+
     }
 
     override fun onDestroy() {
@@ -66,6 +67,10 @@ class MyPageFragment : Fragment(), MyPageContract.View {
 
     override fun setJobInterestInfo(randomJob: String, randomJobId: Long, size: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    public fun expand() {
+        myPageBinding.myPageExpandableLayout.expand(true, false)
     }
 
 }

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".feature.mypage.MyPageFragment">
+
     <data>
+
         <variable
             name="fragment"
             type="com.eroom.erooja.feature.mypage.MyPageFragment" />
@@ -18,17 +19,92 @@
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{fragment.nicknameText}"
             android:textColor="@color/grey8"
             android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.07"
+            tools:text="김현수 님" />
+
+
+        <ru.rhanza.constraintexpandablelayout.ExpandableLayout
+            android:id="@+id/my_page_expandable_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/my_page_tab_layout"
+            app:layout_constraintTop_toBottomOf="@+id/user_name"
+            >
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:orientation="vertical"
+                android:layout_marginEnd="140dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/jobClassRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    tools:listitem="@layout/item_job_class_filter"
+                    tools:itemCount="5"/>
+                <ImageView
+                    android:id="@+id/expand_btn"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/ic_icon_expandable_btn"
+                    android:onClick="@{() -> fragment.expand()}"
+                    />
+
+            </LinearLayout>
+
+
+        </ru.rhanza.constraintexpandablelayout.ExpandableLayout>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/my_page_tab_layout"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@{fragment.nicknameText}"
-            android:textStyle="bold"
-            app:layout_constraintVertical_bias="0.07"
-            app:layout_constraintHorizontal_bias="0.1"
-            tools:text="김현수 님"/>
+            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:tabIndicatorColor="@color/orgDefault"
+            app:tabSelectedTextColor="@color/orgDefault"
+            app:tabTextColor="@color/grey4">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/position_tabitem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="참여중" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/goal_tabitem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="완료">
+
+            </com.google.android.material.tabs.TabItem>
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <FrameLayout
+            android:id="@+id/search_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_page_tab_layout">
+
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
