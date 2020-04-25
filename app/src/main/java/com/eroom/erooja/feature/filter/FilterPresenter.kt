@@ -33,7 +33,7 @@ class FilterPresenter(override val view: FilterContract.View,
                 it
             }.toList()
             .subscribe({
-                view.updateJobGroupAndClass(it)
+                view.updateJobGroupAndClass(it) //사용자의 직무, 직군 불러옴
             },{
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable

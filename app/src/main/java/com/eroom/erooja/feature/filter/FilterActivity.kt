@@ -11,6 +11,8 @@ import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityFilterBinding
 import org.koin.android.ext.android.get
+import timber.log.Timber
+import timber.log.Timber.i
 
 class FilterActivity : AppCompatActivity(), FilterContract.View {
     private lateinit var presenter: FilterPresenter
@@ -30,6 +32,8 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
 
     private fun initPresenter() {
         presenter = FilterPresenter(this, get(), get())
+
+
     }
 
     private fun setUpDataBinding() {
@@ -43,17 +47,31 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
 
     override fun reRequestClassByGroup(jobGroupList: ArrayList<com.eroom.data.entity.JobGroup>) =
         jobGroupList.map {
-            it.id
+            it.id //직군 (디자인 or 개발) 불러오기
         }.toList().let {
             presenter.getJobGroupAndClasses(it)
         }
 
+    //직무 직군 버튼 다 가져오는 함수임
     override fun updateJobGroupAndClass(result: List<JobGroupAndClassResponse>) {
         mAdapter = JobGroupAdapter(this, result, selectedId, itemClick)
         filterBinding.jobGroupRecycler.apply {
             adapter = mAdapter
             layoutManager = LinearLayoutManager(context)
         }
+
+//        try{
+//            for ( interest in result ){
+//                interest.jobInterests.map{
+//                    selectedId.add(it.id)
+//                }
+//            }
+//            checkSelect()
+//            mAdapter.notifyDataSetChanged()
+//        }
+//        catch (e:Exception){
+//            i("${e}")
+//        }
     }
 
     private val itemClick = { id: Long, preState: Boolean ->

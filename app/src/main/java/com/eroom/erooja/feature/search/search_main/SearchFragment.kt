@@ -7,17 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.eroom.data.entity.JobClass
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.FragmentSearchBinding
 import com.eroom.erooja.feature.filter.FilterActivity
 import com.eroom.erooja.feature.search.search_detail_page.SearchDetailActivity
 import com.eroom.erooja.feature.search.search_main_frame.SearchNoGoalListFragment
 import org.koin.android.ext.android.get
+import timber.log.Timber
 
 
 class SearchFragment : Fragment(), SearchContract.View {
     private lateinit var searchBinding: FragmentSearchBinding
     private lateinit var presenter: SearchPresenter
+    private lateinit var selectedGroupClassesNum: ArrayList<Long>
+
 
 
     companion object {
@@ -61,6 +65,13 @@ class SearchFragment : Fragment(), SearchContract.View {
         }
     }
 
+    override fun setUserJobInterest(interest: ArrayList<JobClass>) {
+        selectedGroupClassesNum = ArrayList()
+        interest.map{
+            selectedGroupClassesNum.add(it.id)
+        }
+    }
+
     fun searchClick(v: View){
         activity?.let {
             var intent = Intent(context, SearchDetailActivity::class.java)
@@ -83,6 +94,14 @@ class SearchFragment : Fragment(), SearchContract.View {
     }
 
     fun openSearchFilter() {
-        startActivity(Intent(activity, FilterActivity::class.java))
+        val intent = Intent(activity, FilterActivity::class.java)
+
+        repeat(selectedGroupClassesNum.size){
+            intent.putExtra("search_${selectedGroupClassesNum[it]}",selectedGroupClassesNum[it])
+            Timber.i("search test! ")
+        }
+        startActivity(intent)
+
+        //startActivity(Intent(activity, FilterActivity::class.java))
     }
 }
