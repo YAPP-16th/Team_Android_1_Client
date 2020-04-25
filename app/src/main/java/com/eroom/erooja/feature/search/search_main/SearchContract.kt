@@ -11,5 +11,6 @@ interface SearchContract{
     interface Presenter{
         val view: View
         fun getAlignedJobInterest()
+        fun onCleared()
     }
 }

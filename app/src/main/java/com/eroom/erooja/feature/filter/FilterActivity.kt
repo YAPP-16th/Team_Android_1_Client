@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.response.JobGroupAndClassResponse
+import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityFilterBinding
 import org.koin.android.ext.android.get
 
@@ -35,7 +36,7 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
     }
 
     private fun setUpDataBinding() {
-        filterBinding = DataBindingUtil.setContentView(this, com.eroom.erooja.R.layout.activity_filter)
+        filterBinding = DataBindingUtil.setContentView(this, R.layout.activity_filter)
         filterBinding.activity = this
     }
 
