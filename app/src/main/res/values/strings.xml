@@ -77,7 +77,6 @@
     <string name="goal_contain_job_question">어떤 직무와 관련된 목표인가요?</string>
     <string name="duplicated_is_ok_text">*중복 선택 가능</string>
     <string name="lookup_new_goal">새로운 목표 둘러보기</string>
-    <string name="etc_text">외</string>
     <string name="no_participated_goal_please_add_goal_text">참여중인 목표가 없습니다.\n새로운 목표를 추가해보세요.</string>
     <string name="add_goal_button_text">목표 추가</string>
     <string name="confirm_text">확인</string>
