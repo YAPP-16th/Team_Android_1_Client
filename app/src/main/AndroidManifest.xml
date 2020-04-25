@@ -20,6 +20,9 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".feature.endPopUp.EndGoalPopUpActivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".dialog.EroojaDialogActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.EroojaDialog"/>
         <activity android:name=".feature.addGoal.newGoalFrame.NewGoalFinishActivity" />
         <activity
             android:name=".feature.filter.FilterActivity"
