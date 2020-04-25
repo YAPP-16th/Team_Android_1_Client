@@ -13,5 +13,6 @@ interface JobClassContract {
         val view: View
         fun getJobGroups(jobGroup: JobGroup)
         fun getJobGroupAndClasses(groupId: Long)
+        fun onCleared()
     }
 }

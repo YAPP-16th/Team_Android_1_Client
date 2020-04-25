@@ -13,5 +13,6 @@ interface LoginContract {
         val view: View
         val requestMe: () -> Future<MeV2Response>
         fun guestLoginSetting()
+        fun onCleared()
     }
 }

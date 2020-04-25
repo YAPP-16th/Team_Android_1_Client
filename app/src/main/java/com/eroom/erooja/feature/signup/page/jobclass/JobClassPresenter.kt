@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import com.eroom.data.localclass.JobGroup
 import com.eroom.domain.api.usecase.job.GetJobGroupAndClassUseCase
 import com.eroom.domain.api.usecase.job.GetJobGroupUseCase
+import com.eroom.domain.utils.addTo
+import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
 class JobClassPresenter(
@@ -11,6 +13,8 @@ class JobClassPresenter(
     private val getJobGroupUseCase: GetJobGroupUseCase,
     private val getJobGroupAndClassUseCase: GetJobGroupAndClassUseCase
 ) : JobClassContract.Presenter {
+
+    private val compositeDisposable = CompositeDisposable()
 
     @SuppressLint("CheckResult")
     override fun getJobGroups(jobGroup: JobGroup) {
@@ -22,7 +26,7 @@ class JobClassPresenter(
                 }
             },{
                 Timber.e(it.localizedMessage)
-            })
+            }) addTo compositeDisposable
     }
 
     @SuppressLint("CheckResult")
@@ -33,6 +37,10 @@ class JobClassPresenter(
                 view.settingGroupId(groupId)
             },{
                 Timber.e(it.localizedMessage)
-            })
+            }) addTo compositeDisposable
+    }
+
+    override fun onCleared() {
+        compositeDisposable.clear()
     }
 }

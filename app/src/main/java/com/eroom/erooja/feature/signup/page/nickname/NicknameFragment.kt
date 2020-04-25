@@ -118,4 +118,9 @@ class NicknameFragment : Fragment(), NicknameContract.View {
 
     override fun setValidatedNickname() = nicknameCheck.set(true)
     override fun unsetValidatedNickname() = nicknameCheck.set(false)
+
+    override fun onDestroy() {
+        presenter.onCleared()
+        super.onDestroy()
+    }
 }

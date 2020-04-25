@@ -6,6 +6,8 @@ import com.eroom.domain.api.usecase.member.GetMemberInfoUseCase
 import com.eroom.domain.api.usecase.member.GetMemberJobInterestsUseCase
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.koin.repository.SharedPrefRepository
+import com.eroom.domain.utils.addTo
+import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
 class MainPresenter(
@@ -15,6 +17,8 @@ class MainPresenter(
     private val getMemberJobInterestUseCase: GetMemberJobInterestsUseCase
 ) : MainContract.Presenter {
 
+    private val compositeDisposable = CompositeDisposable()
+
     @SuppressLint("CheckResult")
     override fun getUserInfo() {
         getMemberInfoUseCase.getUserInfo()
@@ -22,7 +26,7 @@ class MainPresenter(
                 view.setNickname(it.nickname)
             },{
                 Timber.e(it.localizedMessage)
-            })
+            }) addTo compositeDisposable
     }
 
     @SuppressLint("CheckResult")
@@ -42,8 +46,12 @@ class MainPresenter(
                 }
             },{
                 Timber.e(it.localizedMessage)
-            })
+            }) addTo compositeDisposable
     }
 
     fun isGuest() = sharedPrefRepository.getPrefsBooleanValue(Consts.IS_GUEST)
+
+    override fun onCleared() {
+        compositeDisposable.clear()
+    }
 }

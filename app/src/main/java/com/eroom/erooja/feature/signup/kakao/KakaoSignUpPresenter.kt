@@ -5,6 +5,8 @@ import com.eroom.domain.api.usecase.member.PutJobInterestsUseCase
 import com.eroom.domain.api.usecase.member.PutNicknameUseCase
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.koin.repository.SharedPrefRepository
+import com.eroom.domain.utils.addTo
+import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
 class KakaoSignUpPresenter(
@@ -14,6 +16,8 @@ class KakaoSignUpPresenter(
     private val sharedPrefRepository: SharedPrefRepository
 ) : KakaoSignUpContract.Presenter {
 
+    private val compositeDisposable = CompositeDisposable()
+
     @SuppressLint("CheckResult")
     override fun requestUserInfo(nickname: String, ids: ArrayList<Long>) {
         putNicknameUseCase.putNickname(nickname)
@@ -21,7 +25,7 @@ class KakaoSignUpPresenter(
                 requestJobInterests(ids)
             },{
                 Timber.e(it.localizedMessage)
-            })
+            }) addTo compositeDisposable
     }
 
     @SuppressLint("CheckResult")
@@ -33,6 +37,10 @@ class KakaoSignUpPresenter(
                 view.navigateToMain()
             },{
                 Timber.e(it.localizedMessage)
-            })
+            }) addTo compositeDisposable
+    }
+
+    override fun onCleared() {
+        compositeDisposable.clear()
     }
 }

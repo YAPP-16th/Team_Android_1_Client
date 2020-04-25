@@ -2,12 +2,16 @@ package com.eroom.erooja.feature.signup.page.nickname
 
 import android.annotation.SuppressLint
 import com.eroom.domain.api.usecase.member.PostNicknameDuplicityUseCase
+import com.eroom.domain.utils.addTo
+import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
 class NicknamePresenter(
     override val view: NicknameContract.View,
     private val getNicknameDuplicityUseCase: PostNicknameDuplicityUseCase
 ) : NicknameContract.Presenter {
+
+    private val compositeDisposable = CompositeDisposable()
 
     @SuppressLint("CheckResult")
     override fun checkNickname(nickname: String) {
@@ -30,6 +34,10 @@ class NicknamePresenter(
                 view.unsetDuplicatedNickname()
                 view.hideCheckImage()
                 view.hideErrorImage()
-            })
+            }) addTo compositeDisposable
+    }
+
+    override fun onCleared() {
+        compositeDisposable.clear()
     }
 }

@@ -4,11 +4,15 @@ import android.annotation.SuppressLint
 import com.eroom.data.entity.TodoList
 import com.eroom.data.request.NewGoalRequest
 import com.eroom.domain.api.usecase.goal.PostNewGoalUseCase
+import com.eroom.domain.utils.addTo
+import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
 class NewGoalPresenter(override val view: NewGoalContract.View,
                        private val postNewGoalUseCase: PostNewGoalUseCase
 ) : NewGoalContract.Presenter {
+
+    private val compositeDisposable = CompositeDisposable()
 
     @Suppress("UseWithIndex")
     @SuppressLint("CheckResult")
@@ -32,6 +36,10 @@ class NewGoalPresenter(override val view: NewGoalContract.View,
             },{
                 Timber.e(it.localizedMessage)
                 view.failRequest()
-            })
+            }) addTo compositeDisposable
+    }
+
+    override fun onCleared() {
+        compositeDisposable.clear()
     }
 }

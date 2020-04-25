@@ -5,12 +5,15 @@ import com.eroom.domain.api.usecase.auth.GetRefreshTokenUseCase
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.koin.repository.SharedPrefRepository
 import com.eroom.domain.utils.ConverterUtil
+import com.eroom.domain.utils.addTo
+import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
 class SplashPresenter(override val view: SplashContract.View,
                       private val sharedPrefRepository: SharedPrefRepository,
                       private val postRefreshTokenUseCase: GetRefreshTokenUseCase
 ) : SplashContract.Presenter {
+    private val compositeDisposable = CompositeDisposable()
 
     override fun initDelay() {
         Handler().postDelayed(AnimationHandler(), 800)
@@ -44,11 +47,15 @@ class SplashPresenter(override val view: SplashContract.View,
                         },{
                             Timber.e(it.localizedMessage)
                             view.navigateToLogin()
-                        })
+                        }) addTo compositeDisposable
                 }
             }
             else
                 view.navigateToLogin()
         }
+    }
+
+    override fun onCleared() {
+        compositeDisposable.clear()
     }
 }

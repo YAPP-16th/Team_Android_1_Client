@@ -58,6 +58,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     override fun onDestroy() {
         super.onDestroy()
         Session.getCurrentSession().removeCallback(callback)
+        presenter.onCleared()
     }
 
     private class SessionCallback(val requestMe: () -> Future<MeV2Response>) : ISessionCallback {

@@ -12,5 +12,6 @@ interface SplashContract {
     interface Presenter {
         val view: View
         fun initDelay()
+        fun onCleared()
     }
 }

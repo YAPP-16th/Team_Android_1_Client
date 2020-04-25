@@ -5,6 +5,7 @@ import com.eroom.domain.api.usecase.auth.PostKakaoLoginUseCase
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.koin.repository.SharedPrefRepository
 import com.eroom.domain.utils.ConverterUtil
+import com.eroom.domain.utils.addTo
 import com.kakao.network.ErrorResult
 import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.LogoutResponseCallback
@@ -12,12 +13,15 @@ import com.kakao.usermgmt.callback.MeV2ResponseCallback
 import com.kakao.usermgmt.response.MeV2Response
 import com.kakao.usermgmt.response.model.Profile
 import com.kakao.usermgmt.response.model.UserAccount
+import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
 class LoginPresenter(override val view: LoginContract.View,
                      private val postKakaoLoginUseCase: PostKakaoLoginUseCase,
                      private val sharedPrefRepository: SharedPrefRepository
 ) : LoginContract.Presenter {
+
+    private val compositeDisposable = CompositeDisposable()
 
     override val requestMe =  {
         UserManagement.getInstance().me(object : MeV2ResponseCallback() {
@@ -64,7 +68,7 @@ class LoginPresenter(override val view: LoginContract.View,
             },{
                 Timber.e(it.localizedMessage)
                 logout()
-            })
+            }) addTo compositeDisposable
     }
 
     private fun logout() = UserManagement.getInstance()
@@ -79,5 +83,9 @@ class LoginPresenter(override val view: LoginContract.View,
         sharedPrefRepository.writePrefs(Consts.AUTO_LOGIN, true)
         sharedPrefRepository.writePrefs(Consts.ACCESS_TOKEN, "")
         sharedPrefRepository.writePrefs(Consts.REFRESH_TOKEN, "")
+    }
+
+    override fun onCleared() {
+        compositeDisposable.clear()
     }
 }

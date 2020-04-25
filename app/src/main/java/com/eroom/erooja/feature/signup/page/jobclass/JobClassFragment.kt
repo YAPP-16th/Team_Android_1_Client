@@ -101,4 +101,9 @@ class JobClassFragment : Fragment(), JobClassContract.View {
     override fun settingGroupId(id: Long) {
         mGroupId.value = id
     }
+
+    override fun onDestroy() {
+        presenter.onCleared()
+        super.onDestroy()
+    }
 }

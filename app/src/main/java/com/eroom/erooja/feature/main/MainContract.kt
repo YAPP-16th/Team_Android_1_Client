@@ -10,5 +10,6 @@ interface MainContract {
         val view: View
         fun getUserInfo()
         fun getMemberJobInterest()
+        fun onCleared()
     }
 }
