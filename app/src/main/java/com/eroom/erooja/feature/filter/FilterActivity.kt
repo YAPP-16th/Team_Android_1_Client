@@ -8,16 +8,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.response.JobGroupAndClassResponse
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityFilterBinding
+import com.eroom.erooja.singleton.JobClassHashMap.hashmap
 import org.koin.android.ext.android.get
-
-
+import timber.log.Timber
 
 
 class FilterActivity : AppCompatActivity(), FilterContract.View {
     private lateinit var presenter: FilterPresenter
     private lateinit var filterBinding: ActivityFilterBinding
     private lateinit var mAdapter: JobGroupAdapter
-    private lateinit var hashmap: HashMap<Long, String>
 
     val classCheck: ObservableField<Boolean> = ObservableField(false)
     private val selectedId: ArrayList<Long> = ArrayList()
@@ -64,7 +63,6 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
             layoutManager = LinearLayoutManager(context)
         }
 
-        hashmap = HashMap()
         for(i in result){
             for(j in i.jobInterests){
                 hashmap.put(j.id, j.name)
@@ -88,7 +86,8 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
         val result2 = intent.putExtra("HashMap", hashmap)
         setResult(1000, result1)
         setResult(1000, result2)
-        finish()
+
+        if(classCheck.get()!!) finish()
 
     }
 

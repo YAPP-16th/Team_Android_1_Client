@@ -3,6 +3,7 @@ package com.eroom.domain.koin.modules
 import com.eroom.domain.api.usecase.auth.PostKakaoLoginUseCase
 import com.eroom.domain.api.usecase.auth.GetRefreshTokenUseCase
 import com.eroom.domain.api.usecase.goal.GetInterestedGoalsUseCase
+import com.eroom.domain.api.usecase.goal.GetSearchGoalUsecase
 import com.eroom.domain.api.usecase.goal.PostNewGoalUseCase
 import com.eroom.domain.api.usecase.job.GetJobGroupAndClassUseCase
 import com.eroom.domain.api.usecase.job.GetJobGroupUseCase
@@ -31,4 +32,6 @@ val usecaseModule = module {
     factory { PostNewGoalUseCase(get()) }
 
     factory { GetInterestedGoalsUseCase(get()) }
+
+    factory { GetSearchGoalUsecase(get()) }
 }
