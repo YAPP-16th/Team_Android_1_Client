@@ -21,7 +21,8 @@
             android:background="@drawable/goal_list_item_textview"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:paddingVertical="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:paddingStart="40dp"
             android:paddingEnd="30dp"
             android:textColor="@color/grey7"
@@ -35,5 +36,14 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:src="@drawable/goal_list_dot_activate" />
+
+        <ImageView
+            android:id="@+id/goal_del_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@drawable/ic_icon_check_btn_gray"
+            android:layout_gravity="center_vertical|right" />
+
     </FrameLayout>
 </layout>
