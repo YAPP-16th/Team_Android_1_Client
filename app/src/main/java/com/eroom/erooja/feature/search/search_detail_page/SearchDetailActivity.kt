@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import com.eroom.data.localclass.DesignClass
 import com.eroom.data.localclass.DevelopClass
-import com.eroom.data.response.SearchGoalResponse
+import com.eroom.data.response.InterestedGoalsResponse
 import com.eroom.domain.utils.getKeyFromValue
 import com.eroom.domain.utils.toastLong
 import com.eroom.erooja.R
@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_search_detail.*
 import org.koin.android.ext.android.get
 import rx.android.schedulers.AndroidSchedulers
 import timber.log.Timber
+import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
 
 
@@ -87,53 +88,60 @@ class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
             override fun onTabReselected(p0: TabLayout.Tab?) {}
             override fun onTabUnselected(p0: TabLayout.Tab?) {}
             override fun onTabSelected(p0: TabLayout.Tab) {
-                var pos = p0.position
-                changeView(pos)
+                changeNum = p0.position
+                changeView(changeNum)
             }
         })
 
-        for (i in 0 until 9){
+        for (i in 0 until 9) {
             autosearch.add(DesignClass.getArray()[i].getName())
             autosearch.add(DevelopClass.getArray()[i].getName())
         }
 
-        searchAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line,autosearch)
+        searchAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, autosearch)
         searchDetailBinding.searchEditText.setAdapter(searchAdapter)
 
         RxTextView.textChanges(searchDetailBinding.searchEditText)
-            .debounce (300, TimeUnit.MILLISECONDS)
-            .map{it.toString()}
+            .debounce(500, TimeUnit.MILLISECONDS)
+            .map { it.toString() }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 //Todo
                 searchword.value = it
+                Timber.i("${searchword.value}")
 
-                searchword.value.run{
-                   changeNum = if(it.isEmpty()) search_tablayout.selectedTabPosition
-                                else 2 //Temp!
-
+                if(searchword.value == ""){
+                    loadFragment(changeNum)
                 }
 
-                try {
-                   // val key = JobClassHashMap.hashmap.getKeyFromValue(searchword.value!!)
-                    for((k, v) in JobClassHashMap.hashmap){
-                        if(v == searchword.value!!){
-                            presenter.getUserGoal(k)
-                            this.toastLong("$k")
+                when (changeNum) {
+                    0 -> { //직무
+                        var key =
+                            JobClassHashMap.hashmap.getKeyFromValue(searchword.value.toString())
+                        if (key > -1L) {
+                            presenter.getSearchJobInterest(key)
+                            this.toastLong("$key")
                         }
                     }
-                }
 
-                catch (e: NullPointerException){
-                    this.toastLong("null")
+                    1 -> {//목표
+                        presenter.getSearchGoalTitle("TITLE",URLEncoder.encode(searchword.value, "UTF-8"))
+                        this.toastLong("${URLEncoder.encode(searchword.value, "UTF-8")}")
+                    }
                 }
-
-                loadFragment(changeNum)
             }
     }
 
-    override fun searchGoal(search: ArrayList<SearchGoalResponse>) {
-        this.toastLong("${search.map{ it.title }}")
+    override fun updateSearchJobInterest(search: ArrayList<InterestedGoalsResponse>) {
+//       if(search[0].content.size == 0){
+//           loadFragment(2)
+//       }
+    }
+
+    override fun updateSearchGoalTitle(search: ArrayList<InterestedGoalsResponse>) {
+//        if(search[0].content.size == 0){
+//            loadFragment(2)
+//        }
     }
 
     override fun changeView(pos: Int){

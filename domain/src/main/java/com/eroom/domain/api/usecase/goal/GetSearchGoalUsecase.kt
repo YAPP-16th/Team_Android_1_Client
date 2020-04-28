@@ -1,5 +1,6 @@
 package com.eroom.domain.api.usecase.goal
 
+import com.eroom.data.response.InterestedGoalsResponse
 import com.eroom.data.response.SearchGoalResponse
 import com.eroom.domain.api.service.GoalService
 import com.eroom.domain.koin.repository.AccessRetrofitRepository
@@ -13,8 +14,13 @@ class GetSearchGoalUsecase(retrofitRepository: AccessRetrofitRepository) {
         .getAccessRetrofit()
         .create(GoalService::class.java)
 
-    fun getSearchGoal(jobInterestIds: Long): Single<ArrayList<SearchGoalResponse>> = memberService
-        .getSearchGoal(jobInterestIds)
+    fun getSearchJobInterest(interestId: Long): Single<ArrayList<InterestedGoalsResponse>> = memberService
+        .getSearchJobInterest(interestId)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+
+    fun getSearchGoalTitle(goalFilterBy: String ,keyword: String) : Single<ArrayList<InterestedGoalsResponse>> = memberService
+        .getSearchGoalTitle(goalFilterBy, keyword)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 }
