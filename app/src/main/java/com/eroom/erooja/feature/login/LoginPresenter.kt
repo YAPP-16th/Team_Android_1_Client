@@ -78,13 +78,6 @@ class LoginPresenter(override val view: LoginContract.View,
             }
         })
 
-    override fun guestLoginSetting() {
-        sharedPrefRepository.writePrefs(Consts.IS_GUEST, true)
-        sharedPrefRepository.writePrefs(Consts.AUTO_LOGIN, true)
-        sharedPrefRepository.writePrefs(Consts.ACCESS_TOKEN, "")
-        sharedPrefRepository.writePrefs(Consts.REFRESH_TOKEN, "")
-    }
-
     override fun onCleared() {
         compositeDisposable.clear()
     }
