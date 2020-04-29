@@ -92,6 +92,10 @@ class MainFragment : Fragment(), MainContract.View {
         presenter.getInterestedGoals(randomJobId)
     }
 
+    override fun setParticipatedList() {
+        
+    }
+
     override fun setNewGoalBrowse(content: ArrayList<GoalContent>) {
         mNewGoalAdapter = NewGoalBrowseAdapter(content, randomJobText.get() ?: "", clicked)
         mainBinding.newGoalRecycler.apply {

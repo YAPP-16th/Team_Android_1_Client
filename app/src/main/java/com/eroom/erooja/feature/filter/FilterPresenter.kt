@@ -28,7 +28,7 @@ class FilterPresenter(override val view: FilterContract.View,
     @SuppressLint("CheckResult")
     override fun getJobGroupAndClasses(groupIds: List<Long>) {
         Observable.fromIterable(groupIds)
-            .flatMap { getJobGroupAndClassUseCase.getJobGroupAndClass(it) }
+            .concatMap { getJobGroupAndClassUseCase.getJobGroupAndClass(it) }
             .map {
                 it
             }.toList()

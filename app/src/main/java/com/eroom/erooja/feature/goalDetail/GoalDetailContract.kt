@@ -2,7 +2,7 @@ package com.eroom.erooja.feature.goalDetail
 
 interface GoalDetailContract {
     interface View{
-        fun setView(title: String, description: String, joinCount: Int, startDate: String, endDate: String, interestIdList: List<Long>)
+        fun setView(title: String, description: String, joinCount: Int, startDate: String, endDate: String)
         fun setInterestedClassName(list: List<String>)
     }
 

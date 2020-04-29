@@ -19,7 +19,7 @@ class GoalDetailPresenter(override var view: GoalDetailContract.View,
     override fun getData(goalId: Long) {
         getGoalDetailUseCase.getGoalDetail(goalId)
             .subscribe({
-                view.setView(it.title, it.description, it.joinCount, it.startDt, it.endDt, it.interestIdList)
+                view.setView(it.title, it.description, it.joinCount, it.startDt, it.endDt)
             },{
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable

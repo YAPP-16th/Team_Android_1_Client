@@ -7,6 +7,7 @@ interface MainContract {
     interface View {
         fun setNickname(nickname: String)
         fun setJobInterestInfo(randomJob: String, randomJobId: Long, classList: ArrayList<JobClass>)
+        fun setParticipatedList()
         fun setNewGoalBrowse(content: ArrayList<GoalContent>)
     }
 
@@ -16,5 +17,6 @@ interface MainContract {
         fun getMemberJobInterest()
         fun onCleared()
         fun getInterestedGoals(interestId: Long)
+        fun getMyParticipatedList(uid: String)
     }
 }

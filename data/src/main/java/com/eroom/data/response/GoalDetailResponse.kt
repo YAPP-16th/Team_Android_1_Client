@@ -12,6 +12,5 @@ data class GoalDetailResponse(
     @JsonProperty("isEnd") var isEnd: Boolean,
     @JsonProperty("isDateFixed") var isDateFixed: Boolean,
     @JsonProperty("startDt") var startDt: String,
-    @JsonProperty("endDt") var endDt: String,
-    @JsonProperty("interestIdList") var interestIdList: List<Long>
+    @JsonProperty("endDt") var endDt: String
 )
