@@ -5,6 +5,7 @@
     tools:context=".feature.addGoal.newGoalPage.GoalListFragment">
 
     <data>
+
         <variable
             name="fragment"
             type="com.eroom.erooja.feature.addGoal.newGoalPage.GoalListFragment" />
@@ -72,17 +73,20 @@
                             android:id="@+id/goal_content_edittext"
                             android:layout_width="match_parent"
                             android:layout_height="55dp"
-                            android:background="@drawable/goal_list_item_textview"
+                            android:background="@drawable/goal_list_item_editttext"
                             android:cursorVisible="true"
                             android:gravity="center_vertical"
                             android:hint="@string/goal_item_hint"
                             android:imeOptions="actionNext"
                             android:inputType="text"
                             android:maxLines="1"
-                            android:paddingVertical="10dp"
                             android:paddingStart="40dp"
+                            android:paddingTop="10dp"
                             android:paddingEnd="20dp"
-                            android:textCursorDrawable="@drawable/edit_text_cursor"
+                            android:paddingBottom="10dp"
+                            android:textColor="@color/grey1"
+                            android:textColorHint="@color/grey1"
+                            android:textCursorDrawable="@drawable/goal_list_edit_text_cursor"
                             android:textSize="16sp" />
 
                         <ImageView
@@ -91,7 +95,6 @@
                             android:layout_height="7dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="20dp"
-                            android:tint="@{fragment.isExistWritingText ? @color/orgDefault : @color/grey4}"
                             android:src="@drawable/goal_list_dot_inactivate" />
 
                     </FrameLayout>
@@ -107,12 +110,13 @@
                         android:visibility="invisible" />
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
+
             <View
                 android:id="@+id/blur_view"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:background="@drawable/view_gradient_alpha_to_white"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

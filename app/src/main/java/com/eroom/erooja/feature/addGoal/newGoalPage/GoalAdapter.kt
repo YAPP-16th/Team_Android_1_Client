@@ -27,7 +27,7 @@ class GoalAdapter(private var goalList: ArrayList<String>, private val deleteCli
         RecyclerView.ViewHolder(itemGoalListBinding.root) {
         fun bind(goalContent: String) {
             itemGoalListBinding.goalContentTextview.text = goalContent
-            itemGoalListBinding.goalDot.setOnClickListener { deleteClick(adapterPosition) }
+            itemGoalListBinding.goalDelBtn.setOnClickListener { deleteClick(adapterPosition) }
         }
     }
 }
