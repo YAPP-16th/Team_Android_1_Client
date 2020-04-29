@@ -54,11 +54,11 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     }
 
     @SuppressLint("SetTextI18n")
-    override fun setView(title: String, description: String, joinCount: Int, startDate: String, endDate: String, interestIdList: List<Long>) {
+    override fun setView(title: String, description: String, joinCount: Int, startDate: String, endDate: String) {
         binding.participantListText.text = binding.participantListText.text.toString() add "($joinCount)"
         binding.goalNameTxt.text = title
         this.description.set(description)
-        presenter.getInterestedClassName(interestIdList)
+        //presenter.getInterestedClassName(interestIdList)
     }
 
     override fun setInterestedClassName(list: List<String>) {

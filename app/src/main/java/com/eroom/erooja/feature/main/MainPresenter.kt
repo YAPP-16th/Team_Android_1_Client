@@ -26,6 +26,7 @@ class MainPresenter(
         getMemberInfoUseCase.getUserInfo()
             .subscribe({
                 view.setNickname(it.nickname)
+                getMyParticipatedList(it.uid)
             },{
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
@@ -59,6 +60,10 @@ class MainPresenter(
             },{
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
+    }
+
+    override fun getMyParticipatedList(uid: String) {
+
     }
 
     fun isGuest() = sharedPrefRepository.getPrefsBooleanValue(Consts.IS_GUEST)
