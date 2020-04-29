@@ -24,13 +24,13 @@ interface GoalService {
     ): Single<InterestedGoalsResponse>
 
     @GET("goal/interest/{interestId}")
-    fun getSearchJobInterest(@Path("interestId") interestId: Long): Single<ArrayList<InterestedGoalsResponse>>
+    fun getSearchJobInterest(@Path("interestId") interestId: Long?): Single<InterestedGoalsResponse>
 
     @GET("goal")
     fun getSearchGoalTitle(
         @Query("goalFilterBy") goalFilterBy: String,
-        @Query("keyword") keyword: String
-    ): Single<ArrayList<InterestedGoalsResponse>>
+        @Query("keyword") keyword: String?
+    ): Single<InterestedGoalsResponse>
 
     @GET("goal/{goalId}")
     fun getGoalDetail(@Path("goalId") goalId: Long): Single<GoalDetailResponse>

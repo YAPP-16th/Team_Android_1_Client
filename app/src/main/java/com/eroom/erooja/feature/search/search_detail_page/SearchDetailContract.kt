@@ -1,17 +1,18 @@
 package com.eroom.erooja.feature.search.search_detail_page
 
-import com.eroom.data.response.InterestedGoalsResponse
+import com.eroom.data.entity.GoalContent
 
 interface SearchDetailContract {
     interface View {
         fun changeView(pos: Int)
-        fun updateSearchJobInterest(search: ArrayList<InterestedGoalsResponse>)
-        fun updateSearchGoalTitle(search: ArrayList<InterestedGoalsResponse>)
+        fun checkContentSize(size: Int)
+       // fun checkContentTitleSize(title: ArrayList<GoalContent>)
     }
-        interface Presenter {
-            val view: View
-            fun getSearchJobInterest(interestId: Long)
-            fun getSearchGoalTitle(goalFilterBy:String, keyword: String)
-            fun onCleared()
-        }
+
+    interface Presenter{
+        var view: View
+        fun getSearchJobInterest(interestId: Long?)
+        fun getSearchGoalTitle(title: String?)
+        fun onCleared()
     }
+}

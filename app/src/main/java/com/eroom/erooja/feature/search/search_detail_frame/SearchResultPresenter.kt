@@ -1,14 +1,15 @@
-package com.eroom.erooja.feature.search.search_detail_page
+package com.eroom.erooja.feature.search.search_detail_frame
 
 import android.annotation.SuppressLint
+import com.eroom.data.entity.GoalContent
 import com.eroom.domain.api.usecase.goal.GetSearchGoalUsecase
 import com.eroom.domain.utils.addTo
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
-class SearchDetailPresenter(override var view: SearchDetailContract.View,
-                            private val getsearchgoalusecase: GetSearchGoalUsecase
-): SearchDetailContract.Presenter{
+class SearchResultPresenter(override var view: SearchResultContract.View,
+                            private val getsearchgoalusecase: GetSearchGoalUsecase)
+    : SearchResultContract.Presenter{
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -16,7 +17,7 @@ class SearchDetailPresenter(override var view: SearchDetailContract.View,
     override fun getSearchJobInterest(interestId: Long?) {
         getsearchgoalusecase.getSearchJobInterest(interestId)
             .subscribe ({
-                view.checkContentSize(it.content.size)
+                view.setAllView(it.content)
             },{
                 Timber.i(it.localizedMessage)
             }) addTo compositeDisposable
@@ -26,7 +27,7 @@ class SearchDetailPresenter(override var view: SearchDetailContract.View,
     override fun getSearchGoalTitle(title: String?) {
         getsearchgoalusecase.getSearchGoalTitle("TITLE", title)
             .subscribe({
-                view.checkContentSize(it.content.size)
+                view.setAllView(it.content)
 
             },{
                 Timber.i(it.localizedMessage)
@@ -36,4 +37,5 @@ class SearchDetailPresenter(override var view: SearchDetailContract.View,
     override fun onCleared() {
         compositeDisposable.clear()
     }
+
 }

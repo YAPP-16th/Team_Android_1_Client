@@ -14,12 +14,12 @@ class GetSearchGoalUsecase(retrofitRepository: AccessRetrofitRepository) {
         .getAccessRetrofit()
         .create(GoalService::class.java)
 
-    fun getSearchJobInterest(interestId: Long): Single<ArrayList<InterestedGoalsResponse>> = memberService
+    fun getSearchJobInterest(interestId: Long?): Single<InterestedGoalsResponse> = memberService
         .getSearchJobInterest(interestId)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
-    fun getSearchGoalTitle(goalFilterBy: String ,keyword: String) : Single<ArrayList<InterestedGoalsResponse>> = memberService
+    fun getSearchGoalTitle(goalFilterBy: String,keyword: String? ) : Single<InterestedGoalsResponse> = memberService
         .getSearchGoalTitle(goalFilterBy, keyword)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
