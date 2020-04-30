@@ -34,10 +34,8 @@ class MyPageJobClassAdapter(
             }
             else -> holder.bind(jobClassList[position * 2].name, jobClassList[position * 2 + 1].name)
         }
-
     }
-
-
+    
     inner class ViewHolder(parent:ViewGroup ):
         RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_mypage_job_class, parent, false)) {
         private val classTitle: TextView = itemView.findViewById(R.id.class_title)
