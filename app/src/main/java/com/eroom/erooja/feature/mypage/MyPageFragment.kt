@@ -60,11 +60,6 @@ class MyPageFragment : Fragment(), MyPageContract.View {
 
     }
 
-    override fun onDestroy() {
-        presenter.onCleared()
-        super.onDestroy()
-    }
-
     override fun setNickname(nickname: String) {
         nicknameText.set("$nickname 님")
     }
@@ -92,4 +87,9 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         myPageBinding.expandBtn.visibility = View.GONE
     }
 
+    override fun onDestroy() {
+        presenter.onCleared()
+        super.onDestroy()
+    }
+    
 }
