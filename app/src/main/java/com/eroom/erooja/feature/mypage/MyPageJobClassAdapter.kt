@@ -24,7 +24,7 @@ class MyPageJobClassAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (position) {
-            itemCount - 1 ->{
+            itemCount - 1 -> {
                 if(jobClassList.size % 2 == 0 ) {
                     holder.bind(jobClassList[position * 2].name, jobClassList[position * 2 + 1].name)
                 }

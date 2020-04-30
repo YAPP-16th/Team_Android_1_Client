@@ -77,9 +77,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
             }
             myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classListLimitedFour)
             myPageBinding.expandBtn.visibility = View.VISIBLE
-
         }
-
     }
 
     fun expandButtonClicked() {
@@ -91,5 +89,5 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         presenter.onCleared()
         super.onDestroy()
     }
-    
+
 }
