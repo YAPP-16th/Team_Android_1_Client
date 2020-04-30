@@ -34,6 +34,17 @@ class SearchResultPresenter(override var view: SearchResultContract.View,
             })
     }
 
+    override fun checkRefresh(b: Boolean?,interestId: Long?) {
+        if(b==true){
+            getsearchgoalusecase.getSearchJobInterest(interestId)
+                .subscribe({
+                    view.updateView(it.content)
+                },{
+                    Timber.i(it.localizedMessage)
+                })
+        }
+    }
+
     override fun onCleared() {
         compositeDisposable.clear()
     }

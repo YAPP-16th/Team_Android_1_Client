@@ -121,7 +121,12 @@ class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
                             JobClassHashMap.hashmap.getKeyFromValue(searchword.value.toString())
                         presenter.getSearchJobInterest(key)
                         key?.let {
-                            (searchDetailFrame[3] as SearchResultFragment).setKey(key)
+                            (searchDetailFrame[3] as SearchResultFragment).apply{
+                                arguments = Bundle().apply {
+                                    putLong("key", key)
+                                }
+                                (searchDetailFrame[3] as SearchResultFragment).setKey()
+                            }
                         }?: run{
                             loadFragment(2)
                         }
