@@ -8,6 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ObservableField
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.eroom.data.entity.JobClass
+import com.eroom.domain.utils.toastLong
 import org.koin.android.ext.android.get
 
 import com.eroom.erooja.R
@@ -21,6 +24,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
     private lateinit var myPageBinding: FragmentMyPageBinding
     private lateinit var presenter: MyPagePresenter
     val nicknameText: ObservableField<String> = ObservableField()
+    private lateinit var classList: ArrayList<JobClass>
 
     companion object {
         @JvmStatic
@@ -51,7 +55,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
             nicknameText.set("게스트 님")
         } else {
             presenter.getUserInfo()
-            //presenter.getMemberJobInterest()
+            presenter.getMemberJobInterest()
         }
 
     }
@@ -65,12 +69,27 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         nicknameText.set("$nickname 님")
     }
 
-    override fun setJobInterestInfo(randomJob: String, randomJobId: Long, size: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun setJobInterestInfo(classList: ArrayList<JobClass>) {
+        this.classList = classList
+        if(classList.size <= 4) {
+            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classList)
+        } else {
+            val classListLimitedFour = ArrayList<JobClass>()
+            for((index, jobClass) in classList.withIndex()) {
+                if(index >=4)
+                    break
+                classListLimitedFour.add(jobClass)
+            }
+            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classListLimitedFour)
+            myPageBinding.expandBtn.visibility = View.VISIBLE
+
+        }
+
     }
 
-    public fun expand() {
-        myPageBinding.myPageExpandableLayout.expand(true, false)
+    fun expandButtonClicked() {
+        myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classList)
+        myPageBinding.expandBtn.visibility = View.GONE
     }
 
 }

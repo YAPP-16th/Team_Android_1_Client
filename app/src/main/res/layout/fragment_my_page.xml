@@ -28,54 +28,49 @@
             app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.07"
+            app:layout_constraintVertical_bias="0.04"
             tools:text="김현수 님" />
 
 
-        <ru.rhanza.constraintexpandablelayout.ExpandableLayout
-            android:id="@+id/my_page_expandable_layout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/my_page_tab_layout"
-            app:layout_constraintTop_toBottomOf="@+id/user_name"
-            >
-
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:orientation="vertical"
-                android:layout_marginEnd="140dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/jobClassRecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    tools:listitem="@layout/item_job_class_filter"
-                    tools:itemCount="5"/>
-                <ImageView
-                    android:id="@+id/expand_btn"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/ic_icon_expandable_btn"
-                    android:onClick="@{() -> fragment.expand()}"
-                    />
-
-            </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/jobClassRecycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_name"
+            app:layout_constraintVertical_bias="0.04"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_mypage_job_class" />
 
 
-        </ru.rhanza.constraintexpandablelayout.ExpandableLayout>
+        <ImageView
+            android:id="@+id/expand_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            tools:visibility="visible"
+            android:src="@drawable/ic_icon_expandable_btn"
+            android:onClick="@{() -> fragment.expandButtonClicked()}"
+            app:layout_constraintTop_toBottomOf="@id/user_name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/jobClassRecycler"
+            app:layout_constraintVertical_bias="0.09"/>
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/my_page_tab_layout"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3"
             app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/jobClassRecycler"
+            app:layout_constraintVertical_bias="0.0"
             app:tabIndicatorColor="@color/orgDefault"
             app:tabSelectedTextColor="@color/orgDefault"
             app:tabTextColor="@color/grey4">

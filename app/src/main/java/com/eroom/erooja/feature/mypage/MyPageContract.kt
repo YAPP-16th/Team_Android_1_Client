@@ -1,9 +1,11 @@
 package com.eroom.erooja.feature.mypage
 
+import com.eroom.data.entity.JobClass
+
 interface MyPageContract {
     interface View {
         fun setNickname(nickname: String)
-        fun setJobInterestInfo(randomJob: String, randomJobId: Long, size: Int)
+        fun setJobInterestInfo(classList: ArrayList<JobClass>)
     }
 
     interface Presenter {

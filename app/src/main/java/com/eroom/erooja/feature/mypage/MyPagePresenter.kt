@@ -1,5 +1,7 @@
 package com.eroom.erooja.feature.mypage
 
+import android.annotation.SuppressLint
+import com.eroom.data.entity.JobClass
 import com.eroom.domain.api.usecase.member.GetMemberInfoUseCase
 import com.eroom.domain.api.usecase.member.GetMemberJobInterestsUseCase
 import com.eroom.domain.globalconst.Consts
@@ -26,8 +28,21 @@ class MyPagePresenter(
             }) addTo compositeDisposable
     }
 
+    @SuppressLint("CheckResult")
     override fun getMemberJobInterest() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        getMemberJobInterestUseCase.getMemberJobInterests()
+            .subscribe({
+                val classList = ArrayList<JobClass>()
+                for (group in it) {
+                    group.jobInterests.map { jobClass ->
+                        classList.add(jobClass)
+                    }
+                }
+                view.setJobInterestInfo(classList)
+            }, {
+                Timber.e(it.localizedMessage)
+            }) addTo compositeDisposable
+
     }
 
     fun isGuest() = sharedPrefRepository.getPrefsBooleanValue(Consts.IS_GUEST)

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/item_class_border"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_inactive_in_mypage"
+            android:gravity="center"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/class_title"
+                android:background="@drawable/border_inactive_in_mypage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey5"
+                android:textSize="12sp"
+                tools:text="모바일 디자인"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item_class_border2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_inactive_in_mypage"
+            android:gravity="center"
+            android:layout_marginStart="10dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/class_title2"
+                android:background="@drawable/border_inactive_in_mypage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey5"
+                android:textSize="12sp"
+                tools:text="Data Engineer"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
