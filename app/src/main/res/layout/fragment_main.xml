@@ -40,6 +40,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="94dp"
                 android:orientation="vertical" >
 
                 <TextView
@@ -154,11 +155,24 @@
                             app:layout_constraintVertical_bias="0.329" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/participantRecycler"
+                    <HorizontalScrollView
+                        android:id="@+id/participantScroll"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@+id/participantButton" />
+                        android:layout_height="match_parent"
+                        tools:visibility="invisible"
+                        android:background="@color/colorWhite">
+
+                        <LinearLayout
+                            android:id="@+id/participantFrame"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:paddingStart="52dp"
+                            android:paddingEnd="52dp"
+                            android:orientation="horizontal">
+
+
+                        </LinearLayout>
+                    </HorizontalScrollView>
 
                 </FrameLayout>
 
@@ -166,7 +180,7 @@
                     android:id="@+id/textView12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="63dp"
+                    android:layout_marginTop="56dp"
                     android:layout_marginStart="16dp"
                     android:text="@string/new_goal_search_text"
                     android:textColor="@color/grey5"
@@ -179,18 +193,65 @@
                     android:id="@+id/newGoalButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="43dp"
                     android:onClick="@{() -> fragment.navigateToSearchTab()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recyclerFrame"
                     app:srcCompat="@drawable/ic_icon_small_arrow_right" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/newGoalRecycler"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    app:layout_constraintTop_toBottomOf="@+id/newGoalButton" />
+                    app:layout_constraintTop_toBottomOf="@+id/newGoalButton">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/newGoalAddFrame"
+                        android:layout_width="match_parent"
+                        android:layout_height="245dp">
+
+                        <TextView
+                            android:id="@+id/noGoal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="@color/grey4"
+                            android:textSize="18sp"
+                            android:lineSpacingExtra="13sp"
+                            android:text="@string/no_goal_interested_job_plz_add_goal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.32" />
+
+                        <Button
+                            android:id="@+id/button4"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button_add_goal"
+                            android:elevation="0dp"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:text="@string/add_goal_button_text"
+                            android:onClick="@{() -> fragment.navigateToAddGoal()}"
+                            android:textColor="@color/orgDefault"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/noGoal"
+                            app:layout_constraintVertical_bias="0.329" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/newGoalRecycler"
+                        android:background="@color/colorWhite"
+                        tools:visibility="invisible"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </FrameLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 

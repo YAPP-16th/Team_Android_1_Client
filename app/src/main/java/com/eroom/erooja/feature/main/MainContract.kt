@@ -2,12 +2,14 @@ package com.eroom.erooja.feature.main
 
 import com.eroom.data.entity.GoalContent
 import com.eroom.data.entity.JobClass
+import com.eroom.data.entity.MinimalGoalDetailContent
 
 interface MainContract {
     interface View {
         fun setNickname(nickname: String)
         fun setJobInterestInfo(randomJob: String, randomJobId: Long, classList: ArrayList<JobClass>)
-        fun setParticipatedList()
+        fun setParticipatedList(list: ArrayList<MinimalGoalDetailContent>)
+        fun saveUid(uid: String)
         fun setNewGoalBrowse(content: ArrayList<GoalContent>)
     }
 

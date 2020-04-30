@@ -4,7 +4,6 @@ package com.eroom.erooja.feature.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Html
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,14 +12,14 @@ import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.GoalContent
 import com.eroom.data.entity.JobClass
+import com.eroom.data.entity.MinimalGoalDetailContent
 import com.eroom.domain.globalconst.Consts
-import com.eroom.domain.utils.fromHtml
-import com.eroom.domain.utils.toastShort
+import com.eroom.domain.utils.toRealDateFormat
 
 import com.eroom.erooja.databinding.FragmentMainBinding
 import com.eroom.erooja.dialog.EroojaDialogActivity
-import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalActivity
 import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
+import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
 import com.eroom.erooja.feature.search.search_detail_page.SearchDetailActivity
 import com.eroom.erooja.feature.tab.TabActivity
 import org.koin.android.ext.android.get
@@ -34,6 +33,8 @@ class MainFragment : Fragment(), MainContract.View {
     val nicknameText: ObservableField<String> = ObservableField()
     val randomJobText: ObservableField<String> = ObservableField()
 
+    private var uId: String = ""
+
     companion object {
         @JvmStatic
         fun newInstance() = MainFragment()
@@ -41,7 +42,7 @@ class MainFragment : Fragment(), MainContract.View {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        presenter = MainPresenter(this, get(), get(), get(), get())
+        presenter = MainPresenter(this, get(), get(), get(), get(), get())
     }
 
     override fun onCreateView(
@@ -67,48 +68,98 @@ class MainFragment : Fragment(), MainContract.View {
         }
     }
 
-    fun navigateToSearchTab() = (activity as TabActivity).changeTabToSearch()
+    override fun saveUid(uid: String) {
+        uId = uid
+        presenter.getMyParticipatedList(uId)
+    }
 
-    fun navigateToMyPageTab() = (activity as TabActivity).changeTabToMyPage()
-
-    fun navigateToAddGoal() = (activity as TabActivity).navigateToNewGoal()
-
-    fun navigateToSearchActivity() = startActivity(Intent(activity, SearchDetailActivity::class.java))
+    override fun onResume() {
+        super.onResume()
+        presenter.getMyParticipatedList(uId)
+    }
 
     override fun setNickname(nickname: String) = nicknameText.set("$nickname 님의 관심직무")
 
-    override fun setJobInterestInfo(randomJob: String, randomJobId: Long, classList: ArrayList<JobClass>) {
+    override fun setJobInterestInfo(
+        randomJob: String,
+        randomJobId: Long,
+        classList: ArrayList<JobClass>
+    ) {
         randomJobText.set(randomJob)
         var contentString = ""
-        for (classItem in classList) {
-            contentString += classItem.name + ", "
+        for ((index, classItem) in classList.withIndex()) {
+            contentString += if (index != classList.size - 1) classItem.name + ", "
+            else classItem.name
         }
         mainBinding.userInterestInfoCount.setOnClickListener {
             startActivity(Intent(activity, EroojaDialogActivity::class.java).apply {
                 putExtra(Consts.DIALOG_TITLE, "관심직무")
                 putExtra(Consts.DIALOG_CONTENT, contentString)
+                putExtra(Consts.DIALOG_CONFIRM, true)
+                putExtra(Consts.DIALOG_CANCEL, false)
             })
         }
         presenter.getInterestedGoals(randomJobId)
     }
 
-    override fun setParticipatedList() {
-        
+    override fun setParticipatedList(list: ArrayList<MinimalGoalDetailContent>) {
+        mainBinding.participantFrame.removeAllViews()
+        mainBinding.participantScroll.visibility = View.VISIBLE
+        for ((index, it) in list.withIndex()) {
+            val jobClassInfo = it.minimalGoalDetail.jobInterests.filter { it.jobInterestType != Consts.JOB_GROUP }.toList()
+            val extraInfo = if (jobClassInfo.size - 1 == 0) "" else " 외 ${jobClassInfo.size - 1}"
+            mainBinding.participantFrame.addView(
+                ParticipatedItem(
+                    context,
+                    it.goalId,
+                    isOrg = index % 2 == 0,
+                    percent = "30%",
+                    jobClasses = "${jobClassInfo[0].name}$extraInfo",
+                    titleText = it.minimalGoalDetail.title,
+                    duration = "${it.startDt.toRealDateFormat()}~${it.endDt.toRealDateFormat()}",
+                    isClicked = myGoalClicked
+                )
+            )
+        }
+        if (list.size == 1) {
+            mainBinding.participantFrame.addView(AddGoalItem(context, addGoalClicked))
+        } else if (list.size == 0) {
+            mainBinding.participantScroll.visibility = View.GONE
+        }
     }
 
     override fun setNewGoalBrowse(content: ArrayList<GoalContent>) {
-        mNewGoalAdapter = NewGoalBrowseAdapter(content, randomJobText.get() ?: "", clicked)
+        if (content.size > 0) mainBinding.newGoalAddFrame.visibility = View.GONE
+        else mainBinding.newGoalAddFrame.visibility = View.VISIBLE
+        mNewGoalAdapter = NewGoalBrowseAdapter(content, randomJobText.get() ?: "", newGoalClicked)
         mainBinding.newGoalRecycler.apply {
             adapter = mNewGoalAdapter
             layoutManager = LinearLayoutManager(context)
         }
     }
 
-    private val clicked = { goalId: Long ->
+    private val myGoalClicked = { goalId: Long ->
+        startActivity(Intent(activity, OngoingGoalActivity::class.java).apply {
+            putExtra(Consts.GOAL_ID, goalId)
+        })
+    }
+
+    private val addGoalClicked = { (activity as TabActivity).navigateToNewGoal() }
+
+    private val newGoalClicked = { goalId: Long ->
         startActivity(Intent(activity, GoalDetailActivity::class.java).apply {
             putExtra(Consts.GOAL_ID, goalId)
         })
     }
+
+    fun navigateToSearchTab() = (activity as TabActivity).changeTabToSearch()
+
+    fun navigateToMyPageTab() = (activity as TabActivity).changeTabToMyPage()
+
+    fun navigateToAddGoal() = (activity as TabActivity).navigateToNewGoal()
+
+    fun navigateToSearchActivity() =
+        startActivity(Intent(activity, SearchDetailActivity::class.java))
 
     override fun onDestroy() {
         presenter.onCleared()

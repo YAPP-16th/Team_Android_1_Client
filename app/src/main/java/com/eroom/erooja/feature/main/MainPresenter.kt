@@ -1,10 +1,15 @@
 package com.eroom.erooja.feature.main
 
 import android.annotation.SuppressLint
+import androidx.recyclerview.widget.DiffUtil
+import com.eroom.data.entity.GoalContent
 import com.eroom.data.entity.JobClass
+import com.eroom.data.localclass.Direction
+import com.eroom.data.localclass.SortBy
 import com.eroom.domain.api.usecase.goal.GetInterestedGoalsUseCase
 import com.eroom.domain.api.usecase.member.GetMemberInfoUseCase
 import com.eroom.domain.api.usecase.member.GetMemberJobInterestsUseCase
+import com.eroom.domain.api.usecase.membergoal.GetGoalsByUserIdUseCase
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.koin.repository.SharedPrefRepository
 import com.eroom.domain.utils.addTo
@@ -16,7 +21,8 @@ class MainPresenter(
     private val sharedPrefRepository: SharedPrefRepository,
     private val getMemberInfoUseCase: GetMemberInfoUseCase,
     private val getMemberJobInterestUseCase: GetMemberJobInterestsUseCase,
-    private val getInterestedGoalsUseCase: GetInterestedGoalsUseCase
+    private val getInterestedGoalsUseCase: GetInterestedGoalsUseCase,
+    private val getGoalsByUserIdUseCase: GetGoalsByUserIdUseCase
 ) : MainContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
@@ -26,7 +32,7 @@ class MainPresenter(
         getMemberInfoUseCase.getUserInfo()
             .subscribe({
                 view.setNickname(it.nickname)
-                getMyParticipatedList(it.uid)
+                view.saveUid(it.uid)
             },{
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
@@ -62,8 +68,14 @@ class MainPresenter(
             }) addTo compositeDisposable
     }
 
+    @SuppressLint("CheckResult")
     override fun getMyParticipatedList(uid: String) {
-
+        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = 0, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, endDtIsBeforeNow = false)
+            .subscribe({
+                view.setParticipatedList(it.content)
+            },{
+                Timber.e(it.localizedMessage)
+            }) addTo compositeDisposable
     }
 
     fun isGuest() = sharedPrefRepository.getPrefsBooleanValue(Consts.IS_GUEST)

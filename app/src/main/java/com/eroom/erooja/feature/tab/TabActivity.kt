@@ -51,7 +51,7 @@ class TabActivity : AppCompatActivity(), TabContract.View {
         fragments.apply {
             addAll(listOf(
                 MainFragment.newInstance(),
-               SearchFragment.newInstance(),
+                SearchFragment.newInstance(),
                 MyPageFragment.newInstance()
             ))
         }.map {

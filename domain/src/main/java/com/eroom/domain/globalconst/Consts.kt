@@ -27,6 +27,11 @@ class Consts {
         const val DIALOG_TITLE = "DIALOG_TITLE"
         const val DIALOG_CONTENT = "DIALOG_CONTENT"
         const val DIALOG_RESULT = "DIALOG_RESULT"
+        const val DIALOG_CONFIRM = "DIALOG_CONFIRM"
+        const val DIALOG_CANCEL = "DIALOG_CANCEL"
         const val GOAL_ID = "GOAL_ID"
+
+        const val JOB_GROUP = "JOB_GROUP"
+        const val JOB_INTEREST = "JOB_INTEREST"
     }
 }

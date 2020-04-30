@@ -7,5 +7,6 @@ data class Pageable(
     @JsonProperty("offset") var offset: Int,
     @JsonProperty("pageNumber") var pageNumber: Int,
     @JsonProperty("pageSize") var pageSize: Int,
-    @JsonProperty("unpaged") var unpaged: Boolean
+    @JsonProperty("unpaged") var unpaged: Boolean,
+    @JsonProperty("paged") var paged: Boolean
 )

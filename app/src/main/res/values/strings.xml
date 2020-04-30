@@ -81,4 +81,6 @@
     <string name="add_goal_button_text">목표 추가</string>
     <string name="confirm_text">확인</string>
     <string name="cancel_text">취소</string>
+    <string name="new_goal_add_text">새로운 목표 추가</string>
+    <string name="no_goal_interested_job_plz_add_goal">관심 직무와 관련된 목표가 아직 없네요.\n새로운 목표를 추가해보세요.</string>
 </resources>

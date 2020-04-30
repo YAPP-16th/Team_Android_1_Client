@@ -10,6 +10,7 @@ import com.eroom.domain.api.usecase.job.GetJobClassByIdUseCase
 import com.eroom.domain.api.usecase.job.GetJobGroupAndClassUseCase
 import com.eroom.domain.api.usecase.job.GetJobGroupUseCase
 import com.eroom.domain.api.usecase.member.*
+import com.eroom.domain.api.usecase.membergoal.GetGoalsByUserIdUseCase
 import org.koin.dsl.module
 
 val usecaseModule = module {
@@ -40,4 +41,6 @@ val usecaseModule = module {
     factory { GetGoalDetailUseCase(get()) }
 
     factory { GetJobClassByIdUseCase(get()) }
+
+    factory { GetGoalsByUserIdUseCase(get()) }
 }
