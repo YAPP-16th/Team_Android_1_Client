@@ -93,7 +93,7 @@ class MainFragment : Fragment(), MainContract.View {
         }
         mainBinding.userInterestInfoCount.setOnClickListener {
             startActivity(Intent(activity, EroojaDialogActivity::class.java).apply {
-                putExtra(Consts.DIALOG_TITLE, "관심직무")
+                putExtra(Consts.DIALOG_TITLE, "관심직무(${classList.size})")
                 putExtra(Consts.DIALOG_CONTENT, contentString)
                 putExtra(Consts.DIALOG_CONFIRM, true)
                 putExtra(Consts.DIALOG_CANCEL, false)

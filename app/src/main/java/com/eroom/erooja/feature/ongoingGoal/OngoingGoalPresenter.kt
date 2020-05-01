@@ -1,14 +1,24 @@
 package com.eroom.erooja.feature.ongoingGoal
 
-import com.eroom.data.entity.UserSimpleData
+import android.annotation.SuppressLint
+import com.eroom.domain.api.usecase.goal.GetGoalDetailUseCase
+import timber.log.Timber
 
-class OngoingGoalPresenter(override var view: OngoingGoalContract.View)
-    : OngoingGoalContract.Presenter {
-    var tempdata = UserSimpleData(4,"somebody", 99, "im shefm", "asdfe", " asdfeasg")
-        .getUserSimpleData()
+class OngoingGoalPresenter(override var view: OngoingGoalContract.View,
+                           private val getGoalDetailUseCase: GetGoalDetailUseCase
+): OngoingGoalContract.Presenter {
 
-    override fun getData() {
-        view.setAllView(tempdata)
+    @SuppressLint("CheckResult")
+    override fun getData(goalId: Long) {
+        getGoalDetailUseCase.getGoalDetail(goalId)
+            .subscribe({
+                view.setGoalData(it)
+            },{
+                Timber.e(it.localizedMessage)
+            })
+    }
+
+    override fun getTodoData(goalId: Long) {
 
     }
 }
