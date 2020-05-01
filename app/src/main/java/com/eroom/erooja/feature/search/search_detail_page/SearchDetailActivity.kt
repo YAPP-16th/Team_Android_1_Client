@@ -161,6 +161,10 @@ class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
     fun back(v: View){
         finish()
     }
+
+    fun searchCancel(v: View){
+        searchDetailBinding.searchEditText.text.clear()
+    }
 }
 
 
