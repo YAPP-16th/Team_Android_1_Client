@@ -1,12 +1,12 @@
 package com.eroom.data.response
 
-import com.eroom.data.entity.GoalContent
+import com.eroom.data.entity.MinimalGoalDetailContent
 import com.eroom.data.entity.Pageable
 import com.eroom.data.entity.Sort
 import com.fasterxml.jackson.annotation.JsonProperty
 
-class InterestedGoalsResponse(
-    @JsonProperty("content") var content: ArrayList<GoalContent>,
+class ParticipatedGoalsResponse(
+    @JsonProperty("content") var content: ArrayList<MinimalGoalDetailContent>,
     @JsonProperty("pageable") var pageable: Pageable,
     @JsonProperty("totalPages") var totalPages: Int,
     @JsonProperty("totalElements") var totalElements: Int,

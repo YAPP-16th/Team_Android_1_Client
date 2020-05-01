@@ -16,10 +16,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> goalDetail.navigationToBack()}"
+            android:background="@drawable/ic_icon_navi_arrow_left"
+            bind:layout_constraintStart_toStartOf="parent"
+            bind:layout_constraintTop_toTopOf="parent" />
+
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinatorlayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="48dp"
             android:descendantFocusability="blocksDescendants">
 
             <androidx.core.widget.NestedScrollView
@@ -33,15 +43,6 @@
                     android:background="@color/subLight3"
                     android:orientation="vertical">
 
-                    <ImageButton
-                        android:id="@+id/backButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:onClick="@{() -> goalDetail.navigationToBack()}"
-                        android:background="@drawable/ic_icon_navi_arrow_left"
-                        bind:layout_constraintStart_toStartOf="parent"
-                        bind:layout_constraintTop_toTopOf="parent" />
-
                     <LinearLayout
                         android:id="@+id/linearLayout"
                         android:layout_width="match_parent"
@@ -50,8 +51,7 @@
                         android:layout_marginStart="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/backButton">
-
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
                             android:id="@+id/goal_date_txt"

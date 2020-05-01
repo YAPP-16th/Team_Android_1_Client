@@ -3,6 +3,7 @@ package com.eroom.erooja.dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.eroom.domain.globalconst.Consts
 import com.eroom.erooja.R
@@ -37,5 +38,7 @@ class EroojaDialogActivity : AppCompatActivity() {
             setResult(resultCode, Intent().apply { putExtra(Consts.DIALOG_RESULT, false) })
             finish()
         }
+        newGoalBinding.confirmText.visibility = if (intent.getBooleanExtra(Consts.DIALOG_CONFIRM, true)) View.VISIBLE else View.GONE
+        newGoalBinding.cancelText.visibility = if (intent.getBooleanExtra(Consts.DIALOG_CANCEL, true)) View.VISIBLE else View.GONE
     }
 }
