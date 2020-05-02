@@ -5,7 +5,6 @@
     tools:context=".feature.mypage.MyPageFragment">
 
     <data>
-
         <variable
             name="fragment"
             type="com.eroom.erooja.feature.mypage.MyPageFragment" />
@@ -19,13 +18,14 @@
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:text="@{fragment.nicknameText}"
             android:textColor="@color/grey8"
             android:textSize="25sp"
             android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.04"
@@ -44,7 +44,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_name"
             app:layout_constraintVertical_bias="0.04"
-            tools:itemCount="5"
+            tools:itemCount="2"
             tools:listitem="@layout/item_mypage_job_class" />
 
 
@@ -76,13 +76,13 @@
             app:tabTextColor="@color/grey4">
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/position_tabitem"
+                android:id="@+id/ongoing_goal_tab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="참여중" />
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/goal_tabitem"
+                android:id="@+id/ended_goal_tab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="완료">
@@ -98,6 +98,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/my_page_tab_layout">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_participated_ongoing_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_my_participated_goal"
+                />
 
         </FrameLayout>
 
