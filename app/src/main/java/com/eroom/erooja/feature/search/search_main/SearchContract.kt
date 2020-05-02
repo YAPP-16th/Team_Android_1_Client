@@ -7,20 +7,16 @@ import com.eroom.erooja.feature.search.search_detail_frame.SearchResultFragment
 
 interface SearchContract{
     interface View{
-       // fun loadFragment(index: Int): Fragment
-
         fun setAlignedJobInterest(interest: MutableSet<String>)
         fun setUserJobInterest(interest: MutableSet<JobClass>)
-        //fun setAllView(search: ArrayList<GoalContent>)
-        fun checkContentSize(size: Int)
-
-
+        fun setAllView(search: ArrayList<GoalContent>)
+        fun setIsEnd(boolean: Boolean)
     }
 
     interface Presenter{
         val view: View
         fun getAlignedJobInterest()
-        fun getSearchJobInterest(interestId: Long?)
+        fun getSearchJobInterest(interestId: Long?, page: Int)
         fun onCleared()
     }
 }

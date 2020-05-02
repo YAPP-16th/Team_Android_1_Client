@@ -65,8 +65,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="13sp"
             app:tabTextColor="@color/grey4"
-            app:tabIndicatorColor="@color/orgDefault"
-            app:tabSelectedTextColor="@color/orgDefault"
+            app:tabIndicatorColor="@color/grey8"
+            app:tabSelectedTextColor="@color/grey8"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
@@ -87,6 +87,12 @@
             </com.google.android.material.tabs.TabItem>
 
         </com.google.android.material.tabs.TabLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey3"
+            app:layout_constraintBottom_toBottomOf="@id/search_tablayout"/>
 
         <FrameLayout
             android:id="@+id/search_container"

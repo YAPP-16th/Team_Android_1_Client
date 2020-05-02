@@ -101,22 +101,22 @@ class SearchDetailActivity : AppCompatActivity() {
                 searchWord.value = it
                 if (searchWord.value == "") {
                     loadFragment(changeNum)
-                }
-
-                when (changeNum) {
-                    0 -> { // 직무
-                        val key =
-                            JobClassHashMap.hashmap.getKeyFromValue(searchWord.value.toString())
-                        key?.let { keyId: Long ->
-                            (searchDetailFrame[3] as SearchResultFragment).setKey(keyId)
-                        } ?: run {
-                            loadFragment(2)
+                } else {
+                    when (changeNum) {
+                        0 -> { // 직무
+                            val key =
+                                JobClassHashMap.hashmap.getKeyFromValue(searchWord.value.toString())
+                            key?.let { keyId: Long ->
+                                (searchDetailFrame[3] as SearchResultFragment).setKey(keyId)
+                            } ?: run {
+                                loadFragment(2)
+                            }
                         }
-                    }
 
-                    1 -> { // 목표
-                        val title = URLEncoder.encode(searchWord.value, "UTF-8")
-                        (searchDetailFrame[3] as SearchResultFragment).setTitle(title)
+                        1 -> { // 목표
+                            val title = URLEncoder.encode(searchWord.value, "UTF-8")
+                            (searchDetailFrame[3] as SearchResultFragment).setTitle(title)
+                        }
                     }
                 }
             }

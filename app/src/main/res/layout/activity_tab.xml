@@ -33,7 +33,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:itemIconSize="23dp"
             app:menu="@menu/menu_bottom_nav"
-            android:background="#ffffff"
+            android:background="@drawable/bottom"
             app:elevation="0dp"
             app:labelVisibilityMode="labeled"
             app:selectListener="@{activity.listener}"/>

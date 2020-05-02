@@ -1,23 +1,19 @@
 package com.eroom.erooja.feature.search.search_main
 
 import android.annotation.SuppressLint
+import androidx.recyclerview.widget.DiffUtil
+import com.eroom.data.entity.GoalContent
 import com.eroom.data.entity.JobClass
-import com.eroom.data.localclass.DesignClass
-import com.eroom.data.localclass.DevelopClass
-import com.eroom.data.response.JobGroupAndClassResponse
-import com.eroom.domain.api.usecase.goal.GetSearchGoalUsecase
+import com.eroom.data.localclass.SortBy
+import com.eroom.domain.api.usecase.goal.GetSearchGoalUseCase
 import com.eroom.domain.api.usecase.member.GetMemberJobInterestsUseCase
-import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.addTo
-import com.eroom.erooja.feature.search.search_detail_frame.SearchResultAdapter
-import com.eroom.erooja.feature.search.search_detail_frame.SearchResultFragment
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.fragment_search_result_list.*
 import timber.log.Timber
 
 class SearchPresenter(override val view:SearchContract.View,
                       private val  getMemberJobInterestsUseCase: GetMemberJobInterestsUseCase,
-                      private val getsearchgoalusecase: GetSearchGoalUsecase
+                      private val getSearchGoalUseCase: GetSearchGoalUseCase
 ): SearchContract.Presenter{
 
     private val compositeDisposable = CompositeDisposable()
@@ -41,17 +37,26 @@ class SearchPresenter(override val view:SearchContract.View,
             }) addTo compositeDisposable
     }
 
-
-    @SuppressLint("CheckResult")
-    override fun getSearchJobInterest(interestId: Long?) {
-        getsearchgoalusecase.getSearchJobInterest(interestId)
+    override fun getSearchJobInterest(interestId: Long?, page: Int) {
+        getSearchGoalUseCase.getSearchJobInterest(interestId, size = 10, page = page, sortBy = SortBy.CREATED_DT)
             .subscribe ({
-                view.checkContentSize(it.content.size)
-                //view.setAllView(it.content)
+                view.setAllView(it.content)
+                view.setIsEnd(it.totalPages <= page)
             },{
                 Timber.i(it.localizedMessage)
             }) addTo compositeDisposable
     }
+
+    private val mGoalContentCallback = object : DiffUtil.ItemCallback<GoalContent>() {
+        override fun areItemsTheSame(oldItem: GoalContent, newItem: GoalContent): Boolean {
+            return oldItem.id == newItem.id
+        }
+        override fun areContentsTheSame(oldItem: GoalContent, newItem: GoalContent): Boolean {
+            return (oldItem.title == newItem.title) && (oldItem.id == newItem.id)
+        }
+    }
+
+    fun getGoalContentCallback(): DiffUtil.ItemCallback<GoalContent> = mGoalContentCallback
 
     override fun onCleared() {
         compositeDisposable.clear()
