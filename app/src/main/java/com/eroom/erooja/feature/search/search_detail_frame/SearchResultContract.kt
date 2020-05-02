@@ -6,16 +6,12 @@ import com.eroom.data.entity.GoalContent
 interface SearchResultContract {
     interface View{
         fun setAllView(search: ArrayList<GoalContent>)
-        fun updateView(search: ArrayList<GoalContent> )
-
     }
 
     interface Presenter{
         var view: View
         fun getSearchJobInterest(interestId: Long?)
         fun getSearchGoalTitle(title: String?)
-        fun checkRefresh(b: Boolean?, interestId: Long?)
         fun onCleared()
-
     }
 }
