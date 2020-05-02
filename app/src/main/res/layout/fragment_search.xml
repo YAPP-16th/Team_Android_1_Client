@@ -64,6 +64,7 @@
                 android:id="@+id/search_main_tablayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 app:tabMode="scrollable"
                 app:tabTextColor="@color/grey4"
                 app:tabSelectedTextColor="@color/orgDefault"
