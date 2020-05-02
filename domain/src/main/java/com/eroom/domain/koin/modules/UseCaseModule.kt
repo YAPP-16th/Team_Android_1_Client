@@ -4,7 +4,7 @@ import com.eroom.domain.api.usecase.auth.PostKakaoLoginUseCase
 import com.eroom.domain.api.usecase.auth.GetRefreshTokenUseCase
 import com.eroom.domain.api.usecase.goal.GetGoalDetailUseCase
 import com.eroom.domain.api.usecase.goal.GetInterestedGoalsUseCase
-import com.eroom.domain.api.usecase.goal.GetSearchGoalUsecase
+import com.eroom.domain.api.usecase.goal.GetSearchGoalUseCase
 import com.eroom.domain.api.usecase.goal.PostNewGoalUseCase
 import com.eroom.domain.api.usecase.job.GetJobClassByIdUseCase
 import com.eroom.domain.api.usecase.job.GetJobGroupAndClassUseCase
@@ -36,7 +36,7 @@ val usecaseModule = module {
 
     factory { GetInterestedGoalsUseCase(get()) }
 
-    factory { GetSearchGoalUsecase(get()) }
+    factory { GetSearchGoalUseCase(get()) }
 
     factory { GetGoalDetailUseCase(get()) }
 

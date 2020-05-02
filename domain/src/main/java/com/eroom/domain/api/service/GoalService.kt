@@ -24,13 +24,21 @@ interface GoalService {
     ): Single<InterestedGoalsResponse>
 
     @GET("goal/interest/{interestId}")
-    fun getSearchJobInterest(@Path("interestId") interestId: Long): Single<ArrayList<InterestedGoalsResponse>>
-
+    fun getSearchJobInterest(@Path("interestId") interestId: Long?,
+                             @Query("size") size: Int,
+                             @Query("page") page: Int,
+                             @Query("sort") sort: String
+    ): Single<InterestedGoalsResponse>
+//    *size : 한 페이지당 크기
+//    *page : 페이지번호
+//    *sort : 정렬방식
     @GET("goal")
     fun getSearchGoalTitle(
+        @Query("size") size: Int,
+        @Query("page") page: Int,
         @Query("goalFilterBy") goalFilterBy: String,
-        @Query("keyword") keyword: String
-    ): Single<ArrayList<InterestedGoalsResponse>>
+        @Query("keyword") keyword: String?
+    ): Single<InterestedGoalsResponse>
 
     @GET("goal/{goalId}")
     fun getGoalDetail(@Path("goalId") goalId: Long): Single<GoalDetailResponse>

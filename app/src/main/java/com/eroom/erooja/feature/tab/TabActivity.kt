@@ -34,11 +34,10 @@ class TabActivity : AppCompatActivity(), TabContract.View {
         initPresenter()
         setUpDataBinding()
         initFragment()
-        initView()
     }
 
     private fun initPresenter() {
-        presenter = TabPresenter(this, get(), get())
+        presenter = TabPresenter(this)
         listener = presenter.listener
     }
 
@@ -70,26 +69,6 @@ class TabActivity : AppCompatActivity(), TabContract.View {
         }[index].also {
             supportFragmentManager.beginTransaction().show(it).commit()
         }
-
-    private fun initView() {
-        presenter.getJobGroups()
-    }
-
-    override fun reRequestClassByGroup(jobGroupList: ArrayList<JobGroup>) =
-        jobGroupList.map {
-            it.id //직군 (디자인 or 개발) 불러오기
-        }.toList().let {
-            presenter.getJobGroupAndClasses(it)
-        }
-
-    //직무 직군 object 에 다 가져오는 함수임
-    override fun updateJobGroupAndClass(result: List<JobGroupAndClassResponse>) {
-        for(i in result){
-            for(j in i.jobInterests){
-                hashmap[j.id] = j.name
-            }
-        }
-    }
 
     fun changeTabToSearch() {
         mainBinding.mainBottomTab.selectedItemId = R.id.bottom_tab_search

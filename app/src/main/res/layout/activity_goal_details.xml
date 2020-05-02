@@ -16,21 +16,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> goalDetail.navigationToBack()}"
-            android:background="@drawable/ic_icon_navi_arrow_left"
+            android:background="@color/subLight3"
+            bind:layout_constraintEnd_toEndOf="parent"
             bind:layout_constraintStart_toStartOf="parent"
-            bind:layout_constraintTop_toTopOf="parent" />
+            bind:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_icon_navi_arrow_left"
+                android:onClick="@{() -> goalDetail.navigationToBack()}"
+                bind:layout_constraintBottom_toBottomOf="parent"
+                bind:layout_constraintStart_toStartOf="parent"
+                bind:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinatorlayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="48dp"
-            android:descendantFocusability="blocksDescendants">
+            android:descendantFocusability="blocksDescendants"
+            bind:layout_constraintEnd_toEndOf="parent"
+            bind:layout_constraintStart_toStartOf="parent"
+            bind:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
@@ -47,8 +61,8 @@
                         android:id="@+id/linearLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_marginStart="16dp"
+                        android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -59,10 +73,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="13dp"
                             android:fontFamily="sans-serif"
-                            tools:text="2020.03.05~03.07"
                             android:textColor="@color/grey5"
                             android:textSize="12sp"
-                            android:textStyle="normal" />
+                            android:textStyle="normal"
+                            tools:text="2020.03.05~03.07" />
 
                         <TextView
                             android:id="@+id/goal_name_txt"
@@ -70,10 +84,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="60dp"
                             android:lineSpacingExtra="12sp"
-                            tools:text="삼성디자인멤버쉽 2019년도 사전과제 해보기"
                             android:textColor="@color/colorBlack2"
                             android:textSize="24sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:text="삼성디자인멤버쉽 2019년도 사전과제 해보기" />
 
                     </LinearLayout>
 
@@ -108,9 +122,9 @@
                             android:layout_gravity="bottom|center"
                             android:background="@drawable/ic_icon_small_arrow_right_gray"
                             android:onClick="@{goalDetail::moreClick}"
-                            bind:layout_constraintStart_toStartOf="@id/include"
                             bind:layout_constraintEnd_toEndOf="@id/include"
-                            bind:layout_constraintTop_toBottomOf="@id/include"/>
+                            bind:layout_constraintStart_toStartOf="@id/include"
+                            bind:layout_constraintTop_toBottomOf="@id/include" />
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -119,9 +133,9 @@
                         android:id="@+id/participant_list_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
                         android:text="@string/participants_list_title"
                         android:textColor="@color/grey7"
-                        android:layout_marginStart="16dp"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         bind:layout_constraintEnd_toEndOf="@+id/linearLayout"
@@ -132,11 +146,11 @@
                         android:id="@+id/others_recyclerview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:minHeight="1000dp"
                         android:elevation="10dp"
-                        android:padding="8dp"
+                        android:minHeight="1000dp"
                         android:onClick="@{goalDetail::othersDetailClick}"
                         android:overScrollMode="never"
+                        android:padding="8dp"
                         bind:layout_constraintBottom_toBottomOf="@+id/goal_details_parent_layout"
                         bind:layout_constraintEnd_toEndOf="parent"
                         bind:layout_constraintStart_toStartOf="parent"
@@ -145,6 +159,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.core.widget.NestedScrollView>
+
             <Button
                 android:id="@+id/add_list_btn"
                 android:layout_width="match_parent"
@@ -152,9 +167,9 @@
                 android:layout_gravity="bottom"
                 android:background="@drawable/ic_btn_floating_addlist"
                 android:text="@string/add_goal_list"
+                android:textColor="@color/orgDefault"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/orgDefault"
                 app:layout_behavior="com.eroom.domain.customview.AddListScrollBehavior"
                 bind:layout_constraintBottom_toBottomOf="@+id/constraintlayout"
                 bind:layout_constraintEnd_toEndOf="parent"

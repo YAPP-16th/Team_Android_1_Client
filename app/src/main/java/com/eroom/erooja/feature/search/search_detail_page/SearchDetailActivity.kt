@@ -10,21 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import com.eroom.data.localclass.DesignClass
 import com.eroom.data.localclass.DevelopClass
-import com.eroom.data.response.InterestedGoalsResponse
 import com.eroom.domain.utils.getKeyFromValue
-import com.eroom.domain.utils.toastLong
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivitySearchDetailBinding
-import com.eroom.erooja.feature.search.search_detail_frame.SearchJobClassFragment
-import com.eroom.erooja.feature.search.search_detail_frame.SearchJobGoalFragment
-import com.eroom.erooja.feature.search.search_detail_frame.SearchNoContentFragment
+import com.eroom.erooja.feature.search.search_detail_frame.*
 import com.eroom.erooja.singleton.JobClassHashMap
 import com.google.android.material.tabs.TabLayout
 import com.jakewharton.rxbinding.widget.RxTextView
-import kotlinx.android.synthetic.main.activity_search_detail.*
-import org.koin.android.ext.android.get
 import rx.android.schedulers.AndroidSchedulers
-import timber.log.Timber
 import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
 
@@ -32,15 +25,15 @@ import java.util.concurrent.TimeUnit
 /**
  * A simple [Fragment] subclass.
  */
-class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
-    var changeNum: Int = 0
-    lateinit var searchDetailFrame: ArrayList<Fragment>
-    val searchword: MutableLiveData<String> = MutableLiveData()
-    lateinit var searchAdapter: ArrayAdapter<String>
-    var autosearch = ArrayList<String>()
+class SearchDetailActivity : AppCompatActivity() {
+    private var changeNum: Int = 0
+    private lateinit var searchDetailFrame: ArrayList<Fragment>
+    private val searchWord: MutableLiveData<String> = MutableLiveData()
+    private lateinit var searchAdapter: ArrayAdapter<String>
+    private var autoSearch = ArrayList<String>()
 
     private lateinit var searchDetailBinding: ActivitySearchDetailBinding
-    private lateinit var presenter: SearchDetailPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpDataBinding()
@@ -55,7 +48,8 @@ class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
                 listOf(
                     SearchJobClassFragment.newInstance(),
                     SearchJobGoalFragment.newInstance(),
-                    SearchNoContentFragment.newInstance()
+                    SearchNoContentFragment.newInstance(),
+                    SearchResultFragment.newInstance()
                 )
             )
         }.map {
@@ -66,8 +60,6 @@ class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
         }.run {
             loadFragment(0)
         }
-
-        presenter = SearchDetailPresenter(this, get())
     }
 
     private fun loadFragment(index: Int) =
@@ -77,7 +69,7 @@ class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
             supportFragmentManager.beginTransaction().show(it).commit()
         }
 
-    private fun setUpDataBinding(){
+    private fun setUpDataBinding() {
         searchDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_search_detail)
         searchDetailBinding.searchdetail = this@SearchDetailActivity
     }
@@ -94,11 +86,11 @@ class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
         })
 
         for (i in 0 until 9) {
-            autosearch.add(DesignClass.getArray()[i].getName())
-            autosearch.add(DevelopClass.getArray()[i].getName())
+            autoSearch.add(DesignClass.getArray()[i].getName())
+            autoSearch.add(DevelopClass.getArray()[i].getName())
         }
 
-        searchAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, autosearch)
+        searchAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, autoSearch)
         searchDetailBinding.searchEditText.setAdapter(searchAdapter)
 
         RxTextView.textChanges(searchDetailBinding.searchEditText)
@@ -106,52 +98,51 @@ class SearchDetailActivity : AppCompatActivity(), SearchDetailContract.View {
             .map { it.toString() }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                //Todo
-                searchword.value = it
-                Timber.i("${searchword.value}")
-
-                if(searchword.value == ""){
+                searchWord.value = it
+                if (searchWord.value == "") {
                     loadFragment(changeNum)
-                }
-
-                when (changeNum) {
-                    0 -> { //직무
-                        var key =
-                            JobClassHashMap.hashmap.getKeyFromValue(searchword.value.toString())
-                        if (key > -1L) {
-                            presenter.getSearchJobInterest(key)
-                            this.toastLong("$key")
+                } else {
+                    when (changeNum) {
+                        0 -> { // 직무
+                            val key =
+                                JobClassHashMap.hashmap.getKeyFromValue(searchWord.value.toString())
+                            key?.let { keyId: Long ->
+                                (searchDetailFrame[3] as SearchResultFragment).setKey(keyId)
+                            } ?: run {
+                                loadFragment(2)
+                            }
                         }
-                    }
 
-                    1 -> {//목표
-                        presenter.getSearchGoalTitle("TITLE",URLEncoder.encode(searchword.value, "UTF-8"))
-                        this.toastLong("${URLEncoder.encode(searchword.value, "UTF-8")}")
+                        1 -> { // 목표
+                            val title = URLEncoder.encode(searchWord.value, "UTF-8")
+                            (searchDetailFrame[3] as SearchResultFragment).setTitle(title)
+                        }
                     }
                 }
             }
     }
 
-    override fun updateSearchJobInterest(search: ArrayList<InterestedGoalsResponse>) {
-//       if(search[0].content.size == 0){
-//           loadFragment(2)
-//       }
-    }
-
-    override fun updateSearchGoalTitle(search: ArrayList<InterestedGoalsResponse>) {
-//        if(search[0].content.size == 0){
-//            loadFragment(2)
-//        }
-    }
-
-    override fun changeView(pos: Int){
-        when(pos){
+    fun changeView(pos: Int) {
+        when (pos) {
             0 -> loadFragment(0)
             1 -> loadFragment(1)
         }
     }
-    fun back(v: View){
+
+    fun checkContentSize(isNoResult: Boolean) {
+        if (isNoResult) {
+            loadFragment(2)
+        } else {
+            loadFragment(3)
+        }
+    }
+
+    fun back(v: View) {
         finish()
+    }
+
+    fun searchCancel(v: View) {
+        searchDetailBinding.searchEditText.text.clear()
     }
 }
 

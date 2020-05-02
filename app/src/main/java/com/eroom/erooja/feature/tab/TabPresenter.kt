@@ -10,9 +10,7 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
-class TabPresenter(override val view: TabContract.View,
-                   private val getJobGroupUseCase: GetJobGroupUseCase,
-                   private val getJobGroupAndClassUseCase: GetJobGroupAndClassUseCase
+class TabPresenter(override val view: TabContract.View
 ) : TabContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
@@ -33,30 +31,6 @@ class TabPresenter(override val view: TabContract.View,
             }
         }
         return@OnNavigationItemSelectedListener false
-    }
-
-    @SuppressLint("CheckResult")
-    override fun getJobGroups() {
-        getJobGroupUseCase.getJobGroup()
-            .subscribe({
-                view.reRequestClassByGroup(it)
-            },{
-                Timber.e(it.localizedMessage)
-            }) addTo compositeDisposable
-    }
-
-    @SuppressLint("CheckResult")
-    override fun getJobGroupAndClasses(groupIds: List<Long>) {
-        Observable.fromIterable(groupIds)
-            .flatMap { getJobGroupAndClassUseCase.getJobGroupAndClass(it) }
-            .map {
-                it
-            }.toList()
-            .subscribe({
-                view.updateJobGroupAndClass(it) //사용자의 직무, 직군 불러옴
-            },{
-                Timber.e(it.localizedMessage)
-            }) addTo compositeDisposable
     }
 
     override fun onCleared() {

@@ -9,7 +9,7 @@ enum class DevelopClass(private val itemName: String) {
     MACHINELEARNING("머신 러닝"),
     DATASCIENTIST("Data Scientist"),
     DATAENGINEER("Data Engineer"),
-    GAMEANIMATION("게임/애니메이션");
+    GAMEANIMATION("게임, 애니메이션");
 
     fun getName() = itemName
 

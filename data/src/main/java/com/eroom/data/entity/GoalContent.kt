@@ -12,5 +12,6 @@ data class GoalContent(
     @JsonProperty("isEnd") var isEnd: Boolean,
     @JsonProperty("isDateFixed") var isDateFixed: Boolean,
     @JsonProperty("startDt") var startDt: String,
-    @JsonProperty("endDt") var endDt: String
+    @JsonProperty("endDt") var endDt: String,
+    @JsonProperty("jobInterests") var jobInterests: ArrayList<GoalType>
 )

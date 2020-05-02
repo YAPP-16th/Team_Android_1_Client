@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,24 +23,41 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{searchdetail::back}"
-                android:src="@drawable/ic_icon_navi_arrow_left" />
+                android:src="@drawable/ic_icon_navi_arrow_left"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <AutoCompleteTextView
                 android:id="@+id/search_edit_text"
-                android:singleLine="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="13sp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:background="@null"
                 android:completionThreshold="1"
                 android:hint="@string/please_enter_search_input"
-                android:textSize="14sp" />
+                android:singleLine="true"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/cancel"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageButton
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{searchdetail::searchCancel}"
+                android:layout_gravity="end"
+                android:background="@drawable/ic_icon_check_btn_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/search_tablayout"
@@ -48,8 +65,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="13sp"
             app:tabTextColor="@color/grey4"
-            app:tabIndicatorColor="@color/orgDefault"
-            app:tabSelectedTextColor="@color/orgDefault"
+            app:tabIndicatorColor="@color/grey8"
+            app:tabSelectedTextColor="@color/grey8"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
@@ -70,6 +87,12 @@
             </com.google.android.material.tabs.TabItem>
 
         </com.google.android.material.tabs.TabLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey3"
+            app:layout_constraintBottom_toBottomOf="@id/search_tablayout"/>
 
         <FrameLayout
             android:id="@+id/search_container"

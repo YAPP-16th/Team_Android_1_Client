@@ -4,12 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import com.eroom.data.entity.JobGroup
+import com.eroom.data.response.JobGroupAndClassResponse
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivitySplashBinding
 import com.eroom.erooja.feature.login.LoginActivity
 import com.eroom.erooja.feature.onboarding.onboardingframe.OnboardingActivity
 import com.eroom.erooja.feature.signup.kakao.KakaoSignUpActivity
 import com.eroom.erooja.feature.tab.TabActivity
+import com.eroom.erooja.singleton.JobClassHashMap
 import org.koin.android.ext.android.get
 
 class SplashActivity : AppCompatActivity(), SplashContract.View {
@@ -23,7 +26,7 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
     }
 
     private fun initPresenter() {
-        presenter = SplashPresenter(this, get(), get())
+        presenter = SplashPresenter(this, get(), get(), get(), get())
     }
 
     private fun setUpDataBinding() {
@@ -45,6 +48,22 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
                     duration = 200
                 }
             }.start()
+
+    override fun reRequestClassByGroup(jobGroupList: ArrayList<JobGroup>) =
+        jobGroupList.map {
+            it.id //직군 (디자인 or 개발) 불러오기
+        }.toList().let {
+            presenter.getJobGroupAndClasses(it)
+        }
+
+    //직무 직군 object 에 다 가져오는 함수임
+    override fun updateJobGroupAndClass(result: List<JobGroupAndClassResponse>) {
+        for (i in result){
+            for (j in i.jobInterests){
+                JobClassHashMap.hashmap[j.id] = j.name
+            }
+        }
+    }
 
     override fun navigateToLogin() {
         startActivity(Intent(this, LoginActivity::class.java))

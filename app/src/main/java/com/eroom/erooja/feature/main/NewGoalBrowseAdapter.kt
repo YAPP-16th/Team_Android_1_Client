@@ -1,5 +1,6 @@
 package com.eroom.erooja.feature.main
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -20,9 +21,12 @@ class NewGoalBrowseAdapter(private val items: ArrayList<GoalContent>, private va
 
     override fun getItemCount(): Int = items.size
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = items[position].title
-        holder.jobClass.text = classText
+        val extraJobClassSize = items[position].jobInterests.size - 1
+        val extraText = if (extraJobClassSize == 0) "" else " 외 ${items[position].jobInterests.size - 1}"
+        holder.jobClass.text = "$classText$extraText"
         holder.term.text =
             if (items[position].isDateFixed) items[position].startDt.toRealDateFormat() + "~" + items[position].endDt.toRealDateFormat()
             else "기간 설정 자유"

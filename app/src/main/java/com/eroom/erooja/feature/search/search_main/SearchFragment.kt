@@ -6,19 +6,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.size
 import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.eroom.data.entity.GoalContent
 import com.eroom.data.entity.JobClass
+import com.eroom.domain.globalconst.Consts
+import com.eroom.domain.utils.getKeyFromValue
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.FragmentSearchBinding
 import com.eroom.erooja.feature.filter.FilterActivity
+import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
+import com.eroom.erooja.feature.search.search_detail_frame.SearchResultAdapter
 import com.eroom.erooja.feature.search.search_detail_page.SearchDetailActivity
 import com.eroom.erooja.feature.search.search_main_frame.SearchNoGoalListFragment
-import com.kakao.usermgmt.StringSet.name
+import com.eroom.erooja.singleton.JobClassHashMap
+import com.google.android.material.tabs.TabLayout
 import org.koin.android.ext.android.get
 import timber.log.Timber
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -28,7 +34,15 @@ class SearchFragment : Fragment(), SearchContract.View {
     private lateinit var presenter: SearchPresenter
     private var selectedGroupClassesNum = ArrayList<Long>()
     private var selectedGroupClassesName = ArrayList<String>()
-    private var comfirmCheck : ObservableField<Boolean> = ObservableField(true)
+    private var confirmCheck : ObservableField<Boolean> = ObservableField(true)
+    private var mPage: Int = 0
+    private var mContentSize = 0
+    private var isEnd = false
+    private var mKey: Long? = null
+    private lateinit var mAdapter: SearchResultAdapter
+
+    private lateinit var searchFrame: ArrayList<Fragment>
+
 
     companion object {
         @JvmStatic
@@ -37,7 +51,13 @@ class SearchFragment : Fragment(), SearchContract.View {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-       presenter = SearchPresenter(this, get())
+        initView()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initFragment()
+        tabSelected()
     }
 
     override fun onCreateView(
@@ -45,13 +65,7 @@ class SearchFragment : Fragment(), SearchContract.View {
         savedInstanceState: Bundle?
     ): View? {
         setUpDataBinding(inflater, container)
-        initView()
         return searchBinding.root
-    }
-
-    override fun onStart() {
-        super.onStart()
-        initChildFragment()
     }
 
     private fun setUpDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
@@ -60,13 +74,80 @@ class SearchFragment : Fragment(), SearchContract.View {
     }
 
     private fun initView() {
+        presenter = SearchPresenter(this, get(), get())
         presenter.getAlignedJobInterest()
     }
 
+    private fun initFragment() {
+        searchFrame = ArrayList()
+        searchFrame.apply {
+            add(SearchNoGoalListFragment.newInstance())
+        }.forEach {
+            childFragmentManager.beginTransaction()
+                .add(R.id.search_main_container, it)
+                .commit()
+        }
+    }
+
+    private fun tabSelected() {
+        searchBinding.searchMainTablayout.addOnTabSelectedListener(object :
+            TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(p0: TabLayout.Tab?) {}
+            override fun onTabUnselected(p0: TabLayout.Tab?) {}
+            override fun onTabSelected(p0: TabLayout.Tab) {
+                mContentSize = 0
+                mPage = 0
+                isEnd = false
+                searchInfoRequest(p0.text.toString())
+            }
+        })
+    }
+
+    private fun searchInfoRequest(text: String) {
+        val key = JobClassHashMap.hashmap.getKeyFromValue(text)
+        key?.let {
+            mKey = it
+            presenter.getSearchJobInterest(mKey, mPage)
+        }
+    }
+
+    private fun setResultFragment() {
+        showResult()
+        hideEmptyFragment()
+    }
+
+    private fun setEmptyFragment() {
+        emptyFragment()
+        hideResult()
+    }
+
+    private fun showResult() {
+        searchBinding.mainResultRecycler.visibility = View.VISIBLE
+    }
+
+    private fun hideResult() {
+        searchBinding.mainResultRecycler.visibility = View.GONE
+    }
+
+    private fun emptyFragment() =
+        childFragmentManager.beginTransaction()
+            .show(searchFrame[0])
+            .commit()
+
+    private fun hideEmptyFragment() =
+        childFragmentManager.beginTransaction()
+            .hide(searchFrame[0])
+            .commit()
+
     override fun setAlignedJobInterest(interest: MutableSet<String>) {
+        var isFirst = true
         when(searchBinding.searchMainTablayout.tabCount) {
             0 -> {
                 interest.forEach {
+                    if (isFirst) {
+                        searchInfoRequest(it)
+                        isFirst = false
+                    }
                     searchBinding.searchMainTablayout.addTab(
                         searchBinding.searchMainTablayout.newTab().setText(it)
                     )
@@ -75,7 +156,43 @@ class SearchFragment : Fragment(), SearchContract.View {
             else -> {
                 Timber.i("PASS")
             }
+        }
+    }
 
+    override fun setAllView(search: ArrayList<GoalContent>) {
+        mContentSize += search.size
+        if (mPage == 0) {
+            mAdapter = SearchResultAdapter(presenter.getGoalContentCallback(), search, itemClick)
+            searchBinding.mainResultRecycler.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = mAdapter
+            }
+        } else {
+            mAdapter.submitList(search)
+            mAdapter.notifyDataSetChanged()
+        }
+        mPage++
+    }
+
+    private val itemClick = { goalId: Long ->
+        startActivity(Intent(activity, GoalDetailActivity::class.java).apply { putExtra(Consts.GOAL_ID, goalId) })
+    }
+
+    override fun setIsEnd(boolean: Boolean) {
+        isEnd = boolean
+        if (boolean && mPage == 0) setEmptyFragment()
+        else setResultFragment()
+    }
+
+    val recyclerViewScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            if (dy >= 0 && mContentSize > 0) {
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                if (layoutManager.findLastCompletelyVisibleItemPosition() == mContentSize - 1 && !isEnd) {
+                    presenter.getSearchJobInterest(mKey, mPage)
+                }
+            }
         }
     }
 
@@ -87,27 +204,15 @@ class SearchFragment : Fragment(), SearchContract.View {
 
     fun searchClick(v: View){
         activity?.let {
-            var intent = Intent(context, SearchDetailActivity::class.java)
+            val intent = Intent(context, SearchDetailActivity::class.java)
             startActivity(intent)
         }
-    }
-
-    private fun initChildFragment() {
-                childFragmentManager.beginTransaction()
-                    .add(R.id.search_main_container, SearchNoGoalListFragment.newInstance())
-                    .addToBackStack(null)
-                    .commit()
-           // loadChildFragment(0)
-        }
-    //private fun loadChildFragment(index: Int)()
-
-    private fun changeView(pos: Int){
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode ==1000 && resultCode==1000 ) {
+        if(requestCode == 1000 && resultCode == 1000) {
             selectedGroupClassesName.clear()
             selectedGroupClassesNum.clear()
 
@@ -115,19 +220,17 @@ class SearchFragment : Fragment(), SearchContract.View {
             val result2 = data?.getSerializableExtra("HashMap") as HashMap<Long, String>
 
             repeat(result1.size) {
-                result2.get(result1[it])?.let { it ->
+                result2[result1[it]]?.let { it ->
                     selectedGroupClassesName.add(it) }
 
                 selectedGroupClassesNum.add(result1[it])
             }
 
-
-            comfirmCheck.let{
+            confirmCheck?.let{
                 updateTab(selectedGroupClassesName) }
-                .also{ comfirmCheck.set(false) }
+                .also{ confirmCheck.set(false) }
         }
     }
-
 
     private fun updateTab(it: ArrayList<String>){
         searchBinding.searchMainTablayout.removeAllTabs()
