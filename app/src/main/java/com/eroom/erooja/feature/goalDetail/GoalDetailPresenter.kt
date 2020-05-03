@@ -1,6 +1,9 @@
 package com.eroom.erooja.feature.goalDetail
 
 import android.annotation.SuppressLint
+import androidx.recyclerview.widget.DiffUtil
+import com.eroom.data.entity.GoalContent
+import com.eroom.data.entity.MinimalTodoListContent
 import com.eroom.domain.api.usecase.goal.GetGoalDetailUseCase
 import com.eroom.domain.api.usecase.job.GetJobClassByIdUseCase
 import com.eroom.domain.api.usecase.membergoal.GetGoalsByUserIdUseCase
@@ -50,6 +53,18 @@ class GoalDetailPresenter(override var view: GoalDetailContract.View,
                 Timber.e(it.localizedMessage)
             })
     }
+
+    private val mGoalContentCallback = object : DiffUtil.ItemCallback<MinimalTodoListContent>() {
+        override fun areItemsTheSame(oldItem: MinimalTodoListContent, newItem: MinimalTodoListContent): Boolean {
+            return oldItem.uid.equals(newItem.uid)
+        }
+        override fun areContentsTheSame(oldItem: MinimalTodoListContent, newItem: MinimalTodoListContent): Boolean {
+            return (oldItem.todoList[0].content.equals(newItem.todoList[0].content)) && (oldItem.uid.equals(newItem.uid))
+        }
+    }
+
+    fun getGoalContentCallback(): DiffUtil.ItemCallback<MinimalTodoListContent> = mGoalContentCallback
+
 
     override fun onCleared() {
         compositeDisposable.clear()

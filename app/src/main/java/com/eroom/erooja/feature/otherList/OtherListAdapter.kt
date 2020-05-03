@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.eroom.data.entity.UserSimpleData
+import com.eroom.data.entity.MinimalTodoListDetail
 import com.eroom.erooja.R
 import kotlinx.android.synthetic.main.item_completed_goal_list.view.*
 
-class OthersDetailAdapter(private val simpleDataDetail: UserSimpleData):
+class OthersDetailAdapter(private val TodoList: ArrayList<MinimalTodoListDetail>):
     RecyclerView.Adapter<Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -18,10 +18,10 @@ class OthersDetailAdapter(private val simpleDataDetail: UserSimpleData):
 
     }
 
-    override fun getItemCount(): Int = 1
+    override fun getItemCount(): Int = TodoList.size
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(simpleDataDetail.check1)
+        holder.bind(TodoList[position].content)
     }
 }
 

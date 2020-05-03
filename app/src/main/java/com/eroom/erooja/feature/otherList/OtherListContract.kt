@@ -1,15 +1,16 @@
 package com.eroom.erooja.feature.otherList
 
-import com.eroom.data.entity.UserSimpleData
+import com.eroom.data.entity.MinimalTodoListContent
+import com.eroom.data.entity.MinimalTodoListDetail
 
 interface OtherListContract {
     interface View{
-        fun getAllView(list : UserSimpleData)
+        fun setAllView(todoList:ArrayList<MinimalTodoListDetail>)
 
     }
 
     interface Presenter{
         var view: View
-        fun getData(index: Int)
+        fun getData(uid:String, goalId: Long)
     }
 }

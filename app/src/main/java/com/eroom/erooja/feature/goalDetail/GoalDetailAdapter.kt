@@ -5,7 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.eroom.data.entity.GoalContent
 import com.eroom.data.entity.MinimalTodoListContent
 import com.eroom.domain.utils.add
 import com.eroom.erooja.R
@@ -13,8 +16,9 @@ import com.eroom.erooja.databinding.GoalSimpleListBinding
 import com.eroom.erooja.databinding.ItemMainNewGoalBinding
 import kotlinx.android.synthetic.main.goal_simple_list.view.*
 
-class GoalDetailAdapter(val TodoList: ArrayList<MinimalTodoListContent>, val click: (String) -> Unit):
-    RecyclerView.Adapter<GoalDetailAdapter.ViewHolder>() {
+class GoalDetailAdapter(callback: DiffUtil.ItemCallback<MinimalTodoListContent>,
+                        val TodoList: ArrayList<MinimalTodoListContent>, val click: (String) -> Unit):
+    ListAdapter<MinimalTodoListContent, GoalDetailAdapter.ViewHolder>(callback) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

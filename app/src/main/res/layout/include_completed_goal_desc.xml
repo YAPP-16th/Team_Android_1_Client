@@ -21,34 +21,37 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:el_animationDuration="300"
-            app:el_collapsedHeight="100dp"
+            app:el_collapsedHeight="50dp"
             app:el_initialState="collapsed"
-            app:el_shadowHeight="60dp">
+            app:el_shadowHeight="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:background="@android:color/transparent"
                 android:lineSpacingExtra="11sp"
-                tools:text="@string/temp_txt"
                 android:text="@{goalDetail.description}"
-                android:textSize="14sp"
-                android:layout_marginBottom="20dp"
                 android:textColor="@color/grey5"
+                android:textSize="14sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/temp_txt" />
 
             <TextView
                 android:id="@+id/keyword_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                tools:text="ui, ux ~, Android, IOS"
                 android:text="@{goalDetail.jobClass}"
                 app:layout_constraintStart_toStartOf="@id/text"
-                app:layout_constraintTop_toBottomOf="@+id/text" />
+                app:layout_constraintTop_toBottomOf="@+id/text"
+                tools:text="ui, ux ~, Android, IOS" />
 
         </ru.rhanza.constraintexpandablelayout.ExpandableLayout>
 

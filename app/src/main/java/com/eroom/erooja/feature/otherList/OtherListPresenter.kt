@@ -1,12 +1,20 @@
 package com.eroom.erooja.feature.otherList
 
-import com.eroom.data.entity.UserSimpleData
+import android.annotation.SuppressLint
+import com.eroom.domain.api.usecase.todo.GetTodoListUseCase
+import timber.log.Timber
 
-class OtherListPresenter(override var view: OtherListContract.View)
+class OtherListPresenter(override var view: OtherListContract.View,
+                         var getTodoListUseCase: GetTodoListUseCase)
     : OtherListContract.Presenter {
 
-    override fun getData(index: Int) {
-        view.getAllView(UserSimpleData(4,"somebody", 99, "im shefm", "asdfe", " asdfeasg")
-            .getUserDetailList(index))
+    @SuppressLint("CheckResult")
+    override fun getData(uid: String, goalId: Long){
+        getTodoListUseCase.getUserTodoList(uid, goalId)
+            .subscribe({
+                view.setAllView(it.content)
+            },{
+                Timber.e(it.localizedMessage)
+            })
     }
 }

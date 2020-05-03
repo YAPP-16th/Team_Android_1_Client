@@ -3,8 +3,8 @@ package com.eroom.data.response
 import com.eroom.data.entity.*
 import com.fasterxml.jackson.annotation.JsonProperty
 
-class TodoGoalListResponse (
-    @JsonProperty("content") var content: ArrayList<MinimalTodoListContent>,
+class TodoDetailResponse (
+    @JsonProperty("content") var content: ArrayList<MinimalTodoListDetail>,
     @JsonProperty("pageable") var pageable: Pageable,
     @JsonProperty("totalPages") var totalPages: Int,
     @JsonProperty("totalElements") var totalElements: Int,

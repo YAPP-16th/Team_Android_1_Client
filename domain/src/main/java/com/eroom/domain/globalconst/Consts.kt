@@ -19,6 +19,7 @@ class Consts {
         const val NAME = "name"
         const val DATE = "date"
         const val INDEX = "index"
+        const val UID = "UID"
 
         const val NICKNAME = "NICKNAME"
 
