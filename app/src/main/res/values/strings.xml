@@ -83,4 +83,14 @@
     <string name="cancel_text">취소</string>
     <string name="new_goal_add_text">새로운 목표 추가</string>
     <string name="no_goal_interested_job_plz_add_goal">관심 직무와 관련된 목표가 아직 없네요.\n새로운 목표를 추가해보세요.</string>
+
+    <string name="setting">설정</string>
+    <string name="alarm_setting">알람 설정</string>
+    <string name="profile_picture_change">프로필 사진 변경</string>
+    <string name="job_class_change">관심 직무 변경</string>
+    <string name="help">도움말</string>
+    <string name="opensource_license">오픈소스 라이선스</string>
+    <string name="terms_of_service">이용약관</string>
+    <string name="logout">로그아웃</string>
+
 </resources>
