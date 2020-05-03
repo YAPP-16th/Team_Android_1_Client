@@ -76,6 +76,22 @@
             android:name=".feature.ongoingGoal.OngoingGoalActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".feature.setting.setting_detail.AlarmActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".feature.setting.setting_detail.HelpActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".feature.setting.setting_detail.JobInterestActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".feature.setting.setting_detail.ProfileActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".feature.setting.setting_detail.OpensourceActivity"
+            android:screenOrientation="portrait" />
+
+
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />

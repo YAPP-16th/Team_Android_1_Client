@@ -92,5 +92,12 @@
     <string name="opensource_license">오픈소스 라이선스</string>
     <string name="terms_of_service">이용약관</string>
     <string name="logout">로그아웃</string>
+    
+    <string name="new_goal_start_alarm">새 목표 시작 알림</string>
+    <string name="percent_change_alarm">달성률 변동 알림</string>
+    <string name="end_goal_alarm">목표 종료 알림</string>
+
+    <string name="change_profile">사진 변경하기</string>
+    <string name="save_txt">저장</string>
 
 </resources>
