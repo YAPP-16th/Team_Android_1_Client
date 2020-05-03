@@ -3,6 +3,7 @@ package com.eroom.erooja.feature.goalDetail
 import android.annotation.SuppressLint
 import com.eroom.domain.api.usecase.goal.GetGoalDetailUseCase
 import com.eroom.domain.api.usecase.job.GetJobClassByIdUseCase
+import com.eroom.domain.api.usecase.membergoal.GetGoalsByUserIdUseCase
 import com.eroom.domain.utils.addTo
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -10,7 +11,8 @@ import timber.log.Timber
 
 class GoalDetailPresenter(override var view: GoalDetailContract.View,
                           private val getGoalDetailUseCase: GetGoalDetailUseCase,
-                          private val getJobClassByIdUseCase: GetJobClassByIdUseCase
+                          private val getJobClassByIdUseCase: GetJobClassByIdUseCase,
+                          private val getGoalsByUserIdUseCase: GetGoalsByUserIdUseCase
 ) :GoalDetailContract.Presenter{
 
     val compositeDisposable = CompositeDisposable()
@@ -37,6 +39,16 @@ class GoalDetailPresenter(override var view: GoalDetailContract.View,
             },{
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
+    }
+
+    @SuppressLint("CheckResult")
+    override fun getMinimalTodoList(goalId: Long) {
+        getGoalsByUserIdUseCase.getTodoByGoalId(goalId)
+            .subscribe({
+                view.setRecyclerView(it.content)
+            },{
+                Timber.e(it.localizedMessage)
+            })
     }
 
     override fun onCleared() {

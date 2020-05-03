@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.eroom.data.entity.MinimalTodoListContent
 import com.eroom.data.entity.UserSimpleData
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.add
@@ -34,7 +35,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     }
 
     fun initPresenter() {
-        presenter = GoalDetailPresenter(this, get(), get())
+        presenter = GoalDetailPresenter(this, get(), get(), get())
     }
 
     fun setUpDataBinding() {
@@ -45,6 +46,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     fun initView() {
         val intent = intent
         presenter.getData(intent.getLongExtra(Consts.GOAL_ID, -1))
+        presenter.getMinimalTodoList(intent.getLongExtra(Consts.GOAL_ID, -1))
         statusBarColor(this@GoalDetailActivity, R.color.subLight3)
 
         binding.goalDescLayout.goal_desc.apply{
@@ -61,6 +63,13 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         //presenter.getInterestedClassName(interestIdList)
     }
 
+    override fun setRecyclerView(todoList: ArrayList<MinimalTodoListContent>) {
+        binding.othersRecyclerview.apply{
+            adapter = GoalDetailAdapter(todoList, click())
+            layoutManager = LinearLayoutManager(context)
+        }
+    }
+
     override fun setInterestedClassName(list: List<String>) {
         var result = ""
         for (string in list) {
@@ -69,10 +78,10 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         this.jobClass.set(result)
     }
 
-    private fun click() = {  _:View, index:Int ->
+    private fun click() = { uid:String ->
         val intent = Intent(this@GoalDetailActivity, OtherListActivity::class.java)
             .apply{
-                putExtra(Consts.INDEX, index)
+                putExtra(Consts.INDEX, uid) //TEMP!!
                 putExtra(Consts.NAME, binding.othersRecyclerview.username_list.text)
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
             }
@@ -83,10 +92,10 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         binding.goalDescLayout.goal_desc.toggle()
     }
 
-    fun othersDetailClick(v: View) {
-        val intent= Intent(this@GoalDetailActivity, OtherListActivity::class.java)
-        startActivity(intent)
-    }
+//    fun othersDetailClick(v: View) {
+//        val intent= Intent(this@GoalDetailActivity, OtherListActivity::class.java)
+//        startActivity(intent)
+//    }
 
     fun navigationToBack() {
         finish()
