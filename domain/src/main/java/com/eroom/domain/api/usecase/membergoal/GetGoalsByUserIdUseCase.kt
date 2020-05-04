@@ -1,6 +1,7 @@
 package com.eroom.domain.api.usecase.membergoal
 
 import com.eroom.data.response.ParticipatedGoalsResponse
+import com.eroom.data.response.TodoGoalListResponse
 import com.eroom.domain.api.service.MemberGoalService
 import com.eroom.domain.koin.repository.GuestRetrofitRepository
 import io.reactivex.Single
@@ -21,6 +22,12 @@ class GetGoalsByUserIdUseCase(guestRetrofitRepository: GuestRetrofitRepository) 
         endDtIsBeforeNow: Boolean
     ): Single<ParticipatedGoalsResponse> = memberGoalService
         .getGoalsByUserId(uid, size, page, sortBy, direction, endDtIsBeforeNow)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+
+
+    fun getTodoByGoalId(goalId: Long): Single<TodoGoalListResponse> = memberGoalService
+        .getTodoByGoalId(goalId)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 }

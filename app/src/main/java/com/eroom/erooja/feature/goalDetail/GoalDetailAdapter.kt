@@ -3,42 +3,75 @@ package com.eroom.erooja.feature.goalDetail
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.eroom.data.entity.UserSimpleData
+import com.eroom.data.entity.GoalContent
+import com.eroom.data.entity.MinimalTodoListContent
 import com.eroom.domain.utils.add
 import com.eroom.erooja.R
+import com.eroom.erooja.databinding.GoalSimpleListBinding
+import com.eroom.erooja.databinding.ItemMainNewGoalBinding
 import kotlinx.android.synthetic.main.goal_simple_list.view.*
 
-class GoalDetailAdapter(val simpleData: ArrayList<UserSimpleData>, val click: (View, Int) -> Unit):
-    RecyclerView.Adapter<Holder>() {
+class GoalDetailAdapter(callback: DiffUtil.ItemCallback<MinimalTodoListContent>,
+                        val TodoList: ArrayList<MinimalTodoListContent>, val click: (String) -> Unit):
+    ListAdapter<MinimalTodoListContent, GoalDetailAdapter.ViewHolder>(callback) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val inflatedView =
-            LayoutInflater.from(parent.context).inflate(R.layout.goal_simple_list, parent, false)
-        return Holder(inflatedView)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val mBinding = GoalSimpleListBinding.inflate(inflater, parent, false)
+
+        return ViewHolder(mBinding, mBinding.usernameList, mBinding.putinNumberTxt, mBinding.text1, mBinding.text2, mBinding.text3 , mBinding.simpleList)
 
     }
 
-    override fun getItemCount(): Int =simpleData.size
+    override fun getItemCount(): Int =TodoList.size
 
-    override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(simpleData[position].index, simpleData[position].name, simpleData[position].like,
-            simpleData[position].check1, simpleData[position].check2, simpleData[position].check3, click)
-    }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.nickName.text = TodoList[position].nickName add " 님의 리스트"
+        holder.copyCount.text = TodoList[position].copyCount.toString() add "명이 선택"
 
+        val size = TodoList[position].todoList.size
+        when(size){
+            0 -> {
+                holder.content1.visibility = View.INVISIBLE
+                holder.content2.visibility = View.INVISIBLE
+                holder.content3.visibility = View.INVISIBLE
+            }
+            1 -> {
+                holder.content1.text = TodoList[position].todoList[0].content
+                holder.content2.visibility = View.INVISIBLE
+                holder.content3.visibility = View.INVISIBLE
+            }
+            2 -> {
+                holder.content1.text = TodoList[position].todoList[0].content
+                holder.content2.text = TodoList[position].todoList[1].content
+                holder.content3.visibility = View.INVISIBLE
 
+            }
+            else -> {
+                holder.content1.text = TodoList[position].todoList[0].content
+                holder.content2.text = TodoList[position].todoList[1].content
+                holder.content3.text = TodoList[position].todoList[2].content
+            }
+
+        }
+
+        holder.item.setOnClickListener { click(TodoList[position].uid) }
 }
 
-class Holder(itemView: View) : RecyclerView.ViewHolder(itemView){
-    fun bind(index:Int, name:String, number: Int, text1:String, text2:String, text3:String, click: (View, Int) -> Unit ){
-        itemView.username_list.text = name add " 님의 리스트"
-        itemView.putin_number_txt.text = number.toString() add "명이 선택"
 
-        itemView.text1.text=text1
-        itemView.text2.text=text2
-        itemView.text3.text=text3
-
-        itemView.setOnClickListener{ click(itemView.gradient_view, index)}
-
-    }
+    inner class ViewHolder(
+        mBinding : GoalSimpleListBinding,
+        val nickName: TextView,
+        val copyCount: TextView,
+        val content1: TextView,
+        val content2: TextView,
+        val content3: TextView,
+        val item: ConstraintLayout
+    ) :RecyclerView.ViewHolder(mBinding.root)
 }

@@ -148,7 +148,6 @@
                         android:layout_height="wrap_content"
                         android:elevation="10dp"
                         android:minHeight="1000dp"
-                        android:onClick="@{goalDetail::othersDetailClick}"
                         android:overScrollMode="never"
                         android:padding="8dp"
                         bind:layout_constraintBottom_toBottomOf="@+id/goal_details_parent_layout"
