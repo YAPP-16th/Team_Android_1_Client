@@ -11,6 +11,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mypage_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -30,6 +31,16 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.04"
             tools:text="김현수 님" />
+
+<!--        setting menu 진입 button -->
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:onClick="@{() -> fragment.settingClick()}"
+            app:layout_constraintBottom_toBottomOf="@+id/user_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.84"
+            app:layout_constraintStart_toEndOf="@+id/user_name" />
 
 
         <androidx.recyclerview.widget.RecyclerView

@@ -22,6 +22,8 @@ import com.eroom.erooja.databinding.FragmentMyPageBinding
 import com.eroom.erooja.feature.main.AddGoalItem
 import com.eroom.erooja.feature.main.ParticipatedItem
 import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
+import com.eroom.erooja.feature.setting.SettingFragment
+import com.eroom.erooja.feature.tab.TabActivity
 import kotlinx.android.synthetic.main.include_completed_goal_desc.view.*
 import kotlinx.android.synthetic.main.item_main_new_goal.*
 import org.koin.core.context.KoinContextHandler.get
@@ -119,6 +121,10 @@ class MyPageFragment : Fragment(), MyPageContract.View {
     fun expandButtonClicked() {
         myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(mClassList)
         myPageBinding.expandBtn.visibility = View.GONE
+    }
+
+    fun settingClick(){
+        (activity as TabActivity).replaceFragment()
     }
 
     override fun onDestroy() {

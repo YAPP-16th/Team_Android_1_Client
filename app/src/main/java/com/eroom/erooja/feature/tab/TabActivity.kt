@@ -14,6 +14,7 @@ import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalActivity
 import com.eroom.erooja.feature.main.MainFragment
 import com.eroom.erooja.feature.mypage.MyPageFragment
 import com.eroom.erooja.feature.search.search_main.SearchFragment
+import com.eroom.erooja.feature.setting.SettingFragment
 import com.eroom.erooja.singleton.JobClassHashMap.hashmap
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.android.ext.android.get
@@ -51,7 +52,8 @@ class TabActivity : AppCompatActivity(), TabContract.View {
             addAll(listOf(
                 MainFragment.newInstance(),
                 SearchFragment.newInstance(),
-                MyPageFragment.newInstance()
+                MyPageFragment.newInstance(),
+                SettingFragment.newInstance()
             ))
         }.map {
             it.apply {
@@ -92,6 +94,11 @@ class TabActivity : AppCompatActivity(), TabContract.View {
     }
 
     fun navigateToNewGoal() = startActivity(Intent(this, NewGoalActivity::class.java))
+
+    fun replaceFragment() {
+        loadFragment(3)
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
