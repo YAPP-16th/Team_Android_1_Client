@@ -124,7 +124,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
     }
 
     fun settingClick(){
-        (activity as TabActivity).replaceFragment()
+        (activity as TabActivity).replaceFragment(3)
     }
 
     override fun onDestroy() {

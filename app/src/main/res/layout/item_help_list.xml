@@ -1,41 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/help_parent_layout"
+    android:paddingBottom="16dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <ru.rhanza.constraintexpandablelayout.ExpandableLayout
+        android:id="@+id/help_expandable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/boader_round_grey"
+        android:padding="24dp"
+        app:el_collapsedHeight="20dp"
+        app:el_initialState="collapsed"
+        app:el_showShadow="false"
+        app:el_showButton="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:gravity="center"
+            android:id="@+id/question_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
             android:lineSpacingExtra="9sp"
+            android:maxLines="1"
             android:textColor="@color/grey7"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Q1. 이루자는 무슨 서비스인가요?" />
+            tools:text="Q1. 이루자는 어떤 서비스 인가요?" />
 
+        <TextView
+            android:id="@+id/answer_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="50dp"
+            android:lineSpacingExtra="10sp"
+            android:textColor="@color/grey7"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/question_text"
+            app:layout_constraintTop_toBottomOf="@+id/question_text"
+            tools:text="test" />
 
     </ru.rhanza.constraintexpandablelayout.ExpandableLayout>
 
     <ImageButton
+        android:id="@+id/help_more_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:background="@drawable/ic_icon_small_arrow_bottom_orange"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
