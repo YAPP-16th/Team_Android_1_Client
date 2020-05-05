@@ -16,11 +16,11 @@ class ParticipantsListPresenter(
 
     val mParticipantDiffCallback = object : DiffUtil.ItemCallback<Member>() {
         override fun areItemsTheSame(oldItem: Member, newItem: Member): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.uid == newItem.uid
         }
 
         override fun areContentsTheSame(oldItem: Member, newItem: Member): Boolean {
-            return (oldItem.nickname == newItem.nickname) && (oldItem.id == newItem.id)
+            return (oldItem.nickname == newItem.nickname) && (oldItem.uid == newItem.uid)
         }
     }
 
@@ -28,7 +28,7 @@ class ParticipantsListPresenter(
     override fun getParticipantedList(goalId: Long, page: Int) {
         getParticipantedListUseCase.getParticipantedList(goalId, size = 10, page = page)
             .subscribe({
-                view.updateList(it.members)
+                view.updateList(it.members, it.totalElement)
                 view.updateIsEnd(it.totalPages -1 <= page)
             }, {
                 Timber.e(it.localizedMessage)

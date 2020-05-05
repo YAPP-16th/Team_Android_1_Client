@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:textSize="14sp"
+                    android:textSize="15sp"
                     android:textColor="@color/grey7"
                     tools:text="홍길동" />
 
@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:textColor="@color/orgDefault"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:visibility="visible"
                     tools:text="@string/starter_text" />
             </LinearLayout>
@@ -60,7 +60,8 @@
                 android:id="@+id/profileJobClassInfoText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="11sp"
+                android:layout_marginTop="2dp"
+                android:textSize="12sp"
                 android:textColor="@color/grey5"
                 tools:text="Android 외 3개" />
 

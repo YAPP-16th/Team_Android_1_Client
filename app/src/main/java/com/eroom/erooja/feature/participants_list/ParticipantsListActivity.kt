@@ -1,5 +1,6 @@
 package com.eroom.erooja.feature.participants_list
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
@@ -15,6 +16,7 @@ class ParticipantsListActivity : AppCompatActivity(), ParticipantsListContract.V
     private lateinit var particiBinding: ActivityParticipantsListBinding
     private lateinit var presenter: ParticipantsListPresenter
 
+    private lateinit var uId: String
     private lateinit var mAdapter: ParticipantListAdapter
     private var goalId: Long = -1
     private var mPage = 0
@@ -41,17 +43,20 @@ class ParticipantsListActivity : AppCompatActivity(), ParticipantsListContract.V
         val intent = intent
         goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
         presenter.getParticipantedList(goalId, mPage)
+        uId = intent.getStringExtra(Consts.UID) ?: ""
     }
 
-    override fun updateList(list: ArrayList<Member>) {
+    @SuppressLint("SetTextI18n")
+    override fun updateList(list: ArrayList<Member>, totalElement: Int) {
         if (mPage == 0) {
-            mAdapter = ParticipantListAdapter(presenter.mParticipantDiffCallback, list)
+            mAdapter = ParticipantListAdapter(presenter.mParticipantDiffCallback, list, uId)
             particiBinding.profileRecycler.adapter = mAdapter
             particiBinding.profileRecycler.layoutManager = LinearLayoutManager(this)
         } else {
             mAdapter.submitList(list)
             mAdapter.notifyDataSetChanged()
         }
+        particiBinding.participantCount.text = "총 ${totalElement}명"
         mContentSize += list.size
         mPage += 1
     }
@@ -67,6 +72,8 @@ class ParticipantsListActivity : AppCompatActivity(), ParticipantsListContract.V
             }
         }
     }
+
+    fun backButtonClicked() = finish()
 
     override fun updateIsEnd(boolean: Boolean) {
         isEnd = boolean

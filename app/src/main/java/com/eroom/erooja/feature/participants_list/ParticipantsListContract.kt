@@ -4,7 +4,7 @@ import com.eroom.data.entity.Member
 
 interface ParticipantsListContract {
     interface View {
-        fun updateList(list: ArrayList<Member>)
+        fun updateList(list: ArrayList<Member>, totalElement: Int)
         fun updateIsEnd(boolean: Boolean)
     }
 

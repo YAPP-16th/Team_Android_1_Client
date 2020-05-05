@@ -26,6 +26,7 @@
                 android:id="@+id/backButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{() -> activity.backButtonClicked()}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_icon_navi_arrow_left" />
@@ -45,7 +46,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/participantCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -54,7 +55,7 @@
             android:paddingBottom="5dp"
             android:textColor="@color/orgDefault"
             android:textStyle="bold"
-            android:text="총 35명"
+            tools:text="총 35명"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/topBar" />
 
@@ -67,7 +68,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            app:layout_constraintTop_toBottomOf="@+id/participantCount"
             tools:itemCount="8"
             tools:listitem="@layout/item_participants"/>
 

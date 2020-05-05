@@ -10,6 +10,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.GoalType
+import com.eroom.data.entity.MinimalTodoListDetail
 import com.eroom.data.entity.UserSimpleData
 import com.eroom.data.localclass.BottomSheetColor
 import com.eroom.data.response.GoalDetailResponse
@@ -31,8 +32,9 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
 
     lateinit var bottom: BottomSheetFragment
 
+    lateinit var uId: String
+
     private var goalId: Long = -1
-    val isChecked: ObservableField<Boolean> = ObservableField(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,20 +65,24 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         initBottomSheet(goalData.joinCount)
     }
 
-//    override fun setTodoListData() {
-//        binding.mygoalRecyclerview.apply{
-//            layoutManager = LinearLayoutManager(this@OngoingGoalActivity)
-//            adapter = OngoingGoalAdapter(list, saveChange)
-//        }
-//    }
+    @SuppressLint("SetTextI18n")
+    override fun setTodoList(todoList: ArrayList<MinimalTodoListDetail>) {
+        binding.mygoalRecyclerview.apply{
+            layoutManager = LinearLayoutManager(this@OngoingGoalActivity)
+            adapter = OngoingGoalAdapter(todoList, saveChange)
+        }
+        var count = 0
+        todoList.forEach { if (it.isEnd) count += 1 }
+        binding.participantListText.text = "${(count.toDouble() / todoList.size).toInt()}% 달성중"
+    }
 
-    private val saveChange = { b:Boolean ->
-        isChecked.set(b)
-        if(b) binding.saveListBtn.animate().translationY(-300f).withLayer()
-        else binding.saveListBtn.animate().translationY(300f).withLayer() }
+
+    private val saveChange = { boolean: Boolean ->
+
+    }
 
     fun initView() {
-        presenter = OngoingGoalPresenter(this, get())
+        presenter = OngoingGoalPresenter(this, get(), get())
 
         statusBarColor(this@OngoingGoalActivity, R.color.orgDefault)
 
@@ -94,7 +100,9 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         val intent = intent
         goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
         presenter.getData(goalId)
+        uId = intent.getStringExtra(Consts.UID) ?: ""
 
+        presenter.getTodoData(uId, goalId)
     }
 
     fun moreClick(v: View) {
@@ -119,7 +127,10 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         bottom.callback.observe(this, Observer {
             when (it) {
                 0 -> { // 참여자 목록
-                    startActivity(Intent(this, ParticipantsListActivity::class.java).apply { putExtra(Consts.GOAL_ID, goalId) })
+                    startActivity(Intent(this, ParticipantsListActivity::class.java).apply {
+                        putExtra(Consts.GOAL_ID, goalId)
+                        putExtra(Consts.UID, uId)
+                    })
                 }
                 1 -> { // 리스트 수정하기
 
@@ -138,9 +149,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     }
 
     fun backClick() {
-        if(isChecked.get()!!) {
-            this.toastLong("변경된 리스트 내역을 저장하시겠어요?")
-        } else finish()
+        finish()
     }
 
     override fun onBackPressed() {
