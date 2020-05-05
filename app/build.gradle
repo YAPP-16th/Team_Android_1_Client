@@ -123,12 +123,14 @@ dependencies {
     // these are for retrolambda and streams api
     implementation 'com.annimon:stream:1.1.2'
 
+    /*
     //firebase
     implementation "com.google.firebase:firebase-core:17.2.3"
     implementation "com.google.firebase:firebase-auth:19.3.0"
     implementation "com.google.firebase:firebase-crash:16.2.1"
     implementation 'com.google.firebase:firebase-analytics:17.2.3'
     implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta02'
+     */
 
     // Koin for Kotlin
     implementation "org.koin:koin-core:$koin_version"
