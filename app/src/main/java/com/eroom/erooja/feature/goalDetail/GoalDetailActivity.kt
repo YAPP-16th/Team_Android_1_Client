@@ -3,6 +3,7 @@ package com.eroom.erooja.feature.goalDetail
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -30,8 +31,6 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
 
     val description: ObservableField<String> = ObservableField("")
     val jobClass: ObservableField<String> = ObservableField("")
-
-    val flag: ObservableField<Boolean> = ObservableField(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,16 +105,22 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     }
 
     fun moreClick(v: View) {
-        if(!flag.get()!!){
-             binding.moreBtn.background = resources.getDrawable(R.drawable.ic_icon_small_arrow_top_white,null)
-             flag.set(true)
-        } else {
-            binding.moreBtn.background = resources.getDrawable(R.drawable.ic_icon_small_arrow_right_gray,null)
-             flag.set(false)
-         }
+        binding.goalDescLayout.goal_desc.onStateChangeListener =
+            { oldState: State, newState: State ->
+                when (newState) {
+                    State.Expanded -> {
+                        binding.moreBtn.background =
+                            resources.getDrawable(R.drawable.ic_icon_small_arrow_top_white, null)
+                    }
+                    State.Collapsed -> {
+                        binding.moreBtn.background =
+                            resources.getDrawable(R.drawable.ic_icon_small_arrow_bottom_white, null)
+
+                    }
+                }
+            }
         binding.goalDescLayout.goal_desc.toggle()
     }
-
 
     fun navigationToBack() {
         finish()

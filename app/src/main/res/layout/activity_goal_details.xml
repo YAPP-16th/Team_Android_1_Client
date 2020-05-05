@@ -120,7 +120,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom|center"
-                            android:background="@drawable/ic_icon_small_arrow_right_gray"
+                            android:background="@drawable/ic_icon_small_arrow_bottom_white"
                             android:onClick="@{goalDetail::moreClick}"
                             bind:layout_constraintEnd_toEndOf="@id/include"
                             bind:layout_constraintStart_toStartOf="@id/include"

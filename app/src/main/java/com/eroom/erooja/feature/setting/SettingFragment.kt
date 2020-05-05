@@ -1,6 +1,5 @@
 package com.eroom.erooja.feature.setting
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,10 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.JobClass
+import com.eroom.domain.globalconst.Consts
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.FragmentSettingBinding
 import com.eroom.erooja.feature.filter.FilterActivity
-import com.eroom.erooja.feature.search.search_main.SearchFragment
 import com.eroom.erooja.feature.setting.setting_detail.*
 import com.eroom.erooja.feature.setting.setting_detail.setting_help.HelpActivity
 import com.eroom.erooja.feature.tab.TabActivity
@@ -21,12 +20,8 @@ import org.koin.android.ext.android.get
 class SettingFragment :Fragment(), SettingContract.View{
     private lateinit var settingBinding: FragmentSettingBinding
     private lateinit var presenter : SettingPresenter
-
     private lateinit var settingList : Array<String>
-    private lateinit var activitys : ArrayList<Activity>
-
     private var selectedGroupClassesNum = ArrayList<Long>()
-
 
     companion object {
         @JvmStatic
@@ -40,7 +35,6 @@ class SettingFragment :Fragment(), SettingContract.View{
     ): View? {
         setUpDataBinding(inflater, container)
         initView()
-        initActivity()
         return settingBinding.root
     }
 
@@ -57,20 +51,6 @@ class SettingFragment :Fragment(), SettingContract.View{
 
     }
 
-    private fun initActivity(){
-        activitys = ArrayList()
-        activitys.apply{
-            addAll(listOf(
-                AlarmActivity(),
-                ProfileActivity(),
-                FilterActivity(),
-                HelpActivity(),
-                OpensourceActivity(),
-                TOSActivity()
-            ))
-        }
-    }
-
     override fun setUserJobInterest(interest: MutableSet<JobClass>) {
         interest.map{
             selectedGroupClassesNum.add(it.id)
@@ -85,11 +65,15 @@ class SettingFragment :Fragment(), SettingContract.View{
     }
 
     private var click = { position: Int ->
-        if(position == 2){
-            openSearchFilter()
-        }
-        else{
-            startActivity(Intent(context, activitys[position]::class.java))
+        when(position){
+            0-> startActivity(Intent(context, AlarmActivity::class.java))
+            1-> startActivity(Intent(context, ProfileActivity::class.java))
+            2-> openSearchFilter()
+            3-> startActivity(Intent(context, HelpActivity::class.java))
+            4-> startActivity(Intent(context, OpensourceActivity::class.java))
+            5-> startActivity(Intent(context, TOSActivity::class.java))
+
+
         }
     }
 
@@ -106,7 +90,7 @@ class SettingFragment :Fragment(), SettingContract.View{
             number.add(selectedGroupClassesNum[it])
         }
 
-        intent.putExtra("search",number)
+        intent.putExtra(Consts.SEARCH,number)
         startActivityForResult(intent, 1010)
     }
 
