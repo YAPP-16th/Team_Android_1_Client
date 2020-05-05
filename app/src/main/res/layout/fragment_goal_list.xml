@@ -19,11 +19,11 @@
             android:id="@+id/goal_period_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             android:background="@null"
             android:lineSpacingExtra="11sp"
             android:paddingStart="20dp"
-
+            android:paddingBottom="24dp"
+            android:paddingTop="24dp"
             android:text="@string/goal_list_title"
             android:textColor="@color/grey7"
             android:textSize="20sp"
@@ -53,7 +53,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingHorizontal="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
                     android:paddingTop="6dp">
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -84,8 +85,7 @@
                             android:paddingTop="10dp"
                             android:paddingEnd="20dp"
                             android:paddingBottom="10dp"
-                            android:textColor="@color/grey1"
-                            android:textColorHint="@color/grey1"
+                            android:textColor="@color/grey7"
                             android:textCursorDrawable="@drawable/goal_list_edit_text_cursor"
                             android:textSize="16sp" />
 
