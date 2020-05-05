@@ -12,12 +12,13 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="7dp">
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp">
 
         <TextView
             android:id="@+id/goal_content_textview"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:background="@drawable/goal_list_item_textview"
             android:gravity="center_vertical"
             android:maxLines="1"
@@ -42,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:src="@drawable/ic_icon_check_btn_gray"
+            android:src="@drawable/ic_icon_del_btn_gray"
             android:layout_gravity="center_vertical|right" />
 
     </FrameLayout>
