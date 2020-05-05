@@ -22,6 +22,7 @@ class Consts {
         const val UID = "UID"
 
         const val NICKNAME = "NICKNAME"
+        const val SEARCH = "search"
 
         const val GOAL_TITLE = "GOAL_TITLE"
         const val ADD_NEW_GOAL_RESULT_ID = "ADD_NEW_GOAL_RESULT_ID"

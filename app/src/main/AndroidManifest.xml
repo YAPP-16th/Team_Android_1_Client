@@ -79,7 +79,7 @@
         <activity android:name=".feature.setting.setting_detail.AlarmActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".feature.setting.setting_detail.HelpActivity"
+        <activity android:name=".feature.setting.setting_detail.setting_help.HelpActivity"
             android:screenOrientation="portrait" />
 
         <activity android:name=".feature.setting.setting_detail.JobInterestActivity"
@@ -89,6 +89,9 @@
             android:screenOrientation="portrait" />
 
         <activity android:name=".feature.setting.setting_detail.OpensourceActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".feature.setting.setting_detail.TOSActivity"
             android:screenOrientation="portrait" />
 
 

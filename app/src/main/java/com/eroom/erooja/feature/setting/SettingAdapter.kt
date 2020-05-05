@@ -2,7 +2,9 @@ package com.eroom.erooja.feature.setting
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +18,7 @@ class SettingAdapter (val context: Context, val settingList: Array<String>, priv
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder{
         val inflater = LayoutInflater.from(parent.context)
         val mBinding = ItemSettingListBinding.inflate(inflater, parent, false)
-        return ViewHolder(mBinding, mBinding.settingTxt, mBinding.settingSelectList)
+        return ViewHolder(mBinding, mBinding.settingTxt, mBinding.settingBtn, mBinding.settingSelectList)
 
     }
 
@@ -33,6 +35,7 @@ class SettingAdapter (val context: Context, val settingList: Array<String>, priv
 
         if(position == itemCount -1 ){
             holder.settingTxt.setTextColor(context.resources.getColor(com.eroom.erooja.R.color.colorError, null))
+            holder.settingBtn.visibility = View.INVISIBLE
         }
 
         holder.item.setOnClickListener{ click(position) }
@@ -43,6 +46,7 @@ class SettingAdapter (val context: Context, val settingList: Array<String>, priv
     inner class ViewHolder(
         mBinding : ItemSettingListBinding,
         val settingTxt : TextView,
+        val settingBtn : ImageButton,
         val item : ConstraintLayout
     ) : RecyclerView.ViewHolder(mBinding.root)
 }

@@ -95,8 +95,8 @@ class TabActivity : AppCompatActivity(), TabContract.View {
 
     fun navigateToNewGoal() = startActivity(Intent(this, NewGoalActivity::class.java))
 
-    fun replaceFragment() {
-        loadFragment(3)
+    fun replaceFragment(index: Int) {
+        loadFragment(index)
     }
 
 

@@ -6,6 +6,10 @@
         <variable
             name="activity"
             type="com.eroom.erooja.feature.filter.FilterActivity" />
+
+        <variable
+            name="setting"
+            type="com.eroom.erooja.feature.setting.setting_detail.JobInterestActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

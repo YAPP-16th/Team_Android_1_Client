@@ -18,7 +18,7 @@
     <!--> 공란이 필요함 <-->
     <string name="temp_txt"> </string>
 
-    <string name="add_goal_list">내 리스트 추가하기</string>
+    <string name="add_goal_list">리스트 직접 추가하기</string>
     <string name="scrap">담아가기</string>
     <string name="more">더보기</string>
     <string name="close">닫기</string>
