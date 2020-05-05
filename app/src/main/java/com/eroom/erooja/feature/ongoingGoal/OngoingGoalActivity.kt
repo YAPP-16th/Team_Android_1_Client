@@ -20,6 +20,7 @@ import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.*
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalBinding
+import com.eroom.erooja.feature.editgoal.EditGoalActivity
 import com.eroom.erooja.feature.participants_list.ParticipantsListActivity
 import kotlinx.android.synthetic.main.activity_goal.view.*
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
@@ -133,7 +134,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
                     })
                 }
                 1 -> { // 리스트 수정하기
-
+                    startActivity(Intent(this, EditGoalActivity::class.java))
                 }
                 2 -> { // 목표 그만두기
 
