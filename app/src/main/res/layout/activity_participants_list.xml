@@ -13,52 +13,62 @@
         android:layout_height="match_parent"
         tools:context=".feature.participants_list.ParticipantsListActivity">
 
-
-        <ImageView
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_icon_navi_arrow_left" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/participants_list_title"
-            android:textColor="@color/grey7"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:gravity="center_vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/backButton" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_icon_navi_arrow_left" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/participants_list_title"
+                android:textColor="@color/grey8"
+                android:textSize="21sp"
+                android:textStyle="bold"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/backButton"
+                app:layout_constraintTop_toTopOf="@+id/backButton" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:paddingStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="16dp"
             android:paddingTop="6dp"
             android:paddingBottom="5dp"
-            android:background="@color/grey1"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/orgDefault"
+            android:textStyle="bold"
+            android:text="총 35명"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintTop_toBottomOf="@+id/topBar" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/profileRecycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
+            app:scrollAdapter="@{activity.recyclerViewScrollListener}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4"
-            tools:itemCount="10"
+            tools:itemCount="8"
             tools:listitem="@layout/item_participants"/>
 
 

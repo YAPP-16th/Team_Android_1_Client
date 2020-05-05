@@ -1,5 +1,6 @@
 package com.eroom.data.response
 
+import com.eroom.data.entity.GoalType
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class GoalDetailResponse(
@@ -12,5 +13,6 @@ data class GoalDetailResponse(
     @JsonProperty("isEnd") var isEnd: Boolean,
     @JsonProperty("isDateFixed") var isDateFixed: Boolean,
     @JsonProperty("startDt") var startDt: String,
-    @JsonProperty("endDt") var endDt: String
+    @JsonProperty("endDt") var endDt: String,
+    @JsonProperty("jobInterests") var jobInterests: ArrayList<GoalType>
 )

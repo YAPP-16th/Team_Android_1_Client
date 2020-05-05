@@ -11,5 +11,6 @@ interface OngoingGoalContract {
         var view: View
         fun getData(goalId: Long)
         fun getTodoData(goalId: Long)
+        fun onCleared()
     }
 }

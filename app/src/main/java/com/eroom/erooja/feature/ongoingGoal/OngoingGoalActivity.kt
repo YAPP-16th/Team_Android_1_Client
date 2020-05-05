@@ -1,6 +1,7 @@
 package com.eroom.erooja.feature.ongoingGoal
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.eroom.data.entity.GoalType
 import com.eroom.data.entity.UserSimpleData
 import com.eroom.data.localclass.BottomSheetColor
 import com.eroom.data.response.GoalDetailResponse
@@ -17,6 +19,7 @@ import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.*
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalBinding
+import com.eroom.erooja.feature.participants_list.ParticipantsListActivity
 import kotlinx.android.synthetic.main.activity_goal.view.*
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
 import org.koin.android.ext.android.get
@@ -52,6 +55,10 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
             showButton = false
             showShadow = false
         }
+
+        binding.goalDescLayout.keyword_txt.text = goalData.jobInterests.mapIndexed { index: Int, goalType: GoalType ->
+            if (index == goalData.jobInterests.size - 1) goalType.name else goalType.name add ", "
+        }.toList().join()
 
         initBottomSheet(goalData.joinCount)
     }
@@ -112,7 +119,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         bottom.callback.observe(this, Observer {
             when (it) {
                 0 -> { // 참여자 목록
-                    
+                    startActivity(Intent(this, ParticipantsListActivity::class.java).apply { putExtra(Consts.GOAL_ID, goalId) })
                 }
                 1 -> { // 리스트 수정하기
 
@@ -138,5 +145,10 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
 
     override fun onBackPressed() {
         backClick()
+    }
+
+    override fun onDestroy() {
+        presenter.onCleared()
+        super.onDestroy()
     }
 }
