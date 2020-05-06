@@ -14,6 +14,7 @@ import com.eroom.erooja.databinding.FragmentSettingBinding
 import com.eroom.erooja.feature.filter.FilterActivity
 import com.eroom.erooja.feature.setting.setting_detail.*
 import com.eroom.erooja.feature.setting.setting_detail.setting_help.HelpActivity
+import com.eroom.erooja.feature.setting.setting_detail.setting_profile.ProfileActivity
 import com.eroom.erooja.feature.tab.TabActivity
 import org.koin.android.ext.android.get
 

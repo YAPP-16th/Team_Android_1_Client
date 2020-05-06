@@ -3,7 +3,7 @@
     <data>
         <variable
             name="profileSetting"
-            type="com.eroom.erooja.feature.setting.setting_detail.ProfileActivity" />
+            type="com.eroom.erooja.feature.setting.setting_detail.setting_profile.ProfileActivity" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,6 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/ic_group_2"
+        android:onClick="@{() -> profileSetting.pickFromImage()}"
         app:layout_constraintBottom_toBottomOf="@+id/circleImageView"
         app:layout_constraintEnd_toEndOf="@+id/circleImageView"/>
 
