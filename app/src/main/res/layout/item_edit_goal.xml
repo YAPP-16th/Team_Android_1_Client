@@ -18,14 +18,13 @@
             app:layout_constraintEnd_toStartOf="@+id/trigger"
             android:text="TextView" />
 
-        <TextView
+        <ImageView
             android:id="@+id/trigger"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:visibility="visible"
             android:gravity="center"
-            android:textColor="@color/colorWhite"
-            android:text="호엥을 누르세영"
+            android:src="@drawable/ic_icon_hamburger_normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

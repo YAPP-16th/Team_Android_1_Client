@@ -33,7 +33,7 @@
     <string name="group_design">디자인 직군</string>
     <string name="please_select_job_class">직무도 함께 골라주세요.</string>
     <string name="job_class_select_info">직무는 추후에 변경 가능합니다.</string>
-    <string name="participants_list_title">참여자 리스트</string>
+    <string name="participants_list_title">참여자 목록</string>
     <string name="starter_text">Starter</string>
     <string name="filter_text">필터</string>
     <string name="complete_text">완료</string>

@@ -1,16 +1,41 @@
 package com.eroom.erooja.feature.participants_list
 
+import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
-import com.eroom.data.entity.Participant
+import com.eroom.data.entity.Member
+import com.eroom.domain.api.usecase.membergoal.GetParticipantedListUseCase
+import io.reactivex.disposables.CompositeDisposable
+import timber.log.Timber
 
-class ParticipantsListPresenter(override val view: ParticipantsListContract.View) : ParticipantsListContract.Presenter {
+class ParticipantsListPresenter(
+    override val view: ParticipantsListContract.View,
+    private val getParticipantedListUseCase: GetParticipantedListUseCase
+) : ParticipantsListContract.Presenter {
 
-    val mParticipantDiffCallback = object : DiffUtil.ItemCallback<Participant>() {
-        override fun areItemsTheSame(oldItem: Participant, newItem: Participant): Boolean {
-            return oldItem.id == newItem.id
+    private val compositeDisposable = CompositeDisposable()
+
+    val mParticipantDiffCallback = object : DiffUtil.ItemCallback<Member>() {
+        override fun areItemsTheSame(oldItem: Member, newItem: Member): Boolean {
+            return oldItem.uid == newItem.uid
         }
-        override fun areContentsTheSame(oldItem: Participant, newItem: Participant): Boolean {
-            return (oldItem.name == newItem.name) && (oldItem.id == newItem.id)
+
+        override fun areContentsTheSame(oldItem: Member, newItem: Member): Boolean {
+            return (oldItem.nickname == newItem.nickname) && (oldItem.uid == newItem.uid)
         }
+    }
+
+    @SuppressLint("CheckResult")
+    override fun getParticipantedList(goalId: Long, page: Int) {
+        getParticipantedListUseCase.getParticipantedList(goalId, size = 10, page = page)
+            .subscribe({
+                view.updateList(it.members, it.totalElement)
+                view.updateIsEnd(it.totalPages -1 <= page)
+            }, {
+                Timber.e(it.localizedMessage)
+            })
+    }
+
+    override fun onCleared() {
+        compositeDisposable.clear()
     }
 }

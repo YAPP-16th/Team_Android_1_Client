@@ -3,6 +3,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/item_all"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -17,7 +18,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/placeholder_grey"/>
+            android:src="@drawable/ic_icon_users_blank"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -40,27 +41,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:textSize="14sp"
+                    android:textSize="15sp"
                     android:textColor="@color/grey7"
                     tools:text="홍길동" />
 
                 <TextView
-                    android:id="@+id/isStarterText"
+                    android:id="@+id/addInfoText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:textColor="@color/orgDefault"
-                    android:textSize="10sp"
-                    android:visibility="gone"
-                    tools:visibility="visible"
-                    android:text="@string/starter_text" />
+                    android:textSize="12sp"
+                    android:visibility="visible"
+                    tools:text="@string/starter_text" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/profileJobClassInfoText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="11sp"
+                android:layout_marginTop="2dp"
+                android:textSize="12sp"
                 android:textColor="@color/grey5"
                 tools:text="Android 외 3개" />
 
@@ -70,6 +71,7 @@
             android:id="@+id/naviToProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:tint="@color/grey4"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

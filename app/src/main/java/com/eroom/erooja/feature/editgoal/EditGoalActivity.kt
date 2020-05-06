@@ -19,7 +19,6 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
     lateinit var mEditGoalAdapter: EditGoalAdapter
     lateinit var mDeleteGoalAdapter: DeleteGoalAdapter
     lateinit var mItemEditTouchHelper: ItemTouchHelper
-    lateinit var mItemDeleteTouchHelper: ItemTouchHelper
     lateinit var swipeController: SwipeController
     var list = mutableListOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l")
 
@@ -57,16 +56,19 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
     }
 
     private fun editRecyclerInit() {
-        mEditGoalAdapter = EditGoalAdapter(presenter.callback,
+        mEditGoalAdapter = EditGoalAdapter(
             this,
-            this)
+            this, this)
         val mCallback = EditGoalItemTouchHelperCallback(mEditGoalAdapter)
-        mItemEditTouchHelper = ItemTouchHelper(mCallback).apply { attachToRecyclerView(
-            editGoalBinding.editGoalRecycler.apply {
-                adapter = mEditGoalAdapter
-                layoutManager = LinearLayoutManager(this@EditGoalActivity)
-            }
-        ) }
+        mItemEditTouchHelper = ItemTouchHelper(mCallback)
+        mItemEditTouchHelper.attachToRecyclerView(
+            editGoalBinding.editGoalRecycler
+        )
+
+        editGoalBinding.editGoalRecycler.apply {
+            adapter = mEditGoalAdapter
+            layoutManager = LinearLayoutManager(this@EditGoalActivity)
+        }
     }
 
     private fun deleteRecyclerInit() {
@@ -80,19 +82,6 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
                 mEditGoalAdapter.notifyItemRangeChanged(position, mEditGoalAdapter.itemCount)
             }
         }, dpToPx(this, 100f), dpToPx(this, 18f))
-        mItemDeleteTouchHelper = ItemTouchHelper(swipeController).apply {
-            attachToRecyclerView(editGoalBinding.deleteGoalRecycler.apply {
-                addItemDecoration(object :RecyclerView.ItemDecoration() {
-                    override fun onDraw(
-                        c: Canvas,
-                        parent: RecyclerView,
-                        state: RecyclerView.State
-                    ) {
-                        swipeController.onDraw(c)
-                    }
-                })
-            })
-        }
         editGoalBinding.deleteGoalRecycler.apply {
             adapter = mDeleteGoalAdapter
             layoutManager = LinearLayoutManager(this@EditGoalActivity)
@@ -105,6 +94,6 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
     }
 
     override fun onStartDrag(holder: EditGoalViewHolder) {
-        mItemEditTouchHelper.startDrag(holder)
+        //mItemEditTouchHelper.startDrag(holder)
     }
 }

@@ -1,6 +1,7 @@
 package com.eroom.erooja.feature.ongoingGoal
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.eroom.data.entity.GoalType
+import com.eroom.data.entity.MinimalTodoListDetail
 import com.eroom.data.entity.UserSimpleData
 import com.eroom.data.localclass.BottomSheetColor
 import com.eroom.data.response.GoalDetailResponse
@@ -17,6 +20,8 @@ import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.*
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalBinding
+import com.eroom.erooja.feature.editgoal.EditGoalActivity
+import com.eroom.erooja.feature.participants_list.ParticipantsListActivity
 import kotlinx.android.synthetic.main.activity_goal.view.*
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
 import org.koin.android.ext.android.get
@@ -28,8 +33,9 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
 
     lateinit var bottom: BottomSheetFragment
 
+    lateinit var uId: String
+
     private var goalId: Long = -1
-    val isChecked: ObservableField<Boolean> = ObservableField(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,23 +59,31 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
             showShadow = false
         }
 
+        binding.goalDescLayout.keyword_txt.text = goalData.jobInterests.mapIndexed { index: Int, goalType: GoalType ->
+            if (index == goalData.jobInterests.size - 1) goalType.name else goalType.name add ", "
+        }.toList().join()
+
         initBottomSheet(goalData.joinCount)
     }
 
-//    override fun setTodoListData() {
-//        binding.mygoalRecyclerview.apply{
-//            layoutManager = LinearLayoutManager(this@OngoingGoalActivity)
-//            adapter = OngoingGoalAdapter(list, saveChange)
-//        }
-//    }
+    @SuppressLint("SetTextI18n")
+    override fun setTodoList(todoList: ArrayList<MinimalTodoListDetail>) {
+        binding.mygoalRecyclerview.apply{
+            layoutManager = LinearLayoutManager(this@OngoingGoalActivity)
+            adapter = OngoingGoalAdapter(todoList, saveChange)
+        }
+        var count = 0
+        todoList.forEach { if (it.isEnd) count += 1 }
+        binding.participantListText.text = "${(count.toDouble() / todoList.size).toInt()}% 달성중"
+    }
 
-    private val saveChange = { b:Boolean ->
-        isChecked.set(b)
-        if(b) binding.saveListBtn.animate().translationY(-300f).withLayer()
-        else binding.saveListBtn.animate().translationY(300f).withLayer() }
+
+    private val saveChange = { boolean: Boolean ->
+
+    }
 
     fun initView() {
-        presenter = OngoingGoalPresenter(this, get())
+        presenter = OngoingGoalPresenter(this, get(), get())
 
         statusBarColor(this@OngoingGoalActivity, R.color.orgDefault)
 
@@ -87,7 +101,9 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         val intent = intent
         goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
         presenter.getData(goalId)
+        uId = intent.getStringExtra(Consts.UID) ?: ""
 
+        presenter.getTodoData(uId, goalId)
     }
 
     fun moreClick(v: View) {
@@ -112,10 +128,13 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         bottom.callback.observe(this, Observer {
             when (it) {
                 0 -> { // 참여자 목록
-                    
+                    startActivity(Intent(this, ParticipantsListActivity::class.java).apply {
+                        putExtra(Consts.GOAL_ID, goalId)
+                        putExtra(Consts.UID, uId)
+                    })
                 }
                 1 -> { // 리스트 수정하기
-
+                    startActivity(Intent(this, EditGoalActivity::class.java))
                 }
                 2 -> { // 목표 그만두기
 
@@ -131,12 +150,15 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     }
 
     fun backClick() {
-        if(isChecked.get()!!) {
-            this.toastLong("변경된 리스트 내역을 저장하시겠어요?")
-        } else finish()
+        finish()
     }
 
     override fun onBackPressed() {
         backClick()
+    }
+
+    override fun onDestroy() {
+        presenter.onCleared()
+        super.onDestroy()
     }
 }
