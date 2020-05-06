@@ -184,6 +184,9 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-core:2.9.3"
     implementation "com.google.android.exoplayer:exoplayer-ui:2.9.3"
 
+    //anko
+    implementation 'org.jetbrains.anko:anko:0.10.8'
+
     //facebook-shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 

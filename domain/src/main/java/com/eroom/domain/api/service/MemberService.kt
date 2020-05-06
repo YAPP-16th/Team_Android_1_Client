@@ -22,4 +22,7 @@ interface MemberService {
 
     @GET("member/jobInterests")
     fun getMemberJobInterests(): Single<ArrayList<JobGroupAndClassResponse>>
+
+    @GET("member/images")
+    fun getMemberProfileImages() : Single<Array<String?>>
 }
