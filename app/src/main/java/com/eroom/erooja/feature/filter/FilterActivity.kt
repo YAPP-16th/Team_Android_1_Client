@@ -41,6 +41,12 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
 
     private fun initView() {
         presenter.getJobGroups()
+
+        val settingTxt: String? = intent.getStringExtra("JOB_CLASS_CHANGE")
+        settingTxt?.let{
+            filterBinding.filterText.text = settingTxt
+            filterBinding.closeButton.setImageResource(R.drawable.ic_icon_navi_arrow_left)
+        }
     }
 
     override fun reRequestClassByGroup(jobGroupList: ArrayList<com.eroom.data.entity.JobGroup>) =

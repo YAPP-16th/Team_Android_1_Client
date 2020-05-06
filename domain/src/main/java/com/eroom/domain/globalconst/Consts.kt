@@ -24,6 +24,7 @@ class Consts {
         const val NICKNAME = "NICKNAME"
         const val SEARCH = "search"
         const val PICK_FROM_IMAGE = 9000
+        const val JOB_CLASS_CHANGE = "JOB_CLASS_CHANGE"
 
         const val GOAL_TITLE = "GOAL_TITLE"
         const val ADD_NEW_GOAL_RESULT_ID = "ADD_NEW_GOAL_RESULT_ID"
