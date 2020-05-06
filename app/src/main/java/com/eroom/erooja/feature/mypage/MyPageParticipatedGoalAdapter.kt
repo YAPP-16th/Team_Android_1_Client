@@ -16,9 +16,10 @@ import com.eroom.erooja.R
 import com.eroom.erooja.feature.main.ParticipatedItem
 import kotlinx.android.synthetic.main.item_main_new_goal.view.*
 import kotlinx.android.synthetic.main.item_my_participated_goal.view.*
+import timber.log.Timber
 
 class MyPageParticipatedGoalAdapter(
-    private val minimalGoalDetailContentList: List<MinimalGoalDetailContent>,
+    private val minimalGoalDetailContentList: ArrayList<MinimalGoalDetailContent>,
     private val isClicked: (Long) -> Unit,
     callback: DiffUtil.ItemCallback<MinimalGoalDetailContent>
 ): ListAdapter<MinimalGoalDetailContent, MyPageParticipatedGoalAdapter.ViewHolder>(callback) {
@@ -31,14 +32,15 @@ class MyPageParticipatedGoalAdapter(
     }
 
     override fun getItemCount(): Int {
+        Timber.e(""+minimalGoalDetailContentList.size)
         return minimalGoalDetailContentList.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
-        super.onBindViewHolder(holder, position, payloads)
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        var l = minimalGoalDetailContentList
+        Timber.e(l[position].minimalGoalDetail.title)
+
         val item: MinimalGoalDetailContent = minimalGoalDetailContentList[position]
         val jobClassInfo = item.minimalGoalDetail.jobInterests.filter { it.jobInterestType != Consts.JOB_GROUP }.toList()
         val extraInfo = if(jobClassInfo.size - 1 == 0) "" else " 외 ${jobClassInfo.size - 1}"
@@ -49,7 +51,16 @@ class MyPageParticipatedGoalAdapter(
             isClicked = isClicked)
     }
 
-
+    override fun submitList(list: MutableList<MinimalGoalDetailContent>?) {
+        list?.map {
+            minimalGoalDetailContentList.add(it)
+        }
+//        minimalGoalDetailContentList.map {
+//            list?.add(it)
+//        }
+        var ch = list
+        super.submitList(minimalGoalDetailContentList)  //or minimalGOalDetailContentList?  지워도 되는데 왜?
+    }
     inner class ViewHolder(parent:ViewGroup ):
         RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_my_participated_goal, parent, false)) {
         private val percentTv: TextView = itemView.percent

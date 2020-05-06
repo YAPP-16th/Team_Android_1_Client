@@ -79,12 +79,12 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         presenter.getMyParticipatedList(uId, mPage)
     }
 
-//    override fun onResume() {
-//        super.onResume()
-////        mPage = 0 //mPage 0으로 해야돼?
-////        mContentSize = 0
-//        if (uId != "") presenter.getMyParticipatedList(uId, mPage)
-//    }
+    override fun onResume() {
+        super.onResume()
+        mPage = 0 //mPage 0으로 해야돼?
+            mContentSize = 0
+        if (uId != "") presenter.getMyParticipatedList(uId, mPage)
+    }
 
     override fun setNickname(nickname: String) {
         nicknameText.set("$nickname 님")
@@ -106,14 +106,9 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         }
     }
 
-    override fun setParticipatedList(list: List<MinimalGoalDetailContent>) {
+    override fun setParticipatedList(list: ArrayList<MinimalGoalDetailContent>) {
         //myPageBinding.myParticipatedOngoingRecyclerview.removeAllViews()
         mContentSize += list.size
-        list.map {
-            nList.add(it)
-        }
-        var c = nList
-        var df= ""
         if (mContentSize != 0) {
             if (mPage < 1) {
                 Timber.e(list.map { it.minimalGoalDetail.title }.join())
@@ -131,7 +126,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
 //                var b = list[1].minimalGoalDetail.title
                 var check = mContentSize
                 var s = ""
-                mAdapter.submitList(list)
+                mAdapter.submitList(list.toMutableList())
                 var a = nList
                 mAdapter.notifyDataSetChanged() //있어야되나?
               //  mAdapter.notifyItemRangeChanged(0, mContentSize  )

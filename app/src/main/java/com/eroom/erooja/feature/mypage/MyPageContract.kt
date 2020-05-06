@@ -7,7 +7,7 @@ interface MyPageContract {
     interface View {
         fun setNickname(nickname: String)
         fun setJobInterestInfo(classList: ArrayList<JobClass>)
-        fun setParticipatedList(list: List<MinimalGoalDetailContent>)
+        fun setParticipatedList(list: ArrayList<MinimalGoalDetailContent>)
         fun saveUid(uid: String)
         fun setIsEnd(isEnd: Boolean)
     }

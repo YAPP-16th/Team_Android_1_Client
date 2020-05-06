@@ -53,12 +53,13 @@ class MyPagePresenter(
 
     @SuppressLint("CheckResult")
     override fun getMyParticipatedList(uid: String, page: Int) {
-        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = page, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, endDtIsBeforeNow = false)
+        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 2, page = page, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, endDtIsBeforeNow = false)
             .subscribe({
+                view.setIsEnd(it.totalPages - 1 <= page)
                 view.setParticipatedList(it.content)
                 var a = it.totalPages
                 var b = page
-                view.setIsEnd(it.totalPages <= page)
+
             },{
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
