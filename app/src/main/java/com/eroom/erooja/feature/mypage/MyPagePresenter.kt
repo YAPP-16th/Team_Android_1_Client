@@ -1,7 +1,9 @@
 package com.eroom.erooja.feature.mypage
 
 import android.annotation.SuppressLint
+import androidx.recyclerview.widget.DiffUtil
 import com.eroom.data.entity.JobClass
+import com.eroom.data.entity.MinimalGoalDetailContent
 import com.eroom.data.localclass.Direction
 import com.eroom.data.localclass.SortBy
 import com.eroom.domain.api.usecase.member.GetMemberInfoUseCase
@@ -47,20 +49,34 @@ class MyPagePresenter(
             }, {
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
-
     }
 
     @SuppressLint("CheckResult")
-    override fun getMyParticipatedList(uid: String) {
-        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = 0, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, endDtIsBeforeNow = false)
+    override fun getMyParticipatedList(uid: String, page: Int) {
+        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = page, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, endDtIsBeforeNow = false)
             .subscribe({
                 view.setParticipatedList(it.content)
+                var a = it.totalPages
+                var b = page
+                view.setIsEnd(it.totalPages <= page)
             },{
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
     }
 
     fun isGuest() = sharedPrefRepository.getPrefsBooleanValue(Consts.IS_GUEST)
+
+    private val mMinimalGoalDetailContentCallback= object : DiffUtil.ItemCallback<MinimalGoalDetailContent>() {
+        override fun areItemsTheSame(oldItem: MinimalGoalDetailContent, newItem: MinimalGoalDetailContent): Boolean {
+            return oldItem.goalId == newItem.goalId
+        }
+
+        override fun areContentsTheSame(oldItem: MinimalGoalDetailContent, newItem: MinimalGoalDetailContent): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    fun getMinimalGoalDetailContentCallback(): DiffUtil.ItemCallback<MinimalGoalDetailContent> = mMinimalGoalDetailContentCallback
 
     override fun onCleared() {
         compositeDisposable.clear()

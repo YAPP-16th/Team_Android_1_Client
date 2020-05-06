@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.eroom.data.entity.JobClass
 import com.eroom.data.entity.MinimalGoalDetailContent
@@ -17,8 +19,9 @@ import kotlinx.android.synthetic.main.item_my_participated_goal.view.*
 
 class MyPageParticipatedGoalAdapter(
     private val minimalGoalDetailContentList: List<MinimalGoalDetailContent>,
-    private val isClicked: (Long) -> Unit
-): RecyclerView.Adapter<MyPageParticipatedGoalAdapter.ViewHolder>() {
+    private val isClicked: (Long) -> Unit,
+    callback: DiffUtil.ItemCallback<MinimalGoalDetailContent>
+): ListAdapter<MinimalGoalDetailContent, MyPageParticipatedGoalAdapter.ViewHolder>(callback) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -29,6 +32,10 @@ class MyPageParticipatedGoalAdapter(
 
     override fun getItemCount(): Int {
         return minimalGoalDetailContentList.size
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        super.onBindViewHolder(holder, position, payloads)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
