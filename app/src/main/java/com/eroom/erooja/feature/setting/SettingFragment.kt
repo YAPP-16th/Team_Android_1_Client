@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.JobClass
@@ -12,10 +13,13 @@ import com.eroom.domain.globalconst.Consts
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.FragmentSettingBinding
 import com.eroom.erooja.feature.filter.FilterActivity
+import com.eroom.erooja.feature.login.LoginActivity
 import com.eroom.erooja.feature.setting.setting_detail.*
 import com.eroom.erooja.feature.setting.setting_detail.setting_help.HelpActivity
 import com.eroom.erooja.feature.setting.setting_detail.setting_profile.ProfileActivity
 import com.eroom.erooja.feature.tab.TabActivity
+import com.kakao.usermgmt.UserManagement
+import com.kakao.usermgmt.callback.LogoutResponseCallback
 import org.koin.android.ext.android.get
 
 class SettingFragment :Fragment(), SettingContract.View{
@@ -73,14 +77,22 @@ class SettingFragment :Fragment(), SettingContract.View{
             3-> startActivity(Intent(context, HelpActivity::class.java))
             4-> startActivity(Intent(context, OpensourceActivity::class.java))
             5-> startActivity(Intent(context, TOSActivity::class.java))
-
-
+            6-> logout()
         }
     }
 
     fun back(v: View){
         (activity as TabActivity).replaceFragment(2)
 
+    }
+    private fun logout(){
+        UserManagement.getInstance().requestLogout(object : LogoutResponseCallback() {
+            override fun onCompleteLogout() {
+                val intent = Intent(context, LoginActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                context!!.startActivity(intent)
+            }
+        })
     }
 
     fun openSearchFilter() {
@@ -92,6 +104,7 @@ class SettingFragment :Fragment(), SettingContract.View{
         }
 
         intent.putExtra(Consts.SEARCH,number)
+        intent.putExtra(Consts.JOB_CLASS_CHANGE, resources.getString(R.string.job_class_change))
         startActivityForResult(intent, 1010)
     }
 
@@ -102,6 +115,7 @@ class SettingFragment :Fragment(), SettingContract.View{
 
             val result1 = data?.getSerializableExtra("selectedId") as ArrayList<Long>
             val result2 = data?.getSerializableExtra("HashMap") as HashMap<Long, String>
+
 
 
         }

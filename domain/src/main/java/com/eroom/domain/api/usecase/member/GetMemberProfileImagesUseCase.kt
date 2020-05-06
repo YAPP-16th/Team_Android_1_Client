@@ -6,7 +6,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class GetMemberProfileImages(retrofitRepository: AccessRetrofitRepository){
+class GetMemberProfileImagesUseCase(retrofitRepository: AccessRetrofitRepository){
     private val memberService = retrofitRepository
         .getAccessRetrofit()
         .create(MemberService::class.java)

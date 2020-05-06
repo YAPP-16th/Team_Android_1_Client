@@ -2,6 +2,7 @@ package com.eroom.domain.api.service
 
 import com.eroom.data.request.IdListRequest
 import com.eroom.data.request.NicknameRequest
+import com.eroom.data.request.UserProfileRequest
 import com.eroom.data.response.JobGroupAndClassResponse
 import com.eroom.data.response.UserInfoResponse
 import io.reactivex.Single
@@ -25,4 +26,9 @@ interface MemberService {
 
     @GET("member/images")
     fun getMemberProfileImages() : Single<Array<String?>>
+
+    @Headers("content-type: multipart/form-data")
+    @Multipart
+    @POST("member/image")
+    fun putMemberProfileImage(@Part("multipartImageFile") multipartImageFile: UserProfileRequest) : Single<UserInfoResponse>
 }

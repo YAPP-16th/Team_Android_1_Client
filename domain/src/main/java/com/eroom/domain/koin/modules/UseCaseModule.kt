@@ -49,6 +49,8 @@ val usecaseModule = module {
     factory { GetTodoListUseCase(get()) }
 
     factory { GetParticipantedListUseCase(get()) }
-    
-    factory { GetMemberProfileImages(get())}
+
+    factory { GetMemberProfileImagesUseCase(get())}
+
+    factory { PutMemberProfileImagesUsecase(get())}
 }
