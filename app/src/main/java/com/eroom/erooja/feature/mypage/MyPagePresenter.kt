@@ -1,7 +1,9 @@
 package com.eroom.erooja.feature.mypage
 
 import android.annotation.SuppressLint
+import androidx.recyclerview.widget.DiffUtil
 import com.eroom.data.entity.JobClass
+import com.eroom.data.entity.MinimalGoalDetailContent
 import com.eroom.data.localclass.Direction
 import com.eroom.data.localclass.SortBy
 import com.eroom.domain.api.usecase.member.GetMemberInfoUseCase
@@ -47,17 +49,28 @@ class MyPagePresenter(
             }, {
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
-
     }
 
     @SuppressLint("CheckResult")
-    override fun getMyParticipatedList(uid: String) {
-        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = 0, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, endDtIsBeforeNow = false)
+    override fun getOngoingGoalList(uid: String, page: Int) {
+        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = page, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, endDtIsBeforeNow = false)
             .subscribe({
-                view.setParticipatedList(it.content)
+                view.setOnGoingGoalPageIsEnd(it.totalPages - 1 <= page)
+                view.setOngoingGoalList(it.content)
             },{
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
+    }
+
+    @SuppressLint("CheckResult")
+    override fun getEndedGoalList(uid: String, page: Int) {
+        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = page, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, endDtIsBeforeNow = true)
+            .subscribe({
+                view.setEndedGoalPageIsEnd(it.totalPages - 1 <= page)
+                view.setEndedGoalList(it.content)
+            },{
+                Timber.e(it.localizedMessage)
+            })
     }
 
     fun isGuest() = sharedPrefRepository.getPrefsBooleanValue(Consts.IS_GUEST)

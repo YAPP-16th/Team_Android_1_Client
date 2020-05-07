@@ -114,9 +114,19 @@
                 android:id="@+id/my_participated_ongoing_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
                 tools:itemCount="4"
-                tools:listitem="@layout/item_my_participated_goal" />
+                tools:listitem="@layout/item_my_participated_ongoing_goal"
+                scrollAdapter="@{fragment.ongoingRecyclerViewScrollListener}"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_participated_ended_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_my_participated_ended_goal"
+                scrollAdapter="@{fragment.endedRecyclerViewScrollListener}"/>
 
         </FrameLayout>
 

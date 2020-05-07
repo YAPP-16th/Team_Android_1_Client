@@ -10,36 +10,35 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.eroom.data.entity.JobClass
 import com.eroom.data.entity.MinimalGoalDetailContent
 import com.eroom.domain.globalconst.Consts
-import com.eroom.domain.utils.toRealDateFormat
-import com.eroom.domain.utils.toastLong
 import org.koin.android.ext.android.get
 
-import com.eroom.erooja.R
 import com.eroom.erooja.databinding.FragmentMyPageBinding
-import com.eroom.erooja.feature.main.AddGoalItem
-import com.eroom.erooja.feature.main.ParticipatedItem
 import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
-import com.eroom.erooja.feature.setting.SettingFragment
 import com.eroom.erooja.feature.tab.TabActivity
-import kotlinx.android.synthetic.main.include_completed_goal_desc.view.*
-import kotlinx.android.synthetic.main.item_main_new_goal.*
-import org.koin.core.context.KoinContextHandler.get
+import com.google.android.material.tabs.TabLayout
 
-/**
- * A simple [Fragment] subclass.
- */
+
 class MyPageFragment : Fragment(), MyPageContract.View {
 
     private lateinit var myPageBinding: FragmentMyPageBinding
     private lateinit var presenter: MyPagePresenter
-
     private lateinit var mClassList: ArrayList<JobClass>
 
-    val nicknameText: ObservableField<String> = ObservableField()
+    private lateinit var ongoingGoalAdapter: MyPageOngoingGoalAdapter
+    private var ongoingGoalPage = 0
+    private var ongoingGoalContentSize = 0
+    private var ongoingGoalIsEnd = false
 
+    private lateinit var endedGoalAdapter: MyPageEndedGoalAdapter
+    private var endedGoalPage = 0
+    private var endedGoalContentSize = 0
+    private var endedGoalIsEnd = false
+    
+    val nicknameText: ObservableField<String> = ObservableField()
     private var uId: String = ""
 
     companion object {
@@ -74,16 +73,48 @@ class MyPageFragment : Fragment(), MyPageContract.View {
             presenter.getMemberJobInterest()
         }
 
+        myPageBinding.myPageTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when(tab?.position) {
+                    0 -> {
+                        myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.VISIBLE
+                        myPageBinding.myParticipatedEndedRecyclerview.visibility = View.INVISIBLE
+                    }
+                    1 -> {
+                        myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.INVISIBLE
+                        myPageBinding.myParticipatedEndedRecyclerview.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+        })
+
     }
 
     override fun saveUid(uid: String) {
         uId = uid
-        presenter.getMyParticipatedList(uId)
+        presenter.getOngoingGoalList(uId, ongoingGoalPage)
+        presenter.getEndedGoalList(uId, endedGoalPage)
     }
 
     override fun onResume() {
         super.onResume()
-        presenter.getMyParticipatedList(uId)
+        //context?.toastShort("onResume")
+        ongoingGoalPage = 0
+        ongoingGoalContentSize = 0
+        ongoingGoalIsEnd = false
+        endedGoalPage = 0
+        endedGoalContentSize = 0
+        endedGoalIsEnd = false
+
+        if (uId != "") {
+            presenter.getOngoingGoalList(uId, ongoingGoalPage)
+            presenter.getEndedGoalList(uId, endedGoalPage)
+        }
     }
 
     override fun setNickname(nickname: String) {
@@ -106,10 +137,45 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         }
     }
 
-    override fun setParticipatedList(list: ArrayList<MinimalGoalDetailContent>) {
-        myPageBinding.myParticipatedOngoingRecyclerview.removeAllViews()
-        myPageBinding.myParticipatedOngoingRecyclerview.adapter = MyPageParticipatedGoalAdapter(list, myGoalClicked)
-        myPageBinding.myPageTabLayout.getTabAt(0)?.text = "참여중(${list.size})"
+    override fun setOngoingGoalList(list: ArrayList<MinimalGoalDetailContent>) {
+        ongoingGoalContentSize += list.size
+        if (ongoingGoalContentSize != 0) {
+            if (ongoingGoalPage < 1) {
+               //Timber.e(list.map { it.minimalGoalDetail.title }.join())
+                ongoingGoalAdapter = MyPageOngoingGoalAdapter(list, myGoalClicked)
+                myPageBinding.myParticipatedOngoingRecyclerview.apply {
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = ongoingGoalAdapter
+                }
+            } else {
+                ongoingGoalAdapter.submitList(list)
+            }
+        }
+        ongoingGoalPage++
+    }
+
+    override fun setEndedGoalList(list: ArrayList<MinimalGoalDetailContent>) {
+        endedGoalContentSize += list.size
+        if(endedGoalContentSize != 0) {
+            if(endedGoalPage < 1) {
+                endedGoalAdapter = MyPageEndedGoalAdapter(list, myGoalClicked)
+                myPageBinding.myParticipatedEndedRecyclerview.apply {
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = endedGoalAdapter
+                }
+            } else {
+                endedGoalAdapter.submitList(list)
+            }
+        }
+        endedGoalPage++
+    }
+
+    override fun setOnGoingGoalPageIsEnd(isEnd: Boolean) {
+        this.ongoingGoalIsEnd = isEnd
+    }
+
+    override fun setEndedGoalPageIsEnd(isEnd: Boolean) {
+        this.endedGoalIsEnd = isEnd
     }
 
     private val myGoalClicked = { goalId: Long ->
@@ -125,6 +191,30 @@ class MyPageFragment : Fragment(), MyPageContract.View {
 
     fun settingClick(){
         (activity as TabActivity).replaceFragment(3)
+    }
+
+    val ongoingRecyclerViewScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            if(dy >= 0 && ongoingGoalContentSize > 0) {
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                if (layoutManager.findLastCompletelyVisibleItemPosition() >= ongoingGoalContentSize - 1  && !ongoingGoalIsEnd) {
+                    presenter.getOngoingGoalList(uId, ongoingGoalPage)
+                }
+            }
+        }
+    }
+
+    val endedRecyclerViewScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            if(dy >= 0 && endedGoalContentSize > 0) {
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                if (layoutManager.findLastCompletelyVisibleItemPosition() >= endedGoalContentSize - 1  && !endedGoalIsEnd) {
+                    presenter.getEndedGoalList(uId, endedGoalPage)
+                }
+            }
+        }
     }
 
     override fun onDestroy() {

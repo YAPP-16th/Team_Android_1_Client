@@ -1,24 +1,20 @@
 package com.eroom.erooja.feature.mypage
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.eroom.data.entity.JobClass
 import com.eroom.data.entity.MinimalGoalDetailContent
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.toRealDateFormat
 import com.eroom.erooja.R
-import com.eroom.erooja.feature.main.ParticipatedItem
-import kotlinx.android.synthetic.main.item_main_new_goal.view.*
-import kotlinx.android.synthetic.main.item_my_participated_goal.view.*
+import kotlinx.android.synthetic.main.item_my_participated_ongoing_goal.view.*
 
-class MyPageParticipatedGoalAdapter(
-    private val minimalGoalDetailContentList: List<MinimalGoalDetailContent>,
+class MyPageOngoingGoalAdapter(
+    private var minimalGoalDetailContentList: ArrayList<MinimalGoalDetailContent>,
     private val isClicked: (Long) -> Unit
-): RecyclerView.Adapter<MyPageParticipatedGoalAdapter.ViewHolder>() {
+): RecyclerView.Adapter<MyPageOngoingGoalAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -42,9 +38,23 @@ class MyPageParticipatedGoalAdapter(
             isClicked = isClicked)
     }
 
+    fun submitList(newMinimalGoalDetailContentList: ArrayList<MinimalGoalDetailContent>) {
+        val oldList: ArrayList<MinimalGoalDetailContent> = ArrayList()
+        minimalGoalDetailContentList.map {
+            oldList.add(it)
+        }
+        newMinimalGoalDetailContentList.map {
+            minimalGoalDetailContentList.add(it)
+        }
+        val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(
+            MinimalGoalDetailGoalContentItemDiffCallback(oldList, minimalGoalDetailContentList)
+        )
+        diffResult.dispatchUpdatesTo(this)
+    }
+
 
     inner class ViewHolder(parent:ViewGroup ):
-        RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_my_participated_goal, parent, false)) {
+        RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_my_participated_ongoing_goal, parent, false)) {
         private val percentTv: TextView = itemView.percent
         private val jobClassesTv: TextView = itemView.jobClasses
         private val titleTextTv: TextView = itemView.titleText
@@ -63,6 +73,28 @@ class MyPageParticipatedGoalAdapter(
             durationTv.text = duration
             itemView.setOnClickListener { isClicked(goalId) }
         }
+    }
+
+    class MinimalGoalDetailGoalContentItemDiffCallback(
+        private var oldMinimalGoalDetailContentList: List<MinimalGoalDetailContent>,
+        private var newMinimalGoalDetailContentList: List<MinimalGoalDetailContent>
+    ): DiffUtil.Callback() {
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return (oldMinimalGoalDetailContentList[oldItemPosition].goalId == newMinimalGoalDetailContentList[newItemPosition].goalId)
+        }
+
+        override fun getOldListSize(): Int {
+            return oldMinimalGoalDetailContentList.size
+        }
+
+        override fun getNewListSize(): Int {
+            return newMinimalGoalDetailContentList.size
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return (oldMinimalGoalDetailContentList[oldItemPosition] == newMinimalGoalDetailContentList[newItemPosition])
+        }
+
     }
 
 }

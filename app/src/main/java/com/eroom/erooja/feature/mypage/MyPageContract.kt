@@ -7,8 +7,11 @@ interface MyPageContract {
     interface View {
         fun setNickname(nickname: String)
         fun setJobInterestInfo(classList: ArrayList<JobClass>)
-        fun setParticipatedList(list: ArrayList<MinimalGoalDetailContent>)
         fun saveUid(uid: String)
+        fun setOngoingGoalList(list: ArrayList<MinimalGoalDetailContent>)
+        fun setOnGoingGoalPageIsEnd(isEnd: Boolean)
+        fun setEndedGoalPageIsEnd(isEnd: Boolean)
+        fun setEndedGoalList(list: ArrayList<MinimalGoalDetailContent>)
     }
 
     interface Presenter {
@@ -16,6 +19,7 @@ interface MyPageContract {
         fun getUserInfo()
         fun getMemberJobInterest()
         fun onCleared()
-        fun getMyParticipatedList(uid: String)
+        fun getOngoingGoalList(uid: String, page: Int)
+        fun getEndedGoalList(uid: String, page: Int)
     }
 }
