@@ -52,14 +52,25 @@ class MyPagePresenter(
     }
 
     @SuppressLint("CheckResult")
-    override fun getMyParticipatedList(uid: String, page: Int) {
+    override fun getOngoingGoalList(uid: String, page: Int) {
         getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = page, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, endDtIsBeforeNow = false)
             .subscribe({
-                view.setIsEnd(it.totalPages - 1 <= page)
-                view.setParticipatedList(it.content)
+                view.setOnGoingGoalPageIsEnd(it.totalPages - 1 <= page)
+                view.setOngoingGoalList(it.content)
             },{
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
+    }
+
+    @SuppressLint("CheckResult")
+    override fun getEndedGoalList(uid: String, page: Int) {
+        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = page, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, endDtIsBeforeNow = true)
+            .subscribe({
+                view.setEndedGoalPageIsEnd(it.totalPages - 1 <= page)
+                view.setEndedGoalList(it.content)
+            },{
+                Timber.e(it.localizedMessage)
+            })
     }
 
     fun isGuest() = sharedPrefRepository.getPrefsBooleanValue(Consts.IS_GUEST)
