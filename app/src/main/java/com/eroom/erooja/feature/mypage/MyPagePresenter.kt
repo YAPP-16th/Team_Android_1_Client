@@ -53,31 +53,16 @@ class MyPagePresenter(
 
     @SuppressLint("CheckResult")
     override fun getMyParticipatedList(uid: String, page: Int) {
-        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 2, page = page, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, endDtIsBeforeNow = false)
+        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = page, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, endDtIsBeforeNow = false)
             .subscribe({
                 view.setIsEnd(it.totalPages - 1 <= page)
                 view.setParticipatedList(it.content)
-                var a = it.totalPages
-                var b = page
-
             },{
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
     }
 
     fun isGuest() = sharedPrefRepository.getPrefsBooleanValue(Consts.IS_GUEST)
-
-    private val mMinimalGoalDetailContentCallback= object : DiffUtil.ItemCallback<MinimalGoalDetailContent>() {
-        override fun areItemsTheSame(oldItem: MinimalGoalDetailContent, newItem: MinimalGoalDetailContent): Boolean {
-            return oldItem.goalId == newItem.goalId
-        }
-
-        override fun areContentsTheSame(oldItem: MinimalGoalDetailContent, newItem: MinimalGoalDetailContent): Boolean {
-            return oldItem == newItem
-        }
-    }
-
-    fun getMinimalGoalDetailContentCallback(): DiffUtil.ItemCallback<MinimalGoalDetailContent> = mMinimalGoalDetailContentCallback
 
     override fun onCleared() {
         compositeDisposable.clear()

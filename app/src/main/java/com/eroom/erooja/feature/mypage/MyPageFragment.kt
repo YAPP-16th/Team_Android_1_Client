@@ -15,6 +15,8 @@ import com.eroom.data.entity.JobClass
 import com.eroom.data.entity.MinimalGoalDetailContent
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.join
+import com.eroom.domain.utils.toastLong
+import com.eroom.domain.utils.toastShort
 import org.koin.android.ext.android.get
 
 import com.eroom.erooja.databinding.FragmentMyPageBinding
@@ -33,11 +35,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
     private var mPage = 0
     private var mContentSize = 0
     private var isEnd = false
-
-    var nList: ArrayList<MinimalGoalDetailContent> = ArrayList()
-
     val nicknameText: ObservableField<String> = ObservableField()
-
     private var uId: String = ""
 
     companion object {
@@ -81,8 +79,10 @@ class MyPageFragment : Fragment(), MyPageContract.View {
 
     override fun onResume() {
         super.onResume()
-        mPage = 0 //mPage 0으로 해야돼?
-            mContentSize = 0
+        //context?.toastShort("onResume")
+        mPage = 0
+        mContentSize = 0
+        isEnd = false
         if (uId != "") presenter.getMyParticipatedList(uId, mPage)
     }
 
@@ -107,35 +107,20 @@ class MyPageFragment : Fragment(), MyPageContract.View {
     }
 
     override fun setParticipatedList(list: ArrayList<MinimalGoalDetailContent>) {
-        //myPageBinding.myParticipatedOngoingRecyclerview.removeAllViews()
         mContentSize += list.size
         if (mContentSize != 0) {
             if (mPage < 1) {
-                Timber.e(list.map { it.minimalGoalDetail.title }.join())
-                mAdapter = MyPageParticipatedGoalAdapter(
-                    list,
-                    myGoalClicked,
-                    presenter.getMinimalGoalDetailContentCallback()
-                )
+               //Timber.e(list.map { it.minimalGoalDetail.title }.join())
+                mAdapter = MyPageParticipatedGoalAdapter(list, myGoalClicked)
                 myPageBinding.myParticipatedOngoingRecyclerview.apply {
                     layoutManager = LinearLayoutManager(context)
                     adapter = mAdapter
                 }
             } else {
-//                var a = list[0].minimalGoalDetail.title
-//                var b = list[1].minimalGoalDetail.title
-                var check = mContentSize
-                var s = ""
-                mAdapter.submitList(list.toMutableList())
-                var a = nList
-                mAdapter.notifyDataSetChanged() //있어야되나?
-              //  mAdapter.notifyItemRangeChanged(0, mContentSize  )
-
+                mAdapter.submitList(list)
             }
         }
-//        myPageBinding.myParticipatedOngoingRecyclerview.adapter = MyPageParticipatedGoalAdapter(list, myGoalClicked)
-//        myPageBinding.myPageTabLayout.getTabAt(0)?.text = "참여중(${list.size})"
-       mPage++
+        mPage++
     }
 
     override fun setIsEnd(isEnd: Boolean) {
@@ -163,9 +148,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
             if(dy >= 0 && mContentSize > 0) {
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                 if (layoutManager.findLastCompletelyVisibleItemPosition() >= mContentSize - 1  && !isEnd) {
-                    var a = mPage
                     presenter.getMyParticipatedList(uId, mPage)
-                    //mContentSize 0으로?
                 }
             }
         }

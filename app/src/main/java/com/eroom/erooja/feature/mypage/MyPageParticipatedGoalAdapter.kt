@@ -19,10 +19,9 @@ import kotlinx.android.synthetic.main.item_my_participated_goal.view.*
 import timber.log.Timber
 
 class MyPageParticipatedGoalAdapter(
-    private val minimalGoalDetailContentList: ArrayList<MinimalGoalDetailContent>,
-    private val isClicked: (Long) -> Unit,
-    callback: DiffUtil.ItemCallback<MinimalGoalDetailContent>
-): ListAdapter<MinimalGoalDetailContent, MyPageParticipatedGoalAdapter.ViewHolder>(callback) {
+    private var minimalGoalDetailContentList: ArrayList<MinimalGoalDetailContent>,
+    private val isClicked: (Long) -> Unit
+): RecyclerView.Adapter<MyPageParticipatedGoalAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -32,15 +31,10 @@ class MyPageParticipatedGoalAdapter(
     }
 
     override fun getItemCount(): Int {
-        Timber.e(""+minimalGoalDetailContentList.size)
         return minimalGoalDetailContentList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        var l = minimalGoalDetailContentList
-        Timber.e(l[position].minimalGoalDetail.title)
-
         val item: MinimalGoalDetailContent = minimalGoalDetailContentList[position]
         val jobClassInfo = item.minimalGoalDetail.jobInterests.filter { it.jobInterestType != Consts.JOB_GROUP }.toList()
         val extraInfo = if(jobClassInfo.size - 1 == 0) "" else " 외 ${jobClassInfo.size - 1}"
@@ -51,16 +45,21 @@ class MyPageParticipatedGoalAdapter(
             isClicked = isClicked)
     }
 
-    override fun submitList(list: MutableList<MinimalGoalDetailContent>?) {
-        list?.map {
+    fun submitList(newMinimalGoalDetailContentList: ArrayList<MinimalGoalDetailContent>) {
+        val oldList: ArrayList<MinimalGoalDetailContent> = ArrayList()
+        minimalGoalDetailContentList.map {
+            oldList.add(it)
+        }
+        newMinimalGoalDetailContentList.map {
             minimalGoalDetailContentList.add(it)
         }
-//        minimalGoalDetailContentList.map {
-//            list?.add(it)
-//        }
-        var ch = list
-        super.submitList(minimalGoalDetailContentList)  //or minimalGOalDetailContentList?  지워도 되는데 왜?
+        val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(
+            MinimalGoalDetailGoalContentItemDiffCallback(oldList, minimalGoalDetailContentList)
+        )
+        diffResult.dispatchUpdatesTo(this)
     }
+
+
     inner class ViewHolder(parent:ViewGroup ):
         RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_my_participated_goal, parent, false)) {
         private val percentTv: TextView = itemView.percent
@@ -81,6 +80,28 @@ class MyPageParticipatedGoalAdapter(
             durationTv.text = duration
             itemView.setOnClickListener { isClicked(goalId) }
         }
+    }
+
+    class MinimalGoalDetailGoalContentItemDiffCallback(
+        var oldMinimalGoalDetailContentList: List<MinimalGoalDetailContent>,
+        var newMinimalGoalDetailContentList: List<MinimalGoalDetailContent>
+    ): DiffUtil.Callback() {
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return (oldMinimalGoalDetailContentList[oldItemPosition].goalId == newMinimalGoalDetailContentList[newItemPosition].goalId)
+        }
+
+        override fun getOldListSize(): Int {
+            return oldMinimalGoalDetailContentList.size
+        }
+
+        override fun getNewListSize(): Int {
+            return newMinimalGoalDetailContentList.size
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return (oldMinimalGoalDetailContentList[oldItemPosition] == newMinimalGoalDetailContentList[newItemPosition])
+        }
+
     }
 
 }
