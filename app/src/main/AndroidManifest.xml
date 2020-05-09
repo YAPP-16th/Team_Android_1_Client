@@ -21,11 +21,14 @@
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.endPopUp.EndGoalPopUpActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".dialog.EroojaDialogActivity"
+        <activity android:name=".feature.othersPage.OthersPageActivity"></activity>
+        <activity
+            android:name=".feature.endPopUp.EndGoalPopUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".dialog.EroojaDialogActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.EroojaDialog"/>
+            android:theme="@style/Theme.EroojaDialog" />
         <activity android:name=".feature.addGoal.newGoalFrame.NewGoalFinishActivity" />
         <activity
             android:name=".feature.filter.FilterActivity"
@@ -35,7 +38,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".feature.addGoal.newGoalFrame.NewGoalActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".feature.onboarding.onboardingframe.OnboardingActivity"
             android:screenOrientation="portrait" />
@@ -44,7 +47,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".feature.signup.kakao.KakaoSignUpActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".feature.splash.SplashActivity"
             android:screenOrientation="portrait">
@@ -78,25 +81,22 @@
         <activity
             android:name=".feature.ongoingGoal.OngoingGoalActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".feature.setting.setting_detail.AlarmActivity"
+        <activity
+            android:name=".feature.setting.setting_detail.AlarmActivity"
             android:screenOrientation="portrait" />
-
         <activity android:name="com.eroom.erooja.feature.setting.setting_help.HelpActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".feature.setting.setting_detail.JobInterestActivity"
+        <activity
+            android:name=".feature.setting.setting_detail.JobInterestActivity"
             android:screenOrientation="portrait" />
-
         <activity android:name="com.eroom.erooja.feature.setting.setting_profile.ProfileActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".feature.setting.setting_detail.OpensourceActivity"
+        <activity
+            android:name=".feature.setting.setting_detail.OpensourceActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".feature.setting.setting_detail.TOSActivity"
+        <activity
+            android:name=".feature.setting.setting_detail.TOSActivity"
             android:screenOrientation="portrait" />
-
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
