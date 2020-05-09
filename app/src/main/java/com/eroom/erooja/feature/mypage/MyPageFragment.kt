@@ -214,6 +214,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
     private val myGoalClicked = { goalId: Long ->
         startActivity(Intent(activity, OngoingGoalActivity::class.java).apply {
             putExtra(Consts.GOAL_ID, goalId)
+            putExtra(Consts.UID, uId)
         })
     }
 
