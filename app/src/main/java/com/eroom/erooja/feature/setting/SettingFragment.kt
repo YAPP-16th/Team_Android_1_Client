@@ -86,15 +86,6 @@ class SettingFragment :Fragment(), SettingContract.View{
         (activity as TabActivity).replaceFragment(2)
 
     }
-    private fun logout(){
-        UserManagement.getInstance().requestLogout(object : LogoutResponseCallback() {
-            override fun onCompleteLogout() {
-                val intent = Intent(context, LoginActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                context!!.startActivity(intent)
-            }
-        })
-    }
 
     override fun logoutCompleted() {
         val intent = Intent(context, LoginActivity::class.java)
