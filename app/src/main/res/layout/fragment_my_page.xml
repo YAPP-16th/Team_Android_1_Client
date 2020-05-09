@@ -83,6 +83,7 @@
             app:layout_constraintTop_toBottomOf="@id/jobClassRecycler"
             app:layout_constraintVertical_bias="0.0"
             app:tabIndicatorColor="@color/orgDefault"
+            app:tabTextAppearance="@style/tab_text"
             app:tabSelectedTextColor="@color/orgDefault"
             app:tabTextColor="@color/grey4">
 
@@ -96,7 +97,8 @@
                 android:id="@+id/ended_goal_tab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="완료">
+
+                android:text="종료">
 
             </com.google.android.material.tabs.TabItem>
 
@@ -114,20 +116,72 @@
                 android:id="@+id/my_participated_ongoing_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
+                android:visibility="visible"
                 tools:itemCount="4"
                 tools:listitem="@layout/item_my_participated_ongoing_goal"
                 scrollAdapter="@{fragment.ongoingRecyclerViewScrollListener}"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/there_are_no_ongoing_goals"
+                android:layout_width="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_height="245dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/noParticipatedGoal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/grey4"
+                    android:textSize="18sp"
+                    android:lineSpacingExtra="13sp"
+                    android:text="@string/no_participated_goal_please_add_goal_text"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.32" />
+
+                <Button
+                    android:id="@+id/button2"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_add_goal"
+                    android:elevation="0dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="@string/add_goal_button_text"
+                    android:onClick="@{() -> fragment.navigateToAddGoal()}"
+                    android:textColor="@color/orgDefault"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/noParticipatedGoal"
+                    app:layout_constraintVertical_bias="0.329" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/my_participated_ended_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="invisible"
-                tools:itemCount="4"
+                android:visibility="visible"
+                tools:itemCount="0"
                 tools:listitem="@layout/item_my_participated_ended_goal"
                 scrollAdapter="@{fragment.endedRecyclerViewScrollListener}"/>
-
+            <TextView
+                android:id="@+id/there_are_no_ended_goals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:textSize="15sp"
+                android:textColor="@color/grey4"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:gravity="center_horizontal"
+                android:text="아직 종료된 목표가 없네요."
+                />
         </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
