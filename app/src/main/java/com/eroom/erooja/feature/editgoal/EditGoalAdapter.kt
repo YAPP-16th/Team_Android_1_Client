@@ -26,7 +26,7 @@ class EditGoalAdapter(
     ) : RecyclerView.Adapter<EditGoalViewHolder>(), EditGoalItemTouchHelperCallback.OnItemMoveListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditGoalViewHolder {
-        val binding = ItemGoalListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemEditGoalBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return EditGoalViewHolder(binding)
     }
 
@@ -34,12 +34,20 @@ class EditGoalAdapter(
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: EditGoalViewHolder, position: Int) {
-        holder.binding.goalContentTextview.text = activity.list[position]
-        holder.binding.goalDelBtn.setImageDrawable(context.resources.getDrawable(R.drawable.ic_icon_hamburger_normal, null))
-        holder.binding.goalDelBtn.setOnTouchListener { v, event ->
+        holder.binding.contentText.text = activity.list[position]
+        holder.binding.trigger.setOnTouchListener { v, event ->
+            activity.attachRecyclerView()
             if (event.actionMasked == MotionEvent.ACTION_DOWN) {
                 startDragListener.onStartDrag(holder)
             }
+            return@setOnTouchListener false
+        }
+        holder.binding.contentText.setOnTouchListener { v, event ->
+            activity.detachRecyclerView()
+            return@setOnTouchListener false
+        }
+        holder.binding.dot.setOnTouchListener { v, event ->
+            activity.detachRecyclerView()
             return@setOnTouchListener false
         }
     }
@@ -55,4 +63,4 @@ class EditGoalAdapter(
     }
 }
 
-class EditGoalViewHolder(val binding: ItemGoalListBinding): RecyclerView.ViewHolder(binding.root)
+class EditGoalViewHolder(val binding: ItemEditGoalBinding): RecyclerView.ViewHolder(binding.root)

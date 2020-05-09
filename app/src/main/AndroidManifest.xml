@@ -21,13 +21,14 @@
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
         tools:ignore="GoogleAppIndexingWarning">
+
         <activity android:name=".feature.othersPage.OthersPageActivity"></activity>
+
         <activity
             android:name=".feature.endPopUp.EndGoalPopUpActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".dialog.EroojaDialogActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.EroojaDialog" />
         <activity android:name=".feature.addGoal.newGoalFrame.NewGoalFinishActivity" />
         <activity
@@ -35,7 +36,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".feature.editgoal.EditGoalActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity
             android:name=".feature.addGoal.newGoalFrame.NewGoalActivity"
             android:screenOrientation="portrait" />

@@ -1,12 +1,15 @@
 package com.eroom.erooja.feature.editgoal
 
 import android.annotation.SuppressLint
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.eroom.erooja.R
+import com.eroom.erooja.databinding.ItemDeleteGoalBinding
 import com.eroom.erooja.databinding.ItemEditGoalBinding
 
 class DeleteGoalAdapter (
@@ -15,7 +18,7 @@ class DeleteGoalAdapter (
 ) : ListAdapter<String, RecyclerView.ViewHolder>(callback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding = ItemEditGoalBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemDeleteGoalBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return DeleteGoalViewHolder(binding)
     }
 
@@ -26,10 +29,9 @@ class DeleteGoalAdapter (
     }
 }
 
-class DeleteGoalViewHolder(val binding: ItemEditGoalBinding): RecyclerView.ViewHolder(binding.root) {
+class DeleteGoalViewHolder(val binding: ItemDeleteGoalBinding): RecyclerView.ViewHolder(binding.root) {
     @SuppressLint("ClickableViewAccessibility")
     fun bind(text: String) {
-        binding.sampleText.text = text
-        binding.trigger.visibility = View.GONE
+        binding.contentText.text = text
     }
 }
