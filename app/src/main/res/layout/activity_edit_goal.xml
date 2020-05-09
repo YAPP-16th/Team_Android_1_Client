@@ -6,6 +6,10 @@
         <variable
             name="activity"
             type="com.eroom.erooja.feature.editgoal.EditGoalActivity" />
+        <import type="android.view.View"/>
+        <variable
+            name="view"
+            type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,6 +21,7 @@
             android:id="@+id/imageView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> activity.onBackPressed()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_icon_navi_arrow_left" />
@@ -71,7 +76,8 @@
                     android:id="@+id/editGoalRecycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:listitem="@layout/item_edit_goal"/>
+                    tools:listitem="@layout/item_edit_goal"
+                    tools:itemCount="3"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/deleteGoalRecycler"
@@ -79,6 +85,12 @@
                     android:layout_height="match_parent"
                     android:visibility="gone"
                     tools:listitem="@layout/item_edit_goal"/>
+
+                <FrameLayout
+                    android:id="@+id/addTodoFrame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
@@ -87,10 +99,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:background="@color/orgDefault"
-            android:text="@string/edit_complete_text"
-            android:textColor="@color/colorWhite"
+            android:background="@{activity.isButtonActive ? @color/orgDefault : @color/grey3}"
+            android:text="@{activity.isDeleteMode ? activity.deletingCount : @string/edit_complete_text}"
+            android:textColor="@{activity.isButtonActive ? @color/colorWhite : @color/grey5}"
             android:textSize="16sp"
+            android:visibility="@{activity.isAddMode ? view.GONE : view.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

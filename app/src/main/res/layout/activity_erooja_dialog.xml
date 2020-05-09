@@ -25,6 +25,13 @@
             android:textStyle="bold"
             tools:text="관심직무(7)" />
 
+        <View
+            android:id="@+id/place"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/titleText"
+            android:visibility="gone"
+            android:layout_height="16dp" />
+
         <TextView
             android:id="@+id/contentText"
             android:layout_width="match_parent"
@@ -35,7 +42,7 @@
             android:lineSpacingExtra="8sp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            app:layout_constraintTop_toBottomOf="@+id/titleText"
+            app:layout_constraintTop_toBottomOf="@+id/place"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="영상/모션디자인, UI/GUI 디자인, Data Scientist, 프론트엔드, 게임/애니메이션, 모바일 디자인, 산업 디자인" />
@@ -58,7 +65,7 @@
                 android:paddingStart="21dp"
                 android:paddingEnd="21dp"
                 android:textSize="14sp"
-                android:textColor="@color/orgDefault"
+                android:textColor="#8a000000"
                 android:text="@string/cancel_text" />
 
             <TextView
