@@ -113,7 +113,7 @@ class MainFragment : Fragment(), MainContract.View {
                     context,
                     it.goalId,
                     isOrg = index % 2 == 0,
-                    percent = "30%",
+                    percent = "${(it.checkedTodoRate * 100).toInt()}%",
                     jobClasses = "${jobClassInfo[0].name}$extraInfo",
                     titleText = it.minimalGoalDetail.title,
                     duration = "${it.startDt.toRealDateFormat()}~${it.endDt.toRealDateFormat()}",

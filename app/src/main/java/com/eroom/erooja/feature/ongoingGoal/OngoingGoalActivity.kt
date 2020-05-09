@@ -74,16 +74,16 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         }
         var count = 0
         todoList.forEach { if (it.isEnd) count += 1 }
-        binding.participantListText.text = "${(count.toDouble() / todoList.size).toInt()}% 달성중"
+        binding.participantListText.text = "${((count.toDouble() / todoList.size)*100).toInt()}% 달성중"
     }
 
 
-    private val saveChange = { boolean: Boolean ->
-
+    private val saveChange = { boolean: Boolean, todoId: Long ->
+        presenter.setTodoEnd(todoId, boolean)
     }
 
     fun initView() {
-        presenter = OngoingGoalPresenter(this, get(), get())
+        presenter = OngoingGoalPresenter(this, get(), get(), get())
 
         statusBarColor(this@OngoingGoalActivity, R.color.orgDefault)
 
@@ -103,6 +103,10 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         presenter.getData(goalId)
         uId = intent.getStringExtra(Consts.UID) ?: ""
 
+        presenter.getTodoData(uId, goalId)
+    }
+
+    override fun reRequestTodoList() {
         presenter.getTodoData(uId, goalId)
     }
 
