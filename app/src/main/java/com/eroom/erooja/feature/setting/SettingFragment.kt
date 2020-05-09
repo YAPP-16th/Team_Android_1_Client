@@ -19,6 +19,8 @@ import com.eroom.erooja.feature.setting.setting_detail.*
 import com.eroom.erooja.feature.setting.setting_help.HelpActivity
 import com.eroom.erooja.feature.setting.setting_profile.ProfileActivity
 import com.eroom.erooja.feature.tab.TabActivity
+import com.kakao.usermgmt.UserManagement
+import com.kakao.usermgmt.callback.LogoutResponseCallback
 import org.koin.android.ext.android.get
 
 class SettingFragment :Fragment(), SettingContract.View{
@@ -83,6 +85,15 @@ class SettingFragment :Fragment(), SettingContract.View{
     fun back(v: View){
         (activity as TabActivity).replaceFragment(2)
 
+    }
+    private fun logout(){
+        UserManagement.getInstance().requestLogout(object : LogoutResponseCallback() {
+            override fun onCompleteLogout() {
+                val intent = Intent(context, LoginActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                context!!.startActivity(intent)
+            }
+        })
     }
 
     override fun logoutCompleted() {
