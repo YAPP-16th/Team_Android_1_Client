@@ -23,6 +23,8 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
     lateinit var mItemEditTouchHelper: ItemTouchHelper
     var list = mutableListOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l")
 
+    private val deleteList: ArrayList<Int> = ArrayList()
+
     private var mMode: EditMode = EditMode.EDIT
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,9 +94,7 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
                     editGoalBinding.editGoalRecycler.visibility = View.VISIBLE
                     editGoalBinding.deleteGoalRecycler.visibility = View.GONE
                 }
-                EditMode.ADD -> {
-
-                }
+                EditMode.ADD -> {}
                 EditMode.EDIT -> {
                     mMode = EditMode.DELETE
                     (it as ImageView).setImageDrawable(getDrawable(R.drawable.ic_icon_check_active))
@@ -103,14 +103,11 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
                     editGoalBinding.deleteGoalRecycler.visibility = View.VISIBLE
                 }
             }
-            mEditGoalAdapter.notifyDataSetChanged()
             mDeleteGoalAdapter.notifyDataSetChanged()
         }
         editGoalBinding.plusImage.setOnClickListener {
             when (mMode) {
-                EditMode.DELETE -> {
-
-                }
+                EditMode.DELETE -> {}
                 EditMode.ADD -> {
 
                 }
@@ -119,7 +116,20 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
                 }
             }
             mEditGoalAdapter.notifyDataSetChanged()
-            mDeleteGoalAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private val deleteClicked = { index: Int ->
+        var isAdded = false
+        deleteList.apply {
+            forEach {
+                if (it == index) isAdded = true
+            }
+            if (isAdded) {
+                remove(index)
+            } else {
+                add(index)
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ import com.eroom.data.response.ParticipatedGoalsResponse
 import com.eroom.data.response.TodoGoalListResponse
 import io.reactivex.Single
 import retrofit2.http.GET
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
