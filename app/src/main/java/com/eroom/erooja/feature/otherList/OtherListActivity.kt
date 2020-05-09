@@ -40,7 +40,8 @@ class OtherListActivity : AppCompatActivity(),
     }
 
     fun initView(){
-        if(intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, false)) {
+        if(intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, false)
+            || intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, false)) {
             binding.savelistBtn.visibility = View.INVISIBLE
         }
         presenter = OtherListPresenter(this, get(), get())

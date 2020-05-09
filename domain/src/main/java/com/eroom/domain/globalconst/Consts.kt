@@ -42,5 +42,6 @@ class Consts {
         const val SETTING_REQUEST_NUM = 1010
 
         const val IS_FROM_MYPAGE_ONGOING_GOAL = "IS_FROM_MYPAGE_ONGOING_GOAL"
+        const val IS_FROM_MYPAGE_ENDED_GOAL = "IS_FROM_MYPAGE_ENDED_GOAL"
     }
 }

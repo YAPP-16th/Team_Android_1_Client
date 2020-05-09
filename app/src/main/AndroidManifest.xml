@@ -7,23 +7,23 @@
     <dist:module dist:instant="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-                    android:maxSdkVersion="28"/>
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
     <application
         android:name=".EroojaApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        android:requestLegacyExternalStorage="true"
         tools:ignore="GoogleAppIndexingWarning">
-
-        <activity android:name=".feature.othersPage.OthersPageActivity"></activity>
-
+        <activity android:name=".feature.endedGoal.EndedGoalActivity"></activity>
+        <activity android:name=".feature.othersPage.OthersPageActivity" />
         <activity
             android:name=".feature.endPopUp.EndGoalPopUpActivity"
             android:screenOrientation="portrait" />
@@ -36,9 +36,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".feature.editgoal.EditGoalActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".feature.addGoal.newGoalFrame.NewGoalActivity"
             android:screenOrientation="portrait" />
@@ -87,12 +85,14 @@
         <activity
             android:name=".feature.setting.setting_detail.AlarmActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.eroom.erooja.feature.setting.setting_help.HelpActivity"
+        <activity
+            android:name=".feature.setting.setting_help.HelpActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".feature.setting.setting_detail.JobInterestActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.eroom.erooja.feature.setting.setting_profile.ProfileActivity"
+        <activity
+            android:name=".feature.setting.setting_profile.ProfileActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".feature.setting.setting_detail.OpensourceActivity"

@@ -53,6 +53,9 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         presenter.getMinimalTodoList(intent.getLongExtra(Consts.GOAL_ID, -1))
 
         isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, false)
+        if(!isFromMyPage) {
+            isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, false)
+        }
         if(isFromMyPage) {
             binding.addListBtn.visibility = View.GONE
         }
@@ -103,6 +106,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
                 putExtra(Consts.NAME, binding.othersRecyclerview.username_list.text)
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
                 putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isFromMyPage)
+                putExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, isFromMyPage)
             }
         startActivityForResult(intent, 4000)
     }
@@ -133,4 +137,5 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         presenter.onCleared()
         super.onDestroy()
     }
+
 }
