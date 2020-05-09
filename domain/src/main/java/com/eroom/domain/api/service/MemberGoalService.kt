@@ -1,14 +1,10 @@
 package com.eroom.domain.api.service
 
-import com.eroom.data.response.InterestedGoalsResponse
-import com.eroom.data.response.ParticipantedListResponse
-import com.eroom.data.response.ParticipatedGoalsResponse
-import com.eroom.data.response.TodoGoalListResponse
+import com.eroom.data.request.AddMyGoalRequest
+import com.eroom.data.response.*
 import io.reactivex.Single
-import retrofit2.http.GET
-import retrofit2.http.PUT
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.Response
+import retrofit2.http.*
 
 interface MemberGoalService {
     @GET("membergoal")
@@ -30,4 +26,7 @@ interface MemberGoalService {
         @Query("size") size: Int,
         @Query("page") page: Int
     ): Single<ParticipantedListResponse>
+
+    @POST("membergoal")
+    fun postAddMyGoal(@Body addMyGoalRequest: AddMyGoalRequest): Single<Response<AddGoalResponse>>
 }

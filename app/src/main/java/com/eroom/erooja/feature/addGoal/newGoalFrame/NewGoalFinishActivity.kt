@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.eroom.domain.globalconst.Consts
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityNewGoalFinishBinding
+import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
 
 class NewGoalFinishActivity : AppCompatActivity() {
     private lateinit var newGoalFinishBinding: ActivityNewGoalFinishBinding
@@ -44,7 +45,10 @@ class NewGoalFinishActivity : AppCompatActivity() {
 
     fun navigateToGoalDetail() {
         if (resultId != errorId) {
-            //startActivity(Intent(this, 참여중 목표 뷰 Activity))
+            val intent = Intent(this, GoalDetailActivity::class.java)
+                .apply { putExtra(Consts.GOAL_ID, resultId) }
+
+            startActivity(intent)
         }
         finish()
     }

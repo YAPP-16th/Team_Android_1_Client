@@ -8,7 +8,7 @@
 
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.addGoal.newGoalPage.GoalPeriodFragment" />
+            type="com.eroom.erooja.feature.addGoal.newGoalPage.JoinGoalPeroidFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:lineSpacingExtra="11sp"
             android:text="@string/goal_period_title"
-            android:textColor="@color/grey7"
+            android:textColor="@color/grey8"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -35,131 +35,71 @@
             android:id="@+id/start_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="84dp"
+            android:layout_marginTop="70dp"
             android:lineSpacingExtra="15sp"
             android:text="@string/startDate"
-            android:textColor="#757575"
-            android:textSize="15.5sp"
+            android:textColor="@color/grey7"
+            android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/goal_period_title"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/goal_period_title"
             app:layout_constraintTop_toBottomOf="@+id/goal_period_title" />
 
+
         <TextView
             android:id="@+id/end_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="29dp"
             android:lineSpacingExtra="15sp"
             android:text="@string/endDate"
-            android:textColor="#757575"
-            android:textSize="15.5sp"
+            android:textColor="@color/grey7"
+            android:textSize="15sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/start_date"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/start_date"
-            app:layout_constraintTop_toBottomOf="@+id/start_date" />
-
-        <TextView
-            android:id="@+id/period"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="29dp"
-            android:lineSpacingExtra="15sp"
-            android:text="@string/period"
-            android:textColor="#757575"
-            android:textSize="15.5sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/end_date"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/end_date"
-            app:layout_constraintTop_toBottomOf="@+id/end_date" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="29dp"
-            android:lineSpacingExtra="15sp"
-            android:text="@string/isPeriodModifiable"
-            android:textColor="#757575"
-            android:textSize="15.5sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/period"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/period"
-            app:layout_constraintTop_toBottomOf="@+id/period" />
+            app:layout_constraintStart_toEndOf="@+id/start_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/start_date"
+            app:layout_constraintHorizontal_bias="0.44"/>
 
 
         <TextView
             android:id="@+id/start_date_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="84dp"
+            android:layout_marginTop="16dp"
             android:lineSpacingExtra="15sp"
             android:text="YYYY년 MM월 DD일"
-            android:textColor="#757575"
-            android:textSize="15.5sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.325"
-            app:layout_constraintStart_toEndOf="@+id/start_date"
-            app:layout_constraintTop_toBottomOf="@+id/goal_period_title" />
+            android:textColor="@color/grey8"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="@+id/start_date"
+            app:layout_constraintTop_toBottomOf="@+id/start_date" />
 
-        <TextView
-            android:id="@+id/endDateContent"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="29dp"
-            android:lineSpacingExtra="15sp"
-            android:text="YYYY년 MM월 DD일"
-            android:textColor="#757575"
-            android:textSize="15.5sp"
-            app:layout_constraintEnd_toEndOf="@+id/start_date_content"
-            app:layout_constraintStart_toStartOf="@+id/start_date_content"
-            app:layout_constraintTop_toBottomOf="@+id/start_date_content" />
+            android:gravity="center_vertical"
+            android:onClick="@{() -> fragment.onCalendarClicked()}"
+            app:layout_constraintBottom_toBottomOf="@id/start_date_content"
+            app:layout_constraintLeft_toLeftOf="@id/end_date"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/start_date_content"
+            app:layout_constraintHorizontal_bias="0.2">
 
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="29dp"
-            android:lineSpacingExtra="15sp"
-            android:text="총 31일"
-            android:textColor="#757575"
-            android:textSize="15.5sp"
-            app:layout_constraintEnd_toEndOf="@+id/endDateContent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/endDateContent"
-            app:layout_constraintTop_toBottomOf="@+id/endDateContent" />
+            <TextView
+                android:id="@+id/endDateContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="17sp"
+                android:text="@string/end_date_content"
+                android:textColor="@color/orgDefault"
+                android:textSize="17sp" />
 
-        <Switch
-            android:id="@+id/modifiable_switch"
-            android:layout_width="60dp"
-            android:layout_height="55dp"
-            android:layout_marginTop="14dp"
-            android:paddingTop="7dp"
-            android:paddingEnd="7dp"
-            android:paddingBottom="7dp"
-            android:switchMinWidth="34dp"
-            android:thumb="@drawable/switch_thumb_selector"
-            android:track="@drawable/switch_track_selector"
-            app:layout_constraintEnd_toEndOf="@+id/textView11"
-            app:layout_constraintHorizontal_bias="0.8"
-            app:layout_constraintStart_toStartOf="@+id/textView11"
-            app:layout_constraintTop_toBottomOf="@+id/textView11"
-            tools:ignore="RtlSymmetry" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:padding="7dp"
-            android:src="@drawable/ic_icon_calendar_normal_copy"
-            app:layout_constraintBottom_toBottomOf="@+id/endDateContent"
-            app:layout_constraintStart_toEndOf="@+id/endDateContent"
-            app:layout_constraintTop_toTopOf="@+id/endDateContent"
-            app:layout_constraintVertical_bias="0.48"
-            android:onClick="@{() -> fragment.onCalendarClicked()}"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="3dp"
+                android:src="@drawable/ic_icon_calendar_check_active" />
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

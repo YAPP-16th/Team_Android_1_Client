@@ -169,6 +169,7 @@
                 android:textColor="@color/orgDefault"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:onClick="@{() -> goalDetail.addNewList()}"
                 app:layout_behavior="com.eroom.domain.customview.AddListScrollBehavior"
                 bind:layout_constraintBottom_toBottomOf="@+id/constraintlayout"
                 bind:layout_constraintEnd_toEndOf="parent"

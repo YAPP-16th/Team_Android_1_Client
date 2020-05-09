@@ -102,6 +102,8 @@
         <activity
             android:name=".feature.setting.setting_detail.TOSActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".feature.addMyGoalJoin.AddMyListActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
