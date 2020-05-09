@@ -97,7 +97,7 @@
     <string name="percent_change_alarm">달성률 변동 알림</string>
     <string name="end_goal_alarm">목표 종료 알림</string>
 
-    <string name="change_profile">사진 변경하기</string>
+    <string name="change_profile"><u>사진 변경하기</u></string>
     <string name="save_txt">저장</string>
 
 </resources>

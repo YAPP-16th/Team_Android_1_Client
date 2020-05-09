@@ -7,6 +7,8 @@
     <dist:module dist:instant="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+                    android:maxSdkVersion="28"/>
 
     <application
         android:name=".EroojaApplication"
@@ -17,6 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".feature.endPopUp.EndGoalPopUpActivity"
             android:screenOrientation="portrait"></activity>
@@ -79,13 +82,13 @@
         <activity android:name=".feature.setting.setting_detail.AlarmActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".feature.setting.setting_detail.setting_help.HelpActivity"
+        <activity android:name="com.eroom.erooja.feature.setting.setting_help.HelpActivity"
             android:screenOrientation="portrait" />
 
         <activity android:name=".feature.setting.setting_detail.JobInterestActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".feature.setting.setting_detail.ProfileActivity"
+        <activity android:name="com.eroom.erooja.feature.setting.setting_profile.ProfileActivity"
             android:screenOrientation="portrait" />
 
         <activity android:name=".feature.setting.setting_detail.OpensourceActivity"

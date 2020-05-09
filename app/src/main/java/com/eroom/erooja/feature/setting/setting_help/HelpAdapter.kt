@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.setting.setting_detail.setting_help
+package com.eroom.erooja.feature.setting.setting_help
 
 import android.content.Context
 import android.text.TextUtils

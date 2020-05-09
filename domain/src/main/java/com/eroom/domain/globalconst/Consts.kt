@@ -23,6 +23,8 @@ class Consts {
 
         const val NICKNAME = "NICKNAME"
         const val SEARCH = "search"
+        const val PICK_FROM_IMAGE = 9000
+        const val JOB_CLASS_CHANGE = "JOB_CLASS_CHANGE"
 
         const val GOAL_TITLE = "GOAL_TITLE"
         const val ADD_NEW_GOAL_RESULT_ID = "ADD_NEW_GOAL_RESULT_ID"
@@ -35,5 +37,8 @@ class Consts {
 
         const val JOB_GROUP = "JOB_GROUP"
         const val JOB_INTEREST = "JOB_INTEREST"
+
+        const val SETTING_REQUEST = "SETTING_REQUEST"
+        const val SETTING_REQUEST_NUM = 1010
     }
 }

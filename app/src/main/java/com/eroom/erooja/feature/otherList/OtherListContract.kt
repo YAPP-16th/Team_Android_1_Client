@@ -6,11 +6,13 @@ import com.eroom.data.entity.MinimalTodoListDetail
 interface OtherListContract {
     interface View{
         fun setAllView(todoList:ArrayList<MinimalTodoListDetail>)
+        fun setProfileImage(imagePath: String?)
 
     }
 
     interface Presenter{
         var view: View
         fun getData(uid:String, goalId: Long)
+        fun getProfileImage()
     }
 }

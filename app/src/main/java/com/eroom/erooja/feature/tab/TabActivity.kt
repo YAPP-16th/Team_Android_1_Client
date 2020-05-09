@@ -69,7 +69,7 @@ class TabActivity : AppCompatActivity(), TabContract.View {
         fragments.map {
             it.apply { supportFragmentManager.beginTransaction().hide(this).commit() }
         }[index].also {
-            supportFragmentManager.beginTransaction().show(it).commit()
+            supportFragmentManager.beginTransaction().show(it).commitAllowingStateLoss()
         }
 
     fun changeTabToSearch() {
