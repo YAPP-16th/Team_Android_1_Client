@@ -32,6 +32,8 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     val description: ObservableField<String> = ObservableField("")
     val jobClass: ObservableField<String> = ObservableField("")
 
+    private var isFromMyPage: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initPresenter()

@@ -21,6 +21,7 @@ import com.eroom.domain.utils.*
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalBinding
 import com.eroom.erooja.feature.editgoal.EditGoalActivity
+import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
 import com.eroom.erooja.feature.participants_list.ParticipantsListActivity
 import kotlinx.android.synthetic.main.activity_goal.view.*
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
@@ -36,6 +37,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     lateinit var uId: String
 
     private var goalId: Long = -1
+    private var isFromMyPage: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,6 +106,8 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         uId = intent.getStringExtra(Consts.UID) ?: ""
 
         presenter.getTodoData(uId, goalId)
+
+        isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, false)
     }
 
     fun moreClick(v: View) {
@@ -119,6 +123,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         bottom = BottomSheetFragment.newInstance().apply {
             arguments = Bundle().apply {
                 putParcelableArrayList(Consts.BOTTOM_SHEET_KEY, arrayListOf(
+                    BottomSheetInfo("다른 참여자 리스트 둘러보기", BottomSheetColor.DEFAULT),
                     BottomSheetInfo("참여자 목록($count)", BottomSheetColor.DEFAULT),
                     BottomSheetInfo("리스트 수정하기", BottomSheetColor.DEFAULT),
                     BottomSheetInfo("목표 그만두기", BottomSheetColor.RED)
@@ -127,16 +132,23 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         }
         bottom.callback.observe(this, Observer {
             when (it) {
-                0 -> { // 참여자 목록
+                0 -> { //다른 참여자 리스트 둘러보기
+                    startActivity(Intent(this@OngoingGoalActivity, GoalDetailActivity::class.java).apply {
+                        putExtra(Consts.GOAL_ID, goalId)
+                        putExtra(Consts.UID, uId)
+                        putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isFromMyPage)
+                    })
+                }
+                1 -> { // 참여자 목록
                     startActivity(Intent(this, ParticipantsListActivity::class.java).apply {
                         putExtra(Consts.GOAL_ID, goalId)
                         putExtra(Consts.UID, uId)
                     })
                 }
-                1 -> { // 리스트 수정하기
+                2 -> { // 리스트 수정하기
                     startActivity(Intent(this, EditGoalActivity::class.java))
                 }
-                2 -> { // 목표 그만두기
+                3 -> { // 목표 그만두기
 
                 }
                 else -> {}

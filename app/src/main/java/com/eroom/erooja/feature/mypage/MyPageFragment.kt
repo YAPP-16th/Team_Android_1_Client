@@ -215,6 +215,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         startActivity(Intent(activity, OngoingGoalActivity::class.java).apply {
             putExtra(Consts.GOAL_ID, goalId)
             putExtra(Consts.UID, uId)
+            putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, true)
         })
     }
 
