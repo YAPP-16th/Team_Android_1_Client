@@ -55,6 +55,7 @@ class MyPagePresenter(
     override fun getOngoingGoalList(uid: String, page: Int) {
         getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = page, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, endDtIsBeforeNow = false)
             .subscribe({
+                view.setOngoingGoalListSizeOnTabLayout(it.totalElements)
                 view.setOnGoingGoalPageIsEnd(it.totalPages - 1 <= page)
                 view.setOngoingGoalList(it.content)
             },{
@@ -66,6 +67,7 @@ class MyPagePresenter(
     override fun getEndedGoalList(uid: String, page: Int) {
         getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = page, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, endDtIsBeforeNow = true)
             .subscribe({
+                view.setEndedGoalListSizeOnTabLayout(it.totalElements)
                 view.setEndedGoalPageIsEnd(it.totalPages - 1 <= page)
                 view.setEndedGoalList(it.content)
             },{

@@ -12,6 +12,8 @@ interface MyPageContract {
         fun setOnGoingGoalPageIsEnd(isEnd: Boolean)
         fun setEndedGoalPageIsEnd(isEnd: Boolean)
         fun setEndedGoalList(list: ArrayList<MinimalGoalDetailContent>)
+        fun setOngoingGoalListSizeOnTabLayout(totalElements: Int)
+        fun setEndedGoalListSizeOnTabLayout(totalElements: Int)
     }
 
     interface Presenter {

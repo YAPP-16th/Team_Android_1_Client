@@ -36,5 +36,12 @@
         <item name="android:windowBackground">@color/transparentWhite</item>
     </style>
 
+    <!-- tablayout style - in mypage -->
+    <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
 
 </resources>

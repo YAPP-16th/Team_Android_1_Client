@@ -40,6 +40,8 @@ class MyPageFragment : Fragment(), MyPageContract.View {
     
     val nicknameText: ObservableField<String> = ObservableField()
     private var uId: String = ""
+    private var isOnGoingGoalListEmpty: Boolean = false
+    private var isEndedGoalListEmpty: Boolean = false
 
     companion object {
         @JvmStatic
@@ -81,10 +83,19 @@ class MyPageFragment : Fragment(), MyPageContract.View {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when(tab?.position) {
                     0 -> {
+                        if(isOnGoingGoalListEmpty) {
+                            myPageBinding.thereAreNoOngoingGoals.visibility = View.VISIBLE
+                        }
+                        myPageBinding.thereAreNoEndedGoals.visibility = View.INVISIBLE
                         myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.VISIBLE
                         myPageBinding.myParticipatedEndedRecyclerview.visibility = View.INVISIBLE
+
                     }
                     1 -> {
+                        if(isEndedGoalListEmpty) {
+                            myPageBinding.thereAreNoEndedGoals.visibility = View.VISIBLE
+                        }
+                        myPageBinding.thereAreNoOngoingGoals.visibility = View.INVISIBLE
                         myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.INVISIBLE
                         myPageBinding.myParticipatedEndedRecyclerview.visibility = View.VISIBLE
                     }
@@ -103,7 +114,6 @@ class MyPageFragment : Fragment(), MyPageContract.View {
 
     override fun onResume() {
         super.onResume()
-        //context?.toastShort("onResume")
         ongoingGoalPage = 0
         ongoingGoalContentSize = 0
         ongoingGoalIsEnd = false
@@ -135,6 +145,29 @@ class MyPageFragment : Fragment(), MyPageContract.View {
             myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classListLimitedFour)
             myPageBinding.expandBtn.visibility = View.VISIBLE
         }
+    }
+
+    override fun setOngoingGoalListSizeOnTabLayout(totalElements: Int) {
+        if(totalElements == 0) {
+            isOnGoingGoalListEmpty = true
+            myPageBinding.thereAreNoOngoingGoals.visibility = View.VISIBLE
+        }
+        else {
+            isOnGoingGoalListEmpty = false
+            myPageBinding.thereAreNoOngoingGoals.visibility = View.GONE
+        }
+        myPageBinding.myPageTabLayout.getTabAt(0)?.text = "참여중(${totalElements})"
+    }
+
+    override fun setEndedGoalListSizeOnTabLayout(totalElements: Int) {
+        if(totalElements == 0) {
+            isEndedGoalListEmpty = true
+        }
+        else {
+            isEndedGoalListEmpty = false
+            myPageBinding.thereAreNoEndedGoals.visibility = View.GONE
+        }
+        myPageBinding.myPageTabLayout.getTabAt(1)?.text = "종료(${totalElements})"
     }
 
     override fun setOngoingGoalList(list: ArrayList<MinimalGoalDetailContent>) {
@@ -216,6 +249,8 @@ class MyPageFragment : Fragment(), MyPageContract.View {
             }
         }
     }
+
+    fun navigateToAddGoal() = (activity as TabActivity).navigateToNewGoal()
 
     override fun onDestroy() {
         presenter.onCleared()
