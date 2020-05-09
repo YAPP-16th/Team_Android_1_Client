@@ -1,6 +1,4 @@
-package com.eroom.erooja.feature.setting.setting_detail.setting_profile
-
-import android.net.Uri
+package com.eroom.erooja.feature.setting.setting_profile
 
 interface ProfileContract {
     interface View{

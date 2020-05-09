@@ -1,6 +1,5 @@
-package com.eroom.erooja.feature.setting.setting_detail.setting_profile
+package com.eroom.erooja.feature.setting.setting_profile
 
-import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -14,9 +13,7 @@ import com.eroom.domain.utils.*
 import com.eroom.erooja.databinding.ActivityChangeProfileSettingBinding
 import org.koin.android.ext.android.get
 import timber.log.Timber
-import android.app.Activity
 import android.content.Context
-import android.database.Cursor
 
 
 class ProfileActivity : AppCompatActivity(), ProfileContract.View {

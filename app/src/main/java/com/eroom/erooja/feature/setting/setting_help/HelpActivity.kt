@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.setting.setting_detail.setting_help
+package com.eroom.erooja.feature.setting.setting_help
 
 import android.os.Bundle
 import android.view.View
@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityHelpSettingBinding
-import com.eroom.erooja.databinding.ItemHelpListBinding
+
 class HelpActivity : AppCompatActivity(), HelpContract.View {
     private lateinit var binding: ActivityHelpSettingBinding
     private lateinit var presenter : HelpPresenter

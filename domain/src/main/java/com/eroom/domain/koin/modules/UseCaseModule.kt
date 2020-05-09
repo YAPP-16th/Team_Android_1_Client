@@ -53,4 +53,6 @@ val usecaseModule = module {
     factory { GetMemberProfileImagesUseCase(get())}
 
     factory { PutMemberProfileImagesUsecase(get())}
+
+    factory { DeleteJobInterestsUseCase(get())}
 }

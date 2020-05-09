@@ -2,10 +2,12 @@ package com.eroom.erooja.feature.filter
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.response.JobGroupAndClassResponse
+import com.eroom.domain.globalconst.Consts
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityFilterBinding
 import com.eroom.erooja.singleton.JobClassHashMap.hashmap
@@ -47,6 +49,11 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
             filterBinding.filterText.text = settingTxt
             filterBinding.closeButton.setImageResource(R.drawable.ic_icon_navi_arrow_left)
         }
+
+        if(intent.getIntExtra(Consts.SETTING_REQUEST,1) == Consts.SETTING_REQUEST_NUM){
+            filterBinding.cancelButton.visibility = View.VISIBLE
+            filterBinding.resetText.text = resources.getText(R.string.save_txt)
+        }
     }
 
     override fun reRequestClassByGroup(jobGroupList: ArrayList<com.eroom.data.entity.JobGroup>) =
@@ -77,6 +84,12 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
             selectedId.remove(id)
         else
             selectedId.add(id)
+        checkSelect()
+        mAdapter.notifyDataSetChanged()
+    }
+
+    fun cancelButtonClicked(){
+        selectedId.clear()
         checkSelect()
         mAdapter.notifyDataSetChanged()
     }

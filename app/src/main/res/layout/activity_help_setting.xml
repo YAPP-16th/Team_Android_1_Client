@@ -6,7 +6,7 @@
     <data>
         <variable
             name="help"
-            type="com.eroom.erooja.feature.setting.setting_detail.setting_help.HelpActivity" />
+            type="com.eroom.erooja.feature.setting.setting_help.HelpActivity" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout

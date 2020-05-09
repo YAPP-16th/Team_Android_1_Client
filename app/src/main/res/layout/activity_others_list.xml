@@ -41,13 +41,14 @@
             android:layout_weight="1" />
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circleImageView"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="end|center"
             android:layout_marginEnd="20dp"
             app:civ_border_color="@color/transparentWhite"
             app:civ_border_width="2dp"
-            android:src="@drawable/ic_launcher_background" />
+            tools:src="@drawable/ic_launcher_background" />
     </LinearLayout>
 
     <Button

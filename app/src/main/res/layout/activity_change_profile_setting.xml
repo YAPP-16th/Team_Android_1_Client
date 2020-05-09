@@ -3,7 +3,7 @@
     <data>
         <variable
             name="profileSetting"
-            type="com.eroom.erooja.feature.setting.setting_detail.setting_profile.ProfileActivity" />
+            type="com.eroom.erooja.feature.setting.setting_profile.ProfileActivity" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout

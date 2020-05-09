@@ -82,13 +82,13 @@
         <activity android:name=".feature.setting.setting_detail.AlarmActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".feature.setting.setting_detail.setting_help.HelpActivity"
+        <activity android:name="com.eroom.erooja.feature.setting.setting_help.HelpActivity"
             android:screenOrientation="portrait" />
 
         <activity android:name=".feature.setting.setting_detail.JobInterestActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".feature.setting.setting_detail.setting_profile.ProfileActivity"
+        <activity android:name="com.eroom.erooja.feature.setting.setting_profile.ProfileActivity"
             android:screenOrientation="portrait" />
 
         <activity android:name=".feature.setting.setting_detail.OpensourceActivity"

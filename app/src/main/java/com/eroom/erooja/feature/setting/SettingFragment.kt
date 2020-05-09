@@ -5,21 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.ObservableField
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.JobClass
 import com.eroom.domain.globalconst.Consts
+import com.eroom.domain.utils.toastLong
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.FragmentSettingBinding
 import com.eroom.erooja.feature.filter.FilterActivity
 import com.eroom.erooja.feature.login.LoginActivity
 import com.eroom.erooja.feature.setting.setting_detail.*
-import com.eroom.erooja.feature.setting.setting_detail.setting_help.HelpActivity
-import com.eroom.erooja.feature.setting.setting_detail.setting_profile.ProfileActivity
+import com.eroom.erooja.feature.setting.setting_help.HelpActivity
+import com.eroom.erooja.feature.setting.setting_profile.ProfileActivity
 import com.eroom.erooja.feature.tab.TabActivity
-import com.kakao.usermgmt.UserManagement
-import com.kakao.usermgmt.callback.LogoutResponseCallback
 import org.koin.android.ext.android.get
 
 class SettingFragment :Fragment(), SettingContract.View{
@@ -50,7 +49,7 @@ class SettingFragment :Fragment(), SettingContract.View{
 
     private fun initView(){
         settingList = resources.getStringArray(R.array.setting)
-        presenter = SettingPresenter(this, get())
+        presenter = SettingPresenter(this, get(), get(), get(), get())
         presenter.getSettingList(settingList)
         presenter.getAlignedJobInterest()
 
@@ -77,7 +76,7 @@ class SettingFragment :Fragment(), SettingContract.View{
             3-> startActivity(Intent(context, HelpActivity::class.java))
             4-> startActivity(Intent(context, OpensourceActivity::class.java))
             5-> startActivity(Intent(context, TOSActivity::class.java))
-            6-> logout()
+            6-> presenter.logout()
         }
     }
 
@@ -85,14 +84,11 @@ class SettingFragment :Fragment(), SettingContract.View{
         (activity as TabActivity).replaceFragment(2)
 
     }
-    private fun logout(){
-        UserManagement.getInstance().requestLogout(object : LogoutResponseCallback() {
-            override fun onCompleteLogout() {
-                val intent = Intent(context, LoginActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                context!!.startActivity(intent)
-            }
-        })
+
+    override fun logoutCompleted() {
+        val intent = Intent(context, LoginActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        requireContext().startActivity(intent)
     }
 
     fun openSearchFilter() {
@@ -105,19 +101,27 @@ class SettingFragment :Fragment(), SettingContract.View{
 
         intent.putExtra(Consts.SEARCH,number)
         intent.putExtra(Consts.JOB_CLASS_CHANGE, resources.getString(R.string.job_class_change))
-        startActivityForResult(intent, 1010)
+        intent.putExtra(Consts.SETTING_REQUEST, Consts.SETTING_REQUEST_NUM)
+        startActivityForResult(intent, Consts.SETTING_REQUEST_NUM)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == 1010 && resultCode == 1000){
+        if(requestCode == Consts.SETTING_REQUEST_NUM && resultCode == 1000) {
 
             val result1 = data?.getSerializableExtra("selectedId") as ArrayList<Long>
-            val result2 = data?.getSerializableExtra("HashMap") as HashMap<Long, String>
-
-
-
+            presenter.updateJobInterest(selectedGroupClassesNum, result1)
+            selectedGroupClassesNum.clear()
+            repeat(result1.size){
+                selectedGroupClassesNum.add(result1[it])
+            }
         }
+
+
+    }
+
+    override fun InformUpdatedMsg() {
+       context?.toastLong("직군 변경 완료")
     }
 }

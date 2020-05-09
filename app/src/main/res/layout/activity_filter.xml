@@ -75,25 +75,50 @@
         </androidx.core.widget.NestedScrollView>
 
         <LinearLayout
-            android:id="@+id/completeButton"
-            android:layout_width="match_parent"
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@{activity.classCheck ? @color/orgDefault : @color/grey3}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:onClick="@{() -> activity.completeButtonClicked()}"
             android:gravity="center"
+            android:orientation="horizontal"
             android:padding="16dp"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp"
+            android:background="@color/grey3"
+            android:visibility="gone"
+            android:onClick="@{() -> activity.cancelButtonClicked()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/completeButton"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/cancelText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="초기화"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/completeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@{activity.classCheck ? @color/orgDefault : @color/grey3}"
+            android:gravity="center"
+            android:onClick="@{() -> activity.completeButtonClicked()}"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cancelButton">
 
             <TextView
                 android:id="@+id/resetText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:text="@string/complete_text"
                 android:textColor="@{activity.classCheck ? @color/colorWhite : @color/grey5}"
-                android:text="@string/complete_text"/>
+                android:textSize="16sp" />
         </LinearLayout>
 
 

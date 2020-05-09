@@ -7,6 +7,9 @@ import com.eroom.data.response.JobGroupAndClassResponse
 import com.eroom.data.response.UserInfoResponse
 import io.reactivex.Single
 import retrofit2.http.*
+import android.R.attr.path
+
+
 
 interface MemberService {
     @POST("member/nickname/duplicity")
@@ -26,6 +29,10 @@ interface MemberService {
 
     @GET("member/images")
     fun getMemberProfileImages() : Single<Array<String?>>
+
+    //@DELETE("member/jobInterests")
+    @HTTP(method = "DELETE", path = "member/jobInterests", hasBody = true)
+    fun deleteJobInterests(@Body ids: IdListRequest): Single<Long>
 
     @Headers("content-type: multipart/form-data")
     @Multipart

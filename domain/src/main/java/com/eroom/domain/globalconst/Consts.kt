@@ -37,5 +37,8 @@ class Consts {
 
         const val JOB_GROUP = "JOB_GROUP"
         const val JOB_INTEREST = "JOB_INTEREST"
+
+        const val SETTING_REQUEST = "SETTING_REQUEST"
+        const val SETTING_REQUEST_NUM = 1010
     }
 }
