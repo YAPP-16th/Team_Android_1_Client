@@ -2,6 +2,7 @@ package com.eroom.erooja.feature.editgoal
 
 import android.graphics.Canvas
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -56,19 +57,18 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
     }
 
     private fun editRecyclerInit() {
-        mEditGoalAdapter = EditGoalAdapter(
-            this,
-            this, this)
-        val mCallback = EditGoalItemTouchHelperCallback(mEditGoalAdapter)
-        mItemEditTouchHelper = ItemTouchHelper(mCallback)
-        mItemEditTouchHelper.attachToRecyclerView(
-            editGoalBinding.editGoalRecycler
-        )
+        mEditGoalAdapter = EditGoalAdapter(this, this, this)
 
         editGoalBinding.editGoalRecycler.apply {
-            adapter = mEditGoalAdapter
             layoutManager = LinearLayoutManager(this@EditGoalActivity)
         }
+
+        val mCallback = EditGoalItemTouchHelperCallback(mEditGoalAdapter)
+        mItemEditTouchHelper = ItemTouchHelper(mCallback)
+
+        mItemEditTouchHelper.attachToRecyclerView(null)
+
+        editGoalBinding.editGoalRecycler.adapter = mEditGoalAdapter
     }
 
     private fun deleteRecyclerInit() {
@@ -93,7 +93,15 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
         }
     }
 
+    fun attachRecyclerView() {
+        mItemEditTouchHelper.attachToRecyclerView(editGoalBinding.editGoalRecycler)
+    }
+
+    fun detachRecyclerView() {
+        mItemEditTouchHelper.attachToRecyclerView(null)
+    }
+
     override fun onStartDrag(holder: EditGoalViewHolder) {
-        //mItemEditTouchHelper.startDrag(holder)
+        mItemEditTouchHelper.startDrag(holder)
     }
 }

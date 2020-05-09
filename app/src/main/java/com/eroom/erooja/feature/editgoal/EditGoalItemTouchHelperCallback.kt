@@ -3,12 +3,7 @@ package com.eroom.erooja.feature.editgoal
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class EditGoalItemTouchHelperCallback(): ItemTouchHelper.Callback() {
-    private lateinit var onItemMoveListener: OnItemMoveListener
-
-    constructor(listener: OnItemMoveListener) : this() {
-        onItemMoveListener = listener
-    }
+class EditGoalItemTouchHelperCallback(private val mItemMoveListener: OnItemMoveListener): ItemTouchHelper.Callback() {
 
     override fun getMovementFlags(
         recyclerView: RecyclerView,
@@ -23,8 +18,8 @@ class EditGoalItemTouchHelperCallback(): ItemTouchHelper.Callback() {
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        onItemMoveListener.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
-        return true
+        mItemMoveListener.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
+        return false
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
