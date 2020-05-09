@@ -6,12 +6,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ObservableField
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.GoalType
 import com.eroom.data.entity.MinimalTodoListDetail
-import com.eroom.data.entity.UserSimpleData
 import com.eroom.data.localclass.BottomSheetColor
 import com.eroom.data.response.GoalDetailResponse
 import com.eroom.domain.customview.bottomsheet.BottomSheetFragment
@@ -23,7 +21,6 @@ import com.eroom.erooja.databinding.ActivityGoalBinding
 import com.eroom.erooja.feature.editgoal.EditGoalActivity
 import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
 import com.eroom.erooja.feature.participants_list.ParticipantsListActivity
-import kotlinx.android.synthetic.main.activity_goal.view.*
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
 import org.koin.android.ext.android.get
 import ru.rhanza.constraintexpandablelayout.State

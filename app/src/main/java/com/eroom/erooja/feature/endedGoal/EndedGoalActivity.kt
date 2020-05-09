@@ -12,6 +12,7 @@ import com.eroom.data.entity.GoalType
 import com.eroom.data.entity.MinimalTodoListDetail
 import com.eroom.data.localclass.BottomSheetColor
 import com.eroom.data.response.GoalDetailResponse
+import com.eroom.domain.customview.bottomsheetAlert.BottomSheetAlertFragment
 import com.eroom.domain.customview.bottomsheet.BottomSheetFragment
 import com.eroom.domain.customview.bottomsheet.BottomSheetInfo
 import com.eroom.domain.globalconst.Consts
@@ -30,6 +31,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     lateinit var presenter: EndedGoalPresenter
 
     lateinit var bottom: BottomSheetFragment
+    lateinit var bottomAlert: BottomSheetAlertFragment
 
     lateinit var uId: String
 
@@ -62,6 +64,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
             if (index == goalData.jobInterests.size - 1) goalType.name else goalType.name add ", "
         }.toList().join()
 
+        setBottomSheetAlert()
         initBottomSheet(goalData.joinCount)
     }
 
@@ -118,6 +121,17 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
         }
     }
 
+    private fun setBottomSheetAlert() {
+        bottomAlert = BottomSheetAlertFragment.newInstance().apply {
+            arguments = Bundle().apply {
+                putParcelableArrayList(
+                    Consts.BOTTOM_SHEET_KEY, arrayListOf(
+                        BottomSheetInfo("기간이 종료되어\n참여할 수 없는 목표입니다.",BottomSheetColor.DEFAULT)
+                    ))
+            }
+        }
+    }
+
     private fun initBottomSheet(count: Int) {
         bottom = BottomSheetFragment.newInstance().apply {
             arguments = Bundle().apply {
@@ -158,7 +172,8 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     }
 
     fun additionalOptionClicked() {
-        bottom.show(supportFragmentManager, bottom.tag)
+        //bottom.show(supportFragmentManager, bottom.tag)
+        bottomAlert.show(supportFragmentManager, bottom.tag)
     }
 
     fun backClick() {
