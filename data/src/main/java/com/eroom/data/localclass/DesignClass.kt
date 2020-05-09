@@ -7,15 +7,14 @@ enum class DesignClass(private val itemName: String) {
     EDIT("편집 디자인"),
     BX("BX 디자인"),
     WEB("웹 디자인"),
-    MOBILE("모바일 디자인"),
     GRAPIC("그래픽 디자인"),
-    PACKAGE("제품 디자인");
+    PACKAGE("산업 디자인");
 
     fun getName() = itemName
 
     companion object {
         fun getArray() = arrayListOf(
-            UX, UIGUI, VIDEOMOTION, EDIT, BX, WEB, MOBILE, GRAPIC, PACKAGE
+            UX, UIGUI, VIDEOMOTION, EDIT, BX, WEB, GRAPIC, PACKAGE
         )
     }
 }

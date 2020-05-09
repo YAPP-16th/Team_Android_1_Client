@@ -9,8 +9,9 @@ import retrofit2.http.*
 interface TodoService {
     @GET("todo")
     fun getUserTodoList( @Query("uid") uid: String,
-                         @Query("goalId") goalId: Long) : Single<TodoDetailResponse>
-
+                         @Query("goalId") goalId: Long,
+                         @Query("size") size: Int,
+                         @Query("page") page: Int) : Single<TodoDetailResponse>
     @PUT("todo/{todoId}")
     fun putTodoId(@Path("todoId") todoId: Long, @Body todoEditRequest: TodoEditRequest): Single<TodoEditResponse>
 }

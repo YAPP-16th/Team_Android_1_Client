@@ -84,7 +84,6 @@
             android:paddingStart="50dp"
             android:paddingEnd="50dp"
             android:background="@color/grey3"
-            android:visibility="gone"
             android:onClick="@{() -> activity.cancelButtonClicked()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/completeButton"

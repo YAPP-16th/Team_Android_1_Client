@@ -13,7 +13,7 @@ class GetTodoListUseCase(retrofitRepository: AccessRetrofitRepository){
         .create(TodoService::class.java)
 
     fun getUserTodoList(uid: String, goalId: Long) : Single<TodoDetailResponse> = TodoService
-        .getUserTodoList(uid, goalId)
+        .getUserTodoList(uid, goalId, size = Integer.MAX_VALUE, page = 0)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 }

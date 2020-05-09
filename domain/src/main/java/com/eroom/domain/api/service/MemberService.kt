@@ -32,7 +32,8 @@ interface MemberService {
 
     //@DELETE("member/jobInterests")
     @HTTP(method = "DELETE", path = "member/jobInterests", hasBody = true)
-    fun deleteJobInterests(@Body ids: IdListRequest): Single<Long>
+    fun deleteJobInterests(
+        @Body ids: IdListRequest): Single<Long>
 
     @Headers("content-type: multipart/form-data")
     @Multipart
