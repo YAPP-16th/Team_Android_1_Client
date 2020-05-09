@@ -12,10 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.MinimalTodoListContent
 import com.eroom.data.entity.UserSimpleData
 import com.eroom.domain.globalconst.Consts
-import com.eroom.domain.utils.add
-import com.eroom.domain.utils.statusBarColor
-import com.eroom.domain.utils.toRealDateFormat
-import com.eroom.domain.utils.toastLong
+import com.eroom.domain.utils.*
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalDetailsBinding
 import com.eroom.erooja.feature.otherList.OtherListActivity
@@ -31,6 +28,8 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
 
     val description: ObservableField<String> = ObservableField("")
     val jobClass: ObservableField<String> = ObservableField("")
+
+    private var isFromMyPage: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +51,14 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         val intent = intent
         presenter.getData(intent.getLongExtra(Consts.GOAL_ID, -1))
         presenter.getMinimalTodoList(intent.getLongExtra(Consts.GOAL_ID, -1))
+
+        isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, false)
+        if(!isFromMyPage) {
+            isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, false)
+        }
+        if(isFromMyPage) {
+            binding.addListBtn.visibility = View.GONE
+        }
         statusBarColor(this@GoalDetailActivity, R.color.subLight3)
     }
 
@@ -78,11 +85,9 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
 
     override fun setRecyclerView(todoList: ArrayList<MinimalTodoListContent>) {
         binding.othersRecyclerview.apply{
-            adapter = GoalDetailAdapter(presenter.getGoalContentCallback(), todoList, click())
+            adapter = GoalDetailAdapter(presenter.getGoalContentCallback(), todoList, isFromMyPage, click())
             layoutManager = LinearLayoutManager(context)
         }
-
-
     }
 
     override fun setInterestedClassName(list: List<String>) {
@@ -100,6 +105,8 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
                 putExtra(Consts.UID, uid)
                 putExtra(Consts.NAME, binding.othersRecyclerview.username_list.text)
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
+                putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isFromMyPage)
+                putExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, isFromMyPage)
             }
         startActivityForResult(intent, 4000)
     }
@@ -130,4 +137,5 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         presenter.onCleared()
         super.onDestroy()
     }
+
 }

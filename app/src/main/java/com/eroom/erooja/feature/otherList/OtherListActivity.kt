@@ -40,6 +40,10 @@ class OtherListActivity : AppCompatActivity(),
     }
 
     fun initView(){
+        if(intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, false)
+            || intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, false)) {
+            binding.savelistBtn.visibility = View.INVISIBLE
+        }
         presenter = OtherListPresenter(this, get(), get())
         presenter.getData(intent.getStringExtra(Consts.UID), intent.getLongExtra(Consts.GOAL_ID, -1))
         presenter.getProfileImage()

@@ -1,17 +1,15 @@
-package com.eroom.erooja.feature.ongoingGoal
+package com.eroom.erooja.feature.endedGoal
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ObservableField
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.GoalType
 import com.eroom.data.entity.MinimalTodoListDetail
-import com.eroom.data.entity.UserSimpleData
 import com.eroom.data.localclass.BottomSheetColor
 import com.eroom.data.response.GoalDetailResponse
 import com.eroom.domain.customview.bottomsheet.BottomSheetFragment
@@ -19,18 +17,17 @@ import com.eroom.domain.customview.bottomsheet.BottomSheetInfo
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.*
 import com.eroom.erooja.R
-import com.eroom.erooja.databinding.ActivityGoalBinding
+import com.eroom.erooja.databinding.ActivityEndedGoalBinding
 import com.eroom.erooja.feature.editgoal.EditGoalActivity
 import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
 import com.eroom.erooja.feature.participants_list.ParticipantsListActivity
-import kotlinx.android.synthetic.main.activity_goal.view.*
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
 import org.koin.android.ext.android.get
 import ru.rhanza.constraintexpandablelayout.State
 
-class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
-    lateinit var binding: ActivityGoalBinding
-    lateinit var presenter: OngoingGoalPresenter
+class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
+    lateinit var binding: ActivityEndedGoalBinding
+    lateinit var presenter: EndedGoalPresenter
 
     lateinit var bottom: BottomSheetFragment
 
@@ -46,8 +43,8 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     }
 
     fun setUpDataBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_goal)
-        binding.mygoal = this@OngoingGoalActivity
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_ended_goal)
+        binding.activity = this@EndedGoalActivity
     }
 
     @SuppressLint("SetTextI18n")
@@ -71,8 +68,8 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     @SuppressLint("SetTextI18n")
     override fun setTodoList(todoList: ArrayList<MinimalTodoListDetail>) {
         binding.mygoalRecyclerview.apply{
-            layoutManager = LinearLayoutManager(this@OngoingGoalActivity)
-            adapter = OngoingGoalAdapter(todoList, saveChange)
+            layoutManager = LinearLayoutManager(this@EndedGoalActivity)
+            adapter = EndedGoalAdapter(todoList, saveChange)
         }
         var count = 0
         todoList.forEach { if (it.isEnd) count += 1 }
@@ -85,9 +82,9 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     }
 
     fun initView() {
-        presenter = OngoingGoalPresenter(this, get(), get())
+        presenter = EndedGoalPresenter(this, get(), get())
 
-        statusBarColor(this@OngoingGoalActivity, R.color.orgDefault)
+        statusBarColor(this@EndedGoalActivity, R.color.grey1)
 
         binding.goalDescLayout.goal_desc.apply {
             showButton = false
@@ -96,7 +93,8 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
 
         when (binding.goalDescLayout.goal_desc.state) {
             State.Expanded, State.Expanding -> binding.moreBtn.loadDrawable(resources.getDrawable(R.drawable.ic_icon_small_arrow_top_white, null))
-            State.Collapsed, State.Collapsing -> binding.moreBtn.loadDrawable(resources.getDrawable(R.drawable.ic_icon_small_arrow_right_white, null))
+            State.Collapsed, State.Collapsing -> binding.moreBtn.loadDrawable(resources.getDrawable(
+                R.drawable.ic_icon_small_arrow_right_white, null))
             else -> {}
         }
 
@@ -107,14 +105,15 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
 
         presenter.getTodoData(uId, goalId)
 
-        isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, false)
+        isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, false)
     }
 
     fun moreClick(v: View) {
         binding.goalDescLayout.goal_desc.toggle()
         when (binding.goalDescLayout.goal_desc.state) {
             State.Expanded, State.Expanding -> binding.moreBtn.loadDrawable(resources.getDrawable(R.drawable.ic_icon_small_arrow_top_white, null))
-            State.Collapsed, State.Collapsing -> binding.moreBtn.loadDrawable(resources.getDrawable(R.drawable.ic_icon_small_arrow_right_white, null))
+            State.Collapsed, State.Collapsing -> binding.moreBtn.loadDrawable(resources.getDrawable(
+                R.drawable.ic_icon_small_arrow_right_white, null))
             else -> {}
         }
     }
@@ -122,21 +121,22 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     private fun initBottomSheet(count: Int) {
         bottom = BottomSheetFragment.newInstance().apply {
             arguments = Bundle().apply {
-                putParcelableArrayList(Consts.BOTTOM_SHEET_KEY, arrayListOf(
-                    BottomSheetInfo("다른 참여자 리스트 둘러보기", BottomSheetColor.DEFAULT),
-                    BottomSheetInfo("참여자 목록($count)", BottomSheetColor.DEFAULT),
-                    BottomSheetInfo("리스트 수정하기", BottomSheetColor.DEFAULT),
-                    BottomSheetInfo("목표 그만두기", BottomSheetColor.RED)
-                ))
+                putParcelableArrayList(
+                    Consts.BOTTOM_SHEET_KEY, arrayListOf(
+                        BottomSheetInfo("다른 참여자 리스트 둘러보기", BottomSheetColor.DEFAULT),
+                        BottomSheetInfo("참여자 목록($count)", BottomSheetColor.DEFAULT),
+                        BottomSheetInfo("리스트 수정하기", BottomSheetColor.DEFAULT),
+                        BottomSheetInfo("목표 그만두기", BottomSheetColor.RED)
+                    ))
             }
         }
         bottom.callback.observe(this, Observer {
             when (it) {
                 0 -> { //다른 참여자 리스트 둘러보기
-                    startActivity(Intent(this@OngoingGoalActivity, GoalDetailActivity::class.java).apply {
+                    startActivity(Intent(this@EndedGoalActivity, GoalDetailActivity::class.java).apply {
                         putExtra(Consts.GOAL_ID, goalId)
                         putExtra(Consts.UID, uId)
-                        putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isFromMyPage)
+                        putExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, isFromMyPage)
                     })
                 }
                 1 -> { // 참여자 목록

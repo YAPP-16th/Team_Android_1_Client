@@ -17,7 +17,7 @@ import com.eroom.erooja.databinding.ItemMainNewGoalBinding
 import kotlinx.android.synthetic.main.goal_simple_list.view.*
 
 class GoalDetailAdapter(callback: DiffUtil.ItemCallback<MinimalTodoListContent>,
-                        val TodoList: ArrayList<MinimalTodoListContent>, val click: (String) -> Unit):
+                        val TodoList: ArrayList<MinimalTodoListContent>, val isFromMyPage: Boolean, val click: (String) -> Unit):
     ListAdapter<MinimalTodoListContent, GoalDetailAdapter.ViewHolder>(callback) {
 
 
@@ -25,7 +25,8 @@ class GoalDetailAdapter(callback: DiffUtil.ItemCallback<MinimalTodoListContent>,
         val inflater = LayoutInflater.from(parent.context)
         val mBinding = GoalSimpleListBinding.inflate(inflater, parent, false)
 
-        return ViewHolder(mBinding, mBinding.usernameList, mBinding.putinNumberTxt, mBinding.text1, mBinding.text2, mBinding.text3 , mBinding.simpleList)
+        return ViewHolder(mBinding, mBinding.usernameList, mBinding.putinNumberTxt, mBinding.text1,
+            mBinding.text2, mBinding.text3 , mBinding.simpleList)
 
     }
 
@@ -73,5 +74,11 @@ class GoalDetailAdapter(callback: DiffUtil.ItemCallback<MinimalTodoListContent>,
         val content2: TextView,
         val content3: TextView,
         val item: ConstraintLayout
-    ) :RecyclerView.ViewHolder(mBinding.root)
+    ) :RecyclerView.ViewHolder(mBinding.root) {
+        init {
+            if(isFromMyPage) {
+                mBinding.goalAddBtn.visibility = View.INVISIBLE
+            }
+        }
+    }
 }

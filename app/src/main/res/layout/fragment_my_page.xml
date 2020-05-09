@@ -167,7 +167,7 @@
                 android:id="@+id/my_participated_ended_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible"
+                android:visibility="invisible"
                 tools:itemCount="0"
                 tools:listitem="@layout/item_my_participated_ended_goal"
                 scrollAdapter="@{fragment.endedRecyclerViewScrollListener}"/>

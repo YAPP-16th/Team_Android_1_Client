@@ -17,6 +17,7 @@ import com.eroom.domain.globalconst.Consts
 import org.koin.android.ext.android.get
 
 import com.eroom.erooja.databinding.FragmentMyPageBinding
+import com.eroom.erooja.feature.endedGoal.EndedGoalActivity
 import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
 import com.eroom.erooja.feature.tab.TabActivity
 import com.google.android.material.tabs.TabLayout
@@ -175,7 +176,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         if (ongoingGoalContentSize != 0) {
             if (ongoingGoalPage < 1) {
                //Timber.e(list.map { it.minimalGoalDetail.title }.join())
-                ongoingGoalAdapter = MyPageOngoingGoalAdapter(list, myGoalClicked)
+                ongoingGoalAdapter = MyPageOngoingGoalAdapter(list, ongoingGoalClicked)
                 myPageBinding.myParticipatedOngoingRecyclerview.apply {
                     layoutManager = LinearLayoutManager(context)
                     adapter = ongoingGoalAdapter
@@ -191,7 +192,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         endedGoalContentSize += list.size
         if(endedGoalContentSize != 0) {
             if(endedGoalPage < 1) {
-                endedGoalAdapter = MyPageEndedGoalAdapter(list, myGoalClicked)
+                endedGoalAdapter = MyPageEndedGoalAdapter(list, endedGoalClicked)
                 myPageBinding.myParticipatedEndedRecyclerview.apply {
                     layoutManager = LinearLayoutManager(context)
                     adapter = endedGoalAdapter
@@ -211,10 +212,19 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         this.endedGoalIsEnd = isEnd
     }
 
-    private val myGoalClicked = { goalId: Long ->
+    private val ongoingGoalClicked = { goalId: Long ->
         startActivity(Intent(activity, OngoingGoalActivity::class.java).apply {
             putExtra(Consts.GOAL_ID, goalId)
             putExtra(Consts.UID, uId)
+            putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, true)
+        })
+    }
+
+    private val endedGoalClicked = { goalId: Long ->
+        startActivity(Intent(activity, EndedGoalActivity::class.java).apply {
+            putExtra(Consts.GOAL_ID, goalId)
+            putExtra(Consts.UID, uId)
+            putExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, true)
         })
     }
 
