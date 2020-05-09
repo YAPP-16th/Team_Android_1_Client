@@ -7,6 +7,7 @@ interface OngoingGoalContract {
     interface View{
         fun setGoalData(goalData: GoalDetailResponse)
         fun setTodoList(todoList: ArrayList<MinimalTodoListDetail>)
+        fun reRequestTodoList()
     }
 
     interface Presenter{
@@ -14,6 +15,6 @@ interface OngoingGoalContract {
         fun getData(goalId: Long)
         fun getTodoData(uid: String, goalId: Long)
         fun onCleared()
-        fun setTodoEnd(boolean: Boolean)
+        fun setTodoEnd(todoId: Long, boolean: Boolean)
     }
 }

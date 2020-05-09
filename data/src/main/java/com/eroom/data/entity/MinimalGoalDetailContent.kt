@@ -9,7 +9,8 @@ data class MinimalGoalDetailContent(
     @JsonProperty("copyCount") var copyCount: Int,
     @JsonProperty("startDt") var startDt: String,
     @JsonProperty("endDt") var endDt: String,
-    @JsonProperty("minimalGoalDetail") var minimalGoalDetail: MinimalGoalDetail
+    @JsonProperty("minimalGoalDetail") var minimalGoalDetail: MinimalGoalDetail,
+    @JsonProperty("checkedTodoRate") var checkedTodoRate: Double
 )
 {
     override fun equals(other: Any?): Boolean {

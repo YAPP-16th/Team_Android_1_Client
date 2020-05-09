@@ -23,8 +23,6 @@ class TabActivity : AppCompatActivity(), TabContract.View {
     private lateinit var mainBinding: ActivityTabBinding
     private lateinit var presenter: TabPresenter
 
-    private var fragments: ArrayList<Fragment> = ArrayList()
-
     private val FINISH_INTERVAL_TIME: Long = 2000
     private var backPressedTime: Long = 0
 
@@ -48,28 +46,32 @@ class TabActivity : AppCompatActivity(), TabContract.View {
     }
 
     private fun initFragment() =
-        fragments.apply {
-            addAll(listOf(
-                MainFragment.newInstance(),
-                SearchFragment.newInstance(),
-                MyPageFragment.newInstance(),
-                SettingFragment.newInstance()
-            ))
-        }.map {
-            it.apply {
-                supportFragmentManager.beginTransaction()
-                    .add(R.id.main_container, it).commit()
-            }
-        }.run {
-            loadFragment(0)
-        }
+        supportFragmentManager.beginTransaction()
+            .add(R.id.main_container, MainFragment.newInstance()).commit()
 
 
     override fun loadFragment(index: Int) =
-        fragments.map {
-            it.apply { supportFragmentManager.beginTransaction().hide(this).commit() }
-        }[index].also {
-            supportFragmentManager.beginTransaction().show(it).commitAllowingStateLoss()
+        when (index) {
+            0 -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_container, MainFragment.newInstance()).commit()
+            }
+            1 -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_container, SearchFragment.newInstance()).commit()
+            }
+            2 -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_container, MyPageFragment.newInstance()).commit()
+            }
+            3 -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_container, SettingFragment.newInstance()).commit()
+            }
+            else -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_container, MainFragment.newInstance()).commit()
+            }
         }
 
     fun changeTabToSearch() {
@@ -97,11 +99,5 @@ class TabActivity : AppCompatActivity(), TabContract.View {
 
     fun replaceFragment(index: Int) {
         loadFragment(index)
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-        fragments.clear()
     }
 }

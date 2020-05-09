@@ -33,6 +33,8 @@ class Consts {
         const val DIALOG_RESULT = "DIALOG_RESULT"
         const val DIALOG_CONFIRM = "DIALOG_CONFIRM"
         const val DIALOG_CANCEL = "DIALOG_CANCEL"
+        const val DIALOG_CONFIRM_COLOR = "DIALOG_CONFIRM_COLOR"
+        const val DIALOG_CANCEL_COLOR = "DIALOG_CANCEL_COLOR"
         const val GOAL_ID = "GOAL_ID"
 
         const val JOB_GROUP = "JOB_GROUP"

@@ -6,23 +6,15 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Switch
-import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.eroom.domain.utils.loadDrawable
-import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ItemEditGoalBinding
-import com.eroom.erooja.databinding.ItemGoalListBinding
-import timber.log.Timber
 import java.util.*
-import kotlin.collections.ArrayList
 
 class EditGoalAdapter(
     var activity: EditGoalActivity,
     private val startDragListener: OnStartDragListener,
-    private val context: Context
+    private val context: Context,
+    private val isMovable: Boolean
     ) : RecyclerView.Adapter<EditGoalViewHolder>(), EditGoalItemTouchHelperCallback.OnItemMoveListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditGoalViewHolder {
@@ -30,11 +22,12 @@ class EditGoalAdapter(
         return EditGoalViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = activity.list.size
+    override fun getItemCount(): Int = activity.editList.size
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: EditGoalViewHolder, position: Int) {
-        holder.binding.contentText.text = activity.list[position]
+        holder.binding.trigger.visibility = if (isMovable) View.VISIBLE else View.GONE
+        holder.binding.contentText.text = activity.editList[position]
         holder.binding.trigger.setOnTouchListener { v, event ->
             activity.attachRecyclerView()
             if (event.actionMasked == MotionEvent.ACTION_DOWN) {
@@ -53,7 +46,7 @@ class EditGoalAdapter(
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
-        Collections.swap(activity.list, fromPosition, toPosition)
+        Collections.swap(activity.editList, fromPosition, toPosition)
         notifyItemMoved(fromPosition, toPosition)
         return true
     }

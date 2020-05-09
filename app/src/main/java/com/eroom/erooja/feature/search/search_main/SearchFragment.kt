@@ -42,7 +42,7 @@ class SearchFragment : Fragment(), SearchContract.View {
     private var mKey: Long? = null
     private lateinit var mAdapter: SearchResultAdapter
 
-    private lateinit var emptyFragment: SearchNoContentFragment
+    private var emptyFragment: SearchNoContentFragment? = null
 
     companion object {
         @JvmStatic
@@ -56,7 +56,6 @@ class SearchFragment : Fragment(), SearchContract.View {
 
     override fun onStart() {
         super.onStart()
-        initFragment()
         tabSelected()
     }
 
@@ -66,10 +65,6 @@ class SearchFragment : Fragment(), SearchContract.View {
     ): View? {
         setUpDataBinding(inflater, container)
         return searchBinding.root
-    }
-
-    private fun initFragment() {
-        emptyFragment = SearchNoContentFragment.newInstance()
     }
 
     private fun setUpDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
@@ -122,15 +117,17 @@ class SearchFragment : Fragment(), SearchContract.View {
         searchBinding.mainResultRecycler.visibility = View.GONE
     }
 
-    private fun emptyFragment() =
+    private fun emptyFragment() {
+        emptyFragment = SearchNoContentFragment.newInstance()
         childFragmentManager.beginTransaction()
-            .add(R.id.search_main_container, emptyFragment)
+            .add(R.id.search_main_container, emptyFragment!!)
             .commit()
+    }
 
     private fun hideEmptyFragment() =
-        childFragmentManager.beginTransaction()
-            .remove(emptyFragment)
-            .commit()
+        emptyFragment?.let { childFragmentManager.beginTransaction()
+            .remove(it)
+            .commit() }
 
     override fun setAlignedJobInterest(interest: MutableSet<String>) {
         var isFirst = true
@@ -250,10 +247,5 @@ class SearchFragment : Fragment(), SearchContract.View {
 
         intent.putExtra("search",number)
         startActivityForResult(intent, 1000)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        childFragmentManager.beginTransaction().detach(emptyFragment)
     }
 }

@@ -3,12 +3,14 @@ package com.eroom.erooja.feature.ongoingGoal
 import android.annotation.SuppressLint
 import com.eroom.domain.api.usecase.goal.GetGoalDetailUseCase
 import com.eroom.domain.api.usecase.todo.GetTodoListUseCase
+import com.eroom.domain.api.usecase.todo.PutTodoEditUseCase
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
 class OngoingGoalPresenter(override var view: OngoingGoalContract.View,
                            private val getGoalDetailUseCase: GetGoalDetailUseCase,
-                           private val getTodoListUseCase: GetTodoListUseCase
+                           private val getTodoListUseCase: GetTodoListUseCase,
+                           private val putTodoEditUseCase: PutTodoEditUseCase
 ): OngoingGoalContract.Presenter {
 
     val compositeDisposable = CompositeDisposable()
@@ -33,8 +35,15 @@ class OngoingGoalPresenter(override var view: OngoingGoalContract.View,
             })
     }
 
-    override fun setTodoEnd(boolean: Boolean) {
-
+    @SuppressLint("CheckResult")
+    override fun setTodoEnd(todoId: Long, boolean: Boolean) {
+        putTodoEditUseCase.putTodoEdit(todoId, boolean)
+            .subscribe({
+                view.reRequestTodoList()
+            },{
+                Timber.e(it.localizedMessage)
+                view.reRequestTodoList()
+            })
     }
 
     override fun onCleared() {
