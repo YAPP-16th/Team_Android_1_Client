@@ -19,7 +19,7 @@ class OtherListActivity : AppCompatActivity(),
     OtherListContract.View {
     lateinit var binding : ActivityOthersListBinding
     lateinit var presenter : OtherListPresenter
-    var uid = ""
+   // var uid = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

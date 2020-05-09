@@ -3,6 +3,8 @@ package com.eroom.erooja.feature.goalDetail
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.eroom.data.entity.GoalContent
 import com.eroom.data.entity.MinimalTodoListContent
+import com.eroom.data.entity.TodoList
 import com.eroom.domain.utils.add
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.GoalSimpleListBinding
@@ -17,7 +20,7 @@ import com.eroom.erooja.databinding.ItemMainNewGoalBinding
 import kotlinx.android.synthetic.main.goal_simple_list.view.*
 
 class GoalDetailAdapter(callback: DiffUtil.ItemCallback<MinimalTodoListContent>,
-                        val TodoList: ArrayList<MinimalTodoListContent>, val isFromMyPage: Boolean, val click: (String) -> Unit):
+                        val TodoList: ArrayList<MinimalTodoListContent>, val isFromMyPage: Boolean, val click: (String, String) -> Unit, val clickPlusBtn: (String) -> Unit) :
     ListAdapter<MinimalTodoListContent, GoalDetailAdapter.ViewHolder>(callback) {
 
 
@@ -25,12 +28,12 @@ class GoalDetailAdapter(callback: DiffUtil.ItemCallback<MinimalTodoListContent>,
         val inflater = LayoutInflater.from(parent.context)
         val mBinding = GoalSimpleListBinding.inflate(inflater, parent, false)
 
-        return ViewHolder(mBinding, mBinding.usernameList, mBinding.putinNumberTxt, mBinding.text1,
-            mBinding.text2, mBinding.text3 , mBinding.simpleList)
 
+        return ViewHolder(mBinding, mBinding.usernameList, mBinding.putinNumberTxt, mBinding.text1,
+            mBinding.text2, mBinding.text3 , mBinding.goalAddBtn, mBinding.simpleList)
     }
 
-    override fun getItemCount(): Int =TodoList.size
+    override fun getItemCount(): Int = TodoList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.nickName.text = TodoList[position].nickName add " 님의 리스트"
@@ -62,7 +65,8 @@ class GoalDetailAdapter(callback: DiffUtil.ItemCallback<MinimalTodoListContent>,
 
         }
 
-        holder.item.setOnClickListener { click(TodoList[position].uid) }
+        holder.item.setOnClickListener { click(TodoList[position].uid, TodoList[position].nickName add " 님의 리스트" ) }
+        holder.goalBtn.setOnClickListener { clickPlusBtn(TodoList[position].uid) }
 }
 
 
@@ -73,6 +77,7 @@ class GoalDetailAdapter(callback: DiffUtil.ItemCallback<MinimalTodoListContent>,
         val content1: TextView,
         val content2: TextView,
         val content3: TextView,
+        val goalBtn : Button,
         val item: ConstraintLayout
     ) :RecyclerView.ViewHolder(mBinding.root) {
         init {

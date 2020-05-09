@@ -12,6 +12,7 @@ import com.eroom.domain.api.usecase.job.GetJobGroupUseCase
 import com.eroom.domain.api.usecase.member.*
 import com.eroom.domain.api.usecase.membergoal.GetGoalsByUserIdUseCase
 import com.eroom.domain.api.usecase.membergoal.GetParticipantedListUseCase
+import com.eroom.domain.api.usecase.membergoal.PostAddMyGoalUseCase
 import com.eroom.domain.api.usecase.todo.GetTodoListUseCase
 import com.eroom.domain.api.usecase.todo.PutTodoEditUseCase
 import org.koin.dsl.module
@@ -58,4 +59,6 @@ val usecaseModule = module {
     factory { DeleteJobInterestsUseCase(get())}
 
     factory { PutTodoEditUseCase(get()) }
+    
+    factory { PostAddMyGoalUseCase(get()) }
 }

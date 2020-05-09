@@ -15,7 +15,10 @@ import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.*
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalDetailsBinding
+import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalActivity
+import com.eroom.erooja.feature.addMyGoalJoin.AddMyListActivity
 import com.eroom.erooja.feature.otherList.OtherListActivity
+import com.eroom.erooja.feature.search.search_detail_page.SearchDetailActivity
 import kotlinx.android.synthetic.main.activity_goal_details.view.*
 import kotlinx.android.synthetic.main.goal_simple_list.view.*
 import kotlinx.android.synthetic.main.include_completed_goal_desc.view.*
@@ -26,8 +29,8 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     lateinit var binding: ActivityGoalDetailsBinding
     lateinit var presenter: GoalDetailPresenter
 
-    val description: ObservableField<String> = ObservableField("")
-    val jobClass: ObservableField<String> = ObservableField("")
+    var description: ObservableField<String> = ObservableField("")
+    var jobClass: ObservableField<String> = ObservableField("")
 
     private var isFromMyPage: Boolean = false
 
@@ -63,10 +66,12 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     }
 
     @SuppressLint("SetTextI18n")
-    override fun setView(title: String, description: String, joinCount: Int, startDate: String, endDate: String) {
+    override fun setView(title: String, description: String, joinCount: Int, isDateFixed: Boolean, startDate: String, endDate: String) {
         binding.participantListText.text = binding.participantListText.text.toString() add "($joinCount)"
         binding.goalNameTxt.text = title
-        binding.goalDateTxt.text = startDate.toRealDateFormat() + "~" + endDate.toRealDateFormat()
+        binding.goalDateTxt.text =
+            if(isDateFixed) startDate.toRealDateFormat() + "~" + endDate.toRealDateFormat()
+            else "기간 설정 자유"
         this.description.set(description)
 
         if(description.isEmpty()) {
@@ -85,7 +90,8 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
 
     override fun setRecyclerView(todoList: ArrayList<MinimalTodoListContent>) {
         binding.othersRecyclerview.apply{
-            adapter = GoalDetailAdapter(presenter.getGoalContentCallback(), todoList, isFromMyPage, click())
+            adapter = GoalDetailAdapter(presenter.getGoalContentCallback(), todoList, isFromMyPage, click(), clickPlusBtn())
+
             layoutManager = LinearLayoutManager(context)
         }
     }
@@ -98,18 +104,32 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         this.jobClass.set(result)
     }
 
-    private fun click() = { uid:String ->
+    private fun click() = { uid:String , nickname: String->
         val intent = Intent(this@GoalDetailActivity, OtherListActivity::class.java)
             .apply{
                 putExtra(Consts.GOAL_ID, intent.getLongExtra(Consts.GOAL_ID, -1))
                 putExtra(Consts.UID, uid)
-                putExtra(Consts.NAME, binding.othersRecyclerview.username_list.text)
+                putExtra(Consts.NAME, nickname)
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
                 putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isFromMyPage)
                 putExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, isFromMyPage)
             }
         startActivityForResult(intent, 4000)
     }
+
+    private fun clickPlusBtn() = { uid:String ->
+        val intent = Intent(this@GoalDetailActivity, AddMyListActivity::class.java)
+            .apply{
+                putExtra(Consts.GOAL_ID, intent.getLongExtra(Consts.GOAL_ID, -1))
+                putExtra(Consts.UID, uid)
+                putExtra(Consts.GOAL_DETAIL_REQUEST_verOTHER, Consts.GOAL_DETAIL_REQUEST_NUM_verOTHER)
+                putExtra(Consts.DATE, binding.goalDateTxt.text)
+                putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
+                putExtra("Description", description.get())
+            }
+        startActivity(intent)
+    }
+
 
     fun moreClick(v: View) {
         binding.goalDescLayout.goal_desc.onStateChangeListener =
@@ -127,6 +147,18 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
                 }
             }
         binding.goalDescLayout.goal_desc.toggle()
+    }
+
+    fun addNewList(){
+        val intent = Intent(this, AddMyListActivity::class.java)
+            .apply{
+                putExtra(Consts.GOAL_DETAIL_REQUEST_verME, Consts.GOAL_DETAIL_REQUEST_NUM_verME)
+                putExtra(Consts.DATE, binding.goalDateTxt.text)
+                putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
+                putExtra("Description", description.get())
+                putExtra(Consts.GOAL_ID,intent.getLongExtra(Consts.GOAL_ID, -1))
+            }
+        startActivity(intent)
     }
 
     fun navigationToBack() {

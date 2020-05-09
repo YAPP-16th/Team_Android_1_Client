@@ -45,5 +45,10 @@ class Consts {
 
         const val IS_FROM_MYPAGE_ONGOING_GOAL = "IS_FROM_MYPAGE_ONGOING_GOAL"
         const val IS_FROM_MYPAGE_ENDED_GOAL = "IS_FROM_MYPAGE_ENDED_GOAL"
+        const val GOAL_DETAIL_REQUEST_verME = "GOAL_DETAIL_REQUEST"
+        const val GOAL_DETAIL_REQUEST_NUM_verME = 2020
+
+        const val GOAL_DETAIL_REQUEST_verOTHER = "GOAL_DETAIL_REQUEST_verOTHER"
+        const val GOAL_DETAIL_REQUEST_NUM_verOTHER = 3030
     }
 }

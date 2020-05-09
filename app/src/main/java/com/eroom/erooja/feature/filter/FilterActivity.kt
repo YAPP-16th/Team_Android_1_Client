@@ -51,7 +51,6 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
         }
 
         if(intent.getIntExtra(Consts.SETTING_REQUEST,1) == Consts.SETTING_REQUEST_NUM){
-            filterBinding.cancelButton.visibility = View.VISIBLE
             filterBinding.resetText.text = resources.getText(R.string.save_txt)
         }
     }
