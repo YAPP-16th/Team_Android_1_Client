@@ -99,5 +99,6 @@
 
     <string name="change_profile"><u>사진 변경하기</u></string>
     <string name="save_txt">저장</string>
+    <string name="list_edit_text">리스트 수정</string>
 
 </resources>

@@ -18,6 +18,7 @@ import com.eroom.erooja.R
 import com.eroom.erooja.databinding.FragmentSearchBinding
 import com.eroom.erooja.feature.filter.FilterActivity
 import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
+import com.eroom.erooja.feature.search.search_detail_frame.SearchNoContentFragment
 import com.eroom.erooja.feature.search.search_detail_frame.SearchResultAdapter
 import com.eroom.erooja.feature.search.search_detail_page.SearchDetailActivity
 import com.eroom.erooja.feature.search.search_main_frame.SearchNoGoalListFragment
@@ -41,8 +42,7 @@ class SearchFragment : Fragment(), SearchContract.View {
     private var mKey: Long? = null
     private lateinit var mAdapter: SearchResultAdapter
 
-    private lateinit var searchFrame: ArrayList<Fragment>
-
+    private lateinit var emptyFragment: SearchNoContentFragment
 
     companion object {
         @JvmStatic
@@ -68,6 +68,10 @@ class SearchFragment : Fragment(), SearchContract.View {
         return searchBinding.root
     }
 
+    private fun initFragment() {
+        emptyFragment = SearchNoContentFragment.newInstance()
+    }
+
     private fun setUpDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
         searchBinding = FragmentSearchBinding.inflate(inflater, container, false)
         searchBinding.search = this
@@ -76,17 +80,6 @@ class SearchFragment : Fragment(), SearchContract.View {
     private fun initView() {
         presenter = SearchPresenter(this, get(), get())
         presenter.getAlignedJobInterest()
-    }
-
-    private fun initFragment() {
-        searchFrame = ArrayList()
-        searchFrame.apply {
-            add(SearchNoGoalListFragment.newInstance())
-        }.forEach {
-            childFragmentManager.beginTransaction()
-                .add(R.id.search_main_container, it)
-                .commit()
-        }
     }
 
     private fun tabSelected() {
@@ -131,12 +124,12 @@ class SearchFragment : Fragment(), SearchContract.View {
 
     private fun emptyFragment() =
         childFragmentManager.beginTransaction()
-            .show(searchFrame[0])
+            .add(R.id.search_main_container, emptyFragment)
             .commit()
 
     private fun hideEmptyFragment() =
         childFragmentManager.beginTransaction()
-            .hide(searchFrame[0])
+            .remove(emptyFragment)
             .commit()
 
     override fun setAlignedJobInterest(interest: MutableSet<String>) {
@@ -162,10 +155,15 @@ class SearchFragment : Fragment(), SearchContract.View {
     override fun setAllView(search: ArrayList<GoalContent>) {
         mContentSize += search.size
         if (mPage == 0) {
-            mAdapter = SearchResultAdapter(presenter.getGoalContentCallback(), search, itemClick)
-            searchBinding.mainResultRecycler.apply {
-                layoutManager = LinearLayoutManager(context)
-                adapter = mAdapter
+            if (mContentSize == 0) {
+                setEmptyFragment()
+            } else {
+                mAdapter =
+                    SearchResultAdapter(presenter.getGoalContentCallback(), search, itemClick)
+                searchBinding.mainResultRecycler.apply {
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = mAdapter
+                }
             }
         } else {
             mAdapter.submitList(search)
@@ -252,5 +250,10 @@ class SearchFragment : Fragment(), SearchContract.View {
 
         intent.putExtra("search",number)
         startActivityForResult(intent, 1000)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        childFragmentManager.beginTransaction().detach(emptyFragment)
     }
 }

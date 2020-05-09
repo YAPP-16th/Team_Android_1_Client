@@ -13,21 +13,52 @@
         android:layout_height="match_parent"
         tools:context=".feature.editgoal.EditGoalActivity">
 
-        <Switch
-            android:id="@+id/switch1"
+        <ImageView
+            android:id="@+id/imageView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/orgDefault"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_icon_navi_arrow_left" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/list_edit_text"
+            android:textColor="@color/grey8"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+            app:layout_constraintStart_toEndOf="@+id/imageView4"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/plusImage"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_icon_navi_plus_normal" />
+
+            <ImageView
+                android:id="@+id/deleteImage"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_icon_navi_trash" />
+        </LinearLayout>
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp">
+            android:layout_marginTop="57dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,5 +79,11 @@
                     tools:listitem="@layout/item_edit_goal"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

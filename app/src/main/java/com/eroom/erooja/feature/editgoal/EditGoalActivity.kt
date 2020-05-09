@@ -4,6 +4,7 @@ import android.graphics.Canvas
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -20,8 +21,9 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
     lateinit var mEditGoalAdapter: EditGoalAdapter
     lateinit var mDeleteGoalAdapter: DeleteGoalAdapter
     lateinit var mItemEditTouchHelper: ItemTouchHelper
-    lateinit var swipeController: SwipeController
     var list = mutableListOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l")
+
+    private var mMode: EditMode = EditMode.EDIT
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,18 +44,7 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
     private fun initView() {
         editRecyclerInit()
         deleteRecyclerInit()
-
-        editGoalBinding.switch1.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                editGoalBinding.editGoalRecycler.visibility = View.GONE
-                editGoalBinding.deleteGoalRecycler.visibility = View.VISIBLE
-            } else {
-                editGoalBinding.editGoalRecycler.visibility = View.VISIBLE
-                editGoalBinding.deleteGoalRecycler.visibility = View.GONE
-            }
-            mEditGoalAdapter.notifyDataSetChanged()
-            mDeleteGoalAdapter.notifyDataSetChanged()
-        }
+        imageListenerInit()
     }
 
     private fun editRecyclerInit() {
@@ -73,23 +64,9 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
 
     private fun deleteRecyclerInit() {
         mDeleteGoalAdapter = DeleteGoalAdapter(presenter.callback, this)
-        swipeController = SwipeController(object : SwipeControllerActions() {
-            override fun onRightClicked(position: Int) {
-                list.removeAt(position)
-                mDeleteGoalAdapter.notifyItemRemoved(position)
-                mDeleteGoalAdapter.notifyItemRangeChanged(position, mDeleteGoalAdapter.itemCount)
-                mEditGoalAdapter.notifyItemRemoved(position)
-                mEditGoalAdapter.notifyItemRangeChanged(position, mEditGoalAdapter.itemCount)
-            }
-        }, dpToPx(this, 100f), dpToPx(this, 18f))
         editGoalBinding.deleteGoalRecycler.apply {
             adapter = mDeleteGoalAdapter
             layoutManager = LinearLayoutManager(this@EditGoalActivity)
-            addItemDecoration(object : RecyclerView.ItemDecoration() {
-                override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-                    swipeController.onDraw(c)
-                }
-            })
         }
     }
 
@@ -103,5 +80,46 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
 
     override fun onStartDrag(holder: EditGoalViewHolder) {
         mItemEditTouchHelper.startDrag(holder)
+    }
+
+    private fun imageListenerInit() {
+        editGoalBinding.deleteImage.setOnClickListener {
+            when (mMode) {
+                EditMode.DELETE -> {
+                    mMode = EditMode.EDIT
+                    (it as ImageView).setImageDrawable(getDrawable(R.drawable.ic_icon_navi_trash))
+                    editGoalBinding.plusImage.setImageDrawable(getDrawable(R.drawable.ic_icon_navi_plus_normal))
+                    editGoalBinding.editGoalRecycler.visibility = View.VISIBLE
+                    editGoalBinding.deleteGoalRecycler.visibility = View.GONE
+                }
+                EditMode.ADD -> {
+
+                }
+                EditMode.EDIT -> {
+                    mMode = EditMode.DELETE
+                    (it as ImageView).setImageDrawable(getDrawable(R.drawable.ic_icon_check_active))
+                    editGoalBinding.plusImage.setImageDrawable(getDrawable(R.drawable.ic_icon_navi_plus_inactive))
+                    editGoalBinding.editGoalRecycler.visibility = View.GONE
+                    editGoalBinding.deleteGoalRecycler.visibility = View.VISIBLE
+                }
+            }
+            mEditGoalAdapter.notifyDataSetChanged()
+            mDeleteGoalAdapter.notifyDataSetChanged()
+        }
+        editGoalBinding.plusImage.setOnClickListener {
+            when (mMode) {
+                EditMode.DELETE -> {
+
+                }
+                EditMode.ADD -> {
+
+                }
+                EditMode.EDIT -> {
+
+                }
+            }
+            mEditGoalAdapter.notifyDataSetChanged()
+            mDeleteGoalAdapter.notifyDataSetChanged()
+        }
     }
 }

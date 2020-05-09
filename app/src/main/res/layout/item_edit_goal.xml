@@ -1,22 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:orientation="horizontal" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/item_all"
-        android:background="@color/orgHover2"
-        android:layout_margin="10dp">
+        android:background="@drawable/goal_list_item_textview"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp">
 
-        <TextView
-            android:id="@+id/sampleText"
-            android:layout_width="0dp"
+
+
+        <ImageView
+            android:id="@+id/dot"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="30dp"
+            android:padding="16dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/goal_list_dot_activate" />
+
+        <TextView
+            android:id="@+id/contentText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/dot"
             app:layout_constraintEnd_toStartOf="@+id/trigger"
-            android:text="TextView" />
+            tools:text="애프터이펙트 익스프레션 연습하기" />
 
         <ImageView
             android:id="@+id/trigger"

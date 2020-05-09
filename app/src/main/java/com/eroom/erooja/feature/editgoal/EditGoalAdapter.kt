@@ -34,7 +34,7 @@ class EditGoalAdapter(
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: EditGoalViewHolder, position: Int) {
-        holder.binding.sampleText.text = activity.list[position]
+        holder.binding.contentText.text = activity.list[position]
         holder.binding.trigger.setOnTouchListener { v, event ->
             activity.attachRecyclerView()
             if (event.actionMasked == MotionEvent.ACTION_DOWN) {
@@ -42,7 +42,11 @@ class EditGoalAdapter(
             }
             return@setOnTouchListener false
         }
-        holder.binding.sampleText.setOnTouchListener { v, event ->
+        holder.binding.contentText.setOnTouchListener { v, event ->
+            activity.detachRecyclerView()
+            return@setOnTouchListener false
+        }
+        holder.binding.dot.setOnTouchListener { v, event ->
             activity.detachRecyclerView()
             return@setOnTouchListener false
         }
