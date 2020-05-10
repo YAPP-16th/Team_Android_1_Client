@@ -20,6 +20,6 @@
             android:layout_marginTop="14dp"
             android:layout_marginBottom="14dp"
             tools:text="참여자 목록보기(80)"
-            android:textSize="14sp"/>
+            android:textSize="16sp"/>
     </LinearLayout>
 </layout>

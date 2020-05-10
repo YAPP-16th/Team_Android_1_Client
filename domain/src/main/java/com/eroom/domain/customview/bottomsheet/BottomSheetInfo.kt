@@ -7,5 +7,6 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class BottomSheetInfo(
     var title: String,
-    var colorInfo: BottomSheetColor
+    var colorInfo: BottomSheetColor,
+    var boldInfo: Boolean = false
 ): Parcelable

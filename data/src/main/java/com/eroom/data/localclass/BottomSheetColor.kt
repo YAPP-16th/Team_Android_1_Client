@@ -1,5 +1,5 @@
 package com.eroom.data.localclass
 
 enum class BottomSheetColor {
-    DEFAULT, RED, BLUE
+    DEFAULT, RED, BLUE, ORG_DEFAULT
 }

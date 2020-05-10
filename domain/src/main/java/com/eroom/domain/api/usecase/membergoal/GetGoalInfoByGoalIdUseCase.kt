@@ -13,7 +13,7 @@ class GetGoalInfoByGoalIdUseCase(accessRetrofitRepository: AccessRetrofitReposit
         .getAccessRetrofit()
         .create(MemberGoalService::class.java)
 
-    fun getInfoByGoalId(goalId: Long) : Single<Response<ParticipatedGoalInfoResponse>> = memberGoalService
+    fun getInfoByGoalId(goalId: Long) : Single<ParticipatedGoalInfoResponse> = memberGoalService
         .getInfoByGoalId(goalId)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())

@@ -2,14 +2,16 @@ package com.eroom.erooja.feature.endedGoal
 
 import android.annotation.SuppressLint
 import com.eroom.domain.api.usecase.goal.GetGoalDetailUseCase
+import com.eroom.domain.api.usecase.membergoal.GetGoalInfoByGoalIdUseCase
 import com.eroom.domain.api.usecase.todo.GetTodoListUseCase
 import com.eroom.erooja.feature.ongoingGoal.OngoingGoalContract
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
 class EndedGoalPresenter(override var view: EndedGoalContract.View,
-                           private val getGoalDetailUseCase: GetGoalDetailUseCase,
-                           private val getTodoListUseCase: GetTodoListUseCase
+                         private val getGoalDetailUseCase: GetGoalDetailUseCase,
+                         private val getTodoListUseCase: GetTodoListUseCase,
+                         private val getGoalInfoByGoalIdUseCase: GetGoalInfoByGoalIdUseCase
 ): EndedGoalContract.Presenter {
 
     val compositeDisposable = CompositeDisposable()
@@ -30,6 +32,16 @@ class EndedGoalPresenter(override var view: EndedGoalContract.View,
             .subscribe({
                 view.setTodoList(it.content)
             },{
+                Timber.e(it.localizedMessage)
+            })
+    }
+
+    @SuppressLint("CheckResult")
+    override fun getGoalInfoByGoalId(goalId: Long) {
+        getGoalInfoByGoalIdUseCase.getInfoByGoalId(goalId)
+            .subscribe({
+                view.setIsAbandoned(it.isEnd)
+            }, {
                 Timber.e(it.localizedMessage)
             })
     }
