@@ -3,6 +3,7 @@ package com.eroom.erooja.feature.ongoingGoal
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -35,6 +36,8 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
 
     private var goalId: Long = -1
     private var isFromMyPage: Boolean = false
+
+    private var mLastClickTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,6 +110,11 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+        reRequestTodoList()
+    }
+
     override fun reRequestTodoList() {
         presenter.getTodoData(uId, goalId)
     }
@@ -147,7 +155,10 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
                     })
                 }
                 2 -> { // 리스트 수정하기
-                    startActivity(Intent(this, EditGoalActivity::class.java))
+                    startActivity(Intent(this, EditGoalActivity::class.java).apply {
+                        putExtra(Consts.GOAL_ID, goalId)
+                        putExtra(Consts.UID, uId)
+                    })
                 }
                 3 -> { // 목표 그만두기
 
@@ -159,6 +170,10 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     }
 
     fun additionalOptionClicked() {
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+            return
+        }
+        mLastClickTime = SystemClock.elapsedRealtime()
         bottom.show(supportFragmentManager, bottom.tag)
     }
 

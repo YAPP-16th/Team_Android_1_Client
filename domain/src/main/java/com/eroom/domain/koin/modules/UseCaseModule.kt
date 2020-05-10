@@ -16,6 +16,7 @@ import com.eroom.domain.api.usecase.membergoal.GetParticipantedListUseCase
 import com.eroom.domain.api.usecase.membergoal.PostAddMyGoalUseCase
 import com.eroom.domain.api.usecase.todo.GetTodoListUseCase
 import com.eroom.domain.api.usecase.todo.PutTodoEditUseCase
+import com.eroom.domain.api.usecase.todo.PutTodoListUseCase
 import org.koin.dsl.module
 
 val usecaseModule = module {
@@ -64,4 +65,6 @@ val usecaseModule = module {
     factory { PostAddMyGoalUseCase(get()) }
 
     factory { GetGoalInfoByGoalIdUseCase(get()) }
+
+    factory { PutTodoListUseCase(get()) }
 }
