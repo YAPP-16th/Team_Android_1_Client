@@ -85,9 +85,8 @@ class SearchDetailActivity : AppCompatActivity() {
             }
         })
 
-        for (i in 0 until 9) {
-            autoSearch.add(DesignClass.getArray()[i].getName())
-            autoSearch.add(DevelopClass.getArray()[i].getName())
+        for (it in JobClassHashMap.hashmap) {
+            autoSearch.add(it.value)
         }
 
         searchAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, autoSearch)
