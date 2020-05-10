@@ -37,6 +37,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
 
     private var goalId: Long = -1
     private var isFromMyPage: Boolean = false
+    private var isAbandoned: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +86,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     }
 
     fun initView() {
-        presenter = EndedGoalPresenter(this, get(), get())
+        presenter = EndedGoalPresenter(this, get(), get(), get())
 
         statusBarColor(this@EndedGoalActivity, R.color.grey1)
 
@@ -105,10 +106,10 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
         goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
         presenter.getData(goalId)
         uId = intent.getStringExtra(Consts.UID) ?: ""
+        isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, false)
 
         presenter.getTodoData(uId, goalId)
-
-        isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, false)
+        presenter.getGoalInfoByGoalId(goalId)
     }
 
     fun moreClick(v: View) {
@@ -137,33 +138,26 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
             arguments = Bundle().apply {
                 putParcelableArrayList(
                     Consts.BOTTOM_SHEET_KEY, arrayListOf(
-                        BottomSheetInfo("다른 참여자 리스트 둘러보기", BottomSheetColor.DEFAULT),
-                        BottomSheetInfo("참여자 목록($count)", BottomSheetColor.DEFAULT),
-                        BottomSheetInfo("리스트 수정하기", BottomSheetColor.DEFAULT),
-                        BottomSheetInfo("목표 그만두기", BottomSheetColor.RED)
+                        BottomSheetInfo("목표에 다시 참여하기", BottomSheetColor.ORG_DEFAULT, true),
+                        BottomSheetInfo("다른 참여자 리스트 둘러보기", BottomSheetColor.DEFAULT, true)
                     ))
             }
         }
         bottom.callback.observe(this, Observer {
             when (it) {
-                0 -> { //다른 참여자 리스트 둘러보기
+                0 -> { // 목표에 다시 참여하기
                     startActivity(Intent(this@EndedGoalActivity, GoalDetailActivity::class.java).apply {
                         putExtra(Consts.GOAL_ID, goalId)
                         putExtra(Consts.UID, uId)
                         putExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, isFromMyPage)
                     })
                 }
-                1 -> { // 참여자 목록
-                    startActivity(Intent(this, ParticipantsListActivity::class.java).apply {
+                1 -> { // 다른 참여자 리스트 둘러보기
+                    startActivity(Intent(this@EndedGoalActivity, GoalDetailActivity::class.java).apply {
                         putExtra(Consts.GOAL_ID, goalId)
                         putExtra(Consts.UID, uId)
+                        putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isFromMyPage)
                     })
-                }
-                2 -> { // 리스트 수정하기
-                    startActivity(Intent(this, EditGoalActivity::class.java))
-                }
-                3 -> { // 목표 그만두기
-
                 }
                 else -> {}
             }
@@ -171,9 +165,16 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
         })
     }
 
+    override fun setIsAbandoned(isAbandoned: Boolean) {
+        this.isAbandoned = isAbandoned
+    }
+
     fun additionalOptionClicked() {
-        //bottom.show(supportFragmentManager, bottom.tag)
-        bottomAlert.show(supportFragmentManager, bottom.tag)
+        if(isAbandoned) {
+            bottom.show(supportFragmentManager, bottom.tag)
+        } else {
+            bottomAlert.show(supportFragmentManager, bottom.tag)
+        }
     }
 
     fun backClick() {

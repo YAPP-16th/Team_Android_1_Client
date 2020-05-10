@@ -29,4 +29,8 @@ interface MemberGoalService {
 
     @POST("membergoal")
     fun postAddMyGoal(@Body addMyGoalRequest: AddMyGoalRequest): Single<Response<AddGoalResponse>>
+
+    @GET("membergoal/{goalId}/info")
+    fun getInfoByGoalId(@Path("goalId") goalId: Long): Single<ParticipatedGoalInfoResponse>
+
 }

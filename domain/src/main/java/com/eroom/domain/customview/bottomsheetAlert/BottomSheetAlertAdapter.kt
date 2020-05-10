@@ -37,6 +37,7 @@ class BottomSheetAlertAdapter(
                     BottomSheetColor.DEFAULT -> context.resources.getColor(R.color.grey5, null)
                     BottomSheetColor.RED -> context.resources.getColor(R.color.colorError, null)
                     BottomSheetColor.BLUE -> context.resources.getColor(R.color.colorActive, null)
+                    BottomSheetColor.ORG_DEFAULT -> context.resources.getColor(R.color.orgDefault, null)
                 }
             )
             binding.itemSheetLayout.setOnClickListener {
