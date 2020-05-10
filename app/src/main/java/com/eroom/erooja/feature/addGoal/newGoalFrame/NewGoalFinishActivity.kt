@@ -7,11 +7,12 @@ import androidx.databinding.DataBindingUtil
 import com.eroom.domain.globalconst.Consts
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityNewGoalFinishBinding
-import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
+import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
 
 class NewGoalFinishActivity : AppCompatActivity() {
     private lateinit var newGoalFinishBinding: ActivityNewGoalFinishBinding
     private var resultId: Long = -1
+    private var uId: String = ""
 
     companion object {
         const val errorId: Long = -1
@@ -28,6 +29,7 @@ class NewGoalFinishActivity : AppCompatActivity() {
         val goalTitle = intent.extras?.getString(Consts.GOAL_TITLE)
         newGoalFinishBinding.goalTitle.text = goalTitle
         resultId = intent.extras?.getLong(Consts.ADD_NEW_GOAL_RESULT_ID) ?: -1
+        uId = intent.extras?.getString(Consts.UID) ?: ""
     }
 
     private fun setUpDataBinding() {
@@ -45,10 +47,11 @@ class NewGoalFinishActivity : AppCompatActivity() {
 
     fun navigateToGoalDetail() {
         if (resultId != errorId) {
-            val intent = Intent(this, GoalDetailActivity::class.java)
-                .apply { putExtra(Consts.GOAL_ID, resultId) }
-
-            startActivity(intent)
+            startActivity(Intent(this, OngoingGoalActivity::class.java).apply {
+                putExtra(Consts.GOAL_ID, resultId)
+                putExtra(Consts.UID, uId)
+                putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, true)
+            })
         }
         finish()
     }

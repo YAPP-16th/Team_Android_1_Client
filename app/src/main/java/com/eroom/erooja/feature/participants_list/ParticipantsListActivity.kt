@@ -22,6 +22,7 @@ class ParticipantsListActivity : AppCompatActivity(), ParticipantsListContract.V
     private var mPage = 0
     private var isEnd = false
     private var mContentSize = 0
+    private var mContentList: ArrayList<Member> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,12 +49,13 @@ class ParticipantsListActivity : AppCompatActivity(), ParticipantsListContract.V
 
     @SuppressLint("SetTextI18n")
     override fun updateList(list: ArrayList<Member>, totalElement: Int) {
+        mContentList.addAll(list)
         if (mPage == 0) {
-            mAdapter = ParticipantListAdapter(presenter.mParticipantDiffCallback, list, uId)
+            mAdapter = ParticipantListAdapter(presenter.mParticipantDiffCallback, mContentList, uId)
             particiBinding.profileRecycler.adapter = mAdapter
             particiBinding.profileRecycler.layoutManager = LinearLayoutManager(this)
         } else {
-            mAdapter.submitList(list)
+            mAdapter.submitList(mContentList)
             mAdapter.notifyDataSetChanged()
         }
         particiBinding.participantCount.text = "총 ${totalElement}명"

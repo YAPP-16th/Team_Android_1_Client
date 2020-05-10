@@ -127,7 +127,7 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
     override fun setJobInterestInfo(classList: ArrayList<JobClass>) {
         mClassList = classList
         if(classList.size <= 4) {
-            othersPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classList)
+            othersPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classList, expandButtonClicked, false)
         } else {
             val classListLimitedFour = ArrayList<JobClass>()
             for((index, jobClass) in classList.withIndex()) {
@@ -135,8 +135,7 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
                     break
                 classListLimitedFour.add(jobClass)
             }
-            othersPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classListLimitedFour)
-            othersPageBinding.expandBtn.visibility = View.VISIBLE
+            othersPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classListLimitedFour, expandButtonClicked, true)
         }
     }
 
@@ -211,9 +210,8 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
         })
     }
 
-    fun expandButtonClicked() {
-        othersPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(mClassList)
-        othersPageBinding.expandBtn.visibility = View.GONE
+    private val expandButtonClicked =  {
+        othersPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(mClassList, {}, false)
     }
 
     val ongoingRecyclerViewScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {

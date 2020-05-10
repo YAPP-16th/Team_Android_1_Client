@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.eroom.data.entity.JobGroup
 import com.eroom.data.response.JobGroupAndClassResponse
+import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityTabBinding
@@ -95,7 +96,9 @@ class TabActivity : AppCompatActivity(), TabContract.View {
         }
     }
 
-    fun navigateToNewGoal() = startActivity(Intent(this, NewGoalActivity::class.java))
+    fun navigateToNewGoal(uId: String) = startActivity(Intent(this, NewGoalActivity::class.java).apply {
+        putExtra(Consts.UID, uId)
+    })
 
     fun replaceFragment(index: Int) {
         loadFragment(index)

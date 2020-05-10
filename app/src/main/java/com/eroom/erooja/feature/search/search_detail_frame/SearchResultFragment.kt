@@ -25,6 +25,7 @@ class SearchResultFragment : Fragment(), SearchResultContract.View {
     lateinit var mAdapter: SearchResultAdapter
     private var mPage = 0
     private var mContentSize = 0
+    private var mContentList: ArrayList<GoalContent> = ArrayList()
     private var isEnd = false
 
     companion object {
@@ -67,20 +68,22 @@ class SearchResultFragment : Fragment(), SearchResultContract.View {
     private fun resetOption() {
         mPage = 0
         mContentSize = 0
+        mContentList.clear()
         isEnd = false
     }
 
     override fun setAllView(search: ArrayList<GoalContent>) {
         (activity as SearchDetailActivity).checkContentSize(mPage == 0 && search.size == 0)
         mContentSize += search.size
+        mContentList.addAll(search)
         if (mPage == 0) {
-            mAdapter = SearchResultAdapter(presenter.getGoalContentCallback(), search, itemClick)
+            mAdapter = SearchResultAdapter(presenter.getGoalContentCallback(), mContentList, itemClick)
             binding.searchResultRecyclerview.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = mAdapter
             }
         } else {
-            mAdapter.submitList(search)
+            mAdapter.submitList(mContentList)
             mAdapter.notifyDataSetChanged()
         }
         mPage++

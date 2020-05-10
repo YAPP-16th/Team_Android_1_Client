@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -46,6 +47,10 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private var endDate = ""
     private var additionalGoalList = ""
 
+    private var uId: String = ""
+
+    private var mLastClickTime: Long = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initPresenter()
@@ -57,6 +62,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
 
     private fun initPresenter() {
         presenter = NewGoalPresenter(this, get())
+        uId = intent.getStringExtra(Consts.UID) ?: ""
     }
 
     private fun setDefaultPeriod() {
@@ -164,6 +170,10 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     }
 
     fun nextButtonClicked() {
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+            return
+        }
+        mLastClickTime = SystemClock.elapsedRealtime()
         hideKeyBoard()
         nextClickable.get()?.let {
             if (it) {
@@ -193,6 +203,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         val intent = Intent(this, NewGoalFinishActivity::class.java)
         intent.putExtra(Consts.GOAL_TITLE, goalTitleText)
         intent.putExtra(Consts.ADD_NEW_GOAL_RESULT_ID, resultId)
+        intent.putExtra(Consts.UID, uId)
         startActivity(intent)
         finish()
     }

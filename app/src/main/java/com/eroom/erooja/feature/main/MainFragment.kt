@@ -142,10 +142,11 @@ class MainFragment : Fragment(), MainContract.View {
         startActivity(Intent(activity, OngoingGoalActivity::class.java).apply {
             putExtra(Consts.GOAL_ID, goalId)
             putExtra(Consts.UID, uId)
+            putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, true)
         })
     }
 
-    private val addGoalClicked = { (activity as TabActivity).navigateToNewGoal() }
+    private val addGoalClicked = { (activity as TabActivity).navigateToNewGoal(uId) }
 
     private val newGoalClicked = { goalId: Long ->
         startActivity(Intent(activity, GoalDetailActivity::class.java).apply {
@@ -157,7 +158,7 @@ class MainFragment : Fragment(), MainContract.View {
 
     fun navigateToMyPageTab() = (activity as TabActivity).changeTabToMyPage()
 
-    fun navigateToAddGoal() = (activity as TabActivity).navigateToNewGoal()
+    fun navigateToAddGoal() = (activity as TabActivity).navigateToNewGoal(uId)
 
     fun navigateToSearchActivity() =
         startActivity(Intent(activity, SearchDetailActivity::class.java))

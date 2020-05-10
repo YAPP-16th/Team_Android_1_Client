@@ -3,6 +3,7 @@ package com.eroom.erooja.feature.search.search_main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.eroom.data.entity.GoalContent
 import com.eroom.data.entity.JobClass
+import com.eroom.domain.customview.listeners.OnSingleTabSelectedListener
+import com.eroom.domain.customview.wrapperclass.LinearLayoutManagerWrapper
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.getKeyFromValue
 import com.eroom.erooja.R
@@ -25,6 +28,7 @@ import com.eroom.erooja.feature.search.search_main_frame.SearchNoGoalListFragmen
 import com.eroom.erooja.singleton.JobClassHashMap
 import com.google.android.material.tabs.TabLayout
 import org.koin.android.ext.android.get
+import org.koin.core.definition.indexKey
 import timber.log.Timber
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -38,6 +42,7 @@ class SearchFragment : Fragment(), SearchContract.View {
     private var confirmCheck : ObservableField<Boolean> = ObservableField(true)
     private var mPage: Int = 0
     private var mContentSize = 0
+    private var mContentList: ArrayList<GoalContent> = ArrayList()
     private var isEnd = false
     private var mKey: Long? = null
     private lateinit var mAdapter: SearchResultAdapter
@@ -79,14 +84,16 @@ class SearchFragment : Fragment(), SearchContract.View {
 
     private fun tabSelected() {
         searchBinding.searchMainTablayout.addOnTabSelectedListener(object :
-            TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(p0: TabLayout.Tab?) {}
-            override fun onTabUnselected(p0: TabLayout.Tab?) {}
-            override fun onTabSelected(p0: TabLayout.Tab) {
+            OnSingleTabSelectedListener() {
+            override fun onSingleTabClick(tab: TabLayout.Tab?) {
                 mContentSize = 0
+                mContentList.clear()
                 mPage = 0
                 isEnd = false
-                searchInfoRequest(p0.text.toString())
+                tab?.let {
+                    searchInfoRequest(it.text.toString())
+                    Timber.e("${it.text}")
+                }
             }
         })
     }
@@ -142,6 +149,17 @@ class SearchFragment : Fragment(), SearchContract.View {
                         searchBinding.searchMainTablayout.newTab().setText(it)
                     )
                 }
+                for (index in 0 until searchBinding.searchMainTablayout.childCount) {
+                    searchBinding.searchMainTablayout.getChildAt(index).setOnClickListener {
+                        it.isClickable = false
+                        Thread(Runnable {
+                            Thread.sleep(1000)
+                            Handler().post {
+                                it.isClickable = true
+                            }
+                        }).start()
+                    }
+                }
             }
             else -> {
                 Timber.i("PASS")
@@ -151,19 +169,20 @@ class SearchFragment : Fragment(), SearchContract.View {
 
     override fun setAllView(search: ArrayList<GoalContent>) {
         mContentSize += search.size
+        mContentList.addAll(search)
         if (mPage == 0) {
             if (mContentSize == 0) {
                 setEmptyFragment()
             } else {
                 mAdapter =
-                    SearchResultAdapter(presenter.getGoalContentCallback(), search, itemClick)
+                    SearchResultAdapter(presenter.getGoalContentCallback(), mContentList, itemClick)
                 searchBinding.mainResultRecycler.apply {
-                    layoutManager = LinearLayoutManager(context)
+                    layoutManager = LinearLayoutManagerWrapper(context)
                     adapter = mAdapter
                 }
             }
         } else {
-            mAdapter.submitList(search)
+            mAdapter.submitList(mContentList)
             mAdapter.notifyDataSetChanged()
         }
         mPage++
@@ -183,7 +202,7 @@ class SearchFragment : Fragment(), SearchContract.View {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
             if (dy >= 0 && mContentSize > 0) {
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManagerWrapper
                 if (layoutManager.findLastCompletelyVisibleItemPosition() == mContentSize - 1 && !isEnd) {
                     presenter.getSearchJobInterest(mKey, mPage)
                 }
@@ -234,6 +253,18 @@ class SearchFragment : Fragment(), SearchContract.View {
             searchBinding.searchMainTablayout.addTab(
                 searchBinding.searchMainTablayout.newTab().setText(it)
             )
+        }
+
+        for (index in 0 until searchBinding.searchMainTablayout.childCount) {
+            searchBinding.searchMainTablayout.getChildAt(index).setOnClickListener {
+                it.isClickable = false
+                Thread(Runnable {
+                    Thread.sleep(1000)
+                    Handler().post {
+                        it.isClickable = true
+                    }
+                }).start()
+            }
         }
     }
 
