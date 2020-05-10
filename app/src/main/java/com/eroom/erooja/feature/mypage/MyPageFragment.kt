@@ -135,7 +135,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
     override fun setJobInterestInfo(classList: ArrayList<JobClass>) {
         mClassList = classList
         if(classList.size <= 4) {
-            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classList)
+            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classList, expandButtonClicked, false)
         } else {
             val classListLimitedFour = ArrayList<JobClass>()
             for((index, jobClass) in classList.withIndex()) {
@@ -143,8 +143,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
                     break
                 classListLimitedFour.add(jobClass)
             }
-            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classListLimitedFour)
-            myPageBinding.expandBtn.visibility = View.VISIBLE
+            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classListLimitedFour, expandButtonClicked, true)
         }
     }
 
@@ -228,12 +227,11 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         })
     }
 
-    fun expandButtonClicked() {
-        myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(mClassList)
-        myPageBinding.expandBtn.visibility = View.GONE
+    private val expandButtonClicked =  {
+        myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(mClassList, {}, false)
     }
 
-    fun settingClick(){
+    fun settingClick() {
         (activity as TabActivity).replaceFragment(3)
     }
 
