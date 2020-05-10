@@ -47,6 +47,8 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private var endDate = ""
     private var additionalGoalList = ""
 
+    private var uId: String = ""
+
     private var mLastClickTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +62,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
 
     private fun initPresenter() {
         presenter = NewGoalPresenter(this, get())
+        uId = intent.getStringExtra(Consts.UID) ?: ""
     }
 
     private fun setDefaultPeriod() {
@@ -200,6 +203,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         val intent = Intent(this, NewGoalFinishActivity::class.java)
         intent.putExtra(Consts.GOAL_TITLE, goalTitleText)
         intent.putExtra(Consts.ADD_NEW_GOAL_RESULT_ID, resultId)
+        intent.putExtra(Consts.UID, uId)
         startActivity(intent)
         finish()
     }
