@@ -42,6 +42,7 @@ class SearchFragment : Fragment(), SearchContract.View {
     private var confirmCheck : ObservableField<Boolean> = ObservableField(true)
     private var mPage: Int = 0
     private var mContentSize = 0
+    private var mContentList: ArrayList<GoalContent> = ArrayList()
     private var isEnd = false
     private var mKey: Long? = null
     private lateinit var mAdapter: SearchResultAdapter
@@ -86,6 +87,7 @@ class SearchFragment : Fragment(), SearchContract.View {
             OnSingleTabSelectedListener() {
             override fun onSingleTabClick(tab: TabLayout.Tab?) {
                 mContentSize = 0
+                mContentList.clear()
                 mPage = 0
                 isEnd = false
                 tab?.let {
@@ -167,19 +169,20 @@ class SearchFragment : Fragment(), SearchContract.View {
 
     override fun setAllView(search: ArrayList<GoalContent>) {
         mContentSize += search.size
+        mContentList.addAll(search)
         if (mPage == 0) {
             if (mContentSize == 0) {
                 setEmptyFragment()
             } else {
                 mAdapter =
-                    SearchResultAdapter(presenter.getGoalContentCallback(), search, itemClick)
+                    SearchResultAdapter(presenter.getGoalContentCallback(), mContentList, itemClick)
                 searchBinding.mainResultRecycler.apply {
                     layoutManager = LinearLayoutManagerWrapper(context)
                     adapter = mAdapter
                 }
             }
         } else {
-            mAdapter.submitList(search)
+            mAdapter.submitList(mContentList)
             mAdapter.notifyDataSetChanged()
         }
         mPage++
