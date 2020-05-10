@@ -56,20 +56,6 @@
             tools:itemCount="2"
             tools:listitem="@layout/item_mypage_job_class" />
 
-
-        <ImageView
-            android:id="@+id/expand_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            tools:visibility="visible"
-            android:src="@drawable/ic_icon_expandable_btn"
-            android:onClick="@{() -> activity.expandButtonClicked()}"
-            app:layout_constraintTop_toBottomOf="@id/user_name"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/jobClassRecycler"
-            app:layout_constraintVertical_bias="0.09"/>
-
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="300dp"
