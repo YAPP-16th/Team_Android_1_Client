@@ -65,7 +65,7 @@
                 android:paddingStart="21dp"
                 android:paddingEnd="21dp"
                 android:textSize="14sp"
-                android:textColor="#8a000000"
+                android:textColor="@color/orgDefault"
                 android:text="@string/cancel_text" />
 
             <TextView

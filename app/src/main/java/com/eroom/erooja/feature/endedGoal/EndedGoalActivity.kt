@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -38,6 +39,8 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     private var goalId: Long = -1
     private var isFromMyPage: Boolean = false
     private var isAbandoned: Boolean = false
+
+    private var mLastClickTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -170,6 +173,11 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     }
 
     fun additionalOptionClicked() {
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+            return
+        }
+        mLastClickTime = SystemClock.elapsedRealtime()
+
         if(isAbandoned) {
             bottom.show(supportFragmentManager, bottom.tag)
         } else {

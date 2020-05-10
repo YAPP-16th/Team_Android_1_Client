@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.eroom.data.entity.JobClass
-import com.eroom.data.localclass.DevelopClass
-import com.eroom.data.localclass.DevelopSelected
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ItemJobClassFilterBinding
 

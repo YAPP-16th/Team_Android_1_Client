@@ -8,8 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import com.eroom.data.localclass.DesignClass
-import com.eroom.data.localclass.DevelopClass
 import com.eroom.domain.utils.getKeyFromValue
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivitySearchDetailBinding

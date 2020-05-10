@@ -8,18 +8,21 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.eroom.data.entity.MinimalTodoListDetail
+import com.eroom.data.entity.Todo
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.vibrateShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityEditGoalBinding
 import com.eroom.erooja.dialog.EroojaDialogActivity
-import rx.Observable
+import org.koin.android.ext.android.get
 
 class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAdapter.OnStartDragListener {
     lateinit var presenter: EditGoalPresenter
@@ -27,8 +30,10 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
     lateinit var mEditGoalAdapter: EditGoalAdapter
     lateinit var mDeleteGoalAdapter: DeleteGoalAdapter
     lateinit var mItemEditTouchHelper: ItemTouchHelper
-    lateinit var editList: ArrayList<String>
+    var editTodoList: ArrayList<Todo> = ArrayList()
+    var editTodoListObserver: MutableLiveData<ArrayList<Todo>> = MutableLiveData()
     private var addFragment: Fragment? = null
+    private val tempTodoList: ArrayList<Todo> = ArrayList()
 
     private val temporaryDeleteList: ArrayList<Int> = ArrayList()
 
@@ -40,15 +45,19 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
     var isCanEdit: Boolean = false
     val isButtonActive: ObservableField<Boolean> = ObservableField(false)
 
+    private var uId: String = ""
+    private var goalId: Long = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initPresenter()
         setUpDataBinding()
         initView()
+        compareOrigin()
     }
 
     private fun initPresenter() {
-        presenter = EditGoalPresenter(this)
+        presenter = EditGoalPresenter(this, get(), get())
     }
 
     private fun setUpDataBinding() {
@@ -57,11 +66,30 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
     }
 
     private fun initView() {
-        editList = arrayListOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l")
-        editRecyclerInit(true)
-        deleteRecyclerInit()
+        uId = intent.getStringExtra(Consts.UID) ?: ""
+        goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
+        presenter.getTodoData(uId, goalId)
         imageListenerInit()
         buttonListenerInit()
+    }
+
+    override fun setEditList(todoList: ArrayList<MinimalTodoListDetail>) {
+        editTodoList.clear()
+        tempTodoList.clear()
+        for (item in todoList) {
+            editTodoList.add(Todo(todoId = item.id, content = item.content, priority = 0, isEnd = item.isEnd))
+        }
+        tempTodoList.addAll(editTodoList)
+        editTodoListObserver.value = editTodoList
+        editRecyclerInit(true)
+        deleteRecyclerInit()
+    }
+
+    private fun compareOrigin() {
+        editTodoListObserver.observe(this, Observer {
+            isCanEdit = it != tempTodoList
+            if (mMode == EditMode.EDIT) isButtonActive.set(isCanEdit)
+        })
     }
 
     private fun editRecyclerInit(isMovable: Boolean) {
@@ -132,6 +160,7 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
             when (mMode) {
                 EditMode.DELETE -> {}
                 EditMode.ADD -> {
+                    hideKeyBoard()
                     mMode = EditMode.EDIT
                     isAddMode.set(false)
                     editRecyclerInit(true)
@@ -139,10 +168,14 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
                     editGoalBinding.deleteImage.setImageDrawable(getDrawable(R.drawable.ic_icon_navi_trash))
                     addFragment?.let { fragment ->
                         (addFragment as AddListFragment).goalList.value?.let { addList ->
-                            editList.addAll(addList)
+                            for (item in addList) {
+                                editTodoList.add(Todo(todoId = null, content = item, priority = 0, isEnd = false))
+                            }
+                            editTodoListObserver.value = editTodoList
                         }
                         (addFragment as AddListFragment).writingText.value?.let {string ->
-                            if (string.isNotEmpty()) editList.add(string)
+                            if (string.isNotEmpty()) editTodoList.add(Todo(todoId = null, content = string, priority = 0, isEnd = false))
+                            editTodoListObserver.value = editTodoList
                         }
                         supportFragmentManager.beginTransaction().detach(fragment).commit()
                     }
@@ -170,7 +203,7 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
         editGoalBinding.editCompleteButton.setOnClickListener {
             when (mMode) {
                 EditMode.DELETE -> {
-                    if (temporaryDeleteList.size == editList.size) {
+                    if (temporaryDeleteList.size == editTodoList.size) {
                         Thread(Runnable {
                             this.vibrateShort()
                         }).start()
@@ -205,7 +238,14 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
                 }
                 EditMode.ADD -> {}
                 EditMode.EDIT -> {
-
+                    isButtonActive.get()?.let {
+                        if (it) {
+                            editTodoList.mapIndexed { index: Int, todo: Todo ->
+                                todo.priority = index
+                            }
+                            presenter.putTodoList(uId, goalId, editTodoList)
+                        }
+                    }
                 }
             }
         }
@@ -238,11 +278,12 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
                     temporaryDeleteList.sort()
                     temporaryDeleteList.reverse()
                     temporaryDeleteList.forEach { index: Int ->
-                        editList.removeAt(index)
+                        editTodoList.removeAt(index)
+                        editTodoListObserver.value = editTodoList
                         mDeleteGoalAdapter.notifyItemRemoved(index)
-                        mDeleteGoalAdapter.notifyItemRangeChanged(index, editList.size - 1)
+                        mDeleteGoalAdapter.notifyItemRangeChanged(index, editTodoList.size - 1)
                         mEditGoalAdapter.notifyItemRemoved(index)
-                        mEditGoalAdapter.notifyItemRangeChanged(index, editList.size - 1)
+                        mEditGoalAdapter.notifyItemRangeChanged(index, editTodoList.size - 1)
                     }
                     temporaryDeleteList.clear()
                     deletingCount.set("삭제")
@@ -262,10 +303,14 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
                     editGoalBinding.deleteImage.setImageDrawable(getDrawable(R.drawable.ic_icon_navi_trash))
                     addFragment?.let { fragment ->
                         (addFragment as AddListFragment).goalList.value?.let { addList ->
-                            editList.addAll(addList)
+                            for (item in addList) {
+                                editTodoList.add(Todo(todoId = null, content = item, priority = 0, isEnd = false))
+                            }
+                            editTodoListObserver.value = editTodoList
                         }
                         (addFragment as AddListFragment).writingText.value?.let { string ->
-                            if (string.isNotEmpty()) editList.add(string)
+                            if (string.isNotEmpty()) editTodoList.add(Todo(todoId = null, content = string, priority = 0, isEnd = false))
+                            editTodoListObserver.value = editTodoList
                         }
                         supportFragmentManager.beginTransaction().detach(fragment).commit()
                     }
@@ -283,11 +328,33 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
                 }
             }
         }
+        if (requestCode == 6000 && resultCode == 6000) {
+            data?.let {
+                val result = it.getBooleanExtra(Consts.DIALOG_RESULT, false)
+                if (result) {
+                    editTodoList.mapIndexed { index: Int, todo: Todo ->
+                        todo.priority = index
+                    }
+                    presenter.putTodoList(goalId, editTodoList)
+                } else {
+                    finish()
+                }
+            }
+        }
+    }
+
+    override fun finishActivity() {
+        finish()
     }
 
     fun showKeyboard(input: EditText) {
         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(input, 0)
+    }
+
+    private fun hideKeyBoard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
     }
 
     override fun onBackPressed() {
@@ -310,7 +377,24 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
                 }, 5000)
             }
             EditMode.EDIT -> {
-                finish()
+                isButtonActive.get()?.let {
+                    if (it) {
+                        startActivityForResult(Intent(
+                            this,
+                            EroojaDialogActivity::class.java
+                        ).apply {
+                            putExtra(Consts.DIALOG_TITLE, "")
+                            putExtra(
+                                Consts.DIALOG_CONTENT,
+                                "나가기 전 수정 내역을 저장하시겠어요?"
+                            )
+                            putExtra(Consts.DIALOG_CONFIRM, true)
+                            putExtra(Consts.DIALOG_CANCEL, true)
+                        }, 6000)
+                    } else {
+                        finish()
+                    }
+                } ?: finish()
             }
         }
     }
