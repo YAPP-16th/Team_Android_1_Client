@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -45,6 +46,8 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private var startDate: String = ""
     private var endDate = ""
     private var additionalGoalList = ""
+
+    private var mLastClickTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -164,6 +167,10 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     }
 
     fun nextButtonClicked() {
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+            return
+        }
+        mLastClickTime = SystemClock.elapsedRealtime()
         hideKeyBoard()
         nextClickable.get()?.let {
             if (it) {
