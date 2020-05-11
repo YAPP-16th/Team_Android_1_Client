@@ -38,14 +38,13 @@ class AddMyListActivity : AppCompatActivity(),
     private var mPage = 0
     var nextClickable: ObservableField<Boolean> = ObservableField(true)
 
-    private var selectedIds: ArrayList<Long> = ArrayList()
-    private var goalTitleText = ""
-    private var goalDetailContentText = ""
-    private var isDateFixed: Boolean = false
+
     private var goalList: ArrayList<String> = ArrayList()
     private var startDate: String = ""
     private var endDate = ""
     private var additionalGoalList = ""
+    private var goalTitleText = ""
+    private var goalDetailContentText: String? = null
 
     //getExtra GoalDetailActivity -> NewGoalActivity
     private var addMyList:Int?= null
@@ -53,6 +52,7 @@ class AddMyListActivity : AppCompatActivity(),
     private var goalId:Long?= null
     private var ownerUid:String?= null
     private var addOtherList:Int?= null
+    private var userTodoList:ArrayList<String> = arrayListOf("")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,25 +62,10 @@ class AddMyListActivity : AppCompatActivity(),
         initFragment()
         observeData()
         setDefaultPeriod()
-
-
         addAndJoinMyList()
     }
 
     private fun addAndJoinMyList(){
-        goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
-        addMyList = intent.getIntExtra(Consts.GOAL_DETAIL_REQUEST_verME, -1)
-        goalTitleText = intent.getStringExtra(Consts.GOAL_TITLE)
-        goalDetailContentText = intent.getStringExtra("Description")
-        goalDate = intent.getStringExtra(Consts.DATE)
-        addOtherList = intent.getIntExtra(Consts.GOAL_DETAIL_REQUEST_verOTHER, -1)
-        ownerUid = intent.getStringExtra(Consts.UID)
-
-        if(addMyList == -1) addMyList = null
-        if(goalId == -1L)  goalId = null
-        if(addOtherList == -1) addOtherList = null
-
-
        // case 1: 기간 고정, 내가 만든 리스트를 추가하는 경우
         if (addMyList == Consts.GOAL_DETAIL_REQUEST_NUM_verME
             && !goalDate.equals("기간 설정 자유")){
@@ -95,8 +80,8 @@ class AddMyListActivity : AppCompatActivity(),
         else if (addMyList == Consts.GOAL_DETAIL_REQUEST_NUM_verME
             && goalDate.equals("기간 설정 자유")){
             mPage = 0
+            //nextClickable.set(true)
             showFragment()
-            nextClickable.set(true)
 
         }
         // case 3: 기간 고정, 다른 사람의 리스트를 추가하는 경우
@@ -107,7 +92,6 @@ class AddMyListActivity : AppCompatActivity(),
             val endGoalDate = goalDate!!.split("~")
             val endGoalDate1 = endGoalDate[1].split(".")
             endDate = toLocalDateFormat("20"+endGoalDate1[0], endGoalDate1[1], endGoalDate1[2])
-            nextClickable.set(true)
 
 
         }
@@ -116,23 +100,36 @@ class AddMyListActivity : AppCompatActivity(),
         else if (addOtherList == Consts.GOAL_DETAIL_REQUEST_NUM_verOTHER
             && goalDate.equals("기간 설정 자유")){
             mPage = 0
+            //nextClickable.set(true)
             showFragment()
-            nextClickable.set(true)
         }
 
     }
 
     private fun initPresenter() {
         presenter = AddMyListPresenter(this, get(),get())
-        ownerUid?.let { goalId?.let { it1 -> presenter.getUserTodoData(it, it1) } }
+       // ownerUid?.let { goalId?.let { it1 -> presenter.getUserTodoData(it, it1) } }
+        intent.getStringArrayListExtra(Consts.USER_TODO_LIST)?.let{
+            userTodoList = it
+            goalList = userTodoList
+        }
+
+        //Todo: GoalDetailActivity에서 담은 데이터를 받음
+        goalId = if(intent.getLongExtra(Consts.GOAL_ID, -1L) != -1L) intent.getLongExtra(Consts.GOAL_ID, -1L) else null
+        addMyList = if(intent.getIntExtra(Consts.GOAL_DETAIL_REQUEST_verME, -1) != 1)
+            intent.getIntExtra(Consts.GOAL_DETAIL_REQUEST_verME, -1) else null
+        goalTitleText = intent.getStringExtra(Consts.GOAL_TITLE)
+        goalDetailContentText = intent.getStringExtra(Consts.DESCRIPTION)
+        goalDate = intent.getStringExtra(Consts.DATE)
+        addOtherList = if(intent.getIntExtra(Consts.GOAL_DETAIL_REQUEST_verOTHER, -1) != -1)
+            intent.getIntExtra(Consts.GOAL_DETAIL_REQUEST_verOTHER, -1) else null
+        ownerUid = intent.getStringExtra(Consts.UID)
+
     }
 
-    override fun setTodoList(todoList: ArrayList<String>) {
-
-    }
 
     private fun setDefaultPeriod() {
-        var today: Calendar = Calendar.getInstance()
+        val today: Calendar = Calendar.getInstance()
         today.timeInMillis = System.currentTimeMillis()
         startDate =
             "" + today.get(Calendar.YEAR) + "년 " + (today.get(Calendar.MONTH) + 1) + "월 " + today.get(
@@ -149,11 +146,11 @@ class AddMyListActivity : AppCompatActivity(),
 
     private fun observeData() {
         (mFragmentList[1] as GoalListFragment).goalList.observe(this, Observer {
-            this.goalList = it
-            //nextClickable.set(!it.isNullOrEmpty())
+         //   this.goalList = it
+         //   nextClickable.set(!this.goalList.isNullOrEmpty())
         })
         (mFragmentList[1] as GoalListFragment).goalListCheck.observe(this, Observer {
-           // nextClickable.set(it)
+            //nextClickable.set(it)
         })
         (mFragmentList[1] as GoalListFragment).writingText.observe(this, Observer {
             additionalGoalList = it
@@ -165,7 +162,9 @@ class AddMyListActivity : AppCompatActivity(),
             addAll(
                 listOf(
                     JoinGoalPeroidFragment.newInstance(),
-                    GoalListFragment.newInstance()
+                    GoalListFragment.newInstance().apply { arguments = Bundle().apply{
+                        putStringArrayList("todolist", userTodoList)
+                    }}
                 )
             )
         }.also {
@@ -199,32 +198,26 @@ class AddMyListActivity : AppCompatActivity(),
     fun prevButtonClicked() {
         hideKeyBoard()
         mPage -= 1
-        if (mPage <= 0) {
+        if (mPage < 0) {
             finish()
             return
         }
-        //GoalDetailActivit로 다시 돌아가기
-        addMyList?.let{
-            finish()
-        }?:run {
-            nextClickable.set(true)
-            setProgressBar()
-            showFragment()
-        }
+
+        nextClickable.set(true)
+        setProgressBar()
+        showFragment()
     }
 
     fun nextButtonClicked() {
         hideKeyBoard()
         mPage += 1
-        nextClickable.get()?.let {
-            if (it) {
                 when {
-                    mPage == 2 -> {
+                    mPage >= 2 -> {
                         networkRequest()
                         return
                     }
-//                    mPage == 2 -> {
-//                        nextClickable.set(!goalList.isNullOrEmpty())
+//                    mPage == 1 -> {
+//                        addMyList?.let{ nextClickable.set(!goalList.isNullOrEmpty()) }
 //                    }
                     else -> {
                         nextClickable.set(true)
@@ -232,8 +225,7 @@ class AddMyListActivity : AppCompatActivity(),
                 }
                 setProgressBar()
                 showFragment()
-            }
-        }
+
     }
 
     override fun redirectNewGoalFinish(resultId: Long) {

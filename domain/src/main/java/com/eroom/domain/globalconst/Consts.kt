@@ -52,5 +52,8 @@ class Consts {
         const val GOAL_DETAIL_REQUEST_NUM_verOTHER = 3030
 
         const val IMAGE_PATH = "IMAGE_PATH"
+
+        const val DESCRIPTION = "DESCRIPTION"
+        const val USER_TODO_LIST = "USER_DOTO_LIST"
     }
 }

@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.MinimalTodoListContent
+import com.eroom.data.entity.MinimalTodoListDetail
 import com.eroom.data.entity.UserSimpleData
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.*
@@ -31,6 +32,8 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
 
     var description: ObservableField<String> = ObservableField("")
     var jobClass: ObservableField<String> = ObservableField("")
+    lateinit var userTodoList : ArrayList<String>
+    private var userUid = ""
 
     private var isFromMyPage: Boolean = false
 
@@ -42,7 +45,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     }
 
     fun initPresenter() {
-        presenter = GoalDetailPresenter(this, get(), get(), get())
+        presenter = GoalDetailPresenter(this, get(), get(), get(), get())
     }
 
     fun setUpDataBinding() {
@@ -85,13 +88,11 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
             showButton = false
             showShadow = false
         }
-        //presenter.getInterestedClassName(interestIdList)
     }
 
     override fun setRecyclerView(todoList: ArrayList<MinimalTodoListContent>) {
         binding.othersRecyclerview.apply{
             adapter = GoalDetailAdapter(presenter.getGoalContentCallback(), todoList, isFromMyPage, click(), clickPlusBtn())
-
             layoutManager = LinearLayoutManager(context)
         }
     }
@@ -104,6 +105,8 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         this.jobClass.set(result)
     }
 
+    //Todo: 참여자 목록의 Todo list 상세보기 (카드뷰)
+    //Todo: 현재 액티비티에서 AddMyListActivity 로 넘어갈 때 필요한 요소: GoalID, UID, NAME, DATE, GoalTITLE, DESC)
     private fun click() = { uid:String , nickname: String->
         val intent = Intent(this@GoalDetailActivity, OtherListActivity::class.java)
             .apply{
@@ -111,6 +114,8 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
                 putExtra(Consts.UID, uid)
                 putExtra(Consts.NAME, nickname)
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
+                putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
+                putExtra(Consts.DESCRIPTION, description.get())
                 putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isFromMyPage)
                 putExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, isFromMyPage)
             }
@@ -118,14 +123,32 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     }
 
     private fun clickPlusBtn() = { uid:String ->
+        presenter.getUserTodoList(uid, intent.getLongExtra(Consts.GOAL_ID, -1))
+        userUid = uid
+    }
+
+    override fun setTodoList(todoList: ArrayList<MinimalTodoListDetail>) {
+        userTodoList = ArrayList()
+        repeat(todoList.size){
+            userTodoList.add(todoList[it].content)
+        }
+
+        startJoinTodoList(userUid)
+    }
+
+    //Todo: 카드뷰의 "+ 버튼"을 눌러 TodoList 에 참여하기
+    //Todo: 현재 액티비티에서 AddMyListActivity 로 넘어갈 때 필요한 요소: GoalID, UID, NAME, DATE, GoalTITLE, DESC)
+    //Todo: 카드뷰의 + 버튼을 클릭한 것인지, "리스트 직접 추가하기" 버튼을 클릭한 것인지 구분하기 위해 requestcode를 구분하였음
+    private fun startJoinTodoList(uid: String){
         val intent = Intent(this@GoalDetailActivity, AddMyListActivity::class.java)
             .apply{
                 putExtra(Consts.GOAL_ID, intent.getLongExtra(Consts.GOAL_ID, -1))
                 putExtra(Consts.UID, uid)
-                putExtra(Consts.GOAL_DETAIL_REQUEST_verOTHER, Consts.GOAL_DETAIL_REQUEST_NUM_verOTHER)
+                putExtra(Consts.GOAL_DETAIL_REQUEST_verOTHER, Consts.GOAL_DETAIL_REQUEST_NUM_verOTHER) //Todo: requestCode
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
-                putExtra("Description", description.get())
+                putExtra(Consts.DESCRIPTION, description.get())
+                putExtra(Consts.USER_TODO_LIST, userTodoList)
             }
         startActivity(intent)
     }
@@ -149,13 +172,14 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         binding.goalDescLayout.goal_desc.toggle()
     }
 
+    //Todo: "리스트 직접 추가하기" Button
     fun addNewList(){
         val intent = Intent(this, AddMyListActivity::class.java)
             .apply{
-                putExtra(Consts.GOAL_DETAIL_REQUEST_verME, Consts.GOAL_DETAIL_REQUEST_NUM_verME)
+                putExtra(Consts.GOAL_DETAIL_REQUEST_verME, Consts.GOAL_DETAIL_REQUEST_NUM_verME) //Todo: requestCode
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
-                putExtra("Description", description.get())
+                putExtra(Consts.DESCRIPTION, description.get())
                 putExtra(Consts.GOAL_ID,intent.getLongExtra(Consts.GOAL_ID, -1))
             }
         startActivity(intent)
