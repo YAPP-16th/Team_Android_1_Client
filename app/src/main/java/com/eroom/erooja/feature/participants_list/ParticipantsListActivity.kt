@@ -1,6 +1,7 @@
 package com.eroom.erooja.feature.participants_list
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
@@ -10,6 +11,8 @@ import com.eroom.data.entity.Member
 import com.eroom.domain.globalconst.Consts
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityParticipantsListBinding
+import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
+import com.eroom.erooja.feature.othersPage.OthersPageActivity
 import org.koin.android.ext.android.get
 
 class ParticipantsListActivity : AppCompatActivity(), ParticipantsListContract.View {
@@ -51,7 +54,7 @@ class ParticipantsListActivity : AppCompatActivity(), ParticipantsListContract.V
     override fun updateList(list: ArrayList<Member>, totalElement: Int) {
         mContentList.addAll(list)
         if (mPage == 0) {
-            mAdapter = ParticipantListAdapter(presenter.mParticipantDiffCallback, mContentList, uId)
+            mAdapter = ParticipantListAdapter(presenter.mParticipantDiffCallback, mContentList, uId, memberItemClicked)
             particiBinding.profileRecycler.adapter = mAdapter
             particiBinding.profileRecycler.layoutManager = LinearLayoutManager(this)
         } else {
@@ -85,4 +88,32 @@ class ParticipantsListActivity : AppCompatActivity(), ParticipantsListContract.V
         presenter.onCleared()
         super.onDestroy()
     }
+
+    private val memberItemClicked = { member: Member ->
+        startActivity(Intent(this@ParticipantsListActivity, OthersPageActivity::class.java).apply {
+            val jobInterestList: ArrayList<String> = ArrayList()
+            putExtra(Consts.UID, member.uid)
+            putExtra(Consts.NICKNAME, member.nickname)
+            putExtra(Consts.IMAGE_PATH, member.imagePath)
+            member.jobInterests.map {
+                jobInterestList.add(it.name)
+            }
+            putStringArrayListExtra(Consts.JOB_INTEREST, jobInterestList)
+            //putParcelableArrayListExtra(Consts.JOB, member.jobInterests)
+        } )
+    }
+
+//    putParcelableArrayList(Consts.BOTTOM_SHEET_KEY, arrayListOf(
+//    BottomSheetInfo("다른 참여자 리스트 둘러보기", BottomSheetColor.DEFAULT),
+//    BottomSheetInfo("참여자 목록($count)", BottomSheetColor.DEFAULT),
+//    BottomSheetInfo("리스트 수정하기", BottomSheetColor.DEFAULT),
+//    BottomSheetInfo("목표 그만두기", BottomSheetColor.RED)
+//    ))
+
+//    data class Member(
+//        @JsonProperty("uid") var uid: String,
+//        @JsonProperty("nickname") var nickname: String,
+//        @JsonProperty("imagePath") var imagePath: String?,
+//        @JsonProperty("jobInterests") var jobInterests: ArrayList<JobInterest>
+//    )
 }

@@ -12,7 +12,7 @@ import com.eroom.erooja.R
 import kotlinx.android.synthetic.main.item_my_participated_ongoing_goal.view.*
 
 class MyPageEndedGoalAdapter(
-    private var minimalGoalDetailContentList: ArrayList<MinimalGoalDetailContent>,
+    private val minimalGoalDetailContentList: ArrayList<MinimalGoalDetailContent>,
     private val isClicked: (Long) -> Unit
 ): RecyclerView.Adapter<MyPageEndedGoalAdapter.ViewHolder>() {
 
