@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.mypage
+package com.eroom.erooja.feature.othersPage
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,15 +7,13 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.eroom.data.entity.JobClass
 import com.eroom.erooja.R
 
-
-class MyPageJobClassAdapter(
-    private val jobClassList: List<JobClass>,
-    private val expendButtonClicked: () -> Unit,
+class OthersPageJobClassAdapter(
+    private val jobClassList: List<String>,
+    private val expandButtonClicked: () -> Unit,
     private val isMoreInfo: Boolean
-): RecyclerView.Adapter<MyPageJobClassAdapter.ViewHolder>() {
+): RecyclerView.Adapter<OthersPageJobClassAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(parent)
@@ -30,17 +28,17 @@ class MyPageJobClassAdapter(
         when (position) {
             itemCount - 1 -> {
                 if (jobClassList.size % 2 == 0 ) {
-                    holder.bind(jobClassList[position * 2].name, jobClassList[position * 2 + 1].name, visibility)
+                    holder.bind(jobClassList[position * 2], jobClassList[position * 2 + 1], visibility)
                 }
                 else {
-                    holder.bind(jobClassList[position * 2].name, "", visibility)
+                    holder.bind(jobClassList[position * 2], "", visibility)
                 }
             }
-            else -> holder.bind(jobClassList[position * 2].name, jobClassList[position * 2 + 1].name, visibility)
+            else -> holder.bind(jobClassList[position * 2], jobClassList[position * 2 + 1], visibility)
         }
     }
-    
-    inner class ViewHolder(parent:ViewGroup):
+
+    inner class ViewHolder(parent: ViewGroup):
         RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_mypage_job_class, parent, false)) {
         private val classTitle: TextView = itemView.findViewById(R.id.class_title)
         private val classTitle2: TextView = itemView.findViewById(R.id.class_title2)
@@ -56,7 +54,7 @@ class MyPageJobClassAdapter(
             }
             expendButton.visibility = if (moreVisibility) View.VISIBLE else View.GONE
             expendButton.setOnClickListener {
-                expendButtonClicked()
+                expandButtonClicked()
             }
         }
     }

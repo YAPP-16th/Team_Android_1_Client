@@ -16,26 +16,26 @@ import timber.log.Timber
 
 class OthersPagePresenter (
     override val view: OthersPageContract.View,
-    private val getMemberJobInterestUseCase: GetMemberJobInterestsUseCase,
+    //private val getMemberJobInterestUseCase: GetMemberJobInterestsUseCase,
     private val getGoalsByUserIdUseCase: GetGoalsByUserIdUseCase
 ) : OthersPageContract.Presenter {
     private val compositeDisposable = CompositeDisposable()
 
-    @SuppressLint("CheckResult")
-    override fun getMemberJobInterest() {
-        getMemberJobInterestUseCase.getMemberJobInterests()
-            .subscribe({
-                val classList = ArrayList<JobClass>()
-                for (group in it) {
-                    group.jobInterests.map { jobClass ->
-                        classList.add(jobClass)
-                    }
-                }
-                view.setJobInterestInfo(classList)
-            }, {
-                Timber.e(it.localizedMessage)
-            }) addTo compositeDisposable
-    }
+//    @SuppressLint("CheckResult")
+//    override fun getMemberJobInterest() {
+//        getMemberJobInterestUseCase.getMemberJobInterests()
+//            .subscribe({
+//                val classList = ArrayList<JobClass>()
+//                for (group in it) {
+//                    group.jobInterests.map { jobClass ->
+//                        classList.add(jobClass)
+//                    }
+//                }
+//                view.setJobInterestInfo(classList)
+//            }, {
+//                Timber.e(it.localizedMessage)
+//            }) addTo compositeDisposable
+//    }
 
     @SuppressLint("CheckResult")
     override fun getOngoingGoalList(uid: String, page: Int) {

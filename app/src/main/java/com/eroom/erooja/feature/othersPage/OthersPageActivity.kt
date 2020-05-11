@@ -27,7 +27,8 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
 
     private lateinit var othersPageBinding: ActivityOthersPageBinding
     private lateinit var presenter: OthersPagePresenter
-    private lateinit var mClassList: ArrayList<JobClass>
+    //private lateinit var mClassList: ArrayList<JobClass>
+    private lateinit var mClassList: ArrayList<String>
 
     private lateinit var ongoingGoalAdapter: MyPageOngoingGoalAdapter
     private var ongoingGoalPage = 0
@@ -53,7 +54,7 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
     }
 
     private fun initPresenter() {
-        presenter = OthersPagePresenter(this, get(), get())
+        presenter = OthersPagePresenter(this, get())
     }
 
     private fun setUpDataBinding() {
@@ -62,12 +63,15 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
     }
 
     private fun initView() {
-        presenter.getMemberJobInterest() //추후 삭제
+        //presenter.getMemberJobInterest() //추후 삭제
 
         val intent = intent
         saveUid(intent.getStringExtra(Consts.UID) ?: "")
         setNickname(intent.getStringExtra(Consts.NICKNAME) ?: "anonymous")
-        val othersJobInterestedList: ArrayList<JobClass>//타계정의 관심직무&직군
+
+        mClassList = intent.getStringArrayListExtra(Consts.JOB_INTEREST)
+        setJobInterestInfo(mClassList)
+        //val othersJobInterestedList: ArrayList<JobClass>//타계정의 관심직무&직군
 
         othersPageBinding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) {}
@@ -101,12 +105,14 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
 
     override fun saveUid(uid: String) {
         uId = uid
-        presenter.getOngoingGoalList(uId, ongoingGoalPage)
-        presenter.getEndedGoalList(uId, endedGoalPage)
     }
 
     override fun onResume() {
         super.onResume()
+
+        othersPageBinding.myParticipatedOngoingRecyclerview.adapter = null
+        othersPageBinding.myParticipatedEndedRecyclerview.adapter = null
+
         ongoingGoalPage = 0
         ongoingGoalContentSize = 0
         ongoingGoalIsEnd = false
@@ -124,18 +130,36 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
         nicknameText.set("$nickname 님")
     }
 
-    override fun setJobInterestInfo(classList: ArrayList<JobClass>) {
+/*    override fun setJobInterestInfo(classList: ArrayList<JobClass>) {
         mClassList = classList
-        if(classList.size <= 4) {
-            othersPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classList, expandButtonClicked, false)
+        if (classList.size <= 4) {
+            othersPageBinding.jobClassRecycler.adapter =
+                MyPageJobClassAdapter(classList, expandButtonClicked, false)
         } else {
             val classListLimitedFour = ArrayList<JobClass>()
-            for((index, jobClass) in classList.withIndex()) {
-                if(index >=4)
+            for ((index, jobClass) in classList.withIndex()) {
+                if (index >= 4)
                     break
                 classListLimitedFour.add(jobClass)
             }
-            othersPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classListLimitedFour, expandButtonClicked, true)
+            othersPageBinding.jobClassRecycler.adapter =
+                MyPageJobClassAdapter(classListLimitedFour, expandButtonClicked, true)
+        }
+    }*/
+
+    override fun setJobInterestInfo(jobInterestList: ArrayList<String>) {
+        if(jobInterestList.size <= 4) {
+            othersPageBinding.jobClassRecycler.adapter =
+                OthersPageJobClassAdapter(jobInterestList, expandButtonClicked, false)
+        } else {
+            val classListLimitedFour = ArrayList<String>()
+            for((index, jobClass) in jobInterestList.withIndex()) {
+                if(index >= 4)
+                    break
+                classListLimitedFour.add(jobClass)
+            }
+            othersPageBinding.jobClassRecycler.adapter =
+                OthersPageJobClassAdapter(classListLimitedFour,expandButtonClicked, true)
         }
     }
 
@@ -211,7 +235,7 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
     }
 
     private val expandButtonClicked =  {
-        othersPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(mClassList, {}, false)
+        othersPageBinding.jobClassRecycler.adapter = OthersPageJobClassAdapter(mClassList, {}, false)
     }
 
     val ongoingRecyclerViewScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
@@ -251,6 +275,3 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
         super.onDestroy()
     }
 }
-
-
-
