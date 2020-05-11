@@ -19,6 +19,7 @@ import com.eroom.erooja.databinding.ActivityOthersPageBinding
 import com.eroom.erooja.databinding.FragmentMyPageBinding
 import com.eroom.erooja.feature.mypage.*
 import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
+import com.eroom.erooja.feature.othersOngoingGoal.OthersOngoingGoalActivity
 import com.eroom.erooja.feature.tab.TabActivity
 import com.google.android.material.tabs.TabLayout
 import org.koin.android.ext.android.get
@@ -228,7 +229,7 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
     }
 
     private val myGoalClicked = { goalId: Long ->
-        startActivity(Intent(this, OngoingGoalActivity::class.java).apply {
+        startActivity(Intent(this, OthersOngoingGoalActivity::class.java).apply {
             putExtra(Consts.GOAL_ID, goalId)
             putExtra(Consts.UID, uId)
         })
