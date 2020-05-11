@@ -6,8 +6,6 @@ interface AddMyListContract {
     interface View {
         fun redirectNewGoalFinish(resultId: Long)
         fun failRequest()
-        fun setTodoList(todoList:ArrayList<String>)
-
     }
 
     interface Presenter {
@@ -21,6 +19,6 @@ interface AddMyListContract {
         )
         fun onCleared()
 
-        fun getUserTodoData(uid:String, goalId: Long)
+       // fun getUserTodoData(uid:String, goalId: Long)
     }
 }

@@ -7,6 +7,7 @@ import com.eroom.data.entity.MinimalTodoListContent
 import com.eroom.domain.api.usecase.goal.GetGoalDetailUseCase
 import com.eroom.domain.api.usecase.job.GetJobClassByIdUseCase
 import com.eroom.domain.api.usecase.membergoal.GetGoalsByUserIdUseCase
+import com.eroom.domain.api.usecase.todo.GetTodoListUseCase
 import com.eroom.domain.utils.addTo
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -15,6 +16,7 @@ import timber.log.Timber
 class GoalDetailPresenter(override var view: GoalDetailContract.View,
                           private val getGoalDetailUseCase: GetGoalDetailUseCase,
                           private val getJobClassByIdUseCase: GetJobClassByIdUseCase,
+                          private var getTodoListUseCase: GetTodoListUseCase,
                           private val getGoalsByUserIdUseCase: GetGoalsByUserIdUseCase
 ) :GoalDetailContract.Presenter{
 
@@ -62,6 +64,14 @@ class GoalDetailPresenter(override var view: GoalDetailContract.View,
             return (oldItem.todoList[0].content.equals(newItem.todoList[0].content)) && (oldItem.uid.equals(newItem.uid))
         }
     }
+
+    override fun getUserTodoList(uid: String, goalId: Long) {
+        getTodoListUseCase.getUserTodoList(uid, goalId)
+            .subscribe({
+                view.setTodoList(it.content)
+            },{
+                Timber.e(it.localizedMessage)
+            })    }
 
     fun getGoalContentCallback(): DiffUtil.ItemCallback<MinimalTodoListContent> = mGoalContentCallback
 
