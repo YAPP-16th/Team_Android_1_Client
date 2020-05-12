@@ -220,7 +220,13 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
                                 this@OthersOngoingGoalActivity,
                                 AddMyListActivity::class.java
                             ).apply {
-                                //////////
+                                putExtra(Consts.GOAL_ID, goalId)
+                                putExtra(Consts.UID, uId)
+                                putExtra(Consts.GOAL_DETAIL_REQUEST_verOTHER, true)
+                                putExtra(Consts.DATE, binding.goalDateTxt.text.toString())
+                                putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text.toString())
+                               // putExtra(Consts.DESCRIPTION, "DUMMY")
+                                putExtra("Description", "DUMMY")
                             }
                         )
                     }
