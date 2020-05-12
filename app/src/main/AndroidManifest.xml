@@ -10,7 +10,6 @@
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
-
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -24,7 +23,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.endedGoal.EndedGoalActivity"></activity>
+        <activity android:name=".feature.othersOngoingGoal.OthersOngoingGoalActivity"></activity>
+        <activity android:name=".feature.endedGoal.EndedGoalActivity" />
         <activity android:name=".feature.othersPage.OthersPageActivity" />
         <activity
             android:name=".feature.endPopUp.EndGoalPopUpActivity"
@@ -38,7 +38,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".feature.editgoal.EditGoalActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".feature.addGoal.newGoalFrame.NewGoalActivity"
             android:screenOrientation="portrait" />
@@ -102,7 +102,8 @@
         <activity
             android:name=".feature.setting.setting_detail.TOSActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".feature.addMyGoalJoin.AddMyListActivity"
+        <activity
+            android:name=".feature.addMyGoalJoin.AddMyListActivity"
             android:screenOrientation="portrait" />
 
         <meta-data
