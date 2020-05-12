@@ -27,7 +27,7 @@ class BottomSheetAlertFragment: BottomSheetDialogFragment() {
             BottomSheetAlertFragment()
     }
 
-    override fun getTheme(): Int = R.style.BottomSheetDialogTheme
+    override fun getTheme(): Int = R.style.BottomSheetDialogTheme_round
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = BottomSheetDialog(requireContext(), theme)
 
