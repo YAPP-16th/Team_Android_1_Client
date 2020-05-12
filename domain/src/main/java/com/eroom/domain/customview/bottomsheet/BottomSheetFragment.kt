@@ -1,5 +1,6 @@
 package com.eroom.domain.customview.bottomsheet
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +8,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.eroom.domain.R
 import com.eroom.domain.databinding.BottomSheetBinding
 import com.eroom.domain.globalconst.Consts
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheetFragment: BottomSheetDialogFragment() {
@@ -22,6 +25,10 @@ class BottomSheetFragment: BottomSheetDialogFragment() {
         fun newInstance() =
             BottomSheetFragment()
     }
+
+    override fun getTheme(): Int = R.style.BottomSheetDialogTheme
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = BottomSheetDialog(requireContext(), theme)
 
     override fun onCreateView(
         inflater: LayoutInflater,
