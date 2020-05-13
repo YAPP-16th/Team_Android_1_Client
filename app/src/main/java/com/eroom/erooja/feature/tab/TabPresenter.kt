@@ -3,6 +3,7 @@ package com.eroom.erooja.feature.tab
 import android.annotation.SuppressLint
 import com.eroom.domain.api.usecase.job.GetJobGroupAndClassUseCase
 import com.eroom.domain.api.usecase.job.GetJobGroupUseCase
+import com.eroom.domain.api.usecase.member.GetMemberInfoUseCase
 import com.eroom.domain.utils.addTo
 import com.eroom.erooja.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -10,7 +11,8 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
-class TabPresenter(override val view: TabContract.View
+class TabPresenter(override val view: TabContract.View,
+                   private val getMemberInfoUseCase: GetMemberInfoUseCase
 ) : TabContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
@@ -31,6 +33,16 @@ class TabPresenter(override val view: TabContract.View
             }
         }
         return@OnNavigationItemSelectedListener false
+    }
+
+    @SuppressLint("CheckResult")
+    override fun getUserInfo() {
+        getMemberInfoUseCase.getUserInfo()
+            .subscribe({
+                view.setUserInfo(it.uid, it.nickname, it.imagePath)
+            }, {
+                Timber.e(it.localizedMessage)
+            }) addTo compositeDisposable
     }
 
     override fun onCleared() {
