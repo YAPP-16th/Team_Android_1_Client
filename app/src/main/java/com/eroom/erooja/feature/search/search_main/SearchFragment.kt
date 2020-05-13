@@ -47,8 +47,6 @@ class SearchFragment : Fragment(), SearchContract.View {
     private var mKey: Long? = null
     private lateinit var mAdapter: SearchResultAdapter
 
-    private var emptyFragment: SearchNoContentFragment? = null
-
     companion object {
         @JvmStatic
         fun newInstance() = SearchFragment()
@@ -125,16 +123,12 @@ class SearchFragment : Fragment(), SearchContract.View {
     }
 
     private fun emptyFragment() {
-        emptyFragment = SearchNoContentFragment.newInstance()
-        childFragmentManager.beginTransaction()
-            .add(R.id.search_main_container, emptyFragment!!)
-            .commit()
+        searchBinding.searchMainContainer.visibility = View.VISIBLE
     }
 
-    private fun hideEmptyFragment() =
-        emptyFragment?.let { childFragmentManager.beginTransaction()
-            .remove(it)
-            .commit() }
+    private fun hideEmptyFragment() {
+        searchBinding.searchMainContainer.visibility = View.GONE
+    }
 
     override fun setAlignedJobInterest(interest: MutableSet<String>) {
         var isFirst = true
@@ -170,7 +164,7 @@ class SearchFragment : Fragment(), SearchContract.View {
     override fun setAllView(search: ArrayList<GoalContent>) {
         mContentSize += search.size
         mContentList.addAll(search)
-        if (mPage == 0) {
+        if (!::mAdapter.isInitialized) {
             if (mContentSize == 0) {
                 setEmptyFragment()
             } else {
@@ -194,7 +188,7 @@ class SearchFragment : Fragment(), SearchContract.View {
 
     override fun setIsEnd(boolean: Boolean) {
         isEnd = boolean
-        if (boolean && mPage == 0) setEmptyFragment()
+        if (boolean && mContentSize == 0) setEmptyFragment()
         else setResultFragment()
     }
 

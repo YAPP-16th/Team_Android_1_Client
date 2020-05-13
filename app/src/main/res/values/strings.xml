@@ -102,5 +102,6 @@
     <string name="list_edit_text">리스트 수정</string>
     <string name="edit_complete_text">변경 완료</string>
     <string name="connected_job">관련 직무</string>
+    <string name="no_content_text">등록된 목표가 없습니다.</string>
 
 </resources>
