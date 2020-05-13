@@ -9,7 +9,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 interface TabContract {
     interface View{
         fun loadFragment(index: Int): Int
-        fun setUserInfo(uid: String, nickname: String, imagePath: String)
+        fun setUserInfo(uid: String, nickname: String, imagePath: String?)
     }
 
     interface Presenter {

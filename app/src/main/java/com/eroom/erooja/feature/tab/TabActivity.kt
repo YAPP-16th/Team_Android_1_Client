@@ -52,10 +52,10 @@ class TabActivity : AppCompatActivity(), TabContract.View {
         presenter.getUserInfo()
     }
 
-    override fun setUserInfo(uid: String, nickname: String, imagePath: String) {
+    override fun setUserInfo(uid: String, nickname: String, imagePath: String?) {
         UserInfo.myUId = uid
         UserInfo.myNickname = nickname
-        UserInfo.myImagePath = imagePath
+        imagePath?.let { UserInfo.myImagePath = it }
     }
 
     private fun initFragment() =
