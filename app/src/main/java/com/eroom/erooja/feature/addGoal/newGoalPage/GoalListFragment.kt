@@ -109,8 +109,9 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
 
     private fun loadRecyclerView() {
         arguments?.let{
-            goalItem = it.getStringArrayList("todolist") as ArrayList<String> }
-        if(goalItem[0].isNullOrEmpty()) goalItem.clear()
+            goalItem = it.getStringArrayList("todolist") as ArrayList<String>
+            if(goalItem[0].isNullOrEmpty()) goalItem.clear()}
+
         mAdapter = GoalAdapter(goalItem, deleteItem)
         goalListBinding.goalListRecycler.adapter = mAdapter
     }

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="fragment"
+            type="com.eroom.erooja.feature.setting.setting_nickname.NicknameChangeFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/nickname_bottom_sheet"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_icon_navi_close_black"
+            app:layout_constraintStart_toStartOf="@+id/nicknameText"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="닉네임 변경"
+            android:textColor="@color/grey8"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButton"
+            app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+            app:layout_constraintStart_toEndOf="@+id/imageButton"
+            app:layout_constraintTop_toTopOf="@+id/imageButton" />
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@{ fragment.nicknameCheck ? @drawable/ic_icon_check_inactive : @drawable/ic_icon_check_active }"
+            app:layout_constraintBottom_toBottomOf="@+id/imageButton"
+            app:layout_constraintEnd_toEndOf="@+id/nicknameText"
+            app:layout_constraintTop_toTopOf="@+id/imageButton" />
+
+        <EditText
+            android:id="@+id/nicknameText"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/border_round_grey"
+            android:hint="5자 이상 한글 닉네임 입력"
+            android:paddingStart="20dp"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            app:layout_constraintVertical_bias="0.32999998" />
+
+
+        <ImageView
+            android:id="@+id/nicknameDuplicatedCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/nicknameText"
+            app:layout_constraintEnd_toEndOf="@+id/nicknameText"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="@+id/nicknameText"
+            app:layout_constraintTop_toTopOf="@+id/nicknameText" />
+
+        <ImageView
+            android:id="@+id/nicknameDuplicatedCheckError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/nicknameText"
+            app:layout_constraintEnd_toEndOf="@+id/nicknameText"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="@+id/nicknameText"
+            app:layout_constraintTop_toTopOf="@+id/nicknameText"/>
+
+
+        <TextView
+            android:id="@+id/nicknameLengthError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_marginTop="8dp"
+            android:text="@string/nickname_rule_info"
+            android:textColor="@color/colorError"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/nicknameText"
+            app:layout_constraintTop_toBottomOf="@+id/nicknameText" />
+
+        <TextView
+            android:id="@+id/nicknameDuplicatedTextError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/already_using_nickname"
+            android:textColor="@color/colorError"
+            android:textSize="12sp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@+id/nicknameText"
+            app:layout_constraintTop_toBottomOf="@+id/nicknameText" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
