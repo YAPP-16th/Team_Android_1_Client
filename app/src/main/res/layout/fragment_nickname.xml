@@ -55,14 +55,13 @@
 
         <ImageView
             android:id="@+id/nicknameDuplicatedCheckError"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/nicknameText"
             app:layout_constraintEnd_toEndOf="@+id/nicknameText"
             app:layout_constraintTop_toTopOf="@+id/nicknameText"
-            app:srcCompat="@drawable/ic_icon_check_btn_error_system"
-            />
+            app:srcCompat="@drawable/ic_icon_check_btn_error_system" />
 
         <TextView
             android:id="@+id/nicknameLengthError"

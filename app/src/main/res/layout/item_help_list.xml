@@ -17,7 +17,7 @@
         android:id="@+id/help_expandable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/boader_round_grey"
+        android:background="@drawable/border_round_grey"
         android:padding="24dp"
         app:el_collapsedHeight="20dp"
         app:el_initialState="collapsed"

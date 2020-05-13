@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.JobClass
@@ -17,16 +16,16 @@ import com.eroom.erooja.feature.filter.FilterActivity
 import com.eroom.erooja.feature.login.LoginActivity
 import com.eroom.erooja.feature.setting.setting_detail.*
 import com.eroom.erooja.feature.setting.setting_help.HelpActivity
-import com.eroom.erooja.feature.setting.setting_profile.ProfileActivity
+import com.eroom.erooja.feature.setting.setting_nickname.NicknameChangeFragment
 import com.eroom.erooja.feature.tab.TabActivity
-import com.kakao.usermgmt.UserManagement
-import com.kakao.usermgmt.callback.LogoutResponseCallback
 import org.koin.android.ext.android.get
 
 class SettingFragment :Fragment(), SettingContract.View{
     private lateinit var settingBinding: FragmentSettingBinding
     private lateinit var presenter : SettingPresenter
     private lateinit var settingList : Array<String>
+    lateinit var bottomAlert: NicknameChangeFragment
+
     private var selectedGroupClassesNum = ArrayList<Long>()
 
     companion object {
@@ -54,6 +53,7 @@ class SettingFragment :Fragment(), SettingContract.View{
         presenter = SettingPresenter(this, get(), get(), get(), get())
         presenter.getSettingList(settingList)
         presenter.getAlignedJobInterest()
+        setBottomSheetAlert()
 
     }
 
@@ -73,13 +73,17 @@ class SettingFragment :Fragment(), SettingContract.View{
     private var click = { position: Int ->
         when(position){
             0-> startActivity(Intent(context, AlarmActivity::class.java))
-            1-> startActivity(Intent(context, ProfileActivity::class.java))
+            1-> bottomAlert.show(childFragmentManager, "test")
             2-> openSearchFilter()
             3-> startActivity(Intent(context, HelpActivity::class.java))
             4-> startActivity(Intent(context, OpensourceActivity::class.java))
             5-> startActivity(Intent(context, TOSActivity::class.java))
             6-> presenter.logout()
         }
+    }
+
+    private fun setBottomSheetAlert() {
+        bottomAlert = NicknameChangeFragment.newInstance()
     }
 
     fun back(v: View){
