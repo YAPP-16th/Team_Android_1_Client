@@ -25,7 +25,7 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
     private lateinit var goalListBinding: FragmentGoalListBinding
     private lateinit var mAdapter: GoalAdapter
 
-    private val goalItem: ArrayList<String> = ArrayList()
+    private var goalItem: ArrayList<String> = ArrayList()
 
     val goalList: MutableLiveData<ArrayList<String>> = MutableLiveData(ArrayList())
     var goalListCheck: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -108,6 +108,9 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
     }
 
     private fun loadRecyclerView() {
+        arguments?.let{
+            goalItem = it.getStringArrayList("todolist") as ArrayList<String> }
+        if(goalItem[0].isNullOrEmpty()) goalItem.clear()
         mAdapter = GoalAdapter(goalItem, deleteItem)
         goalListBinding.goalListRecycler.adapter = mAdapter
     }

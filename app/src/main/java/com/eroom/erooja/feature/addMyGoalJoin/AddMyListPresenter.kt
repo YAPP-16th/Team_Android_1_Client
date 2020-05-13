@@ -35,7 +35,7 @@ class AddMyListPresenter (override var view: AddMyListContract.View,
             )
         )
             .subscribe({
-                view.redirectNewGoalFinish(it.body()!!.goalId)
+                it.body()?.goalId?.let { id -> view.redirectNewGoalFinish(id) }
             },{
                 view.failRequest()
                 Timber.e(it.localizedMessage)
@@ -46,17 +46,17 @@ class AddMyListPresenter (override var view: AddMyListContract.View,
         compositeDisposable.clear()
     }
 
-    @SuppressLint("CheckResult")
-    override fun getUserTodoData(uid:String, goalId: Long) {
-        val todolist = ArrayList<String>()
-        getTodoListUseCase.getUserTodoList(uid, goalId)
-            .subscribe({
-                it.content.map {
-                    todolist.add(it.content)
-                }
-                view.setTodoList(todolist)
-            },{
-                Timber.e(it.localizedMessage)
-            })
-    }
+//    @SuppressLint("CheckResult")
+//    override fun getUserTodoData(uid:String, goalId: Long) {
+//        val todolist = ArrayList<String>()
+//        getTodoListUseCase.getUserTodoList(uid, goalId)
+//            .subscribe({
+//                it.content.map {
+//                    todolist.add(it.content)
+//                }
+//                view.setTodoList(todolist)
+//            },{
+//                Timber.e(it.localizedMessage)
+//            })
+//    }
 }
