@@ -60,7 +60,7 @@ class TabActivity : AppCompatActivity(), TabContract.View {
 
     private fun initFragment() =
         supportFragmentManager.beginTransaction()
-            .add(R.id.main_container, MainFragment.newInstance()).commit()
+            .replace(R.id.main_container, MainFragment.newInstance()).commit()
 
 
     override fun loadFragment(index: Int) =

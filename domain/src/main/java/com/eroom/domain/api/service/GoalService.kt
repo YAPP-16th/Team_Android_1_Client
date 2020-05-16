@@ -1,5 +1,6 @@
 package com.eroom.domain.api.service
 
+import com.eroom.data.request.GoalInfoRequest
 import com.eroom.data.request.NewGoalRequest
 import com.eroom.data.response.GoalDetailResponse
 import com.eroom.data.response.InterestedGoalsResponse
@@ -43,4 +44,7 @@ interface GoalService {
 
     @GET("goal/{goalId}")
     fun getGoalDetail(@Path("goalId") goalId: Long): Single<GoalDetailResponse>
+
+    @PUT("goal/{goalId}")
+    fun putGoalInfo(@Path("goalId") goalId: Long, @Body goalInfoRequest: GoalInfoRequest): Single<GoalDetailResponse>
 }

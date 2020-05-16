@@ -28,6 +28,8 @@ fun ImageView.loadUrl(url : String?) {
     }
 }
 
-fun ImageView.loadDrawable(drawable: Drawable) {
-    GlideApp.with(this).load(drawable).into(this)
+fun ImageView.loadDrawable(drawable: Drawable?) {
+    drawable?.let {
+        GlideApp.with(this).load(it).into(this)
+    }
 }

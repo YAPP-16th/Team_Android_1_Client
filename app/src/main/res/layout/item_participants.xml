@@ -52,8 +52,8 @@
                     android:layout_marginStart="6dp"
                     android:textColor="@color/orgDefault"
                     android:textSize="12sp"
-                    android:visibility="visible"
-                    tools:text="@string/starter_text" />
+                    android:visibility="invisible"
+                    android:text="@string/starter_text" />
             </LinearLayout>
 
             <TextView

@@ -103,7 +103,6 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
 
         val intent = intent
         goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
-        presenter.getData(goalId)
         presenter.getGoalInfo(goalId)
         uId = intent.getStringExtra(Consts.UID) ?: ""
 
@@ -115,6 +114,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     override fun onResume() {
         super.onResume()
         reRequestTodoList()
+        presenter.getData(goalId)
     }
 
     override fun settingEditButton(isMine: Boolean) {
@@ -214,7 +214,11 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     }
 
     fun navigateToEdit() {
-        startActivity(Intent(this, GoalEditActivity::class.java))
+        startActivity(Intent(this, GoalEditActivity::class.java).apply {
+            putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
+            putExtra(Consts.DESCRIPTION, binding.include.text.text)
+            putExtra(Consts.GOAL_ID, goalId)
+        })
     }
 
     fun backClick() {
