@@ -8,7 +8,7 @@ import com.eroom.data.response.UserInfoResponse
 import io.reactivex.Single
 import retrofit2.http.*
 import android.R.attr.path
-
+import com.eroom.data.request.UIdRequest
 
 
 interface MemberService {
@@ -42,4 +42,7 @@ interface MemberService {
     @Multipart
     @POST("member/image")
     fun putMemberProfileImage(@Part("multipartImageFile") multipartImageFile: UserProfileRequest) : Single<UserInfoResponse>
+
+    @POST("member/info")
+    fun postMemberInfo(@Body uIdRequest: UIdRequest): Single<UserInfoResponse>
 }

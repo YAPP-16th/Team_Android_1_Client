@@ -69,4 +69,5 @@ val usecaseModule = module {
 
     factory { PutGoalIsAbandonedUseCase(get())}
 
+    factory { PostOtherMemberInfoUseCase(get()) }
 }
