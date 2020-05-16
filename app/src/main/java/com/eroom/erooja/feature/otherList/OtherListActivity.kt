@@ -11,8 +11,7 @@ import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.*
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityOthersListBinding
-import com.eroom.erooja.feature.addMyGoalJoin.AddMyListActivity
-import com.kakao.kakaostory.StringSet.description
+import com.eroom.erooja.feature.addDirectList.AddMyListActivity
 import org.koin.android.ext.android.get
 import timber.log.Timber
 

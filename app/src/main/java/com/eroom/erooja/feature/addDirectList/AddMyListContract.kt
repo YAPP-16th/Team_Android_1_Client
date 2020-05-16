@@ -1,6 +1,4 @@
-package com.eroom.erooja.feature.addMyGoalJoin
-
-import com.eroom.data.entity.MinimalTodoListDetail
+package com.eroom.erooja.feature.addDirectList
 
 interface AddMyListContract {
     interface View {

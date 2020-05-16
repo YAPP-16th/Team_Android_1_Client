@@ -1,6 +1,5 @@
-package com.eroom.erooja.feature.addMyGoalJoin
+package com.eroom.erooja.feature.addDirectList
 
-import android.annotation.SuppressLint
 import com.eroom.data.entity.TodoList
 import com.eroom.data.request.AddMyGoalRequest
 import com.eroom.domain.api.usecase.membergoal.PostAddMyGoalUseCase

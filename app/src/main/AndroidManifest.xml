@@ -104,7 +104,9 @@
             android:name=".feature.setting.setting_detail.TOSActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.addMyGoalJoin.AddMyListActivity"
+            android:name=".feature.addDirectList.AddMyListActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".feature.joinOtherList.JoinOtherListActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

@@ -1,6 +1,5 @@
-package com.eroom.erooja.feature.addGoal.newGoalPage
+package com.eroom.erooja.feature.joinTodoListFrame
 
-import com.eroom.erooja.databinding.FragmentGoalPeriodOriginBinding
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
@@ -8,19 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalActivity
-import com.eroom.erooja.feature.addMyGoalJoin.AddMyListActivity
+import com.eroom.erooja.databinding.FragmentJoinOrAddGoalPeriodBinding
+import com.eroom.erooja.feature.addDirectList.AddMyListActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class JoinGoalPeroidFragment : Fragment() {
-    private lateinit var JoingoalPeriodBinding: FragmentGoalPeriodOriginBinding
+class JoinGoalPeriodFragment : Fragment() {
+    private lateinit var binding: FragmentJoinOrAddGoalPeriodBinding
 
-    //val
     companion object {
         @JvmStatic
-        fun newInstance() = JoinGoalPeroidFragment()
+        fun newInstance() = JoinGoalPeriodFragment()
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,12 +27,12 @@ class JoinGoalPeroidFragment : Fragment() {
         // Inflate the layout for this fragment
         setUpDataBinding(inflater, container)
         initView()
-        return JoingoalPeriodBinding.root
+        return binding.root
     }
 
     private fun setUpDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        JoingoalPeriodBinding = FragmentGoalPeriodOriginBinding.inflate(inflater, container, false)
-        JoingoalPeriodBinding.fragment = this
+        binding = FragmentJoinOrAddGoalPeriodBinding.inflate(inflater, container, false)
+        binding.fragment = this
     }
 
     private fun initView() {
@@ -44,7 +42,7 @@ class JoinGoalPeroidFragment : Fragment() {
 
     private fun setDefaultStartDate() {
         val currentTime: Date = Calendar.getInstance().time
-        JoingoalPeriodBinding.startDateContent.text = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault()).format(currentTime)
+        binding.startDateContent.text = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault()).format(currentTime)
     }
 
     private fun setDefaultEndDate() {
@@ -53,7 +51,7 @@ class JoinGoalPeroidFragment : Fragment() {
 
         val content = SpannableString(endDate)
         content.setSpan(UnderlineSpan(), 0, content.length, 0)
-        JoingoalPeriodBinding.endDateContent.text = content
+        binding.endDateContent.text = content
     }
 
 
@@ -62,9 +60,9 @@ class JoinGoalPeroidFragment : Fragment() {
     }
 
     fun setEndDate(endDate:String) {
-        JoingoalPeriodBinding.endDateContent.text = endDate
+        binding.endDateContent.text = endDate
         val content = SpannableString(endDate)
         content.setSpan(UnderlineSpan(), 0, content.length, 0)
-        JoingoalPeriodBinding.endDateContent.text = content
+        binding.endDateContent.text = content
     }
 }

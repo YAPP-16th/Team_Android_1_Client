@@ -3,7 +3,6 @@ package com.eroom.erooja.feature.goalDetail
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -11,17 +10,14 @@ import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.MinimalTodoListContent
 import com.eroom.data.entity.MinimalTodoListDetail
-import com.eroom.data.entity.UserSimpleData
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.*
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalDetailsBinding
-import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalActivity
-import com.eroom.erooja.feature.addMyGoalJoin.AddMyListActivity
+import com.eroom.erooja.feature.addDirectList.AddMyListActivity
+import com.eroom.erooja.feature.joinOtherList.JoinOtherListActivity
 import com.eroom.erooja.feature.otherList.OtherListActivity
-import com.eroom.erooja.feature.search.search_detail_page.SearchDetailActivity
 import kotlinx.android.synthetic.main.activity_goal_details.view.*
-import kotlinx.android.synthetic.main.goal_simple_list.view.*
 import kotlinx.android.synthetic.main.include_completed_goal_desc.view.*
 import org.koin.android.ext.android.get
 import ru.rhanza.constraintexpandablelayout.State
@@ -132,19 +128,16 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         repeat(todoList.size){
             userTodoList.add(todoList[it].content)
         }
-
-        startJoinTodoList(userUid)
+        joinOtherList(userUid)
     }
 
     //Todo: 카드뷰의 "+ 버튼"을 눌러 TodoList 에 참여하기
-    //Todo: 현재 액티비티에서 AddMyListActivity 로 넘어갈 때 필요한 요소: GoalID, UID, NAME, DATE, GoalTITLE, DESC)
-    //Todo: 카드뷰의 + 버튼을 클릭한 것인지, "리스트 직접 추가하기" 버튼을 클릭한 것인지 구분하기 위해 requestcode를 구분하였음
-    private fun startJoinTodoList(uid: String){
-        val intent = Intent(this@GoalDetailActivity, AddMyListActivity::class.java)
+    //Todo: 현재 액티비티에서 JoinOtherListActivity 로 넘어갈 때 필요한 요소: GoalID, UID, NAME, DATE, GoalTITLE, DESC)
+    private fun joinOtherList(uid: String){
+        val intent = Intent(this@GoalDetailActivity, JoinOtherListActivity::class.java)
             .apply{
                 putExtra(Consts.GOAL_ID, intent.getLongExtra(Consts.GOAL_ID, -1))
                 putExtra(Consts.UID, uid)
-                putExtra(Consts.GOAL_DETAIL_REQUEST_verOTHER, Consts.GOAL_DETAIL_REQUEST_NUM_verOTHER) //Todo: requestCode
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
                 putExtra(Consts.DESCRIPTION, description.get())
@@ -176,7 +169,6 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     fun addNewList(){
         val intent = Intent(this, AddMyListActivity::class.java)
             .apply{
-                putExtra(Consts.GOAL_DETAIL_REQUEST_verME, Consts.GOAL_DETAIL_REQUEST_NUM_verME) //Todo: requestCode
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
                 putExtra(Consts.DESCRIPTION, description.get())
