@@ -81,16 +81,11 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
     override fun setTodoList(todoList: ArrayList<MinimalTodoListDetail>) {
         binding.mygoalRecyclerview.apply{
             layoutManager = LinearLayoutManager(this@OthersEndedGoalActivity)
-            adapter = OthersEndedGoalAdapter(todoList, saveChange)
+            adapter = OthersEndedGoalAdapter(todoList)
         }
         var count = 0
         todoList.forEach { if (it.isEnd) count += 1 }
-        binding.participantListText.text = "${(count.toDouble() / todoList.size).toInt()}% 달성중"
-    }
-
-
-    private val saveChange = { boolean: Boolean ->
-
+        binding.participantListText.text = "종료(${(count.toDouble() / todoList.size * 100).toInt()}%)"
     }
 
     fun initView() {
