@@ -22,8 +22,7 @@ import com.eroom.erooja.databinding.ActivityOthersOngoingGoalBinding
 import com.eroom.erooja.feature.addMyGoalJoin.AddMyListActivity
 import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
 import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
-import com.eroom.erooja.feature.ongoingGoal.OngoingGoalAdapter
-import com.eroom.erooja.feature.participants_list.ParticipantsListActivity
+import com.eroom.erooja.singleton.UserInfo
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
 import org.koin.android.ext.android.get
 import ru.rhanza.constraintexpandablelayout.State
@@ -53,8 +52,8 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
         binding.mygoal = this@OthersOngoingGoalActivity
     }
 
-    override fun setIsMyOngoingGoal(isOngoing: Boolean) {
-        this.isMyOngoingGoal = isOngoing
+    override fun setIsMyOngoingGoal(isMyOngoing: Boolean) {
+        this.isMyOngoingGoal = isMyOngoing
         initBottomSheet()
     }
 
@@ -197,7 +196,7 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
                                 OngoingGoalActivity::class.java
                             ).apply {
                                 putExtra(Consts.GOAL_ID, goalId)
-                                putExtra(Consts.UID, uId) //myUID를 보내야함.//
+                                putExtra(Consts.UID, UserInfo.myUId) //myUID를 보내야함.//
                             })
                     }
                     1 -> { // 다른 참여자 리스트 둘러보기
