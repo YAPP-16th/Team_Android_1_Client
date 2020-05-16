@@ -59,8 +59,9 @@ class MainPresenter(
     }
 
     @SuppressLint("CheckResult")
-    override fun getInterestedGoals(interestId: Long) {
-        getInterestedGoalsUseCase.getInterestedGoals(interestId, 3, 0)
+    override fun getInterestedGoals(interestId: Long, uid: String) {
+        val optionalUid = if (uid == "") null else uid
+        getInterestedGoalsUseCase.getInterestedGoals(interestId, 3, 0, optionalUid)
             .subscribe({
                 view.setNewGoalBrowse(it.content)
             },{

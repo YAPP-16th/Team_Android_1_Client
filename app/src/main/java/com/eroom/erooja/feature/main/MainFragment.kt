@@ -99,7 +99,7 @@ class MainFragment : Fragment(), MainContract.View {
                 putExtra(Consts.DIALOG_CANCEL, false)
             })
         }
-        presenter.getInterestedGoals(randomJobId)
+        presenter.getInterestedGoals(randomJobId, uId)
     }
 
     override fun setParticipatedList(list: ArrayList<MinimalGoalDetailContent>) {

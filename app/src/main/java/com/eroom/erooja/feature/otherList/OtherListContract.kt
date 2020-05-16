@@ -13,6 +13,6 @@ interface OtherListContract {
     interface Presenter{
         var view: View
         fun getData(uid:String, goalId: Long)
-        fun getProfileImage()
+        fun getProfileImage(uid: String)
     }
 }

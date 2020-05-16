@@ -66,7 +66,11 @@ val usecaseModule = module {
     factory { PutTodoListUseCase(get()) }
 
     factory { PostMemberInfoUseCase(get()) }
+<<<<<<< HEAD
 
     factory { PutGoalIsAbandonedUseCase(get())}
 
 }
+=======
+}
+>>>>>>> postmemberinfo added

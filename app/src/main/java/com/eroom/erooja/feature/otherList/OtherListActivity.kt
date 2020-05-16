@@ -8,20 +8,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.MinimalTodoListDetail
 import com.eroom.domain.globalconst.Consts
-import com.eroom.domain.utils.loadDrawable
-import com.eroom.domain.utils.loadUrlCenterCrop
-import com.eroom.domain.utils.statusBarColor
-import com.eroom.domain.utils.toastShort
+import com.eroom.domain.utils.*
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityOthersListBinding
 import com.eroom.erooja.feature.addMyGoalJoin.AddMyListActivity
 import com.kakao.kakaostory.StringSet.description
 import org.koin.android.ext.android.get
+import timber.log.Timber
 
 class OtherListActivity : AppCompatActivity(),
     OtherListContract.View {
-    lateinit var binding : ActivityOthersListBinding
-    lateinit var presenter : OtherListPresenter
+    lateinit var binding: ActivityOthersListBinding
+    lateinit var presenter: OtherListPresenter
     private var userTodoList = ArrayList<String>()
     private var userUid = ""
     private var goalId = 0L
@@ -32,32 +30,33 @@ class OtherListActivity : AppCompatActivity(),
         initView()
     }
 
-    fun setUpDataBinding(){
+    fun setUpDataBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_others_list)
         binding.othersDetail = this@OtherListActivity
     }
 
     override fun setAllView(todoList: ArrayList<MinimalTodoListDetail>) {
-        binding.othersDetailRecyclerview.apply{
+        binding.othersDetailRecyclerview.apply {
             layoutManager = LinearLayoutManager(this@OtherListActivity)
             adapter = OthersDetailAdapter(todoList)
         }
 
-        repeat(todoList.size){
+        repeat(todoList.size) {
             userTodoList.add(todoList[it].content)
         }
     }
 
-    fun initView(){
-        if(intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, false)
-            || intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, false)) {
+    fun initView() {
+        if (intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, false)
+            || intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, false)
+        ) {
             binding.savelistBtn.visibility = View.INVISIBLE
         }
-        userUid = intent.getStringExtra(Consts.UID)
+        userUid = intent.getStringExtra(Consts.UID) ?: ""
         goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
         presenter = OtherListPresenter(this, get(), get())
         presenter.getData(userUid, goalId)
-        presenter.getProfileImage()
+        presenter.getProfileImage(userUid)
         binding.usernameList.text = intent.getStringExtra(Consts.NAME)
         binding.goalDateTxt.text = intent.getStringExtra(Consts.DATE)
 
@@ -83,11 +82,22 @@ class OtherListActivity : AppCompatActivity(),
     }
 
     override fun setProfileImage(imagePath: String?) {
-        imagePath?.let{ binding.circleImageView.loadUrlCenterCrop(imagePath)
-            this.toastShort(imagePath)}
-            ?:run{ binding.circleImageView.loadDrawable(resources.getDrawable(R.drawable.ic_icon_users_blank, null)) }    }
+        imagePath?.let {
+            binding.circleImageView.loadUrl(it)
+            this.toastShort(it)
+            Timber.e(it)
+        }
+            ?: run {
+                binding.circleImageView.loadDrawable(
+                    resources.getDrawable(
+                        R.drawable.ic_icon_users_blank,
+                        null
+                    )
+                )
+            }
+    }
 
-    fun back(v: View){
+    fun back(v: View) {
         finish()
     }
 

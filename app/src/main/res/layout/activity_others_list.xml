@@ -11,45 +11,79 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/view"
         android:layout_width="match_parent"
+<<<<<<< HEAD
         android:layout_height="150dp"
         android:background="@drawable/border_bottom_round"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
+=======
         android:layout_height="wrap_content"
+        android:paddingBottom="35dp"
+        android:background="@drawable/boader_bottom_round"
+>>>>>>> postmemberinfo added
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" >
 
-        <ImageButton
-            android:id="@+id/backButton"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_icon_navi_arrow_left"
+                android:onClick="@{othersDetail::back}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circleImageView"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_icon_users_blank" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/username_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{othersDetail::back}"
-            android:background="@drawable/ic_icon_navi_arrow_left" />
+            android:layout_marginStart="16dp"
+            android:textColor="@color/grey7"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+            tools:text="김채원 님의 리스트" />
 
-        <View
+        <TextView
+            android:id="@+id/goal_date_txt"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/grey9"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/username_list"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/username_list"
+            app:layout_constraintTop_toBottomOf="@+id/username_list"
+            tools:text="20.03.05~03.07" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/circleImageView"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="end|center"
-            android:layout_marginEnd="20dp"
-            app:civ_border_color="@color/transparentWhite"
-            app:civ_border_width="2dp"
-            tools:src="@drawable/ic_launcher_background" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/savelist_btn"
@@ -61,33 +95,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/view" />
-
-    <TextView
-        android:id="@+id/username_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:textColor="@color/grey7"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        tools:text="김채원 님의 리스트" />
-
-    <TextView
-        android:id="@+id/goal_date_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/grey9"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/username_list"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/username_list"
-        app:layout_constraintTop_toBottomOf="@+id/username_list"
-        tools:text="20.03.05~03.07" />
 
     <TextView
         android:id="@+id/textView5"

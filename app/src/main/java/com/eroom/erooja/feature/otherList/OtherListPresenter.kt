@@ -2,12 +2,13 @@ package com.eroom.erooja.feature.otherList
 
 import android.annotation.SuppressLint
 import com.eroom.domain.api.usecase.member.GetMemberProfileImagesUseCase
+import com.eroom.domain.api.usecase.member.PostMemberInfoUseCase
 import com.eroom.domain.api.usecase.todo.GetTodoListUseCase
 import timber.log.Timber
 
 class OtherListPresenter(override var view: OtherListContract.View,
                          var getTodoListUseCase: GetTodoListUseCase,
-                         var getMemberProfileImages: GetMemberProfileImagesUseCase
+                         var postMemberInfoUseCase: PostMemberInfoUseCase
 )
     : OtherListContract.Presenter {
 
@@ -22,11 +23,10 @@ class OtherListPresenter(override var view: OtherListContract.View,
     }
 
     @SuppressLint("CheckResult")
-    override fun getProfileImage() {
-        getMemberProfileImages.getMemberProfileImages()
+    override fun getProfileImage(uid: String) {
+        postMemberInfoUseCase.postMemberInfo(uid)
             .subscribe({
-                if(it.isNotEmpty()) { view.setProfileImage(it[it.size - 1]) }
-                else {  view.setProfileImage(null) }
+                if (!it.imagePath.isNullOrEmpty()) view.setProfileImage(it.imagePath)
             },{
                 Timber.e(it.localizedMessage)
             })

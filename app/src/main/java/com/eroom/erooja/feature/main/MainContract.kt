@@ -18,7 +18,7 @@ interface MainContract {
         fun getUserInfo()
         fun getMemberJobInterest()
         fun onCleared()
-        fun getInterestedGoals(interestId: Long)
+        fun getInterestedGoals(interestId: Long, uid: String)
         fun getMyParticipatedList(uid: String)
     }
 }
