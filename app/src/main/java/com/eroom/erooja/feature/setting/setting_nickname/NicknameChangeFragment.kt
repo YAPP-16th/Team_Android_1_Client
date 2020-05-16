@@ -5,11 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.eroom.domain.globalconst.Consts
-
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import com.eroom.domain.utils.toastLong
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.NicknameChangeBottomSheetBinding
 import com.eroom.erooja.feature.setting.SettingFragment
@@ -88,7 +85,6 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
                             resources.getString(R.string.nickname_rule_info)
                         mBinding.nicknameErrorText.visibility = View.VISIBLE
                         nicknameCheck.set(false)
-
                     }
                 }
             }
@@ -110,7 +106,7 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
 
     fun resetNickname() {
         mBinding.nicknameText.setText("")
-        mBinding.nicknamePassBtn.isEnabled = false
+        showCheckBtn.set(false)
     }
 
 

@@ -8,12 +8,12 @@ import com.eroom.domain.utils.addTo
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
-class NicknameChangePresenter (override var view: NicknameChangeContract.View,
-                               private val getNicknameDuplicityUseCase: PostNicknameDuplicityUseCase,
-                               private val getMemberInfoUseCase: GetMemberInfoUseCase,
-                               private val postMemberInfoUseCase: PostMemberInfoUseCase
-)
-    :NicknameChangeContract.Presenter {
+class NicknameChangePresenter(
+    override var view: NicknameChangeContract.View,
+    private val getNicknameDuplicityUseCase: PostNicknameDuplicityUseCase,
+    private val getMemberInfoUseCase: GetMemberInfoUseCase,
+    private val postMemberInfoUseCase: PostMemberInfoUseCase
+) : NicknameChangeContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -21,9 +21,9 @@ class NicknameChangePresenter (override var view: NicknameChangeContract.View,
     override fun checkNickname(nickname: String) {
         getNicknameDuplicityUseCase.postCheckNickname(nickname)
             .subscribe({
-            if(it) view.nicknameDuplicationError()
+                if (it) view.nicknameDuplicationError()
                 else view.nicknameDuplicationPass()
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
     }
@@ -37,7 +37,7 @@ class NicknameChangePresenter (override var view: NicknameChangeContract.View,
         getMemberInfoUseCase.getUserInfo()
             .subscribe({
                 view.setMyNickname(it.nickname)
-            },{
+            }, {
                 it.localizedMessage
             })
     }
@@ -47,7 +47,7 @@ class NicknameChangePresenter (override var view: NicknameChangeContract.View,
         postMemberInfoUseCase.postMemberInfo(nickname)
             .subscribe({
                 Timber.i(it.nickname)
-            },{
+            }, {
                 it.localizedMessage
             })
     }

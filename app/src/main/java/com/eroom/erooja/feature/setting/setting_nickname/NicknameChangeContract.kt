@@ -1,13 +1,13 @@
 package com.eroom.erooja.feature.setting.setting_nickname
 
-interface NicknameChangeContract{
-    interface View{
+interface NicknameChangeContract {
+    interface View {
         fun setMyNickname(nickname: String)
         fun nicknameDuplicationError()
         fun nicknameDuplicationPass()
     }
 
-    interface Presenter{
+    interface Presenter {
         var view: View
         fun updateNickname(nickname: String)
         fun checkNickname(nickname: String)
