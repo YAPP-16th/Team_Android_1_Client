@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.endedGoal
+package com.eroom.erooja.feature.othersEndedGoal
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -13,23 +13,25 @@ import com.eroom.data.entity.GoalType
 import com.eroom.data.entity.MinimalTodoListDetail
 import com.eroom.data.localclass.BottomSheetColor
 import com.eroom.data.response.GoalDetailResponse
-import com.eroom.domain.customview.bottomsheetAlert.BottomSheetAlertFragment
 import com.eroom.domain.customview.bottomsheet.BottomSheetFragment
 import com.eroom.domain.customview.bottomsheet.BottomSheetInfo
+import com.eroom.domain.customview.bottomsheetAlert.BottomSheetAlertFragment
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.*
 import com.eroom.erooja.R
-import com.eroom.erooja.databinding.ActivityEndedGoalBinding
-import com.eroom.erooja.feature.editgoal.EditGoalActivity
+import com.eroom.erooja.databinding.ActivityOthersEndedGoalBinding
+import com.eroom.erooja.feature.addMyGoalJoin.AddMyListActivity
+import com.eroom.erooja.feature.endedGoal.EndedGoalAdapter
 import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
-import com.eroom.erooja.feature.participants_list.ParticipantsListActivity
+import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
+import com.eroom.erooja.singleton.UserInfo
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
 import org.koin.android.ext.android.get
 import ru.rhanza.constraintexpandablelayout.State
 
-class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
-    lateinit var binding: ActivityEndedGoalBinding
-    lateinit var presenter: EndedGoalPresenter
+class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.View {
+    lateinit var binding: ActivityOthersEndedGoalBinding
+    lateinit var presenter: OthersEndedGoalPresenter
 
     lateinit var bottom: BottomSheetFragment
     lateinit var bottomAlert: BottomSheetAlertFragment
@@ -41,6 +43,8 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     private var isAbandoned: Boolean = false
     private var isDateFixed: Boolean = false
 
+    private var isMyOngoingGoal: Boolean = false
+
     private var mLastClickTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,8 +54,8 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     }
 
     fun setUpDataBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_ended_goal)
-        binding.activity = this@EndedGoalActivity
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_others_ended_goal)
+        binding.activity = this@OthersEndedGoalActivity
     }
 
     @SuppressLint("SetTextI18n")
@@ -76,8 +80,8 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     @SuppressLint("SetTextI18n")
     override fun setTodoList(todoList: ArrayList<MinimalTodoListDetail>) {
         binding.mygoalRecyclerview.apply{
-            layoutManager = LinearLayoutManager(this@EndedGoalActivity)
-            adapter = EndedGoalAdapter(todoList, saveChange)
+            layoutManager = LinearLayoutManager(this@OthersEndedGoalActivity)
+            adapter = OthersEndedGoalAdapter(todoList, saveChange)
         }
         var count = 0
         todoList.forEach { if (it.isEnd) count += 1 }
@@ -90,9 +94,9 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     }
 
     fun initView() {
-        presenter = EndedGoalPresenter(this, get(), get(), get())
+        presenter = OthersEndedGoalPresenter(this, get(), get(), get())
 
-        statusBarColor(this@EndedGoalActivity, R.color.grey1)
+        statusBarColor(this@OthersEndedGoalActivity, R.color.grey1)
 
         binding.goalDescLayout.goal_desc.apply {
             showButton = false
@@ -131,7 +135,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
             arguments = Bundle().apply {
                 putParcelableArrayList(
                     Consts.BOTTOM_SHEET_KEY, arrayListOf(
-                        BottomSheetInfo("기간이 종료되어\n참여할 수 없는 목표입니다.",BottomSheetColor.DEFAULT)
+                        BottomSheetInfo("기간이 종료되어\n참여할 수 없는 목표입니다.", BottomSheetColor.DEFAULT)
                     ))
             }
         }
@@ -140,40 +144,88 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     private fun initBottomSheet(count: Int) {
         bottom = BottomSheetFragment.newInstance().apply {
             arguments = Bundle().apply {
-                putParcelableArrayList(
-                    Consts.BOTTOM_SHEET_KEY, arrayListOf(
-                        BottomSheetInfo("목표에 다시 참여하기", BottomSheetColor.ORG_DEFAULT, true),
-                        BottomSheetInfo("다른 참여자 리스트 둘러보기", BottomSheetColor.DEFAULT, true)
-                    ))
+                if (isMyOngoingGoal) {
+                    putParcelableArrayList(
+                        Consts.BOTTOM_SHEET_KEY, arrayListOf(
+                            BottomSheetInfo(
+                                "현재 참여중인 목표입니다",
+                                BottomSheetColor.ORG_DEFAULT,
+                                boldInfo = true
+                            ),
+                            BottomSheetInfo("다른 참여자 리스트 둘러보기", BottomSheetColor.DEFAULT)
+                        )
+                    )
+                } else {
+                    putParcelableArrayList(
+                        Consts.BOTTOM_SHEET_KEY, arrayListOf(
+                            BottomSheetInfo(
+                                "이 리스트에 참여하기",
+                                BottomSheetColor.ORG_DEFAULT,
+                                boldInfo = true
+                            ),
+                            BottomSheetInfo("다른 참여자 리스트 둘러보기", BottomSheetColor.DEFAULT)
+                        )
+                    )
+                }
             }
         }
         bottom.callback.observe(this, Observer {
-            when (it) {
-                0 -> { // 목표에 다시 참여하기
-                    if(!isDateFixed) {
-                        this.toastShort("이 목표는 기간 설정 자유")
+            if (isMyOngoingGoal) {
+                when (it) {
+                    0 -> { //현재 참여중인 목표입니다
                         startActivity(
                             Intent(
-                                this@EndedGoalActivity,
+                                this@OthersEndedGoalActivity,
+                                OngoingGoalActivity::class.java
+                            ).apply {
+                                putExtra(Consts.GOAL_ID, goalId)
+                                putExtra(Consts.UID, UserInfo.myUId) //myUID를 보내야함.//
+                            })
+                    }
+                    1 -> { // 다른 참여자 리스트 둘러보기
+                        startActivity(
+                            Intent(
+                                this@OthersEndedGoalActivity,
                                 GoalDetailActivity::class.java
                             ).apply {
                                 putExtra(Consts.GOAL_ID, goalId)
                                 putExtra(Consts.UID, uId)
-                                putExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, isFromMyPage)
                             })
-                    } else {
-                        this.toastLong(" 이목표는 기간설정 못함니다")
-
                     }
+                    else -> {}
                 }
-                1 -> { // 다른 참여자 리스트 둘러보기
-                    startActivity(Intent(this@EndedGoalActivity, GoalDetailActivity::class.java).apply {
-                        putExtra(Consts.GOAL_ID, goalId)
-                        putExtra(Consts.UID, uId)
-                        putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isFromMyPage)
-                    })
+            } else {
+                when (it) {
+                    0 -> { //이 리스트에 참여하기
+                        startActivity(
+                            Intent(
+                                this@OthersEndedGoalActivity,
+                                AddMyListActivity::class.java
+                            ).apply {
+                                putExtra(Consts.GOAL_ID, goalId)
+                                putExtra(Consts.UID, uId) //myUId(x) - owner의 uid
+                                putExtra(Consts.GOAL_DETAIL_REQUEST_verOTHER, true)
+                                putExtra(Consts.DATE, binding.goalDateTxt.text.toString())
+                                putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text.toString())
+                                // putExtra(Consts.DESCRIPTION, "DUMMY")
+                                putExtra("Description", "DUMMY")
+                            }
+                        )
+                    }
+                    1 -> { // 다른 참여자 리스트 둘러보기
+                        startActivity(
+                            Intent(
+                                this@OthersEndedGoalActivity,
+                                GoalDetailActivity::class.java
+                            ).apply {
+                                putExtra(Consts.GOAL_ID, goalId)
+                                putExtra(Consts.UID, uId)
+                            })
+                    }
+                    else -> {}
+
                 }
-                else -> {}
+
             }
             bottom.dismiss()
         })
@@ -181,6 +233,10 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
 
     override fun setIsAbandoned(isAbandoned: Boolean) {
         this.isAbandoned = isAbandoned
+    }
+
+    override fun setIsMyOngoingGoal(isOngoing: Boolean) {
+        this.isMyOngoingGoal = isOngoing
     }
 
     override fun setIsDateFixed(isDateFixed: Boolean) {
@@ -212,4 +268,5 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
         presenter.onCleared()
         super.onDestroy()
     }
+
 }

@@ -1,15 +1,15 @@
-package com.eroom.erooja.feature.endedGoal
+package com.eroom.erooja.feature.othersEndedGoal
 
 import com.eroom.data.entity.MinimalTodoListDetail
 import com.eroom.data.response.GoalDetailResponse
 
-
-interface EndedGoalContract {
+interface OthersEndedGoalContract {
     interface View{
         fun setGoalData(goalData: GoalDetailResponse)
         fun setTodoList(todoList: ArrayList<MinimalTodoListDetail>)
         fun setIsAbandoned(isAbandoned: Boolean)
         fun setIsDateFixed(isDateFixed: Boolean)
+        fun setIsMyOngoingGoal(isOngoing: Boolean)
     }
 
     interface Presenter{
