@@ -103,7 +103,7 @@
                     android:id="@+id/goal_desc_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/boader_bottom_round_org"
+                    android:background="@drawable/border_bottom_round_org"
                     bind:layout_constraintEnd_toEndOf="@+id/linearLayout"
                     bind:layout_constraintHorizontal_bias="0.0"
                     bind:layout_constraintStart_toStartOf="@+id/linearLayout"

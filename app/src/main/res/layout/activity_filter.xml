@@ -75,30 +75,6 @@
         </androidx.core.widget.NestedScrollView>
 
         <LinearLayout
-            android:id="@+id/cancelButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:paddingStart="50dp"
-            android:paddingEnd="50dp"
-            android:background="@color/grey3"
-            android:onClick="@{() -> activity.cancelButtonClicked()}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/completeButton"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <TextView
-                android:id="@+id/cancelText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="초기화"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/completeButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -109,7 +85,7 @@
             android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/cancelButton">
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
                 android:id="@+id/resetText"

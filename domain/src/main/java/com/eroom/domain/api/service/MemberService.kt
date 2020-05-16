@@ -24,6 +24,9 @@ interface MemberService {
     @GET("member")
     fun getMemberInfo(): Single<UserInfoResponse>
 
+    @POST("member")
+    fun postMemberInfo(@Body nickname: NicknameRequest) : Single<UserInfoResponse>
+
     @GET("member/jobInterests")
     fun getMemberJobInterests(): Single<ArrayList<JobGroupAndClassResponse>>
 

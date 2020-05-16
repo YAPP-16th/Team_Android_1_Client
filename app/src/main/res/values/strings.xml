@@ -103,5 +103,6 @@
     <string name="edit_complete_text">변경 완료</string>
     <string name="connected_job">관련 직무</string>
     <string name="no_content_text">등록된 목표가 없습니다.</string>
+    <string name="change_nickname">닉네임 변경</string>
 
 </resources>

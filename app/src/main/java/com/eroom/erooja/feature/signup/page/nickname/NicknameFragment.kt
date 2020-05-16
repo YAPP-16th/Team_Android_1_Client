@@ -25,7 +25,7 @@ class NicknameFragment : Fragment(), NicknameContract.View {
     private lateinit var presenter: NicknamePresenter
 
     val nickname: MutableLiveData<String> = MutableLiveData()
-    var nicknameCheck: ObservableField<Boolean> = ObservableField(false)
+    var nicknameCheck: ObservableField<Boolean> = ObservableField(true)
 
     companion object {
         @JvmStatic

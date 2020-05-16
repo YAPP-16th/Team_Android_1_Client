@@ -67,4 +67,6 @@ val usecaseModule = module {
     factory { GetGoalInfoByGoalIdUseCase(get()) }
 
     factory { PutTodoListUseCase(get()) }
+
+    factory { PostMemberInfoUseCase(get()) }
 }

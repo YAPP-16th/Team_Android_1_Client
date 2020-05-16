@@ -11,7 +11,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_marginTop="32dp"
-            android:src="@drawable/ic_group"/>
+            android:src="@drawable/ic_icon_warning_system"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/alertItemSheetRecycler"
             android:layout_width="match_parent"
