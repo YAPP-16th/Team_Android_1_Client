@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.eroom.erooja.R
 import com.eroom.calendar.AirCalendarDatePickerActivity
 import com.eroom.calendar.core.AirCalendarIntent
@@ -19,8 +20,9 @@ import com.eroom.domain.utils.ProgressBarAnimation
 import com.eroom.domain.utils.toLocalDateFormat
 import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.databinding.ActivityAddMyNewGoalBinding
+import com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.*
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalFinishActivity
-import com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.AddMyTodoListFragment
+import com.eroom.erooja.feature.addDirectList.enabledjob.EnabledJobFragment
 import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinGoalPeriodFragment
 import org.koin.android.ext.android.get
 import java.util.*
@@ -50,8 +52,6 @@ class AddMyListActivity : AppCompatActivity(),
     private var goalDate: String? = null
     private var goalId: Long? = null
     private var ownerUid: String? = null
-    private var userTodoList: ArrayList<String> = arrayListOf("")
-    private var isThereAnyFragment = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,23 +61,26 @@ class AddMyListActivity : AppCompatActivity(),
         initFragment()
         observeData()
         setDefaultPeriod()
-        addAndJoinMyList()
+        addMyList()
     }
 
-    private fun addAndJoinMyList() {
+    private fun addMyList() {
         // case 1: 기간 고정, 내가 리스트를 추가하는 경우
-        if (!goalDate.equals("기간 설정 자유")
-        ) {
-            mPage = 1
-            isThereAnyFragment = false
+        if (!goalDate.equals("기간 설정 자유")) {
+            mPage = 4
             showFragment()
             val endGoalDate = goalDate!!.split("~")
             val endGoalDate1 = endGoalDate[1].split(".")
-            endDate = toLocalDateFormat(endGoalDate1[0], endGoalDate1[1], endGoalDate1[2])
+            endDate = toLocalDateFormat("20" + endGoalDate1[0], endGoalDate1[1], endGoalDate1[2])
+                mFragmentList[3].apply {
+                    arguments = Bundle().apply {
+                        putString(Consts.END_DATE, endGoalDate[1])
+                    }
+                }
         }
         // case 2: 기간 설정 가능, 내가 리스트를 추가하는 경우
         else {
-            mPage = 0
+            mPage = 3
             //nextClickable.set(true)
             showFragment()
         }
@@ -117,17 +120,15 @@ class AddMyListActivity : AppCompatActivity(),
     }
 
     private fun observeData() {
-//        (mFragmentList[1] as AddMyTodoListFragment).goalList.observe(this, Observer {
-//              nextClickable.set(!this.goalList.isNullOrEmpty())
+        (mFragmentList[4] as AddMyTodoListFragment).goalList.observe(this, Observer {
+            this.goalList = it
+            nextClickable.set(!this.goalList.isNullOrEmpty())
+        })
+//        (mFragmentList[4] as AddMyTodoListFragment).goalListCheck.observe(this, Observer {
+//            nextClickable.set(it)
 //        })
-//        (mFragmentList[1] as AddMyTodoListFragment).goalListCheck.observe(this, Observer {
-//           // nextClickable.set(it)
-//        })
-//        (mFragmentList[1] as AddMyTodoListFragment).writingText.observe(this, Observer {
-//
-//        })
-//
-        (mFragmentList[1] as AddMyTodoListFragment).writingText.observe(this, androidx.lifecycle.Observer {
+
+        (mFragmentList[4] as AddMyTodoListFragment).writingText.observe(this, Observer {
             additionalGoalList = it
         })
     }
@@ -136,11 +137,26 @@ class AddMyListActivity : AppCompatActivity(),
         mFragmentList.apply {
             addAll(
                 listOf(
-                    JoinGoalPeriodFragment.newInstance(),
+                    EnabledJobFragment.newInstance(),
+                    EnabledGoalTitleFragment.newInstance().apply {
+                        arguments = Bundle().apply {
+                            putString(Consts.GOAL_TITLE, goalTitleText)
+                        }
+                    },
+                    EnabledGoalDetailFragment.newInstance().apply {
+                        arguments = Bundle().apply {
+                            putString(Consts.DESCRIPTION, goalDetailContentText)
+                        }
+                    },
+                    AddGoalPeriodFragment.newInstance(),
                     AddMyTodoListFragment.newInstance()
                 )
             )
-        }.also {
+        }
+        if (!goalDate.equals("기간 설정 자유")){
+            mFragmentList[3] = EnabledGoalPeriodFragment.newInstance()
+        }
+            mFragmentList.also {
             repeat(it.size) { index ->
                 supportFragmentManager.beginTransaction().add(R.id.newGoalFrame, it[index])
                     .hide(it[index]).commit()
@@ -148,58 +164,52 @@ class AddMyListActivity : AppCompatActivity(),
 
             supportFragmentManager.beginTransaction().show(it[mPage]).commit()
         }
-        setProgressBar()
+        setProgressBar(true)
     }
 
     private fun showFragment() {
         hideFragment()
-        newGoalBinding.nextTextView.text = if (mPage == 0) "다음" else "완료"
-
+        newGoalBinding.nextTextView.text = if (mPage == 4)  "완료" else "다음"
         supportFragmentManager.beginTransaction().show(mFragmentList[mPage]).commit()
+        setProgressBar(true)
+
     }
 
     private fun hideFragment() = repeat(mFragmentList.size) {
         supportFragmentManager.beginTransaction().hide(mFragmentList[it]).commit()
     }
 
-    private fun setProgressBar() {
+    private fun setProgressBar(isIncreasing: Boolean) {
         val progressBar = newGoalBinding.horizontalProgressBar
-        val anim = ProgressBarAnimation(
-            progressBar,
-            progressBar.max.toFloat() * (mPage + 2) / 4,
-            progressBar.max.toFloat() * (mPage + 3) / 4
-        )
+        val prev = if (isIncreasing) {
+            (progressBar.max.toDouble() / mFragmentList.size) * (mPage)
+        } else {
+            (progressBar.max.toDouble() / mFragmentList.size) * (mPage + 2)
+        }
+        val next = (100.0 / mFragmentList.size) * (mPage + 1)
+        val anim = ProgressBarAnimation(progressBar, prev.toFloat(), next.toFloat())
         anim.duration = 250
         progressBar.startAnimation(anim)
     }
 
+
     fun prevButtonClicked() {
         hideKeyBoard()
-
-        //이전 프래그먼트가 존재합니까?
-        if(!isThereAnyFragment){
-            finish()
-            return
-        }
-        else{
             mPage -=1
             if (mPage < 0) {
                 finish()
                 return
             }
             nextClickable.set(true)
-            setProgressBar()
+            setProgressBar(false)
             showFragment()
-        }
-
-
     }
 
     fun nextButtonClicked() {
         hideKeyBoard()
         mPage += 1
         when {
-            mPage >= 2 -> {
+            mPage > mFragmentList.size - 1 -> {
                 networkRequest()
                 return
             }
@@ -210,7 +220,7 @@ class AddMyListActivity : AppCompatActivity(),
                 nextClickable.set(true)
             }
         }
-        setProgressBar()
+        setProgressBar(true)
         showFragment()
 
     }

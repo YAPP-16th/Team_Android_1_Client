@@ -1,10 +1,9 @@
 package com.eroom.erooja.feature.joinOtherList.joinTodoListPage
 
-import com.eroom.data.entity.MinimalTodoListDetail
-
 interface JoinOtherListContract {
     interface View{
         fun redirectNewGoalFinish(resultId: Long)
+        fun failRequest()
     }
     interface Presenter{
         var view: View

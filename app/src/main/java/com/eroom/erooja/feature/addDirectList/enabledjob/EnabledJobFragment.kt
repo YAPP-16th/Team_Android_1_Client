@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.addGoal.newGoalPage.selectjob
+package com.eroom.erooja.feature.addDirectList.enabledjob
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,24 +9,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.JobGroup
 import com.eroom.data.response.JobGroupAndClassResponse
-
-import com.eroom.erooja.databinding.FragmentSelectJobBinding
+import com.eroom.erooja.databinding.FragmentEnabledJobBinding
+import com.eroom.erooja.feature.addGoal.newGoalPage.selectjob.SelectJobAdapter
+import com.eroom.erooja.feature.addGoal.newGoalPage.selectjob.SelectJobContract
+import com.eroom.erooja.feature.addGoal.newGoalPage.selectjob.SelectJobPresenter
 import org.koin.android.ext.android.get
-import timber.log.Timber
 
 
-class SelectJobFragment : Fragment(), SelectJobContract.View {
-    private lateinit var selectJobBinding: FragmentSelectJobBinding
-    private lateinit var presenter: SelectJobPresenter
-    val selectList: MutableLiveData<ArrayList<Long>> = MutableLiveData()
-    val selectCheck: MutableLiveData<Boolean> = MutableLiveData()
+class EnabledJobFragment : Fragment(), EnabledJobContract.View {
+    private lateinit var selectJobBinding: FragmentEnabledJobBinding
+    private lateinit var presenter: EnabledJobPresenter
     private val selectedId: ArrayList<Long> = ArrayList()
-    private lateinit var mAdapter: SelectJobAdapter
+    private lateinit var mAdapter: EnabledJobAdapter
 
     companion object {
         @JvmStatic
         fun newInstance() =
-            SelectJobFragment()
+            EnabledJobFragment()
     }
 
     override fun onCreateView(
@@ -40,11 +39,11 @@ class SelectJobFragment : Fragment(), SelectJobContract.View {
     }
 
     private fun initPresenter() {
-        presenter = SelectJobPresenter(this, get(), get())
+        presenter = EnabledJobPresenter(this, get(), get())
     }
 
     private fun setUpDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        selectJobBinding = FragmentSelectJobBinding.inflate(inflater, container, false)
+        selectJobBinding = FragmentEnabledJobBinding.inflate(inflater, container, false)
         selectJobBinding.fragment = this
     }
 
@@ -61,25 +60,11 @@ class SelectJobFragment : Fragment(), SelectJobContract.View {
 
     override fun updateJobGroupAndClass(result: List<JobGroupAndClassResponse>) {
         context?.let {
-        mAdapter = SelectJobAdapter(it, result, selectedId, itemClick)
-        selectJobBinding.jobGroupRecycler.apply {
-            adapter = mAdapter
-            layoutManager = LinearLayoutManager(context)
-        } }
-    }
-
-    private val itemClick = { id: Long, preState: Boolean ->
-        if (preState)
-            selectedId.remove(id)
-        else
-            selectedId.add(id)
-        checkSelect()
-        selectList.value = selectedId
-        mAdapter.notifyDataSetChanged()
-    }
-
-    private fun checkSelect() {
-        selectCheck.value = selectedId.size != 0
+            mAdapter = EnabledJobAdapter(it, result, selectedId)
+            selectJobBinding.jobGroupRecycler.apply {
+                adapter = mAdapter
+                layoutManager = LinearLayoutManager(context)
+            } }
     }
 
     override fun onDestroy() {
