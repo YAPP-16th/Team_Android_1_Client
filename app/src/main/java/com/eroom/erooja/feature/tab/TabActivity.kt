@@ -17,6 +17,7 @@ import com.eroom.erooja.feature.mypage.MyPageFragment
 import com.eroom.erooja.feature.search.search_main.SearchFragment
 import com.eroom.erooja.feature.setting.SettingFragment
 import com.eroom.erooja.singleton.JobClassHashMap.hashmap
+import com.eroom.erooja.singleton.UserInfo
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.android.ext.android.get
 
@@ -34,16 +35,27 @@ class TabActivity : AppCompatActivity(), TabContract.View {
         initPresenter()
         setUpDataBinding()
         initFragment()
+        saveUserInfo()
     }
 
     private fun initPresenter() {
-        presenter = TabPresenter(this)
+        presenter = TabPresenter(this, get())
         listener = presenter.listener
     }
 
     private fun setUpDataBinding() {
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_tab)
         mainBinding.activity = this
+    }
+
+    private fun saveUserInfo() {
+        presenter.getUserInfo()
+    }
+
+    override fun setUserInfo(uid: String, nickname: String, imagePath: String?) {
+        UserInfo.myUId = uid
+        UserInfo.myNickname = nickname
+        imagePath?.let { UserInfo.myImagePath = it }
     }
 
     private fun initFragment() =

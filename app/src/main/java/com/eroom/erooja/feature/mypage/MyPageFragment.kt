@@ -14,12 +14,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eroom.data.entity.JobClass
 import com.eroom.data.entity.MinimalGoalDetailContent
 import com.eroom.domain.globalconst.Consts
+import com.eroom.domain.utils.loadUri
+import com.eroom.domain.utils.loadUrl
 import org.koin.android.ext.android.get
 
 import com.eroom.erooja.databinding.FragmentMyPageBinding
 import com.eroom.erooja.feature.endedGoal.EndedGoalActivity
 import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
 import com.eroom.erooja.feature.tab.TabActivity
+import com.eroom.erooja.singleton.UserInfo
 import com.google.android.material.tabs.TabLayout
 
 
@@ -74,6 +77,10 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         } else {
             presenter.getUserInfo()
             presenter.getMemberJobInterest()
+        }
+
+        UserInfo.myImagePath.let {
+            if (it != "") myPageBinding.profileImage.loadUrl(it)
         }
 
         myPageBinding.myPageTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
