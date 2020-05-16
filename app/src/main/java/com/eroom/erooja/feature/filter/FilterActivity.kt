@@ -86,13 +86,7 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
         checkSelect()
         mAdapter.notifyDataSetChanged()
     }
-
-    fun cancelButtonClicked(){
-        selectedId.clear()
-        checkSelect()
-        mAdapter.notifyDataSetChanged()
-    }
-
+    
     fun completeButtonClicked() {
         val result1 = intent.putExtra("selectedId",selectedId)
         val result2 = intent.putExtra("HashMap", hashmap)
