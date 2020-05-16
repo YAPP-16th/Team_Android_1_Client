@@ -5,12 +5,13 @@
     <data>
         <variable
             name="activity"
-            type="com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity" />
+            type="com.eroom.erooja.feature.joinOtherList.joinTodoListPage.JoinOtherListActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".feature.joinOtherList.joinTodoListFrame.JoinTodoListFragment">
 
 
         <ImageView

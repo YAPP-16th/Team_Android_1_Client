@@ -1,6 +1,4 @@
-package com.eroom.erooja.feature.addMyGoalJoin
-
-import com.eroom.data.entity.MinimalTodoListDetail
+package com.eroom.erooja.feature.addDirectList.addMyTodoListPage
 
 interface AddMyListContract {
     interface View {
@@ -19,6 +17,5 @@ interface AddMyListContract {
         )
         fun onCleared()
 
-       // fun getUserTodoData(uid:String, goalId: Long)
     }
 }
