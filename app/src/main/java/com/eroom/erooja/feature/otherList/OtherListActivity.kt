@@ -11,7 +11,7 @@ import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.*
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityOthersListBinding
-import com.eroom.erooja.feature.addDirectList.AddMyListActivity
+import com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity
 import org.koin.android.ext.android.get
 import timber.log.Timber
 

@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.addDirectList
+package com.eroom.erooja.feature.addDirectList.addMyTodoListPage
 
 
 import android.app.Activity
@@ -6,11 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.eroom.erooja.R
 import com.eroom.calendar.AirCalendarDatePickerActivity
 import com.eroom.calendar.core.AirCalendarIntent
@@ -20,8 +20,8 @@ import com.eroom.domain.utils.toLocalDateFormat
 import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.databinding.ActivityAddMyNewGoalBinding
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalFinishActivity
-import com.eroom.erooja.feature.joinTodoListFrame.JoinGoalPeriodFragment
-import com.eroom.erooja.feature.joinTodoListFrame.JoinTodoListFragment
+import com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.AddMyTodoListFragment
+import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinGoalPeriodFragment
 import org.koin.android.ext.android.get
 import java.util.*
 import kotlin.collections.ArrayList
@@ -32,7 +32,7 @@ class AddMyListActivity : AppCompatActivity(),
     private val REQUEST_CODE = 3000
 
     private lateinit var newGoalBinding: ActivityAddMyNewGoalBinding
-   //private lateinit var presenter: AddMyListPresenter
+   private lateinit var presenter: AddMyListPresenter
 
     private val mFragmentList = ArrayList<Fragment>()
     private var mPage = 0
@@ -51,6 +51,7 @@ class AddMyListActivity : AppCompatActivity(),
     private var goalId: Long? = null
     private var ownerUid: String? = null
     private var userTodoList: ArrayList<String> = arrayListOf("")
+    private var isThereAnyFragment = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,16 +65,17 @@ class AddMyListActivity : AppCompatActivity(),
     }
 
     private fun addAndJoinMyList() {
-        // case 1: 기간 고정, 내가 만든 리스트를 추가하는 경우
+        // case 1: 기간 고정, 내가 리스트를 추가하는 경우
         if (!goalDate.equals("기간 설정 자유")
         ) {
             mPage = 1
+            isThereAnyFragment = false
             showFragment()
             val endGoalDate = goalDate!!.split("~")
             val endGoalDate1 = endGoalDate[1].split(".")
             endDate = toLocalDateFormat(endGoalDate1[0], endGoalDate1[1], endGoalDate1[2])
         }
-        // case 2: 기간 설정 가능, 내가 만든 리스트를 추가하는 경우
+        // case 2: 기간 설정 가능, 내가 리스트를 추가하는 경우
         else {
             mPage = 0
             //nextClickable.set(true)
@@ -82,22 +84,14 @@ class AddMyListActivity : AppCompatActivity(),
     }
 
     private fun initPresenter() {
-       // presenter = AddMyListPresenter(this, get(), get())
-        // ownerUid?.let { goalId?.let { it1 -> presenter.getUserTodoData(it, it1) } }
-        intent.getStringArrayListExtra(Consts.USER_TODO_LIST)?.let {
-            userTodoList = it
-            goalList = userTodoList
-        }
+        presenter = AddMyListPresenter(this, get())
 
         //Todo: GoalDetailActivity에서 담은 데이터를 받음
-        goalId = if (intent.getLongExtra(Consts.GOAL_ID, -1L) != -1L) intent.getLongExtra(
-            Consts.GOAL_ID,
-            -1L
-        ) else null
+        goalId = intent.getLongExtra(Consts.GOAL_ID, -1L)
         goalTitleText = intent.getStringExtra(Consts.GOAL_TITLE)
         goalDetailContentText = intent.getStringExtra(Consts.DESCRIPTION)
         goalDate = intent.getStringExtra(Consts.DATE)
-        ownerUid = intent.getStringExtra(Consts.UID)
+        ownerUid = null
 
     }
 
@@ -123,14 +117,17 @@ class AddMyListActivity : AppCompatActivity(),
     }
 
     private fun observeData() {
-        (mFragmentList[1] as JoinTodoListFragment).goalList.observe(this, Observer {
-            //   this.goalList = it
-            //   nextClickable.set(!this.goalList.isNullOrEmpty())
-        })
-        (mFragmentList[1] as JoinTodoListFragment).goalListCheck.observe(this, Observer {
-            //nextClickable.set(it)
-        })
-        (mFragmentList[1] as JoinTodoListFragment).writingText.observe(this, Observer {
+//        (mFragmentList[1] as AddMyTodoListFragment).goalList.observe(this, Observer {
+//              nextClickable.set(!this.goalList.isNullOrEmpty())
+//        })
+//        (mFragmentList[1] as AddMyTodoListFragment).goalListCheck.observe(this, Observer {
+//           // nextClickable.set(it)
+//        })
+//        (mFragmentList[1] as AddMyTodoListFragment).writingText.observe(this, Observer {
+//
+//        })
+//
+        (mFragmentList[1] as AddMyTodoListFragment).writingText.observe(this, androidx.lifecycle.Observer {
             additionalGoalList = it
         })
     }
@@ -140,11 +137,7 @@ class AddMyListActivity : AppCompatActivity(),
             addAll(
                 listOf(
                     JoinGoalPeriodFragment.newInstance(),
-                    JoinTodoListFragment.newInstance().apply {
-                        arguments = Bundle().apply {
-                            putStringArrayList("todolist", userTodoList)
-                        }
-                    }
+                    AddMyTodoListFragment.newInstance()
                 )
             )
         }.also {
@@ -152,6 +145,7 @@ class AddMyListActivity : AppCompatActivity(),
                 supportFragmentManager.beginTransaction().add(R.id.newGoalFrame, it[index])
                     .hide(it[index]).commit()
             }
+
             supportFragmentManager.beginTransaction().show(it[mPage]).commit()
         }
         setProgressBar()
@@ -181,15 +175,24 @@ class AddMyListActivity : AppCompatActivity(),
 
     fun prevButtonClicked() {
         hideKeyBoard()
-        mPage -= 1
-        if (mPage < 0) {
+
+        //이전 프래그먼트가 존재합니까?
+        if(!isThereAnyFragment){
             finish()
             return
         }
+        else{
+            mPage -=1
+            if (mPage < 0) {
+                finish()
+                return
+            }
+            nextClickable.set(true)
+            setProgressBar()
+            showFragment()
+        }
 
-        nextClickable.set(true)
-        setProgressBar()
-        showFragment()
+
     }
 
     fun nextButtonClicked() {
@@ -197,7 +200,7 @@ class AddMyListActivity : AppCompatActivity(),
         mPage += 1
         when {
             mPage >= 2 -> {
-               // networkRequest()
+                networkRequest()
                 return
             }
 //                    mPage == 1 -> {
@@ -220,16 +223,16 @@ class AddMyListActivity : AppCompatActivity(),
         finish()
     }
 
-//    private fun networkRequest() {
-//        if (additionalGoalList.isNotEmpty()) {
-//            presenter.addMyGoal(
-//                goalId,
-//                ownerUid,
-//                endDate,
-//                goalList.apply { add(additionalGoalList) })
-//        } else
-//            presenter.addMyGoal(goalId, ownerUid, endDate, goalList)
-//    }
+    private fun networkRequest() {
+        if (additionalGoalList.isNotEmpty()) {
+            presenter.addMyGoal(
+                goalId,
+                ownerUid,
+                endDate,
+                goalList.apply { add(additionalGoalList) })
+        } else
+            presenter.addMyGoal(goalId, ownerUid, endDate, goalList)
+    }
 
     override fun onBackPressed() {
         prevButtonClicked()
@@ -271,6 +274,11 @@ class AddMyListActivity : AppCompatActivity(),
         }
     }
 
+    fun showKeyboard(input: EditText) {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(input, 0)
+    }
+
     private fun hideKeyBoard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
@@ -282,7 +290,7 @@ class AddMyListActivity : AppCompatActivity(),
     }
 
     override fun onDestroy() {
-     //   presenter.onCleared()
+        presenter.onCleared()
         super.onDestroy()
     }
 }

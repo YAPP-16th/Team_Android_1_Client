@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.addDirectList
+package com.eroom.erooja.feature.addDirectList.addMyTodoListPage
 
 import com.eroom.data.entity.TodoList
 import com.eroom.data.request.AddMyGoalRequest
@@ -9,7 +9,6 @@ import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
 class AddMyListPresenter (override var view: AddMyListContract.View,
-                          var getTodoListUseCase: GetTodoListUseCase,
                           private val postAddMyGoalUseCase: PostAddMyGoalUseCase)
     : AddMyListContract.Presenter {
     private val compositeDisposable = CompositeDisposable()
@@ -45,17 +44,4 @@ class AddMyListPresenter (override var view: AddMyListContract.View,
         compositeDisposable.clear()
     }
 
-//    @SuppressLint("CheckResult")
-//    override fun getUserTodoData(uid:String, goalId: Long) {
-//        val todolist = ArrayList<String>()
-//        getTodoListUseCase.getUserTodoList(uid, goalId)
-//            .subscribe({
-//                it.content.map {
-//                    todolist.add(it.content)
-//                }
-//                view.setTodoList(todolist)
-//            },{
-//                Timber.e(it.localizedMessage)
-//            })
-//    }
 }

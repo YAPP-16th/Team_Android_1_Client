@@ -20,7 +20,7 @@ import com.eroom.erooja.databinding.ItemMainNewGoalBinding
 import kotlinx.android.synthetic.main.goal_simple_list.view.*
 
 class GoalDetailAdapter(callback: DiffUtil.ItemCallback<MinimalTodoListContent>,
-                        val TodoList: ArrayList<MinimalTodoListContent>, val isFromMyPage: Boolean, val click: (String, String) -> Unit, val clickPlusBtn: (String) -> Unit) :
+                        val TodoList: ArrayList<MinimalTodoListContent>, val isFromMyPage: Boolean, val click: (String, String) -> Unit, val joinTodoList: (String) -> Unit) :
     ListAdapter<MinimalTodoListContent, GoalDetailAdapter.ViewHolder>(callback) {
 
 
@@ -66,7 +66,7 @@ class GoalDetailAdapter(callback: DiffUtil.ItemCallback<MinimalTodoListContent>,
         }
 
         holder.item.setOnClickListener { click(TodoList[position].uid, TodoList[position].nickName add " 님의 리스트" ) }
-        holder.goalBtn.setOnClickListener { clickPlusBtn(TodoList[position].uid) }
+        holder.goalBtn.setOnClickListener { joinTodoList(TodoList[position].uid) }
 }
 
 

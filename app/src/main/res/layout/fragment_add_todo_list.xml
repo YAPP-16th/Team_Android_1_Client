@@ -7,24 +7,42 @@
     <data>
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.joinTodoListFrame.JoinTodoListFragment" />
+            type="com.eroom.erooja.feature.editgoal.AddListFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/goal_period_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:lineSpacingExtra="11sp"
+            android:paddingStart="20dp"
+            android:paddingBottom="24dp"
+            android:paddingTop="24dp"
+            android:text="@string/goal_list_title"
+            android:textColor="@color/grey7"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.216"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/goal_period_title"
             app:layout_constraintVertical_bias="0.0">
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/scrollView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
                 android:scrollbarThumbVertical="@color/orgDefault"
                 tools:layout_editor_absoluteX="0dp">
@@ -35,7 +53,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="16dp"
-                    android:paddingEnd="16dp">
+                    android:paddingEnd="16dp"
+                    android:paddingTop="6dp">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/goalListRecycler"
@@ -91,6 +110,12 @@
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 
+            <View
+                android:id="@+id/blur_view"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@drawable/view_gradient_alpha_to_white"
+                android:visibility="invisible" />
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

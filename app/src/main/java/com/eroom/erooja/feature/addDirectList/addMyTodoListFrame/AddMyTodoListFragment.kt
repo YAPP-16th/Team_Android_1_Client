@@ -1,13 +1,7 @@
-package com.eroom.erooja.feature.joinTodoListFrame
+package com.eroom.erooja.feature.addDirectList.addMyTodoListFrame
 
-import com.eroom.erooja.feature.editgoal.AddTodoAdapter
-import com.eroom.erooja.feature.editgoal.EditGoalActivity
 import android.os.Bundle
-
 import android.view.KeyEvent
-
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,13 +10,19 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.ObservableField
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
-import com.eroom.erooja.databinding.FragmentAddTodoListBinding
+import com.eroom.erooja.databinding.FragmentAddMyTodoListBinding
+import com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity
+import com.eroom.erooja.feature.editgoal.AddTodoAdapter
+import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinTodoListFragment
 
-class JoinTodoListFragment : Fragment(), TextView.OnEditorActionListener {
-    lateinit var addTodoBinding: FragmentAddTodoListBinding
+
+class AddMyTodoListFragment : Fragment(), TextView.OnEditorActionListener {
+    lateinit var addTodoBinding: FragmentAddMyTodoListBinding
     private lateinit var mAdapter: AddTodoAdapter
 
     private val goalItem: ArrayList<String> = ArrayList()
@@ -35,14 +35,14 @@ class JoinTodoListFragment : Fragment(), TextView.OnEditorActionListener {
 
     companion object {
         @JvmStatic
-        fun newInstance() = JoinTodoListFragment()
+        fun newInstance() = AddMyTodoListFragment()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_add_todo_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_add_my_todo_list, container, false)
         setUpDataBinding(inflater, container)
         initView()
         return addTodoBinding.root
@@ -50,8 +50,8 @@ class JoinTodoListFragment : Fragment(), TextView.OnEditorActionListener {
 
 
     private fun setUpDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        addTodoBinding = FragmentAddTodoListBinding.inflate(inflater, container, false)
-        addTodoBinding.fragment = this@JoinTodoListFragment
+        addTodoBinding = FragmentAddMyTodoListBinding.inflate(inflater, container, false)
+        addTodoBinding.fragment = this
     }
 
     private fun initView() {
@@ -110,7 +110,8 @@ class JoinTodoListFragment : Fragment(), TextView.OnEditorActionListener {
         v.post(kotlinx.coroutines.Runnable {
             v.isFocusableInTouchMode = true
             v.requestFocus()
-            (activity as EditGoalActivity).showKeyboard(v as EditText)
+         //   (activity as AddMyListActivity).showKeyboard(v as EditText)
         })
     }
+
 }

@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.addDirectList
+package com.eroom.erooja.feature.addDirectList.addMyTodoListPage
 
 interface AddMyListContract {
     interface View {
@@ -17,6 +17,5 @@ interface AddMyListContract {
         )
         fun onCleared()
 
-       // fun getUserTodoData(uid:String, goalId: Long)
     }
 }

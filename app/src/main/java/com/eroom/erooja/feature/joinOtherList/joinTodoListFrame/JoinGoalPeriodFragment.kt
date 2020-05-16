@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.joinTodoListFrame
+package com.eroom.erooja.feature.joinOtherList.joinTodoListFrame
 
 import android.os.Bundle
 import android.text.SpannableString
@@ -7,8 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.eroom.erooja.R
 import com.eroom.erooja.databinding.FragmentJoinOrAddGoalPeriodBinding
-import com.eroom.erooja.feature.addDirectList.AddMyListActivity
+import com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,7 +25,7 @@ class JoinGoalPeriodFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_join_or_add_goal_period, container, false)
         setUpDataBinding(inflater, container)
         initView()
         return binding.root

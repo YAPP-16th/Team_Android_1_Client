@@ -1,33 +1,39 @@
-package com.eroom.erooja.feature.joinOtherList
+package com.eroom.erooja.feature.joinOtherList.joinTodoListPage
 
 import android.app.Activity
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import com.eroom.calendar.AirCalendarDatePickerActivity
 import com.eroom.calendar.core.AirCalendarIntent
+import com.eroom.data.entity.MinimalTodoListDetail
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.ProgressBarAnimation
 import com.eroom.domain.utils.toLocalDateFormat
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityJoinOtherListBinding
-import com.eroom.erooja.feature.addDirectList.AddMyListPresenter
-import com.eroom.erooja.feature.addGoal.newGoalPage.GoalListFragment
-import com.eroom.erooja.feature.joinTodoListFrame.JoinGoalPeriodFragment
+import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalFinishActivity
+import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinGoalPeriodFragment
+import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinTodoListFragment
+import org.koin.android.ext.android.get
 import java.util.*
 import kotlin.collections.ArrayList
 
-class JoinOtherListActivity : AppCompatActivity() {
+class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
 
     private val REQUEST_CODE = 3000
 
     private lateinit var newGoalBinding: ActivityJoinOtherListBinding
-    private lateinit var presenter: AddMyListPresenter
+    private lateinit var presenter: JoinOtherListPresenter
 
     private val mFragmentList = ArrayList<Fragment>()
     private var mPage = 0
@@ -42,12 +48,12 @@ class JoinOtherListActivity : AppCompatActivity() {
     private var goalDetailContentText: String? = null
 
     //getExtra GoalDetailActivity -> NewGoalActivity
-    private var addMyList: Int? = null
     private var goalDate: String? = null
-    private var goalId: Long? = null
-    private var ownerUid: String? = null
-    private var addOtherList: Int? = null
-    private var userTodoList: ArrayList<String> = arrayListOf("")
+    private var goalId: Long = 0L
+    private var userUid: String = ""
+   // private var userTodoList: ArrayList<String> = arrayListOf("")
+    private var isThereAnyFragment = true
+    var userTodoList: ArrayList<String> = ArrayList()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,15 +63,15 @@ class JoinOtherListActivity : AppCompatActivity() {
         initFragment()
         observeData()
         setDefaultPeriod()
-        JoinTodoList()
+        joinTodoList()
     }
 
-    fun JoinTodoList(){
+    fun joinTodoList(){
         // case 1: 기간 고정, 다른 사람의 리스트를 추가하는 경우
-        if (addOtherList == Consts.GOAL_DETAIL_REQUEST_NUM_verOTHER
-            && !goalDate.equals("기간 설정 자유")) {
+        if (!goalDate.equals("기간 설정 자유")) {
             mPage = 1
             showFragment()
+            isThereAnyFragment = false
             val endGoalDate = goalDate!!.split("~")
             val endGoalDate1 = endGoalDate[1].split(".")
             endDate = toLocalDateFormat("20" + endGoalDate1[0], endGoalDate1[1], endGoalDate1[2])
@@ -75,28 +81,33 @@ class JoinOtherListActivity : AppCompatActivity() {
         else {
             mPage = 0
             //nextClickable.set(true)
+          //  presenter.getOtherTodoList(userUid, goalId)
             showFragment()
         }
-
     }
 
+//    override fun setOtherTodoList(todoList: ArrayList<MinimalTodoListDetail>) {
+//        userTodoList.clear()
+//
+//        for(item in todoList){
+//            userTodoList.add(item.content)
+//        }
+//        //(mFragmentList[1] as JoinTodoListFragment).getUserTodoList(userTodoList)
+//    }
+
     private fun initPresenter() {
-        //presenter = AddMyListPresenter(this, get(), get())
+        presenter = JoinOtherListPresenter(this, get())
         // ownerUid?.let { goalId?.let { it1 -> presenter.getUserTodoData(it, it1) } }
         intent.getStringArrayListExtra(Consts.USER_TODO_LIST)?.let {
             userTodoList = it
-            goalList = userTodoList
         }
 
         //Todo: GoalDetailActivity에서 담은 데이터를 받음
-        goalId = if (intent.getLongExtra(Consts.GOAL_ID, -1L) != -1L) intent.getLongExtra(
-            Consts.GOAL_ID,
-            -1L
-        ) else null
+        goalId = intent.getLongExtra(Consts.GOAL_ID, -1L)
         goalTitleText = intent.getStringExtra(Consts.GOAL_TITLE)
         goalDetailContentText = intent.getStringExtra(Consts.DESCRIPTION)
         goalDate = intent.getStringExtra(Consts.DATE)
-        ownerUid = intent.getStringExtra(Consts.UID)
+        userUid = intent.getStringExtra(Consts.UID)
 
     }
 
@@ -117,7 +128,7 @@ class JoinOtherListActivity : AppCompatActivity() {
     }
 
     private fun setUpDataBinding() {
-        newGoalBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_my_new_goal)
+        newGoalBinding = DataBindingUtil.setContentView(this, R.layout.activity_join_other_list)
         newGoalBinding.activity = this
     }
 
@@ -139,13 +150,11 @@ class JoinOtherListActivity : AppCompatActivity() {
             addAll(
                 listOf(
                     JoinGoalPeriodFragment.newInstance(),
-                    GoalListFragment.newInstance().apply {
+                    JoinTodoListFragment.newInstance().apply{
                         arguments = Bundle().apply {
-                            putStringArrayList("todolist", userTodoList)
+                            putStringArrayList(Consts.USER_TODO_LIST, userTodoList)
                         }
-                    }
-                )
-            )
+                    }))
         }.also {
             repeat(it.size) { index ->
                 supportFragmentManager.beginTransaction().add(R.id.newGoalFrame, it[index])
@@ -180,15 +189,21 @@ class JoinOtherListActivity : AppCompatActivity() {
 
     fun prevButtonClicked() {
         hideKeyBoard()
-        mPage -= 1
-        if (mPage < 0) {
+        //이전 프래그먼트가 존재합니까?
+        if(!isThereAnyFragment){
             finish()
             return
         }
-
-        nextClickable.set(true)
-        setProgressBar()
-        showFragment()
+        else{
+            mPage -=1
+            if (mPage < 0) {
+                finish()
+                return
+            }
+            nextClickable.set(true)
+            setProgressBar()
+            showFragment()
+        }
     }
 
     fun nextButtonClicked() {
@@ -211,23 +226,17 @@ class JoinOtherListActivity : AppCompatActivity() {
 
     }
 
-//    override fun redirectNewGoalFinish(resultId: Long) {
-//        val intent = Intent(this, NewGoalFinishActivity::class.java)
-//        intent.putExtra(Consts.GOAL_TITLE, goalTitleText)
-//        intent.putExtra(Consts.ADD_NEW_GOAL_RESULT_ID, resultId)
-//        startActivity(intent)
-//        finish()
-//    }
+
 
     private fun networkRequest() {
         if (additionalGoalList.isNotEmpty()) {
             presenter.addMyGoal(
                 goalId,
-                ownerUid,
+                userUid,
                 endDate,
                 goalList.apply { add(additionalGoalList) })
         } else
-            presenter.addMyGoal(goalId, ownerUid, endDate, goalList)
+            presenter.addMyGoal(goalId, userUid, endDate, goalList)
     }
 
     override fun onBackPressed() {
@@ -270,6 +279,19 @@ class JoinOtherListActivity : AppCompatActivity() {
         }
     }
 
+    override fun redirectNewGoalFinish(resultId: Long) {
+        val intent = Intent(this, NewGoalFinishActivity::class.java)
+        intent.putExtra(Consts.GOAL_TITLE, goalTitleText)
+        intent.putExtra(Consts.ADD_NEW_GOAL_RESULT_ID, resultId)
+        startActivity(intent)
+        finish()
+    }
+
+    fun showKeyboard(input: EditText) {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(input, 0)
+    }
+
     private fun hideKeyBoard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
@@ -281,7 +303,7 @@ class JoinOtherListActivity : AppCompatActivity() {
 //    }
 
     override fun onDestroy() {
-        presenter.onCleared()
+        //presenter.onCleared()
         super.onDestroy()
     }
 }
