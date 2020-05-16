@@ -34,6 +34,18 @@
                 bind:layout_constraintBottom_toBottomOf="parent"
                 bind:layout_constraintStart_toStartOf="parent"
                 bind:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/edit_image"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="14dp"
+                android:visibility="gone"
+                android:onClick="@{() -> goalDetail.navigateToEdit()}"
+                bind:layout_constraintBottom_toBottomOf="parent"
+                bind:layout_constraintEnd_toEndOf="parent"
+                bind:layout_constraintTop_toTopOf="parent"
+                bind:srcCompat="@drawable/ic_icon_navi_edit_pencil" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout

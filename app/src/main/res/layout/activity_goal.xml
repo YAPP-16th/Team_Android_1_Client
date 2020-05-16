@@ -33,7 +33,21 @@
                 bind:layout_constraintStart_toStartOf="parent"
                 bind:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/editButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                bind:srcCompat="@drawable/ic_icon_navi_edit_pencil"
+                bind:layout_constraintEnd_toStartOf="@+id/imageButton2"
+                bind:layout_constraintTop_toTopOf="parent"
+                bind:layout_constraintBottom_toBottomOf="parent"
+                android:onClick="@{() -> mygoal.navigateToEdit()}"
+                android:tint="@color/colorWhite"
+                android:visibility="gone"
+                android:padding="14dp"/>
+
             <ImageButton
+                android:id="@+id/imageButton2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_icon_navi_menu_white"
@@ -71,7 +85,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="13dp"
                             android:fontFamily="sans-serif"
-                            android:text="2020.03.05~03.07"
+                            tools:text="2020.03.05~03.07"
                             android:textColor="@color/colorWhite"
                             android:textSize="12sp"
                             android:textStyle="normal"

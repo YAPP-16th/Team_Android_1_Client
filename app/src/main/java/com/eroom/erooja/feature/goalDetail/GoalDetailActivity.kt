@@ -16,6 +16,7 @@ import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalDetailsBinding
 import com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity
 import com.eroom.erooja.feature.joinOtherList.joinTodoListPage.JoinOtherListActivity
+import com.eroom.erooja.feature.goalEdit.GoalEditActivity
 import com.eroom.erooja.feature.otherList.OtherListActivity
 import kotlinx.android.synthetic.main.activity_goal_details.view.*
 import kotlinx.android.synthetic.main.include_completed_goal_desc.view.*
@@ -31,7 +32,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     lateinit var userTodoList : ArrayList<String>
     private var userUid = ""
 
-    private var isFromMyPage: Boolean = false
+    private var isJoin: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +42,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     }
 
     fun initPresenter() {
-        presenter = GoalDetailPresenter(this, get(), get(), get(), get())
+        presenter = GoalDetailPresenter(this, get(), get(), get(), get(), get())
     }
 
     fun setUpDataBinding() {
@@ -51,16 +52,10 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
 
     fun initView() {
         val intent = intent
-        presenter.getData(intent.getLongExtra(Consts.GOAL_ID, -1))
-        presenter.getMinimalTodoList(intent.getLongExtra(Consts.GOAL_ID, -1))
+        val goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
+        presenter.getData(goalId)
+        presenter.getMinimalTodoList(goalId)
 
-        isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, false)
-        if(!isFromMyPage) {
-            isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, false)
-        }
-        if(isFromMyPage) {
-            binding.addListBtn.visibility = View.GONE
-        }
         statusBarColor(this@GoalDetailActivity, R.color.subLight3)
     }
 
@@ -86,10 +81,17 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         }
     }
 
-    override fun setRecyclerView(todoList: ArrayList<MinimalTodoListContent>) {
+    override fun setRecyclerView(todoList: ArrayList<MinimalTodoListContent>, isMine: Boolean, isJoined: Boolean) {
+        isJoin = isJoined
+        if(isJoin) {
+            binding.addListBtn.visibility = View.GONE
+        }
         binding.othersRecyclerview.apply{
-            adapter = GoalDetailAdapter(presenter.getGoalContentCallback(), todoList, isFromMyPage, click(), joinTodoList())
+            adapter = GoalDetailAdapter(presenter.getGoalContentCallback(), todoList, isJoin, click(), clickPlusBtn())
             layoutManager = LinearLayoutManager(context)
+        }
+        if (isMine) {
+            binding.editImage.visibility = View.VISIBLE
         }
     }
 
@@ -112,14 +114,14 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
                 putExtra(Consts.DESCRIPTION, description.get())
-                putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isFromMyPage)
-                putExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, isFromMyPage)
+                putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isJoin)
+                putExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, isJoin)
             }
         startActivityForResult(intent, 4000)
     }
 
     //Todo: 카드뷰의 "+ 버튼"을 눌러 TodoList 에 참여하기
-    private fun joinTodoList() = { uid:String ->
+    private fun clickPlusBtn() = { uid:String ->
         presenter.getUserTodoList(uid, intent.getLongExtra(Consts.GOAL_ID, -1))
         userUid = uid
     }
@@ -176,6 +178,10 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
                 putExtra(Consts.GOAL_ID,intent.getLongExtra(Consts.GOAL_ID, -1))
             }
         startActivity(intent)
+    }
+
+    fun navigateToEdit() {
+        startActivity(Intent(this, GoalEditActivity::class.java))
     }
 
     fun navigationToBack() {

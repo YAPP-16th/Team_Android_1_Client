@@ -11,6 +11,8 @@ interface OngoingGoalContract {
         fun reRequestTodoList()
         fun onAbandonedSuccess()
         fun onAbandonedFailure()
+        fun settingEditButton(isMine: Boolean)
+        fun settingDate(startDt: String, endDt: String)
     }
 
     interface Presenter{
@@ -20,5 +22,6 @@ interface OngoingGoalContract {
         fun onCleared()
         fun setTodoEnd(todoId: Long, boolean: Boolean)
         fun setGoalIsAbandoned(goalId: Long, abandonedRequest: GoalAbandonedRequest)
+        fun getGoalInfo(goalId: Long)
     }
 }

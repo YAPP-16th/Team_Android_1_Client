@@ -24,6 +24,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".feature.othersEndedGoal.OthersEndedGoalActivity"></activity>
+        <activity android:name=".feature.goalEdit.GoalEditActivity"></activity>
         <activity android:name=".feature.othersOngoingGoal.OthersOngoingGoalActivity" />
         <activity android:name=".feature.endedGoal.EndedGoalActivity" />
         <activity android:name=".feature.othersPage.OthersPageActivity" />

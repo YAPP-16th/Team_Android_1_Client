@@ -83,7 +83,6 @@ class OtherListActivity : AppCompatActivity(),
     override fun setProfileImage(imagePath: String?) {
         imagePath?.let {
             binding.circleImageView.loadUrl(it)
-            this.toastShort(it)
             Timber.e(it)
         }
             ?: run {
