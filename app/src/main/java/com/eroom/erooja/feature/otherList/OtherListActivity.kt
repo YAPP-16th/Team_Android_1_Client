@@ -12,6 +12,7 @@ import com.eroom.domain.utils.*
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityOthersListBinding
 import com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity
+import com.eroom.erooja.feature.joinOtherList.joinTodoListPage.JoinOtherListActivity
 import org.koin.android.ext.android.get
 import timber.log.Timber
 
@@ -63,19 +64,14 @@ class OtherListActivity : AppCompatActivity(),
     }
 
     fun addTodoListBtn() {
-        val intent = Intent(this@OtherListActivity, AddMyListActivity::class.java)
+        val intent = Intent(this@OtherListActivity, JoinOtherListActivity::class.java)
             .apply {
                 putExtra(Consts.GOAL_ID, intent.getLongExtra(Consts.GOAL_ID, -1))
                 putExtra(Consts.UID, userUid)
-                putExtra(
-                    Consts.GOAL_DETAIL_REQUEST_verOTHER,
-                    Consts.GOAL_DETAIL_REQUEST_NUM_verOTHER
-                )
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
                 putExtra(Consts.GOAL_TITLE, intent.getStringExtra(Consts.GOAL_TITLE))
                 putExtra(Consts.DESCRIPTION, intent.getStringExtra(Consts.DESCRIPTION))
                 putExtra(Consts.USER_TODO_LIST, userTodoList)
-
             }
         startActivity(intent)
     }

@@ -1,17 +1,16 @@
 package com.eroom.erooja.feature.joinOtherList.joinTodoListPage
 
-import android.annotation.SuppressLint
 import com.eroom.data.entity.TodoList
 import com.eroom.data.request.AddMyGoalRequest
 import com.eroom.domain.api.usecase.membergoal.PostAddMyGoalUseCase
-import com.eroom.domain.api.usecase.todo.GetTodoListUseCase
 import com.eroom.domain.utils.addTo
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
-class JoinOtherListPresenter(override var view: JoinOtherListContract.View,
-                             private val postAddMyGoalUseCase: PostAddMyGoalUseCase)
-    : JoinOtherListContract.Presenter {
+class JoinOtherListPresenter(
+    override var view: JoinOtherListContract.View,
+    private val postAddMyGoalUseCase: PostAddMyGoalUseCase
+) : JoinOtherListContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -29,13 +28,14 @@ class JoinOtherListPresenter(override var view: JoinOtherListContract.View,
         }
 
         postAddMyGoalUseCase.postAddMyGoal(
-            AddMyGoalRequest(goalId, ownerUid,
+            AddMyGoalRequest(
+                goalId, ownerUid,
                 endDt, todoList = todoListResult
             )
         )
             .subscribe({
                 it.body()?.goalId?.let { id -> view.redirectNewGoalFinish(id) }
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
     }

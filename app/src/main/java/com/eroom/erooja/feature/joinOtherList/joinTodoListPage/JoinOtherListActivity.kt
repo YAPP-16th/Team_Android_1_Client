@@ -16,8 +16,11 @@ import com.eroom.calendar.core.AirCalendarIntent
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.ProgressBarAnimation
 import com.eroom.domain.utils.toLocalDateFormat
+import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityJoinOtherListBinding
+import com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.*
+import com.eroom.erooja.feature.addDirectList.inactivejob.InactiveJobFragment
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalFinishActivity
 import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinGoalPeriodFragment
 import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinTodoListFragment
@@ -46,7 +49,6 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
     private var goalDate: String? = null
     private var goalId: Long = 0L
     private var userUid: String = ""
-    private var isThereAnyFragment = true
     var userTodoList: ArrayList<String> = ArrayList()
 
 
@@ -60,20 +62,24 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
         joinTodoList()
     }
 
-    fun joinTodoList(){
+    private fun joinTodoList() {
         // case 1: 기간 고정, 다른 사람의 리스트를 추가하는 경우
         if (!goalDate.equals("기간 설정 자유")) {
-            mPage = 1
+            mPage = 4
             showFragment()
-            isThereAnyFragment = false
             val endGoalDate = goalDate!!.split("~")
             val endGoalDate1 = endGoalDate[1].split(".")
             endDate = toLocalDateFormat("20" + endGoalDate1[0], endGoalDate1[1], endGoalDate1[2])
+            mFragmentList[3].apply {
+                arguments = Bundle().apply {
+                    putString(Consts.END_DATE, endGoalDate[1])
+                }
+            }
         }
 
         //case 2: 기간 설정 가능, 다른 사람의 리스트를 추가하는 경우
         else {
-            mPage = 0
+            mPage = 3
             //nextClickable.set(true)
             showFragment()
         }
@@ -117,14 +123,14 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
     }
 
     private fun observeData() {
-//        (mFragmentList[1] as GoalListFragment).goalList.observe(this, Observer {
-//            //   this.goalList = it
-//            //   nextClickable.set(!this.goalList.isNullOrEmpty())
+//        (mFragmentList[4] as JoinTodoListFragment).goalList.observe(this, Observer {
+//               this.goalList = it
+//               nextClickable.set(!this.goalList.isNullOrEmpty())
 //        })
-//        (mFragmentList[1] as GoalListFragment).goalListCheck.observe(this, Observer {
-//            //nextClickable.set(it)
+//        (mFragmentList[4] as JoinTodoListFragment).goalListCheck.observe(this, Observer {
+//            nextClickable.set(it)
 //        })
-        (mFragmentList[1] as JoinTodoListFragment).writingText.observe(this, Observer {
+        (mFragmentList[4] as JoinTodoListFragment).writingText.observe(this, Observer {
             additionalGoalList = it
         })
     }
@@ -133,68 +139,81 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
         mFragmentList.apply {
             addAll(
                 listOf(
+                    InactiveJobFragment.newInstance(),
+                    InactiveGoalTitleFragment.newInstance().apply {
+                        arguments = Bundle().apply {
+                            putString(Consts.GOAL_TITLE, goalTitleText)
+                        }
+                    },
+                    InactiveGoalDetailFragment.newInstance().apply {
+                        arguments = Bundle().apply {
+                            putString(Consts.DESCRIPTION, goalDetailContentText)
+                        }
+                    },
                     JoinGoalPeriodFragment.newInstance(),
-                    JoinTodoListFragment.newInstance().apply{
+                    JoinTodoListFragment.newInstance().apply {
                         arguments = Bundle().apply {
                             putStringArrayList(Consts.USER_TODO_LIST, userTodoList)
                         }
-                    }))
-        }.also {
+                    }
+                )
+            )
+        }
+        if (!goalDate.equals("기간 설정 자유")) {
+            mFragmentList[3] = InactiveGoalPeriodFragment.newInstance()
+        }
+        mFragmentList.also {
             repeat(it.size) { index ->
                 supportFragmentManager.beginTransaction().add(R.id.newGoalFrame, it[index])
                     .hide(it[index]).commit()
             }
             supportFragmentManager.beginTransaction().show(it[mPage]).commit()
         }
-        setProgressBar()
+        setProgressBar(true)
     }
 
     private fun showFragment() {
         hideFragment()
-        newGoalBinding.nextTextView.text = if (mPage == 0) "다음" else "완료"
-
+        newGoalBinding.nextTextView.text = if (mPage == 4) "완료" else "다음"
         supportFragmentManager.beginTransaction().show(mFragmentList[mPage]).commit()
+        setProgressBar(true)
+
     }
 
     private fun hideFragment() = repeat(mFragmentList.size) {
         supportFragmentManager.beginTransaction().hide(mFragmentList[it]).commit()
     }
 
-    private fun setProgressBar() {
+    private fun setProgressBar(isIncreasing: Boolean) {
         val progressBar = newGoalBinding.horizontalProgressBar
-        val anim = ProgressBarAnimation(
-            progressBar,
-            progressBar.max.toFloat() * (mPage + 2) / 4,
-            progressBar.max.toFloat() * (mPage + 3) / 4
-        )
+        val prev = if (isIncreasing) {
+            (progressBar.max.toDouble() / mFragmentList.size) * (mPage)
+        } else {
+            (progressBar.max.toDouble() / mFragmentList.size) * (mPage + 2)
+        }
+        val next = (100.0 / mFragmentList.size) * (mPage + 1)
+        val anim = ProgressBarAnimation(progressBar, prev.toFloat(), next.toFloat())
         anim.duration = 250
         progressBar.startAnimation(anim)
     }
 
     fun prevButtonClicked() {
         hideKeyBoard()
-        //이전 프래그먼트가 존재합니까?
-        if(!isThereAnyFragment){
+        mPage -= 1
+        if (mPage < 0) {
             finish()
             return
         }
-        else{
-            mPage -=1
-            if (mPage < 0) {
-                finish()
-                return
-            }
-            nextClickable.set(true)
-            setProgressBar()
-            showFragment()
-        }
+        nextClickable.set(true)
+        setProgressBar(false)
+        showFragment()
     }
 
     fun nextButtonClicked() {
         hideKeyBoard()
         mPage += 1
         when {
-            mPage >= 2 -> {
+            mPage > mFragmentList.size - 1 -> {
                 networkRequest()
                 return
             }
@@ -205,11 +224,10 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
                 nextClickable.set(true)
             }
         }
-        setProgressBar()
+        setProgressBar(true)
         showFragment()
 
     }
-
 
 
     private fun networkRequest() {
@@ -256,7 +274,7 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
 
                 if (endDate != "-") {
                     val time = endDate.split("-")
-                    (mFragmentList[0] as JoinGoalPeriodFragment).setEndDate("${time[0]}년 ${time[1]}월 ${time[2]}일")
+                    (mFragmentList[3] as JoinGoalPeriodFragment).setEndDate("${time[0]}년 ${time[1]}월 ${time[2]}일")
                     this.endDate = toLocalDateFormat(time[0], time[1], time[2])
                 }
             }
@@ -281,10 +299,10 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
         imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
     }
 
-//    override fun failRequest() {
-//        mPage -= 1
-//        this.toastShort("목표생성을 실패하였습니다")
-//    }
+    override fun failRequest() {
+        mPage -= 1
+        this.toastShort("목표생성을 실패하였습니다")
+    }
 
     override fun onDestroy() {
         //presenter.onCleared()

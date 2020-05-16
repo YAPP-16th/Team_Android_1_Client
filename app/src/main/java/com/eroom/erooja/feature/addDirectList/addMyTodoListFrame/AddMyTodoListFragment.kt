@@ -110,7 +110,7 @@ class AddMyTodoListFragment : Fragment(), TextView.OnEditorActionListener {
         v.post(kotlinx.coroutines.Runnable {
             v.isFocusableInTouchMode = true
             v.requestFocus()
-         //   (activity as AddMyListActivity).showKeyboard(v as EditText)
+            //   (activity as AddMyListActivity).showKeyboard(v as EditText)
         })
     }
 

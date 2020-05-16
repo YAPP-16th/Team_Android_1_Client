@@ -105,7 +105,7 @@ class JoinTodoListFragment : Fragment(), TextView.OnEditorActionListener {
     }
 
     private fun loadRecyclerView() {
-        arguments.let{
+        arguments.let {
             goalItem = it?.getStringArrayList(Consts.USER_TODO_LIST)
         }
         mAdapter = goalItem?.let { AddTodoAdapter(it, deleteItem) }!!
@@ -116,7 +116,7 @@ class JoinTodoListFragment : Fragment(), TextView.OnEditorActionListener {
         v.post(kotlinx.coroutines.Runnable {
             v.isFocusableInTouchMode = true
             v.requestFocus()
-          //  (activity as JoinOtherListActivity).showKeyboard(v as EditText)
+            //  (activity as JoinOtherListActivity).showKeyboard(v as EditText)
         })
     }
 }

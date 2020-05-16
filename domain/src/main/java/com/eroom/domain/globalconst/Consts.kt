@@ -57,5 +57,6 @@ class Consts {
         const val USER_TODO_LIST = "USER_DOTO_LIST"
 
         const val GOAL_ABANDONED_REQUEST = 3000
+        const val END_DATE = "END_DATE"
     }
 }
