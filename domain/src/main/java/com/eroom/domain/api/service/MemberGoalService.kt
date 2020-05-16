@@ -1,6 +1,8 @@
 package com.eroom.domain.api.service
 
 import com.eroom.data.request.AddMyGoalRequest
+import com.eroom.data.request.GoalAbandonedRequest
+import com.eroom.data.request.GoalReParticipateRequest
 import com.eroom.data.response.*
 import io.reactivex.Single
 import retrofit2.Response
@@ -14,7 +16,7 @@ interface MemberGoalService {
         @Query("page") page: Int,
         @Query("sortBy") sortBy: String,
         @Query("direction") direction: String,
-        @Query("endDtIsBeforeNow") endDtIsBeforeNow: Boolean
+        @Query("end") end: Boolean
     ): Single<ParticipatedGoalsResponse>
 
     @GET("membergoal/{goalId}/todo")
@@ -32,5 +34,11 @@ interface MemberGoalService {
 
     @GET("membergoal/{goalId}/info")
     fun getInfoByGoalId(@Path("goalId") goalId: Long): Single<ParticipatedGoalInfoResponse>
+
+    @PUT("membergoal/{goalId}")
+    fun putGoalIsAbandoned(@Path("goalId") goalId: Long, @Body goalAbandonedRequest: GoalAbandonedRequest): Single<ParticipatedGoalInfoResponse>
+
+    @PUT("membergoal/{goalId}")
+    fun putGoalReparticipate(@Path("goalId") goalId: Long, @Body reParticipateRequest: GoalReParticipateRequest): Single<ParticipatedGoalInfoResponse>
 
 }

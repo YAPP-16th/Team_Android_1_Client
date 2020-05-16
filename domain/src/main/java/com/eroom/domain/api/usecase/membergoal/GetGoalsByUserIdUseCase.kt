@@ -19,9 +19,9 @@ class GetGoalsByUserIdUseCase(guestRetrofitRepository: GuestRetrofitRepository) 
         page: Int,
         sortBy: String,
         direction: String,
-        endDtIsBeforeNow: Boolean
+        end: Boolean
     ): Single<ParticipatedGoalsResponse> = memberGoalService
-        .getGoalsByUserId(uid, size, page, sortBy, direction, endDtIsBeforeNow)
+        .getGoalsByUserId(uid, size, page, sortBy, direction, end)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 

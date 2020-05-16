@@ -53,7 +53,7 @@ class MyPagePresenter(
 
     @SuppressLint("CheckResult")
     override fun getOngoingGoalList(uid: String, page: Int) {
-        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = page, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, endDtIsBeforeNow = false)
+        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = page, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, end = false)
             .subscribe({
                 view.setOngoingGoalListSizeOnTabLayout(it.totalElements)
                 view.setOnGoingGoalPageIsEnd(it.totalPages - 1 <= page)
@@ -65,7 +65,7 @@ class MyPagePresenter(
 
     @SuppressLint("CheckResult")
     override fun getEndedGoalList(uid: String, page: Int) {
-        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = page, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, endDtIsBeforeNow = true)
+        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = page, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, end = true)
             .subscribe({
                 view.setEndedGoalListSizeOnTabLayout(it.totalElements)
                 view.setEndedGoalPageIsEnd(it.totalPages - 1 <= page)
