@@ -10,10 +10,7 @@ import com.eroom.domain.api.usecase.job.GetJobClassByIdUseCase
 import com.eroom.domain.api.usecase.job.GetJobGroupAndClassUseCase
 import com.eroom.domain.api.usecase.job.GetJobGroupUseCase
 import com.eroom.domain.api.usecase.member.*
-import com.eroom.domain.api.usecase.membergoal.GetGoalInfoByGoalIdUseCase
-import com.eroom.domain.api.usecase.membergoal.GetGoalsByUserIdUseCase
-import com.eroom.domain.api.usecase.membergoal.GetParticipantedListUseCase
-import com.eroom.domain.api.usecase.membergoal.PostAddMyGoalUseCase
+import com.eroom.domain.api.usecase.membergoal.*
 import com.eroom.domain.api.usecase.todo.GetTodoListUseCase
 import com.eroom.domain.api.usecase.todo.PutTodoEditUseCase
 import com.eroom.domain.api.usecase.todo.PutTodoListUseCase
@@ -69,4 +66,7 @@ val usecaseModule = module {
     factory { PutTodoListUseCase(get()) }
 
     factory { PostMemberInfoUseCase(get()) }
+
+    factory { PutGoalIsAbandonedUseCase(get())}
+
 }

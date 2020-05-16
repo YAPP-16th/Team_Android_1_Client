@@ -16,7 +16,7 @@ interface MemberGoalService {
         @Query("page") page: Int,
         @Query("sortBy") sortBy: String,
         @Query("direction") direction: String,
-        @Query("endDtIsBeforeNow") endDtIsBeforeNow: Boolean
+        @Query("end") end: Boolean
     ): Single<ParticipatedGoalsResponse>
 
     @GET("membergoal/{goalId}/todo")

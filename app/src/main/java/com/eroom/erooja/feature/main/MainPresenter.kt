@@ -70,7 +70,7 @@ class MainPresenter(
 
     @SuppressLint("CheckResult")
     override fun getMyParticipatedList(uid: String) {
-        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = 0, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, endDtIsBeforeNow = false)
+        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = 0, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, end = false)
             .subscribe({
                 view.setParticipatedList(it.content)
             },{
