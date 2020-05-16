@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.GoalType
 import com.eroom.data.entity.MinimalTodoListDetail
 import com.eroom.data.localclass.BottomSheetColor
+import com.eroom.data.request.GoalAbandonedRequest
 import com.eroom.data.response.GoalDetailResponse
 import com.eroom.domain.customview.bottomsheet.BottomSheetFragment
 import com.eroom.domain.customview.bottomsheet.BottomSheetInfo
@@ -19,6 +20,7 @@ import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.*
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalBinding
+import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.editgoal.EditGoalActivity
 import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
 import com.eroom.erooja.feature.participants_list.ParticipantsListActivity
@@ -85,7 +87,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     }
 
     fun initView() {
-        presenter = OngoingGoalPresenter(this, get(), get(), get())
+        presenter = OngoingGoalPresenter(this, get(), get(), get(), get())
 
         statusBarColor(this@OngoingGoalActivity, R.color.orgDefault)
 
@@ -161,12 +163,37 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
                     })
                 }
                 3 -> { // 목표 그만두기
-
+                    startActivityForResult(Intent(this, EroojaDialogActivity::class.java).apply {
+                        putExtra(Consts.DIALOG_TITLE, "목표를 던지시겠습니까?")
+                        putExtra(Consts.DIALOG_CONTENT, "그만둔 목표는 참여중인 목표에서 사라집니다. 정말 그만두시겠어요?")
+                        putExtra(Consts.DIALOG_CONFIRM, true)
+                        putExtra(Consts.DIALOG_CANCEL, true)
+                    }, Consts.GOAL_ABANDONED_REQUEST)
                 }
                 else -> {}
             }
             bottom.dismiss()
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == Consts.GOAL_ABANDONED_REQUEST && resultCode == 6000) {
+            data?.let {
+                val result = it.getBooleanExtra(Consts.DIALOG_RESULT, false)
+                if (result) {
+                    presenter.setGoalIsAbandoned(goalId, abandonedRequest = GoalAbandonedRequest(true))
+                }
+            }
+        }
+    }
+
+    override fun onAbandonedSuccess() {
+        finish()
+    }
+
+    override fun onAbandonedFailure() {
+        this.toastShort("포기 실패 ㅠㅠ 다시 시도해주세요.")
     }
 
     fun additionalOptionClicked() {

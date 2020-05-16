@@ -1,7 +1,9 @@
 package com.eroom.erooja.feature.ongoingGoal
 
 import android.annotation.SuppressLint
+import com.eroom.data.request.GoalAbandonedRequest
 import com.eroom.domain.api.usecase.goal.GetGoalDetailUseCase
+import com.eroom.domain.api.usecase.membergoal.PutGoalIsAbandonedUseCase
 import com.eroom.domain.api.usecase.todo.GetTodoListUseCase
 import com.eroom.domain.api.usecase.todo.PutTodoEditUseCase
 import io.reactivex.disposables.CompositeDisposable
@@ -10,7 +12,8 @@ import timber.log.Timber
 class OngoingGoalPresenter(override var view: OngoingGoalContract.View,
                            private val getGoalDetailUseCase: GetGoalDetailUseCase,
                            private val getTodoListUseCase: GetTodoListUseCase,
-                           private val putTodoEditUseCase: PutTodoEditUseCase
+                           private val putTodoEditUseCase: PutTodoEditUseCase,
+                           private val putGoalIsAbandonedUseCase: PutGoalIsAbandonedUseCase
 ): OngoingGoalContract.Presenter {
 
     val compositeDisposable = CompositeDisposable()
@@ -43,6 +46,17 @@ class OngoingGoalPresenter(override var view: OngoingGoalContract.View,
             },{
                 Timber.e(it.localizedMessage)
                 view.reRequestTodoList()
+            })
+    }
+
+    @SuppressLint("CheckResult")
+    override fun setGoalIsAbandoned(goalId: Long, abandonedRequest: GoalAbandonedRequest) {
+        putGoalIsAbandonedUseCase.putGoalIsAbandoned(goalId, abandonedRequest)
+            .subscribe({
+                view.onAbandonedSuccess()
+            }, {
+                Timber.e(it.localizedMessage)
+                view.onAbandonedFailure()
             })
     }
 
