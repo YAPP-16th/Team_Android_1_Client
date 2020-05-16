@@ -31,6 +31,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     var jobClass: ObservableField<String> = ObservableField("")
     lateinit var userTodoList : ArrayList<String>
     private var userUid = ""
+    private var goalId: Long = -1
 
     private var isJoin: Boolean = false
 
@@ -52,11 +53,15 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
 
     fun initView() {
         val intent = intent
-        val goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
-        presenter.getData(goalId)
+        goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
         presenter.getMinimalTodoList(goalId)
 
         statusBarColor(this@GoalDetailActivity, R.color.subLight3)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.getData(goalId)
     }
 
     @SuppressLint("SetTextI18n")
@@ -181,7 +186,11 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     }
 
     fun navigateToEdit() {
-        startActivity(Intent(this, GoalEditActivity::class.java))
+        startActivity(Intent(this, GoalEditActivity::class.java).apply {
+            putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
+            putExtra(Consts.DESCRIPTION, description.get())
+            putExtra(Consts.GOAL_ID, goalId)
+        })
     }
 
     fun navigationToBack() {

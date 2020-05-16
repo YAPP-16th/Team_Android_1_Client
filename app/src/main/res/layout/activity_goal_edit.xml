@@ -3,9 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="android.view.View"/>
         <variable
             name="activity"
             type="com.eroom.erooja.feature.goalEdit.GoalEditActivity" />
+        <variable
+            name="view"
+            type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,6 +22,7 @@
             android:id="@+id/imageView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> activity.navigateToFinish()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_icon_navi_close_black" />
@@ -36,9 +41,10 @@
             app:layout_constraintTop_toTopOf="@+id/imageView5" />
 
         <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/completeImage"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:onClick="@{() -> activity.requestEdit()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_icon_check_inactive" />
@@ -63,7 +69,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
-                        android:backgroundTint="@{activity.underlineError ? @color/colorError : @color/grey3}"
+                        android:backgroundTint="@{activity.lengthIsFine ? @color/orgDefault : @color/grey3}"
                         android:foregroundTint="@color/grey3"
                         android:hint="@string/edit_goal"
                         android:maxLength="50"
@@ -85,7 +91,7 @@
                         android:text="@string/goal_title_warning"
                         android:textSize="13sp"
                         android:textColor="@color/colorError"
-                        android:visibility="invisible"
+                        android:visibility="@{activity.underlineError ? view.VISIBLE : view.INVISIBLE}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.125"
                         app:layout_constraintStart_toStartOf="parent"
@@ -113,6 +119,7 @@
                         android:lineSpacingExtra="11sp"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
+                        android:paddingStart="4dp"
                         android:textSize="15sp"
                         android:gravity="top|left"
                         android:cursorVisible="true"
