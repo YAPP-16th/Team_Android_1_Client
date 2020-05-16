@@ -6,6 +6,7 @@ import com.eroom.domain.api.usecase.membergoal.GetGoalInfoByGoalIdUseCase
 import com.eroom.domain.api.usecase.todo.GetTodoListUseCase
 import com.eroom.domain.api.usecase.todo.PutTodoEditUseCase
 import io.reactivex.disposables.CompositeDisposable
+import retrofit2.HttpException
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -56,18 +57,31 @@ class OthersOngoingGoalPresenter(
         //목표상세조회 API를 통해 기간이 지났는지 확인 후 아래의 usecase를 실행해야한다.
         getGoalInfoByGoalIdUseCase.getInfoByGoalId(goalId)
             .subscribe({
-                val endDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(it.endDt)
-                val currentTime: Date = Calendar.getInstance().time
-                val isBeforeEndDt = (currentTime.time - endDate.time) < 0
+                it.code()
+                it.body()?.let { body ->
+                    val endDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(body.endDt)
+                    val currentTime: Date = Calendar.getInstance().time
+                    val isBeforeEndDt = (currentTime.time - endDate.time) < 0
 
-                if(isBeforeEndDt)
-                    view.setIsMyOngoingGoal(!it.isEnd)
-                else
-                    view.setIsMyOngoingGoal(false)
+                    if(isBeforeEndDt)
+                        view.setIsMyOngoingGoal(!body.isEnd)
+                    else
+                        view.setIsMyOngoingGoal(false)
+                }
             }, {
                 Timber.e(it.localizedMessage)
-                view.setIsMyOngoingGoal(false)
+                handleError(it)
             })
+    }
+
+    private fun handleError(throwable: Throwable) {
+        if (throwable is HttpException) {
+            val statusCode = throwable.code()
+            // handle different HTTP error codes here (4xx)
+            if (statusCode == 400) {
+                view.setIsMyOngoingGoal(false)
+            }
+        }
     }
 
 

@@ -1,6 +1,7 @@
 package com.eroom.erooja.feature.main
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -80,12 +81,14 @@ class MainFragment : Fragment(), MainContract.View {
 
     override fun setNickname(nickname: String) = nicknameText.set("$nickname 님의 관심직무")
 
+    @SuppressLint("SetTextI18n")
     override fun setJobInterestInfo(
         randomJob: String,
         randomJobId: Long,
         classList: ArrayList<JobClass>
     ) {
         randomJobText.set(randomJob)
+        mainBinding.noGoal.text = randomJob + "직무와 관련된 목표가 아직 없네요.\n 새로운 목표를 추가해보세요"
         var contentString = ""
         for ((index, classItem) in classList.withIndex()) {
             contentString += if (index != classList.size - 1) classItem.name + ", "

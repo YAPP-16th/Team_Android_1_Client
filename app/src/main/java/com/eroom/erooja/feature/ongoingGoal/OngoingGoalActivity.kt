@@ -23,6 +23,7 @@ import com.eroom.erooja.databinding.ActivityGoalBinding
 import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.editgoal.EditGoalActivity
 import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
+import com.eroom.erooja.feature.goalEdit.GoalEditActivity
 import com.eroom.erooja.feature.participants_list.ParticipantsListActivity
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
 import org.koin.android.ext.android.get
@@ -55,9 +56,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     @SuppressLint("SetTextI18n")
     override fun setGoalData(goalData: GoalDetailResponse) {
         binding.goalNameTxt.text = goalData.title
-        binding.goalDateTxt.text = "${goalData.startDt.toRealDateFormat()}~${goalData.endDt.toRealDateFormat()}"
         binding.include.text.text = goalData.description
-
         binding.goalDescLayout.goal_desc.apply {
             showButton = false
             showShadow = false
@@ -87,7 +86,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     }
 
     fun initView() {
-        presenter = OngoingGoalPresenter(this, get(), get(), get(), get())
+        presenter = OngoingGoalPresenter(this, get(), get(), get(), get(), get())
 
         statusBarColor(this@OngoingGoalActivity, R.color.orgDefault)
 
@@ -105,6 +104,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         val intent = intent
         goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
         presenter.getData(goalId)
+        presenter.getGoalInfo(goalId)
         uId = intent.getStringExtra(Consts.UID) ?: ""
 
         presenter.getTodoData(uId, goalId)
@@ -115,6 +115,15 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     override fun onResume() {
         super.onResume()
         reRequestTodoList()
+    }
+
+    override fun settingEditButton(isMine: Boolean) {
+        if (isMine) binding.editButton.visibility = View.VISIBLE
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun settingDate(startDt: String, endDt: String) {
+        binding.goalDateTxt.text = "${startDt.toRealDateFormat()}~${endDt.toRealDateFormat()}"
     }
 
     override fun reRequestTodoList() {
@@ -202,6 +211,10 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         }
         mLastClickTime = SystemClock.elapsedRealtime()
         bottom.show(supportFragmentManager, bottom.tag)
+    }
+
+    fun navigateToEdit() {
+        startActivity(Intent(this, GoalEditActivity::class.java))
     }
 
     fun backClick() {

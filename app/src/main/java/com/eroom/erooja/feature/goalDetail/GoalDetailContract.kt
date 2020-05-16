@@ -7,7 +7,7 @@ interface GoalDetailContract {
     interface View{
         fun setView(title: String, description: String, joinCount: Int, isDateFixed:Boolean, startDate: String, endDate: String)
         fun setInterestedClassName(list: List<String>)
-        fun setRecyclerView(todoList: ArrayList<MinimalTodoListContent>)
+        fun setRecyclerView(todoList: ArrayList<MinimalTodoListContent>, isMine: Boolean, isJoined: Boolean)
         fun setTodoList(todoList:ArrayList<MinimalTodoListDetail>)
     }
 

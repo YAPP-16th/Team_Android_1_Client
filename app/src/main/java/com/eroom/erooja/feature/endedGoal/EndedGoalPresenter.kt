@@ -41,7 +41,9 @@ class EndedGoalPresenter(override var view: EndedGoalContract.View,
     override fun getGoalInfoByGoalId(goalId: Long) {
         getGoalInfoByGoalIdUseCase.getInfoByGoalId(goalId)
             .subscribe({
-                view.setIsAbandoned(it.isEnd)
+                it.body()?.let { body ->
+                    view.setIsAbandoned(body.isEnd)
+                }
             }, {
                 Timber.e(it.localizedMessage)
             })
