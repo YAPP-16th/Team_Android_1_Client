@@ -5,26 +5,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import com.eroom.domain.globalconst.Consts
+import com.eroom.domain.utils.toastLong
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.NicknameChangeBottomSheetBinding
+import com.eroom.erooja.feature.setting.SettingFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jakewharton.rxbinding.widget.RxTextView
-import kotlinx.android.synthetic.main.fragment_nickname.*
 import org.koin.android.ext.android.get
 import java.util.concurrent.TimeUnit
 
 
-class NicknameChangeFragment: BottomSheetDialogFragment(), NicknameChangeContract.View {
+class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContract.View {
     lateinit var mBinding: NicknameChangeBottomSheetBinding
     val nickname: MutableLiveData<String> = MutableLiveData()
-    var nicknameCheck: ObservableField<Boolean> = ObservableField(true) //true 면 ㄴㄴ, false 면 ㅇㅋ
-
-    lateinit var presenter : NicknameChangePresenter
-
+    var nicknameCheck: ObservableField<Boolean> = ObservableField(false)
+    val showCheckBtn: ObservableField<Boolean> = ObservableField(false)
+    lateinit var presenter: NicknameChangePresenter
+    private var originalNickname = ""
 
     companion object {
         fun newInstance() =
@@ -50,74 +51,76 @@ class NicknameChangeFragment: BottomSheetDialogFragment(), NicknameChangeContrac
 
     private fun setUpDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
         mBinding = NicknameChangeBottomSheetBinding.inflate(inflater, container, false)
+        mBinding.fragment = this@NicknameChangeFragment
     }
 
-    private fun initPresenter(){
-        presenter = NicknameChangePresenter(this, get())
+    private fun initPresenter() {
+        presenter = NicknameChangePresenter(this, get(), get(), get())
+        presenter.getMyNickname()
+    }
+
+    override fun setMyNickname(nickname: String) {
+        mBinding.nicknameText.setText(nickname)
+        originalNickname = nickname
     }
 
     private fun initView() {
-         RxTextView.textChanges(mBinding.nicknameText)
-                .debounce(300, TimeUnit.MILLISECONDS)
-                .map { it.toString() }
-                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
-                .subscribe {
-                    nickname.value = it
-                    mBinding.nicknameDuplicatedCheck.visibility = View.VISIBLE
-                    mBinding.nicknameLengthError.visibility =
-                        if (!it.contains(" ")) {
-                            if (it.length in 1..1) {
-                                unsetValidatedNickname()
-                                View.VISIBLE
-                            } else View.INVISIBLE
-                        } else View.VISIBLE
+        RxTextView.textChanges(mBinding.nicknameText)
+            .debounce(300, TimeUnit.MILLISECONDS)
+            .map { it.toString() }
+            .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
+            .subscribe {
+                nickname.value = it
+                if (originalNickname.equals(it)) //pass
+                else {
                     if (!it.contains(" ")) {
-                        if (it.length >= 2)
+                        if (it.length in 2..5)
                             presenter.checkNickname(it)
                         else {
-                            unsetDuplicatedNickname()
-                            unsetValidatedNickname()
-                            hideCheckImage()
-                            hideErrorImage()
+                            mBinding.nicknameErrorText.text =
+                                resources.getString(R.string.nickname_rule_info)
+                            mBinding.nicknameErrorText.visibility = View.VISIBLE
+                            nicknameCheck.set(false)
                         }
                     } else {
-                        unsetDuplicatedNickname()
-                        unsetValidatedNickname()
-                        showErrorImage()
-                        hideCheckImage()
+                        mBinding.nicknameErrorText.text =
+                            resources.getString(R.string.nickname_rule_info)
+                        mBinding.nicknameErrorText.visibility = View.VISIBLE
+                        nicknameCheck.set(false)
+
                     }
                 }
-        arguments?.let { mBinding.nicknameText.setText(it.getString(Consts.NICKNAME) ?: "") }
+            }
     }
 
-
-    override fun showCheckImage() {
-        mBinding.nicknameDuplicatedCheck.visibility = View.VISIBLE
-    }
-
-    override fun hideCheckImage() {
-        mBinding.nicknameDuplicatedCheck.visibility = View.GONE
+    override fun nicknameDuplicationError() {
+        mBinding.nicknameErrorText.text = resources.getString(R.string.already_using_nickname)
+        mBinding.nicknameErrorText.visibility = View.VISIBLE
+        nicknameCheck.set(false)
 
     }
 
-    override fun showErrorImage() {
-        mBinding.nicknameDuplicatedCheckError.visibility = View.VISIBLE
+    override fun nicknameDuplicationPass() {
+        mBinding.nicknameErrorText.visibility = View.INVISIBLE
+        nicknameCheck.set(true)
+        showCheckBtn.set(true)
+
     }
 
-    override fun hideErrorImage() {
-        mBinding.nicknameDuplicatedCheckError.visibility = View.GONE
+    fun resetNickname() {
+        mBinding.nicknameText.setText("")
+        mBinding.nicknamePassBtn.isEnabled = false
     }
 
-    override fun setDuplicatedNickname() {
-        nicknameDuplicatedTextError.visibility = View.VISIBLE
+
+    fun saveNickname() {
+        presenter.updateNickname(mBinding.nicknameText.text.toString())
+        (parentFragment as SettingFragment).dissBottomSheet()
     }
 
-    override fun unsetDuplicatedNickname() {
-        nicknameDuplicatedTextError.visibility = View.INVISIBLE
+    fun closeNicknamePage() {
+        (parentFragment as SettingFragment).dissBottomSheet()
     }
-
-    override fun setValidatedNickname() = nicknameCheck.set(true)
-    override fun unsetValidatedNickname() = nicknameCheck.set(false)
 
     override fun onDestroy() {
         presenter.onCleared()

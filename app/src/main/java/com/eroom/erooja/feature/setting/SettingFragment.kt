@@ -99,7 +99,7 @@ class SettingFragment :Fragment(), SettingContract.View{
 
     fun openSearchFilter() {
         val intent = Intent(activity, FilterActivity::class.java)
-        var number = ArrayList<Long>()
+        val number = ArrayList<Long>()
 
         repeat(selectedGroupClassesNum.size){
             number.add(selectedGroupClassesNum[it])
@@ -125,6 +125,10 @@ class SettingFragment :Fragment(), SettingContract.View{
         }
 
 
+    }
+
+    fun dissBottomSheet(){
+        bottomAlert.dismiss()
     }
 
     override fun InformUpdatedMsg() {

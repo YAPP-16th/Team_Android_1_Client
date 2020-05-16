@@ -6,6 +6,9 @@
         <variable
             name="activity"
             type="com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalActivity" />
+        <variable
+            name="context"
+            type="android.content.Context" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
