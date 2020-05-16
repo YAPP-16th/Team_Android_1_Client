@@ -127,7 +127,7 @@ class SettingFragment :Fragment(), SettingContract.View{
 
     }
 
-    fun dissBottomSheet(){
+    fun dismissBottomSheet(){
         bottomAlert.dismiss()
     }
 

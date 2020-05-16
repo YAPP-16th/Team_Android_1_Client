@@ -112,11 +112,11 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
 
     fun saveNickname() {
         presenter.updateNickname(mBinding.nicknameText.text.toString())
-        (parentFragment as SettingFragment).dissBottomSheet()
+        (parentFragment as SettingFragment).dismissBottomSheet()
     }
 
     fun closeNicknamePage() {
-        (parentFragment as SettingFragment).dissBottomSheet()
+        (parentFragment as SettingFragment).dismissBottomSheet()
     }
 
 
