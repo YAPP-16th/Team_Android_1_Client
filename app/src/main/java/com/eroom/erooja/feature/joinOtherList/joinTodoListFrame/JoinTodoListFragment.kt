@@ -67,9 +67,6 @@ class JoinTodoListFragment : Fragment(), TextView.OnEditorActionListener {
         requestFocus(addTodoBinding.goalContentEdittext)
     }
 
-//    fun getUserTodoList(userlist: ArrayList<String>){
-//        goalItem = userlist
-//    }
 
     override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
         if (event == null || event.action != KeyEvent.ACTION_DOWN) {

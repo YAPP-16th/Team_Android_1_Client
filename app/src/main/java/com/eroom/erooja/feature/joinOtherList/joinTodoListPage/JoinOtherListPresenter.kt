@@ -15,17 +15,6 @@ class JoinOtherListPresenter(override var view: JoinOtherListContract.View,
 
     private val compositeDisposable = CompositeDisposable()
 
-
-//    @SuppressLint("CheckResult")
-//    override fun getOtherTodoList(uid: String, goalId: Long) {
-//        getTodoListUseCase.getUserTodoList(uid, goalId)
-//            .subscribe({
-//                view.setOtherTodoList(it.content)
-//            },{
-//
-//            })
-//    }
-
     override fun addMyGoal(
         goalId: Long?,
         ownerUid: String?,

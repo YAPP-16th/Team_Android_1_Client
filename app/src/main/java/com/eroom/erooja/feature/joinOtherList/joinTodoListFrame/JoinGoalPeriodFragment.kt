@@ -8,14 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.eroom.erooja.R
-import com.eroom.erooja.databinding.FragmentJoinOrAddGoalPeriodBinding
-import com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity
+import com.eroom.erooja.databinding.FragmentJoinGoalPeriodBinding
+import com.eroom.erooja.feature.joinOtherList.joinTodoListPage.JoinOtherListActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class JoinGoalPeriodFragment : Fragment() {
-    private lateinit var binding: FragmentJoinOrAddGoalPeriodBinding
+    private lateinit var binding: FragmentJoinGoalPeriodBinding
 
     companion object {
         @JvmStatic
@@ -25,14 +25,14 @@ class JoinGoalPeriodFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_join_or_add_goal_period, container, false)
+        val view = inflater.inflate(R.layout.fragment_join_goal_period, container, false)
         setUpDataBinding(inflater, container)
         initView()
         return binding.root
     }
 
     private fun setUpDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        binding = FragmentJoinOrAddGoalPeriodBinding.inflate(inflater, container, false)
+        binding = FragmentJoinGoalPeriodBinding.inflate(inflater, container, false)
         binding.fragment = this
     }
 
@@ -57,7 +57,7 @@ class JoinGoalPeriodFragment : Fragment() {
 
 
     fun onCalendarClicked() {
-        (activity as AddMyListActivity).calendarCall()
+        (activity as JoinOtherListActivity).calendarCall()
     }
 
     fun setEndDate(endDate:String) {

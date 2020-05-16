@@ -2,20 +2,17 @@ package com.eroom.erooja.feature.joinOtherList.joinTodoListPage
 
 import android.app.Activity
 import android.content.Context
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.eroom.calendar.AirCalendarDatePickerActivity
 import com.eroom.calendar.core.AirCalendarIntent
-import com.eroom.data.entity.MinimalTodoListDetail
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.ProgressBarAnimation
 import com.eroom.domain.utils.toLocalDateFormat
@@ -39,8 +36,6 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
     private var mPage = 0
     var nextClickable: ObservableField<Boolean> = ObservableField(true)
 
-
-    private var goalList: ArrayList<String> = ArrayList()
     private var startDate: String = ""
     private var endDate = ""
     private var additionalGoalList = ""
@@ -51,7 +46,6 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
     private var goalDate: String? = null
     private var goalId: Long = 0L
     private var userUid: String = ""
-   // private var userTodoList: ArrayList<String> = arrayListOf("")
     private var isThereAnyFragment = true
     var userTodoList: ArrayList<String> = ArrayList()
 
@@ -81,23 +75,13 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
         else {
             mPage = 0
             //nextClickable.set(true)
-          //  presenter.getOtherTodoList(userUid, goalId)
             showFragment()
         }
     }
 
-//    override fun setOtherTodoList(todoList: ArrayList<MinimalTodoListDetail>) {
-//        userTodoList.clear()
-//
-//        for(item in todoList){
-//            userTodoList.add(item.content)
-//        }
-//        //(mFragmentList[1] as JoinTodoListFragment).getUserTodoList(userTodoList)
-//    }
 
     private fun initPresenter() {
         presenter = JoinOtherListPresenter(this, get())
-        // ownerUid?.let { goalId?.let { it1 -> presenter.getUserTodoData(it, it1) } }
         intent.getStringArrayListExtra(Consts.USER_TODO_LIST)?.let {
             userTodoList = it
         }
@@ -140,9 +124,9 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
 //        (mFragmentList[1] as GoalListFragment).goalListCheck.observe(this, Observer {
 //            //nextClickable.set(it)
 //        })
-//        (mFragmentList[1] as GoalListFragment).writingText.observe(this, Observer {
-//            additionalGoalList = it
-//        })
+        (mFragmentList[1] as JoinTodoListFragment).writingText.observe(this, Observer {
+            additionalGoalList = it
+        })
     }
 
     private fun initFragment() {
@@ -234,9 +218,9 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
                 goalId,
                 userUid,
                 endDate,
-                goalList.apply { add(additionalGoalList) })
+                userTodoList.apply { add(additionalGoalList) })
         } else
-            presenter.addMyGoal(goalId, userUid, endDate, goalList)
+            presenter.addMyGoal(goalId, userUid, endDate, userTodoList)
     }
 
     override fun onBackPressed() {
