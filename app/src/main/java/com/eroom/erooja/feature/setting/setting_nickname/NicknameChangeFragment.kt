@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
+import com.eroom.domain.globalconst.Consts
+
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.eroom.domain.utils.toastLong
@@ -121,6 +122,7 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
     fun closeNicknamePage() {
         (parentFragment as SettingFragment).dissBottomSheet()
     }
+
 
     override fun onDestroy() {
         presenter.onCleared()

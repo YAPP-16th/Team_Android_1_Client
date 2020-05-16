@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import com.eroom.domain.api.usecase.member.GetMemberInfoUseCase
 import com.eroom.domain.api.usecase.member.PostMemberInfoUseCase
 import com.eroom.domain.api.usecase.member.PostNicknameDuplicityUseCase
-import com.eroom.domain.api.usecase.member.PutNicknameUseCase
 import com.eroom.domain.utils.addTo
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
@@ -26,7 +25,6 @@ class NicknameChangePresenter (override var view: NicknameChangeContract.View,
                 else view.nicknameDuplicationPass()
             },{
                 Timber.e(it.localizedMessage)
-
             }) addTo compositeDisposable
     }
 
