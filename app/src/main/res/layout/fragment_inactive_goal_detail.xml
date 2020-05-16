@@ -5,7 +5,7 @@
     <data>
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.EnabledGoalDetailFragment" />
+            type="com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.InactiveGoalDetailFragment" />
     </data>
 
 

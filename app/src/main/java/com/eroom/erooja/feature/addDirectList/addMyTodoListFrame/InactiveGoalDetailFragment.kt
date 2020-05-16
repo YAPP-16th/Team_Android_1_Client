@@ -7,44 +7,48 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.lifecycle.MutableLiveData
 import com.eroom.domain.globalconst.Consts
-import com.eroom.erooja.databinding.FragmentEnabledGoalTitleBinding
+import com.eroom.erooja.databinding.FragmentInactiveGoalDetailBinding
 
 
-class EnabledGoalTitleFragment : Fragment() {
-    private lateinit var binding: FragmentEnabledGoalTitleBinding
-    val goalTitle: MutableLiveData<String> = MutableLiveData()
+class InactiveGoalDetailFragment : Fragment() {
+    private lateinit var binding: FragmentInactiveGoalDetailBinding
 
     companion object {
         @JvmStatic
-        fun newInstance() = EnabledGoalTitleFragment()
+        fun newInstance() = InactiveGoalDetailFragment()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Inflate the layout for this fragment
         setUpDataBinding(inflater, container)
         initView()
         return binding.root
     }
 
     private fun setUpDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        binding = FragmentEnabledGoalTitleBinding.inflate(inflater, container, false)
-        binding.fragment = this
+        binding = FragmentInactiveGoalDetailBinding.inflate(inflater, container, false)
+        binding.fragment = this@InactiveGoalDetailFragment
     }
 
     private fun initView() {
-        val titleText = arguments?.getString(Consts.GOAL_TITLE)
-        binding.goalTitle.setText(titleText)
-        binding.goalTitleLength.text = "${binding.goalTitle.text.length}/50"
+        binding.goalDetailContent.text = arguments?.getString(Consts.DESCRIPTION)
     }
+
 
     fun onLayoutClicked() {
-        binding.goalTitle.requestFocus()
+        binding.goalDetailContent.requestFocus()
         val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        context?.let { imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY) }
-    }
+        context?.let {
+            imm.toggleSoftInput(
+                InputMethodManager.SHOW_FORCED,
+                InputMethodManager.HIDE_IMPLICIT_ONLY
+            )
+        }
 
+    }
 }
+

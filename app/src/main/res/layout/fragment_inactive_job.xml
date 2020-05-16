@@ -5,7 +5,7 @@
     <data>
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.addDirectList.enabledjob.EnabledJobFragment" />
+            type="com.eroom.erooja.feature.addDirectList.inactivejob.InactiveJobFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

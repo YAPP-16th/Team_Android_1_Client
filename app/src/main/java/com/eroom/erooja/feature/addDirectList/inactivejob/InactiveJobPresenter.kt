@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.addDirectList.enabledjob
+package com.eroom.erooja.feature.addDirectList.inactivejob
 
 import android.annotation.SuppressLint
 import com.eroom.domain.api.usecase.job.GetJobGroupAndClassUseCase
@@ -8,10 +8,11 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
-class EnabledJobPresenter(override val view: EnabledJobContract.View,
-                         private val getJobGroupUseCase: GetJobGroupUseCase,
-                         private val getJobGroupAndClassUseCase: GetJobGroupAndClassUseCase
-) : EnabledJobContract.Presenter {
+class InactiveJobPresenter(
+    override val view: InactiveJobContract.View,
+    private val getJobGroupUseCase: GetJobGroupUseCase,
+    private val getJobGroupAndClassUseCase: GetJobGroupAndClassUseCase
+) : InactiveJobContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -20,7 +21,7 @@ class EnabledJobPresenter(override val view: EnabledJobContract.View,
         getJobGroupUseCase.getJobGroup()
             .subscribe({
                 view.reRequestClassByGroup(it)
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
     }
@@ -34,7 +35,7 @@ class EnabledJobPresenter(override val view: EnabledJobContract.View,
             }.toList()
             .subscribe({
                 view.updateJobGroupAndClass(it)
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
     }

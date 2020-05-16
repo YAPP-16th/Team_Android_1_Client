@@ -1,9 +1,9 @@
-package com.eroom.erooja.feature.addDirectList.enabledjob
+package com.eroom.erooja.feature.addDirectList.inactivejob
 
 import com.eroom.data.entity.JobGroup
 import com.eroom.data.response.JobGroupAndClassResponse
 
-interface EnabledJobContract {
+interface InactiveJobContract {
     interface View {
         fun reRequestClassByGroup(jobGroupList: ArrayList<JobGroup>)
         fun updateJobGroupAndClass(result: List<JobGroupAndClassResponse>)

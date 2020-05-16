@@ -5,7 +5,7 @@
     <data>
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.EnabledGoalTitleFragment" />
+            type="com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.InactiveGoalTitleFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -22,7 +22,7 @@ import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.databinding.ActivityAddMyNewGoalBinding
 import com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.*
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalFinishActivity
-import com.eroom.erooja.feature.addDirectList.enabledjob.EnabledJobFragment
+import com.eroom.erooja.feature.addDirectList.inactivejob.InactiveJobFragment
 import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinGoalPeriodFragment
 import org.koin.android.ext.android.get
 import java.util.*
@@ -34,7 +34,7 @@ class AddMyListActivity : AppCompatActivity(),
     private val REQUEST_CODE = 3000
 
     private lateinit var newGoalBinding: ActivityAddMyNewGoalBinding
-   private lateinit var presenter: AddMyListPresenter
+    private lateinit var presenter: AddMyListPresenter
 
     private val mFragmentList = ArrayList<Fragment>()
     private var mPage = 0
@@ -72,11 +72,11 @@ class AddMyListActivity : AppCompatActivity(),
             val endGoalDate = goalDate!!.split("~")
             val endGoalDate1 = endGoalDate[1].split(".")
             endDate = toLocalDateFormat("20" + endGoalDate1[0], endGoalDate1[1], endGoalDate1[2])
-                mFragmentList[3].apply {
-                    arguments = Bundle().apply {
-                        putString(Consts.END_DATE, endGoalDate[1])
-                    }
+            mFragmentList[3].apply {
+                arguments = Bundle().apply {
+                    putString(Consts.END_DATE, endGoalDate[1])
                 }
+            }
         }
         // case 2: 기간 설정 가능, 내가 리스트를 추가하는 경우
         else {
@@ -137,13 +137,13 @@ class AddMyListActivity : AppCompatActivity(),
         mFragmentList.apply {
             addAll(
                 listOf(
-                    EnabledJobFragment.newInstance(),
-                    EnabledGoalTitleFragment.newInstance().apply {
+                    InactiveJobFragment.newInstance(),
+                    InactiveGoalTitleFragment.newInstance().apply {
                         arguments = Bundle().apply {
                             putString(Consts.GOAL_TITLE, goalTitleText)
                         }
                     },
-                    EnabledGoalDetailFragment.newInstance().apply {
+                    InactiveGoalDetailFragment.newInstance().apply {
                         arguments = Bundle().apply {
                             putString(Consts.DESCRIPTION, goalDetailContentText)
                         }
@@ -153,10 +153,10 @@ class AddMyListActivity : AppCompatActivity(),
                 )
             )
         }
-        if (!goalDate.equals("기간 설정 자유")){
-            mFragmentList[3] = EnabledGoalPeriodFragment.newInstance()
+        if (!goalDate.equals("기간 설정 자유")) {
+            mFragmentList[3] = InactiveGoalPeriodFragment.newInstance()
         }
-            mFragmentList.also {
+        mFragmentList.also {
             repeat(it.size) { index ->
                 supportFragmentManager.beginTransaction().add(R.id.newGoalFrame, it[index])
                     .hide(it[index]).commit()
@@ -169,7 +169,7 @@ class AddMyListActivity : AppCompatActivity(),
 
     private fun showFragment() {
         hideFragment()
-        newGoalBinding.nextTextView.text = if (mPage == 4)  "완료" else "다음"
+        newGoalBinding.nextTextView.text = if (mPage == 4) "완료" else "다음"
         supportFragmentManager.beginTransaction().show(mFragmentList[mPage]).commit()
         setProgressBar(true)
 
@@ -195,14 +195,14 @@ class AddMyListActivity : AppCompatActivity(),
 
     fun prevButtonClicked() {
         hideKeyBoard()
-            mPage -=1
-            if (mPage < 0) {
-                finish()
-                return
-            }
-            nextClickable.set(true)
-            setProgressBar(false)
-            showFragment()
+        mPage -= 1
+        if (mPage < 0) {
+            finish()
+            return
+        }
+        nextClickable.set(true)
+        setProgressBar(false)
+        showFragment()
     }
 
     fun nextButtonClicked() {

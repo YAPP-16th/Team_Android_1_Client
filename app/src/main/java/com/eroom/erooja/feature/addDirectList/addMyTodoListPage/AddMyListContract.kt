@@ -15,6 +15,7 @@ interface AddMyListContract {
             endDt: String,
             todoList: ArrayList<String>
         )
+
         fun onCleared()
 
     }

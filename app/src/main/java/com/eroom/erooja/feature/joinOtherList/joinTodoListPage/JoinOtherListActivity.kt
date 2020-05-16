@@ -20,7 +20,7 @@ import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityJoinOtherListBinding
 import com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.*
-import com.eroom.erooja.feature.addDirectList.enabledjob.EnabledJobFragment
+import com.eroom.erooja.feature.addDirectList.inactivejob.InactiveJobFragment
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalFinishActivity
 import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinGoalPeriodFragment
 import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinTodoListFragment
@@ -62,7 +62,7 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
         joinTodoList()
     }
 
-    private fun joinTodoList(){
+    private fun joinTodoList() {
         // case 1: 기간 고정, 다른 사람의 리스트를 추가하는 경우
         if (!goalDate.equals("기간 설정 자유")) {
             mPage = 4
@@ -70,8 +70,8 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
             val endGoalDate = goalDate!!.split("~")
             val endGoalDate1 = endGoalDate[1].split(".")
             endDate = toLocalDateFormat("20" + endGoalDate1[0], endGoalDate1[1], endGoalDate1[2])
-            mFragmentList[3].apply{
-                arguments = Bundle().apply{
+            mFragmentList[3].apply {
+                arguments = Bundle().apply {
                     putString(Consts.END_DATE, endGoalDate[1])
                 }
             }
@@ -139,13 +139,13 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
         mFragmentList.apply {
             addAll(
                 listOf(
-                    EnabledJobFragment.newInstance(),
-                    EnabledGoalTitleFragment.newInstance().apply {
+                    InactiveJobFragment.newInstance(),
+                    InactiveGoalTitleFragment.newInstance().apply {
                         arguments = Bundle().apply {
                             putString(Consts.GOAL_TITLE, goalTitleText)
                         }
                     },
-                    EnabledGoalDetailFragment.newInstance().apply {
+                    InactiveGoalDetailFragment.newInstance().apply {
                         arguments = Bundle().apply {
                             putString(Consts.DESCRIPTION, goalDetailContentText)
                         }
@@ -159,8 +159,8 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
                 )
             )
         }
-        if (!goalDate.equals("기간 설정 자유")){
-            mFragmentList[3] = EnabledGoalPeriodFragment.newInstance()
+        if (!goalDate.equals("기간 설정 자유")) {
+            mFragmentList[3] = InactiveGoalPeriodFragment.newInstance()
         }
         mFragmentList.also {
             repeat(it.size) { index ->
@@ -174,7 +174,7 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
 
     private fun showFragment() {
         hideFragment()
-        newGoalBinding.nextTextView.text = if (mPage == 4) "완료" else  "다음"
+        newGoalBinding.nextTextView.text = if (mPage == 4) "완료" else "다음"
         supportFragmentManager.beginTransaction().show(mFragmentList[mPage]).commit()
         setProgressBar(true)
 
@@ -199,7 +199,7 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
 
     fun prevButtonClicked() {
         hideKeyBoard()
-        mPage -=1
+        mPage -= 1
         if (mPage < 0) {
             finish()
             return
@@ -228,7 +228,6 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
         showFragment()
 
     }
-
 
 
     private fun networkRequest() {

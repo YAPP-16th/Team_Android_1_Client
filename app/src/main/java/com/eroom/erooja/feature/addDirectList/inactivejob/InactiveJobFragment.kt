@@ -1,31 +1,27 @@
-package com.eroom.erooja.feature.addDirectList.enabledjob
+package com.eroom.erooja.feature.addDirectList.inactivejob
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.JobGroup
 import com.eroom.data.response.JobGroupAndClassResponse
-import com.eroom.erooja.databinding.FragmentEnabledJobBinding
-import com.eroom.erooja.feature.addGoal.newGoalPage.selectjob.SelectJobAdapter
-import com.eroom.erooja.feature.addGoal.newGoalPage.selectjob.SelectJobContract
-import com.eroom.erooja.feature.addGoal.newGoalPage.selectjob.SelectJobPresenter
+import com.eroom.erooja.databinding.FragmentInactiveJobBinding
 import org.koin.android.ext.android.get
 
 
-class EnabledJobFragment : Fragment(), EnabledJobContract.View {
-    private lateinit var selectJobBinding: FragmentEnabledJobBinding
-    private lateinit var presenter: EnabledJobPresenter
+class InactiveJobFragment : Fragment(), InactiveJobContract.View {
+    private lateinit var selectJobBinding: FragmentInactiveJobBinding
+    private lateinit var presenter: InactiveJobPresenter
     private val selectedId: ArrayList<Long> = ArrayList()
-    private lateinit var mAdapter: EnabledJobAdapter
+    private lateinit var mAdapter: InactiveJobAdapter
 
     companion object {
         @JvmStatic
         fun newInstance() =
-            EnabledJobFragment()
+            InactiveJobFragment()
     }
 
     override fun onCreateView(
@@ -39,11 +35,11 @@ class EnabledJobFragment : Fragment(), EnabledJobContract.View {
     }
 
     private fun initPresenter() {
-        presenter = EnabledJobPresenter(this, get(), get())
+        presenter = InactiveJobPresenter(this, get(), get())
     }
 
     private fun setUpDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        selectJobBinding = FragmentEnabledJobBinding.inflate(inflater, container, false)
+        selectJobBinding = FragmentInactiveJobBinding.inflate(inflater, container, false)
         selectJobBinding.fragment = this
     }
 
@@ -60,11 +56,12 @@ class EnabledJobFragment : Fragment(), EnabledJobContract.View {
 
     override fun updateJobGroupAndClass(result: List<JobGroupAndClassResponse>) {
         context?.let {
-            mAdapter = EnabledJobAdapter(it, result, selectedId)
+            mAdapter = InactiveJobAdapter(it, result, selectedId)
             selectJobBinding.jobGroupRecycler.apply {
                 adapter = mAdapter
                 layoutManager = LinearLayoutManager(context)
-            } }
+            }
+        }
     }
 
     override fun onDestroy() {

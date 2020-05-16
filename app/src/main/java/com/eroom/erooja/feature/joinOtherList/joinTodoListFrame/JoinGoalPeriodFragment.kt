@@ -21,6 +21,7 @@ class JoinGoalPeriodFragment : Fragment() {
         @JvmStatic
         fun newInstance() = JoinGoalPeriodFragment()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,12 +44,14 @@ class JoinGoalPeriodFragment : Fragment() {
 
     private fun setDefaultStartDate() {
         val currentTime: Date = Calendar.getInstance().time
-        binding.startDateContent.text = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault()).format(currentTime)
+        binding.startDateContent.text =
+            SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault()).format(currentTime)
     }
 
     private fun setDefaultEndDate() {
         val currentTime: Date = Calendar.getInstance().time
-        val endDate = (SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault()).format(currentTime)).toString()
+        val endDate =
+            (SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault()).format(currentTime)).toString()
 
         val content = SpannableString(endDate)
         content.setSpan(UnderlineSpan(), 0, content.length, 0)
@@ -60,7 +63,7 @@ class JoinGoalPeriodFragment : Fragment() {
         (activity as JoinOtherListActivity).calendarCall()
     }
 
-    fun setEndDate(endDate:String) {
+    fun setEndDate(endDate: String) {
         binding.endDateContent.text = endDate
         val content = SpannableString(endDate)
         content.setSpan(UnderlineSpan(), 0, content.length, 0)

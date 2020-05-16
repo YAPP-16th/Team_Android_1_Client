@@ -1,4 +1,4 @@
-package com.eroom.erooja.feature.addDirectList.enabledjob
+package com.eroom.erooja.feature.addDirectList.inactivejob
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,10 +10,10 @@ import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ItemJobClassFilterBinding
 
 
-class EnabledJobClassAdapter(private var list: ArrayList<JobClass>,
-                            private val context: Context,
-                            private var selectedIds: ArrayList<Long>
-) : RecyclerView.Adapter<EnabledJobClassAdapter.ViewHolder>() {
+class InactiveJobClassAdapter(private var list: ArrayList<JobClass>,
+                              private val context: Context,
+                              private var selectedIds: ArrayList<Long>
+) : RecyclerView.Adapter<InactiveJobClassAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)

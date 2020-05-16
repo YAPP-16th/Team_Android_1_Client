@@ -1,11 +1,12 @@
 package com.eroom.erooja.feature.joinOtherList.joinTodoListPage
 
 interface JoinOtherListContract {
-    interface View{
+    interface View {
         fun redirectNewGoalFinish(resultId: Long)
         fun failRequest()
     }
-    interface Presenter{
+
+    interface Presenter {
         var view: View
 
         fun addMyGoal(
