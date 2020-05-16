@@ -79,17 +79,9 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
         }
     }
 
-//    override fun setOtherTodoList(todoList: ArrayList<MinimalTodoListDetail>) {
-//        userTodoList.clear()
-//        for(item in todoList){
-//            userTodoList.add(item.content)
-//        }
-//        //(mFragmentList[1] as JoinTodoListFragment).getUserTodoList(userTodoList)
-//    }
 
     private fun initPresenter() {
         presenter = JoinOtherListPresenter(this, get())
-        // ownerUid?.let { goalId?.let { it1 -> presenter.getUserTodoData(it, it1) } }
         intent.getStringArrayListExtra(Consts.USER_TODO_LIST)?.let {
             userTodoList = it
         }
