@@ -139,7 +139,11 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
         mFragmentList.apply {
             addAll(
                 listOf(
-                    InactiveJobFragment.newInstance(),
+                    InactiveJobFragment.newInstance().apply {
+                        arguments = Bundle().apply {
+                            goalId?.let { putLong(Consts.GOAL_ID, it) }
+                        }
+                    },
                     InactiveGoalTitleFragment.newInstance().apply {
                         arguments = Bundle().apply {
                             putString(Consts.GOAL_TITLE, goalTitleText)

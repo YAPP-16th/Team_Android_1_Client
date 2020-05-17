@@ -40,7 +40,7 @@ class InactiveJobClassAdapter(private var list: ArrayList<JobClass>,
                 if (firstId == id) firstBoolean = true
             }
             if (firstBoolean) {
-                binding.classTitle.setTextColor(context.resources.getColor(R.color.orgDefault, null))
+                binding.classTitle.setTextColor(context.resources.getColor(R.color.grey5, null))
                 binding.itemClassBorder.background = context.resources.getDrawable(R.drawable.border_inactive_job_class_grey5, null)
             } else {
                 binding.classTitle.setTextColor(context.resources.getColor(R.color.grey4, null))
@@ -54,7 +54,7 @@ class InactiveJobClassAdapter(private var list: ArrayList<JobClass>,
                 binding.classTitle2.text = it
                 binding.itemClassBorder2.visibility = View.VISIBLE
                 if (secondBoolean) {
-                    binding.classTitle2.setTextColor(context.resources.getColor(R.color.orgDefault, null))
+                    binding.classTitle2.setTextColor(context.resources.getColor(R.color.grey5, null))
                     binding.itemClassBorder2.background = context.resources.getDrawable(R.drawable.border_inactive_job_class_grey5, null)
                 } else {
                     binding.classTitle2.setTextColor(context.resources.getColor(R.color.grey4, null))

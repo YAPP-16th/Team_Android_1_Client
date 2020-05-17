@@ -1,6 +1,7 @@
 package com.eroom.erooja.feature.addDirectList.inactivejob
 
 import android.annotation.SuppressLint
+import com.eroom.domain.api.usecase.goal.GetGoalDetailUseCase
 import com.eroom.domain.api.usecase.job.GetJobGroupAndClassUseCase
 import com.eroom.domain.api.usecase.job.GetJobGroupUseCase
 import com.eroom.domain.utils.addTo
@@ -11,7 +12,8 @@ import timber.log.Timber
 class InactiveJobPresenter(
     override val view: InactiveJobContract.View,
     private val getJobGroupUseCase: GetJobGroupUseCase,
-    private val getJobGroupAndClassUseCase: GetJobGroupAndClassUseCase
+    private val getJobGroupAndClassUseCase: GetJobGroupAndClassUseCase,
+    private val getGoalDetailUseCase: GetGoalDetailUseCase
 ) : InactiveJobContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
@@ -38,6 +40,19 @@ class InactiveJobPresenter(
             }, {
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
+    }
+
+    override fun getJobInterestOfTodoList(goalId: Long?) {
+       goalId?.let {
+           getGoalDetailUseCase.getGoalDetail(goalId)
+               .subscribe({
+                   view.setJobInterestOfTodoList(it.jobInterests.map {
+                       it.id
+                   })
+               }, {
+
+               })
+       }
     }
 
     override fun onCleared() {
