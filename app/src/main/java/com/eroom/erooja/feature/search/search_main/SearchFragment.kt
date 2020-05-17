@@ -169,7 +169,7 @@ class SearchFragment : Fragment(), SearchContract.View {
                 setEmptyFragment()
             } else {
                 mAdapter =
-                    SearchResultAdapter(presenter.getGoalContentCallback(), mContentList, itemClick)
+                    SearchResultAdapter(presenter.getGoalContentCallback(), mContentList, itemClick, requireContext())
                 searchBinding.mainResultRecycler.apply {
                     layoutManager = LinearLayoutManagerWrapper(context)
                     adapter = mAdapter
