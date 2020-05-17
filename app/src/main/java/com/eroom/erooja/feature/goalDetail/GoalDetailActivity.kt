@@ -66,7 +66,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
 
     @SuppressLint("SetTextI18n")
     override fun setView(title: String, description: String, joinCount: Int, isDateFixed: Boolean, startDate: String, endDate: String) {
-        binding.participantListText.text = binding.participantListText.text.toString() add "($joinCount)"
+        binding.participantListText.text = "참여자목록" add "($joinCount)"
         binding.goalNameTxt.text = title
         binding.goalDateTxt.text =
             if(isDateFixed) startDate.toRealDateFormat() + "~" + endDate.toRealDateFormat()
