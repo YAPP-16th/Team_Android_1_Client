@@ -16,6 +16,8 @@ interface AddMyListContract {
             todoList: ArrayList<String>
         )
 
+        fun reparticipateToMyEndedGoal(goalId: Long, endDt: String)
+
         fun onCleared()
 
     }

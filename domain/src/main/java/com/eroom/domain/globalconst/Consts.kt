@@ -58,5 +58,9 @@ class Consts {
 
         const val GOAL_ABANDONED_REQUEST = 3000
         const val END_DATE = "END_DATE"
+
+        const val OWNER_UID = "OWNER_UID"
+        const val IS_MY_ENDED_GOAL = "IS_MY_ENDED_GOAL"
+        const val IS_MY_ABANDONED_GOAL = "IS_MY_ABANDONED_GOAL"
     }
 }

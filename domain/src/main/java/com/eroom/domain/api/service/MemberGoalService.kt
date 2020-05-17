@@ -39,6 +39,6 @@ interface MemberGoalService {
     fun putGoalIsAbandoned(@Path("goalId") goalId: Long, @Body goalAbandonedRequest: GoalAbandonedRequest): Single<ParticipatedGoalInfoResponse>
 
     @PUT("membergoal/{goalId}")
-    fun putGoalReparticipate(@Path("goalId") goalId: Long, @Body reParticipateRequest: GoalReParticipateRequest): Single<ParticipatedGoalInfoResponse>
+    fun putGoalReparticipate(@Path("goalId") goalId: Long, @Body reParticipateRequest: GoalReParticipateRequest): Single<Response<ParticipatedGoalInfoResponse>>
 
 }

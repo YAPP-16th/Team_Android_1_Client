@@ -6,7 +6,7 @@ data class ParticipatedGoalInfoResponse (
     @JsonProperty("createDt") val createDt : String,
     @JsonProperty("updateDt") val updateDt : String,
     @JsonProperty("uid") val uid : String,
-    @JsonProperty("goalId") val goalId : Int,
+    @JsonProperty("goalId") val goalId : Long,
     @JsonProperty("role") val role : String,
     @JsonProperty("isEnd") val isEnd : Boolean,
     @JsonProperty("copyCount") val copyCount : Int,

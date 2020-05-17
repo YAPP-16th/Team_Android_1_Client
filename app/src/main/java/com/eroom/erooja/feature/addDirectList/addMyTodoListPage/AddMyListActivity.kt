@@ -53,6 +53,9 @@ class AddMyListActivity : AppCompatActivity(),
     private var goalId: Long? = null
     private var ownerUid: String? = null
 
+    private var isMyEndedGoal: Boolean = false
+    private var isMyAbandonedGoal: Boolean = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,14 +90,17 @@ class AddMyListActivity : AppCompatActivity(),
     }
 
     private fun initPresenter() {
-        presenter = AddMyListPresenter(this, get())
+        presenter = AddMyListPresenter(this, get(), get())
 
         //Todo: GoalDetailActivity에서 담은 데이터를 받음
         goalId = intent.getLongExtra(Consts.GOAL_ID, -1L)
         goalTitleText = intent.getStringExtra(Consts.GOAL_TITLE)
         goalDetailContentText = intent.getStringExtra(Consts.DESCRIPTION)
         goalDate = intent.getStringExtra(Consts.DATE)
-        ownerUid = null
+        ownerUid = intent.getStringExtra(Consts.OWNER_UID)
+
+        isMyEndedGoal = intent.getBooleanExtra(Consts.IS_MY_ENDED_GOAL, false)
+        isMyAbandonedGoal = intent.getBooleanExtra(Consts.IS_MY_ABANDONED_GOAL, false)
 
         if (!goalDate.equals("기간 설정 자유")) mPage = 4
         else mPage = 3
@@ -240,14 +246,24 @@ class AddMyListActivity : AppCompatActivity(),
     }
 
     private fun networkRequest() {
-        if (additionalGoalList.isNotEmpty()) {
-            presenter.addMyGoal(
-                goalId,
-                ownerUid,
-                endDate,
-                goalList.apply { add(additionalGoalList) })
-        } else
-            presenter.addMyGoal(goalId, ownerUid, endDate, goalList)
+        if(isMyEndedGoal) {
+            //myPage -> 종료탭에 있는 목표라면? -> 재참
+            presenter.reparticipateToMyEndedGoal(goalId!!, endDate)
+        } else {
+            if (additionalGoalList.isNotEmpty()) {
+                presenter.addMyGoal(
+                    goalId,
+                    ownerUid,
+                    endDate,
+                    goalList.apply { add(additionalGoalList) })
+            } else {
+                var a = goalId
+                var b = ownerUid
+                var c = endDate
+                var d = goalList
+                presenter.addMyGoal(goalId, ownerUid, endDate, goalList)
+            }
+        }
     }
 
     override fun onBackPressed() {
