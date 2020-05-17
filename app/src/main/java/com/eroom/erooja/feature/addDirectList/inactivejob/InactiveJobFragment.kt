@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.JobGroup
 import com.eroom.data.response.JobGroupAndClassResponse
+import com.eroom.domain.globalconst.Consts
 import com.eroom.erooja.databinding.FragmentInactiveJobBinding
 import org.koin.android.ext.android.get
 
@@ -35,7 +37,7 @@ class InactiveJobFragment : Fragment(), InactiveJobContract.View {
     }
 
     private fun initPresenter() {
-        presenter = InactiveJobPresenter(this, get(), get())
+        presenter = InactiveJobPresenter(this, get(), get(), get())
     }
 
     private fun setUpDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
@@ -45,6 +47,7 @@ class InactiveJobFragment : Fragment(), InactiveJobContract.View {
 
     private fun initView() {
         presenter.getJobGroups()
+        presenter.getJobInterestOfTodoList(arguments?.getLong(Consts.GOAL_ID))
     }
 
     override fun reRequestClassByGroup(jobGroupList: ArrayList<JobGroup>) =
@@ -53,6 +56,12 @@ class InactiveJobFragment : Fragment(), InactiveJobContract.View {
         }.toList().let {
             presenter.getJobGroupAndClasses(it)
         }
+
+    override fun setJobInterestOfTodoList(jobInterestList: List<Long>) {
+        repeat(jobInterestList.size){
+            selectedId.add(jobInterestList[it])
+        }
+    }
 
     override fun updateJobGroupAndClass(result: List<JobGroupAndClassResponse>) {
         context?.let {
