@@ -66,23 +66,23 @@ class AddMyListActivity : AppCompatActivity(),
 
     private fun addMyList() {
         // case 1: 기간 고정, 내가 리스트를 추가하는 경우
-        if (!goalDate.equals("기간 설정 자유")) {
-            mPage = 4
-            showFragment()
-            val endGoalDate = goalDate!!.split("~")
-            val endGoalDate1 = endGoalDate[1].split(".")
-            endDate = toLocalDateFormat("20" + endGoalDate1[0], endGoalDate1[1], endGoalDate1[2])
-            mFragmentList[3].apply {
-                arguments = Bundle().apply {
-                    putString(Consts.END_DATE, endGoalDate[1])
+        when(mPage) {
+            4 -> {
+                showFragment()
+                val endGoalDate = goalDate!!.split("~")
+                val endGoalDate1 = endGoalDate[1].split(".")
+                endDate =
+                    toLocalDateFormat("20" + endGoalDate1[0], endGoalDate1[1], endGoalDate1[2])
+                mFragmentList[3].apply {
+                    arguments = Bundle().apply {
+                        putString(Consts.END_DATE, endGoalDate[1])
+                    }
                 }
             }
-        }
-        // case 2: 기간 설정 가능, 내가 리스트를 추가하는 경우
-        else {
-            mPage = 3
-            //nextClickable.set(true)
-            showFragment()
+            // case 2: 기간 설정 가능, 내가 리스트를 추가하는 경우
+            3 -> {
+                showFragment()
+            }
         }
     }
 
@@ -95,6 +95,9 @@ class AddMyListActivity : AppCompatActivity(),
         goalDetailContentText = intent.getStringExtra(Consts.DESCRIPTION)
         goalDate = intent.getStringExtra(Consts.DATE)
         ownerUid = null
+
+        if (!goalDate.equals("기간 설정 자유")) mPage = 4
+        else mPage = 3
 
     }
 
@@ -120,10 +123,10 @@ class AddMyListActivity : AppCompatActivity(),
     }
 
     private fun observeData() {
-        (mFragmentList[4] as AddMyTodoListFragment).goalList.observe(this, Observer {
-            this.goalList = it
-            nextClickable.set(!this.goalList.isNullOrEmpty())
-        })
+//        (mFragmentList[4] as AddMyTodoListFragment).goalList.observe(this, Observer {
+//            this.goalList = it
+//            nextClickable.set(!this.goalList.isNullOrEmpty())
+//        })
 //        (mFragmentList[4] as AddMyTodoListFragment).goalListCheck.observe(this, Observer {
 //            nextClickable.set(it)
 //        })
@@ -175,7 +178,6 @@ class AddMyListActivity : AppCompatActivity(),
         hideFragment()
         newGoalBinding.nextTextView.text = if (mPage == 4) "완료" else "다음"
         supportFragmentManager.beginTransaction().show(mFragmentList[mPage]).commit()
-        setProgressBar(true)
 
     }
 
