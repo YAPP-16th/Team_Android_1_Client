@@ -77,7 +77,7 @@ class SearchResultFragment : Fragment(), SearchResultContract.View {
         mContentSize += search.size
         mContentList.addAll(search)
         if (mPage == 0) {
-            mAdapter = SearchResultAdapter(presenter.getGoalContentCallback(), mContentList, itemClick)
+            mAdapter = SearchResultAdapter(presenter.getGoalContentCallback(), mContentList, itemClick, requireContext())
             binding.searchResultRecyclerview.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = mAdapter

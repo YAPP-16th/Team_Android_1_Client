@@ -56,7 +56,7 @@ class OthersEndedGoalPresenter(override var view: OthersEndedGoalContract.View,
                         view.setIsMyOngoingGoal(!body.isEnd)
                     else
                         view.setIsMyOngoingGoal(false)
-                }
+                } ?: if (it.code() == 400) view.setIsMyOngoingGoal(false)
             }, {
                 Timber.e(it.localizedMessage)
                 handleError(it)

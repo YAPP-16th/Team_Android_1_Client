@@ -134,7 +134,7 @@ class MainFragment : Fragment(), MainContract.View {
     override fun setNewGoalBrowse(content: ArrayList<GoalContent>) {
         if (content.size > 0) mainBinding.newGoalAddFrame.visibility = View.GONE
         else mainBinding.newGoalAddFrame.visibility = View.VISIBLE
-        mNewGoalAdapter = NewGoalBrowseAdapter(content, randomJobText.get() ?: "", newGoalClicked)
+        mNewGoalAdapter = NewGoalBrowseAdapter(content, randomJobText.get() ?: "", newGoalClicked, requireContext())
         mainBinding.newGoalRecycler.apply {
             adapter = mNewGoalAdapter
             layoutManager = LinearLayoutManager(context)
