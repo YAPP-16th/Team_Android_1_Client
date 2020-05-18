@@ -40,8 +40,8 @@ class SearchPresenter(override val view:SearchContract.View,
     override fun getSearchJobInterest(interestId: Long?, page: Int) {
         getSearchGoalUseCase.getSearchJobInterest(interestId, size = 10, page = page, sortBy = SortBy.CREATED_DT)
             .subscribe ({
-                view.setAllView(it.content)
-                view.setIsEnd(it.totalPages <= page)
+                if (it.totalPages > page) view.setAllView(it.content)
+                view.setIsEnd(it.totalPages -1 <= page)
             },{
                 Timber.i(it.localizedMessage)
             }) addTo compositeDisposable

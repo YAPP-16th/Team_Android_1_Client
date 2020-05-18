@@ -162,8 +162,10 @@ class SearchFragment : Fragment(), SearchContract.View {
     }
 
     override fun setAllView(search: ArrayList<GoalContent>) {
-        mContentSize += search.size
-        mContentList.addAll(search)
+        if (!isEnd) {
+            mContentSize += search.size
+            mContentList.addAll(search)
+        }
         if (!::mAdapter.isInitialized) {
             if (mContentSize == 0) {
                 setEmptyFragment()
@@ -202,7 +204,7 @@ class SearchFragment : Fragment(), SearchContract.View {
     val recyclerViewScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-            if (dy > 0 && mContentSize > 0) {
+            if (dy >= 0 && mContentSize > 0) {
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManagerWrapper
                 if (layoutManager.findLastCompletelyVisibleItemPosition() == mContentSize - 1 && !isEnd) {
                     presenter.getSearchJobInterest(mKey, mPage)

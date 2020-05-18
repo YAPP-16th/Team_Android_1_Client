@@ -100,7 +100,7 @@ class SearchResultFragment : Fragment(), SearchResultContract.View {
     val recyclerViewScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-            if (dy > 0 && mContentSize > 0) {
+            if (dy >= 0 && mContentSize > 0) {
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                 if (layoutManager.findLastCompletelyVisibleItemPosition() == mContentSize - 1 && !isEnd) {
                     fragmentKey?.let { presenter.getSearchJobInterest(it, mPage) }
