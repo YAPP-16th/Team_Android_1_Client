@@ -10,6 +10,7 @@ interface EndedGoalContract {
         fun setTodoList(todoList: ArrayList<MinimalTodoListDetail>)
         fun setIsAbandoned(isAbandoned: Boolean)
         fun setIsDateFixed(isDateFixed: Boolean)
+        fun setIsBeforeEndDt(isBeforeEndDt: Boolean)
     }
 
     interface Presenter{

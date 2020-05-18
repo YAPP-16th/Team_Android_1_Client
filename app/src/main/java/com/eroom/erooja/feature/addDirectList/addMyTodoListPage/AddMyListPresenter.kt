@@ -1,8 +1,11 @@
 package com.eroom.erooja.feature.addDirectList.addMyTodoListPage
 
+import android.annotation.SuppressLint
 import com.eroom.data.entity.TodoList
 import com.eroom.data.request.AddMyGoalRequest
+import com.eroom.data.request.GoalReParticipateRequest
 import com.eroom.domain.api.usecase.membergoal.PostAddMyGoalUseCase
+import com.eroom.domain.api.usecase.membergoal.PutGoalReparticipateUseCase
 import com.eroom.domain.api.usecase.todo.GetTodoListUseCase
 import com.eroom.domain.utils.addTo
 import io.reactivex.disposables.CompositeDisposable
@@ -10,7 +13,8 @@ import timber.log.Timber
 
 class AddMyListPresenter(
     override var view: AddMyListContract.View,
-    private val postAddMyGoalUseCase: PostAddMyGoalUseCase
+    private val postAddMyGoalUseCase: PostAddMyGoalUseCase,
+    private val putGoalReparticipateUseCase: PutGoalReparticipateUseCase
 ) : AddMyListContract.Presenter {
     private val compositeDisposable = CompositeDisposable()
 
@@ -40,6 +44,19 @@ class AddMyListPresenter(
                 view.failRequest()
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
+    }
+
+    override fun reparticipateToMyEndedGoal(goalId: Long, endDt: String) {
+        putGoalReparticipateUseCase.putGoalReparticate(
+            goalId,
+            GoalReParticipateRequest(changedIsEnd = false, endDt = endDt)
+        ).subscribe({
+            it.body()?.goalId?.let { id -> view.redirectNewGoalFinish(id) }
+        }, {
+            view.failRequest()
+            Timber.e(it.localizedMessage)
+        }) addTo compositeDisposable
+
     }
 
     override fun onCleared() {

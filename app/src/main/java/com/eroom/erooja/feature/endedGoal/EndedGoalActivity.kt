@@ -20,9 +20,9 @@ import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.*
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityEndedGoalBinding
-import com.eroom.erooja.feature.editgoal.EditGoalActivity
+import com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity
 import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
-import com.eroom.erooja.feature.participants_list.ParticipantsListActivity
+import com.eroom.erooja.singleton.UserInfo
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
 import org.koin.android.ext.android.get
 import ru.rhanza.constraintexpandablelayout.State
@@ -37,9 +37,10 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     lateinit var uId: String
 
     private var goalId: Long = -1
-    private var isFromMyPage: Boolean = false
+    //private var isFromMyPage: Boolean = false
     private var isAbandoned: Boolean = false
     private var isDateFixed: Boolean = false
+    private var isBeforeEndDt: Boolean = false
 
     private var mLastClickTime: Long = 0
 
@@ -70,7 +71,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
         }.toList().join()
 
         setBottomSheetAlert()
-        initBottomSheet(goalData.joinCount)
+        initBottomSheet()
     }
 
     @SuppressLint("SetTextI18n")
@@ -105,7 +106,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
         goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
         presenter.getData(goalId)
         uId = intent.getStringExtra(Consts.UID) ?: ""
-        isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, false)
+        //isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, false)
 
         presenter.getTodoData(uId, goalId)
         presenter.getGoalInfoByGoalId(goalId)
@@ -132,7 +133,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
         }
     }
 
-    private fun initBottomSheet(count: Int) {
+    private fun initBottomSheet() {
         bottom = BottomSheetFragment.newInstance().apply {
             arguments = Bundle().apply {
                 putParcelableArrayList(
@@ -150,22 +151,39 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
                         startActivity(
                             Intent(
                                 this@EndedGoalActivity,
-                                GoalDetailActivity::class.java
+                                AddMyListActivity::class.java
                             ).apply {
                                 putExtra(Consts.GOAL_ID, goalId)
-                                putExtra(Consts.UID, uId)
-                                putExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, isFromMyPage)
-                            })
+                                putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text.toString().trim())
+                                putExtra(Consts.DESCRIPTION, binding.include.text.text)
+                                putExtra(Consts.DATE, "기간 설정 자유")
+                                putExtra(Consts.OWNER_UID, UserInfo.myUId)
+                                putExtra(Consts.IS_MY_ENDED_GOAL, true)
+                                putExtra(Consts.IS_MY_ABANDONED_GOAL, isAbandoned) //isAbandoned로 해야하나?
+                            }
+                        )
                     } else {
                         this.toastLong(" 이목표는 기간설정 못함니다")
-
+                        startActivity(
+                            Intent(
+                                this@EndedGoalActivity,
+                                AddMyListActivity::class.java
+                            ).apply {
+                                putExtra(Consts.GOAL_ID, goalId)
+                                putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text.toString().trim())
+                                putExtra(Consts.DESCRIPTION, binding.include.text.text)
+                                putExtra(Consts.DATE, binding.goalDateTxt.text)
+                                putExtra(Consts.OWNER_UID, UserInfo.myUId)
+                                putExtra(Consts.IS_MY_ENDED_GOAL, true)
+                                putExtra(Consts.IS_MY_ABANDONED_GOAL, true) //isAbandoned로 해야하나?
+                            })
                     }
                 }
                 1 -> { // 다른 참여자 리스트 둘러보기
                     startActivity(Intent(this@EndedGoalActivity, GoalDetailActivity::class.java).apply {
                         putExtra(Consts.GOAL_ID, goalId)
                         putExtra(Consts.UID, uId)
-                        putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isFromMyPage)
+                        //putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isFromMyPage)
                     })
                 }
                 else -> {}
@@ -182,16 +200,21 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
         this.isDateFixed = isDateFixed
     }
 
+    override fun setIsBeforeEndDt(isBeforeEndDt: Boolean) {
+        this.isBeforeEndDt = isBeforeEndDt
+    }
+
     fun additionalOptionClicked() {
+        //'현수짱 괴롭히기' 목표의 경우 더보기 버튼 눌렸을때 어떤 종류의 bottmSheet을 띄울지 실시간으로 반영해야한다면? -> API 한 번 더 요청?(getIsDateFixed or getIsBeforeEndDt)
         if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
             return
         }
         mLastClickTime = SystemClock.elapsedRealtime()
 
-        if(!isDateFixed || (isDateFixed && isAbandoned)) {
-            bottom.show(supportFragmentManager, bottom.tag)
-        } else {
+        if(!isBeforeEndDt){
             bottomAlert.show(supportFragmentManager, bottom.tag)
+        } else {
+            bottom.show(supportFragmentManager, bottom.tag)
         }
     }
 

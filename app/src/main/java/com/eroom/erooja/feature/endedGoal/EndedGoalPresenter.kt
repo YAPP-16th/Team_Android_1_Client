@@ -7,6 +7,8 @@ import com.eroom.domain.api.usecase.todo.GetTodoListUseCase
 import com.eroom.erooja.feature.ongoingGoal.OngoingGoalContract
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EndedGoalPresenter(override var view: EndedGoalContract.View,
                          private val getGoalDetailUseCase: GetGoalDetailUseCase,
@@ -37,13 +39,31 @@ class EndedGoalPresenter(override var view: EndedGoalContract.View,
             })
     }
 
-    @SuppressLint("CheckResult")
+    @SuppressLint("CheckResult", "SimpleDateFormat")
     override fun getGoalInfoByGoalId(goalId: Long) {
         getGoalInfoByGoalIdUseCase.getInfoByGoalId(goalId)
             .subscribe({
                 it.body()?.let { body ->
                     view.setIsAbandoned(body.isEnd)
+
+                    val endDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(body.endDt)
+                    val currentTime: Date = Calendar.getInstance().time
+                    val isBeforeEndDt = (currentTime.time - endDate.time) < 0
+                    view.setIsBeforeEndDt(isBeforeEndDt)
                 }
+
+//                it.body()?.let { body ->
+//                    view.setIsAbandoned(body.isEnd)
+//
+//                    val endDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(body.endDt)
+//                    val currentTime: Date = Calendar.getInstance().time
+//                    val isBeforeEndDt = (currentTime.time - endDate.time) < 0
+//
+//                    if(isBeforeEndDt)
+//                        view.setIsMyOngoingGoal(!body.isEnd)
+//                    else
+//                        view.setIsMyOngoingGoal(false)
+//                } ?: if (it.code() == 400) view.setIsMyOngoingGoal(false)
             }, {
                 Timber.e(it.localizedMessage)
             })

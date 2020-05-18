@@ -69,4 +69,6 @@ val usecaseModule = module {
     factory { PostOtherMemberInfoUseCase(get()) }
 
     factory { PutGoalInfoUseCase(get()) }
+
+    factory { PutGoalReparticipateUseCase(get())}
 }
