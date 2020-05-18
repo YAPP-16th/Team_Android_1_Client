@@ -13,7 +13,7 @@
             android:textStyle="bold"
             android:textSize="14sp"
             android:textColor="@color/grey7"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="14dp"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="11dp"
             tools:text="@string/development_text" />
@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginBottom="20dp"
             tools:listitem="@layout/item_job_class_filter"
             tools:itemCount="5"/>
 
