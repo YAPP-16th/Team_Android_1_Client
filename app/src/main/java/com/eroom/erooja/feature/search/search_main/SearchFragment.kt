@@ -168,11 +168,18 @@ class SearchFragment : Fragment(), SearchContract.View {
             if (mContentSize == 0) {
                 setEmptyFragment()
             } else {
-                mAdapter =
-                    SearchResultAdapter(presenter.getGoalContentCallback(), mContentList, itemClick, requireContext())
-                searchBinding.mainResultRecycler.apply {
-                    layoutManager = LinearLayoutManagerWrapper(context)
-                    adapter = mAdapter
+                context?.let {
+                    mAdapter =
+                        SearchResultAdapter(
+                            presenter.getGoalContentCallback(),
+                            mContentList,
+                            itemClick,
+                            it
+                        )
+                    searchBinding.mainResultRecycler.apply {
+                        layoutManager = LinearLayoutManagerWrapper(context)
+                        adapter = mAdapter
+                    }
                 }
             }
         } else {
