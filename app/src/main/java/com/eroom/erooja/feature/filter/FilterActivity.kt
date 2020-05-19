@@ -93,13 +93,11 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        val result = data?.getBooleanExtra(Consts.DIALOG_RESULT, false) //확인 or 취소
 
-        if ( requestCode == 1200 && resultCode == 6000){
-            data?.let {
-                val result = it.getBooleanExtra(Consts.DIALOG_RESULT, false) //확인 or 취소
-                if(result){
-                    completeButtonClicked()
-                }
+        if(resultCode == 6000){
+            if (result!!) { //if ok (when request code ; 1200, 1300 )
+                completeButtonClicked()
             }
         }
     }
@@ -146,36 +144,59 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
                 }, 5000)
         }
         else {
-            //변경된 필터 내용을 저장하시겠어요?
-             dialogFlag = false
-
-            if(selectedId.size != interestNum.size ){
+            //변경 내용이 있는지 판단
+            dialogFlag = false
+            if (selectedId.size != interestNum.size) {
                 dialogFlag = true
             } else {
                 selectedId.sort()
                 interestNum.sort()
-                repeat(selectedId.size){
-                    dialogFlag = selectedId[it] != interestNum [it]
+                repeat(selectedId.size) {
+                    dialogFlag = selectedId[it] != interestNum[it]
                 }
             }
+            //entry point : setting gragment
+            if (intent.getIntExtra(Consts.SETTING_REQUEST, 1) == Consts.SETTING_REQUEST_NUM) {
+                if (dialogFlag) {
+                    startActivityForResult(
+                        Intent(
+                            this,
+                            EroojaDialogActivity::class.java
+                        ).apply {
+                            putExtra(Consts.DIALOG_TITLE, "")
+                            putExtra(
+                                Consts.DIALOG_CONTENT,
+                                "변경된 관심 직무 내역을 저장하시겠어요?"
+                            )
+                            putExtra(Consts.DIALOG_CONFIRM, true)
+                            putExtra(Consts.DIALOG_CANCEL, true)
+                        }, 1300
+                    )
+                } else finish()
 
-            if(dialogFlag) {
-                startActivityForResult(
-                    Intent(
-                        this,
-                        EroojaDialogActivity::class.java
-                    ).apply {
-                        putExtra(Consts.DIALOG_TITLE, "")
-                        putExtra(
-                            Consts.DIALOG_CONTENT,
-                            "변경된 필터 내용을 저장하시겠어요?"
-                        )
-                        putExtra(Consts.DIALOG_CONFIRM, true)
-                        putExtra(Consts.DIALOG_CANCEL, true)
-                    }, 1200
-                )
-            } else finish()
+            }
+            //entry point : search fragment
+            else{
+                //변경된 필터 내용을 저장하시겠어요?
+                if (dialogFlag) {
+                    startActivityForResult(
+                        Intent(
+                            this,
+                            EroojaDialogActivity::class.java
+                        ).apply {
+                            putExtra(Consts.DIALOG_TITLE, "")
+                            putExtra(
+                                Consts.DIALOG_CONTENT,
+                                "변경된 필터 내용을 저장하시겠어요?"
+                            )
+                            putExtra(Consts.DIALOG_CONFIRM, true)
+                            putExtra(Consts.DIALOG_CANCEL, true)
+                        }, 1200
+                    )
+                } else finish()
+            }
         }
+
     }
 
     private fun checkSelect() {

@@ -12,6 +12,7 @@ import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.toastLong
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.FragmentSettingBinding
+import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.filter.FilterActivity
 import com.eroom.erooja.feature.login.LoginActivity
 import com.eroom.erooja.feature.setting.setting_detail.*
@@ -78,7 +79,7 @@ class SettingFragment :Fragment(), SettingContract.View{
             3-> startActivity(Intent(context, HelpActivity::class.java))
             4-> startActivity(Intent(context, OpensourceActivity::class.java))
             5-> startActivity(Intent(context, TOSActivity::class.java))
-            6-> presenter.logout()
+            6-> isLogout()
         }
     }
 
@@ -89,6 +90,23 @@ class SettingFragment :Fragment(), SettingContract.View{
     fun back(v: View){
         (activity as TabActivity).replaceFragment(2)
 
+    }
+
+    private fun isLogout(){
+        startActivityForResult(
+            Intent(
+                context,
+                EroojaDialogActivity::class.java
+            ).apply {
+                putExtra(Consts.DIALOG_TITLE, "")
+                putExtra(
+                    Consts.DIALOG_CONTENT,
+                    "로그아웃 시, 현재 참여중인 목표를 확인할 수 없습니다.\n정말 로그아웃 하시겠어요?"
+                )
+                putExtra(Consts.DIALOG_CONFIRM, true)
+                putExtra(Consts.DIALOG_CANCEL, true)
+            }, 1200
+        )
     }
 
     override fun logoutCompleted() {
@@ -122,9 +140,12 @@ class SettingFragment :Fragment(), SettingContract.View{
             repeat(result1.size){
                 selectedGroupClassesNum.add(result1[it])
             }
+        } else if (requestCode == 1200 && resultCode == 6000) {
+            data?.let {
+                val result = it.getBooleanExtra(Consts.DIALOG_RESULT, false) //확인 or 취소
+                if (result) presenter.logout()
+            }
         }
-
-
     }
 
     fun dismissBottomSheet(){
