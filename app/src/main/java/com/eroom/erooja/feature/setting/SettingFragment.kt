@@ -74,7 +74,7 @@ class SettingFragment :Fragment(), SettingContract.View{
     private var click = { position: Int ->
         when(position){
             0-> startActivity(Intent(context, AlarmActivity::class.java))
-            1-> bottomAlert.show(childFragmentManager, "test")
+            1-> bottomAlert.show(childFragmentManager, "changeNickname")
             2-> openSearchFilter()
             3-> startActivity(Intent(context, HelpActivity::class.java))
             4-> startActivity(Intent(context, OpensourceActivity::class.java))
@@ -151,6 +151,7 @@ class SettingFragment :Fragment(), SettingContract.View{
     fun dismissBottomSheet(){
         bottomAlert.dismiss()
     }
+
 
     override fun InformUpdatedMsg() {
        context?.toastLong("직군 변경 완료")

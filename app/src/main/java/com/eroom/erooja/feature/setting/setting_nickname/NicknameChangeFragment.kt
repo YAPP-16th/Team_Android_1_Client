@@ -1,14 +1,19 @@
 package com.eroom.erooja.feature.setting.setting_nickname
 
+import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.eroom.domain.globalconst.Consts
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.NicknameChangeBottomSheetBinding
+import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.setting.SettingFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -111,17 +116,73 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
 
 
     fun saveNickname() {
-        presenter.updateNickname(mBinding.nicknameText.text.toString())
-        (parentFragment as SettingFragment).dismissBottomSheet()
+        showAlertBeforeSave()
     }
 
     fun closeNicknamePage() {
-        (parentFragment as SettingFragment).dismissBottomSheet()
+        showAlertBeforeClose()
     }
 
+    private fun showAlertBeforeSave(){
+        startActivityForResult(
+            Intent(
+                context,
+                EroojaDialogActivity::class.java
+            ).apply {
+                putExtra(Consts.DIALOG_TITLE, "")
+                putExtra(
+                    Consts.DIALOG_CONTENT,
+                    "닉네임 변경 내역을 저장하시겠어요?"
+                )
+                putExtra(Consts.DIALOG_CONFIRM, true)
+                putExtra(Consts.DIALOG_CANCEL, true)
+            }, 1400
+        )
+    }
 
+    private fun showAlertBeforeClose(){
+        //닉네임이 변경되었다면
+        if(!originalNickname.equals(nickname.value)){
+            startActivityForResult(
+                Intent(
+                    context,
+                    EroojaDialogActivity::class.java
+                ).apply {
+                    putExtra(Consts.DIALOG_TITLE, "")
+                    putExtra(
+                        Consts.DIALOG_CONTENT,
+                        "닉네임 변경이 완료되지 않았습니다.\n변경을 취소하시겠어요?"
+                    )
+                    putExtra(Consts.DIALOG_CONFIRM, true)
+                    putExtra(Consts.DIALOG_CANCEL, true)
+                }, 1300
+            )
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1300 && resultCode == 6000) {
+            data.let {
+                val result = it?.getBooleanExtra(Consts.DIALOG_RESULT, false)
+                if (result!!) { //확인
+                    (parentFragment as SettingFragment).dismissBottomSheet()
+                    presenter.onCleared()
+                }
+            }
+        } else if ( requestCode == 1400 && resultCode == 6000) {
+            presenter.updateNickname(mBinding.nicknameText.text.toString())
+            originalNickname = mBinding.nicknameText.text.toString()
+            showCheckBtn.set(false)
+            nicknameCheck.set(false)
+            initView()
+        }
+    }
+
+    @SuppressLint("MissingSuperCall")
     override fun onDestroy() {
-        presenter.onCleared()
-        super.onDestroy()
+        showAlertBeforeClose()
+      //  super.onDestroy()
     }
 }
+
