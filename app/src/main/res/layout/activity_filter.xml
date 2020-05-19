@@ -38,7 +38,19 @@
             app:layout_constraintTop_toTopOf="parent"
             android:text="@string/filter_text" />
 
+
+        <ImageButton
+            android:id="@+id/resetFilterButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> activity.resetFilterButtonClicked()}"
+            android:background="@drawable/ic_icon_navi_reset_normal"
+            app:layout_constraintBottom_toTopOf="@+id/nestedScrollView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="true"
@@ -50,18 +62,18 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:orientation="vertical">
+                android:paddingBottom="10dp">
 
                 <TextView
                     android:id="@+id/dupli_can_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
                     android:text="@string/duplicated_is_ok_text"
                     android:textColor="@color/grey5"
                     android:textSize="12sp"
-                    android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -70,7 +82,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:itemCount="2"
-                    tools:listitem="@layout/item_group_job"/>
+                    tools:listitem="@layout/item_group_job" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
