@@ -3,11 +3,15 @@ package com.eroom.erooja.feature.addDirectList.addMyTodoListPage
 
 import android.app.Activity
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
@@ -20,6 +24,7 @@ import com.eroom.domain.utils.ProgressBarAnimation
 import com.eroom.domain.utils.toLocalDateFormat
 import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.databinding.ActivityAddMyNewGoalBinding
+import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.*
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalFinishActivity
 import com.eroom.erooja.feature.addDirectList.inactivejob.InactiveJobFragment
@@ -129,14 +134,6 @@ class AddMyListActivity : AppCompatActivity(),
     }
 
     private fun observeData() {
-//        (mFragmentList[4] as AddMyTodoListFragment).goalList.observe(this, Observer {
-//            this.goalList = it
-//            nextClickable.set(!this.goalList.isNullOrEmpty())
-//        })
-//        (mFragmentList[4] as AddMyTodoListFragment).goalListCheck.observe(this, Observer {
-//            nextClickable.set(it)
-//        })
-
         (mFragmentList[4] as AddMyTodoListFragment).writingText.observe(this, Observer {
             additionalGoalList = it
         })
@@ -209,7 +206,7 @@ class AddMyListActivity : AppCompatActivity(),
         hideKeyBoard()
         mPage -= 1
         if (mPage < 0) {
-            finish()
+            showAlert()
             return
         }
         nextClickable.set(true)
@@ -225,9 +222,6 @@ class AddMyListActivity : AppCompatActivity(),
                 networkRequest()
                 return
             }
-//                    mPage == 1 -> {
-//                        addMyList?.let{ nextClickable.set(!goalList.isNullOrEmpty()) }
-//                    }
             else -> {
                 nextClickable.set(true)
             }
@@ -236,6 +230,24 @@ class AddMyListActivity : AppCompatActivity(),
         showFragment()
 
     }
+
+    private fun showAlert() {
+            //해당 리스트에 참여하기를 그만두시겠어요?
+            startActivityForResult(
+                Intent(
+                    this,
+                    EroojaDialogActivity::class.java
+                ).apply {
+                    putExtra(Consts.DIALOG_TITLE, "")
+                    putExtra(
+                        Consts.DIALOG_CONTENT,
+                        "해당 리스트에 참여하기를 그만두시겠어요?"
+                    )
+                    putExtra(Consts.DIALOG_CONFIRM, true)
+                    putExtra(Consts.DIALOG_CANCEL, true)
+                }, 1300
+            )
+        }
 
     override fun redirectNewGoalFinish(resultId: Long) {
         val intent = Intent(this, NewGoalFinishActivity::class.java)
@@ -301,6 +313,15 @@ class AddMyListActivity : AppCompatActivity(),
                     val time = endDate.split("-")
                     (mFragmentList[0] as JoinGoalPeriodFragment).setEndDate("${time[0]}년 ${time[1]}월 ${time[2]}일")
                     this.endDate = toLocalDateFormat(time[0], time[1], time[2])
+                }
+            }
+        } else if (requestCode == 1300 && resultCode == 6000) {
+            data?.let {
+                val result = it.getBooleanExtra(Consts.DIALOG_RESULT, false) //확인 or 취소
+                if (result) {
+                    finish()
+                } else {
+                    mPage = 0
                 }
             }
         }

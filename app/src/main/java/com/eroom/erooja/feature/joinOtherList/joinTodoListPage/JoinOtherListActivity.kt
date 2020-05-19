@@ -19,6 +19,7 @@ import com.eroom.domain.utils.toLocalDateFormat
 import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityJoinOtherListBinding
+import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.*
 import com.eroom.erooja.feature.addDirectList.inactivejob.InactiveJobFragment
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalFinishActivity
@@ -198,12 +199,30 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
         hideKeyBoard()
         mPage -= 1
         if (mPage < 0) {
-            finish()
+            showAlert()
             return
         }
         nextClickable.set(true)
         setProgressBar(false)
         showFragment()
+    }
+
+    private fun showAlert() {
+        //해당 리스트에 참여하기를 그만두시겠어요?
+        startActivityForResult(
+            Intent(
+                this,
+                EroojaDialogActivity::class.java
+            ).apply {
+                putExtra(Consts.DIALOG_TITLE, "")
+                putExtra(
+                    Consts.DIALOG_CONTENT,
+                    "해당 리스트에 참여하기를 그만두시겠어요?"
+                )
+                putExtra(Consts.DIALOG_CONFIRM, true)
+                putExtra(Consts.DIALOG_CANCEL, true)
+            }, 1300
+        )
     }
 
     fun nextButtonClicked() {
@@ -270,6 +289,15 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
                     val time = endDate.split("-")
                     (mFragmentList[3] as JoinGoalPeriodFragment).setEndDate("${time[0]}년 ${time[1]}월 ${time[2]}일")
                     this.endDate = toLocalDateFormat(time[0], time[1], time[2])
+                }
+            }
+        }  else if (requestCode == 1300 && resultCode == 6000) {
+            data?.let {
+                val result = it.getBooleanExtra(Consts.DIALOG_RESULT, false) //확인 or 취소
+                if (result) {
+                    finish()
+                } else {
+                    mPage = 0
                 }
             }
         }
