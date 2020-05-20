@@ -20,7 +20,9 @@ interface MemberGoalService {
     ): Single<ParticipatedGoalsResponse>
 
     @GET("membergoal/{goalId}/todo")
-    fun getTodoByGoalId(@Path("goalId") goalId: Long): Single<TodoGoalListResponse>
+    fun getTodoByGoalId(@Path("goalId") goalId: Long,
+                        @Query("sort") sort: String,
+                        @Query("size") size: Int): Single<TodoGoalListResponse>
 
     @GET("membergoal/{goalId}")
     fun getParticepantedList(

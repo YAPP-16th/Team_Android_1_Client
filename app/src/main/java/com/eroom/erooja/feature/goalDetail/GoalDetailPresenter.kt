@@ -84,7 +84,7 @@ class GoalDetailPresenter(override var view: GoalDetailContract.View,
             .subscribe({
                 it.body()?.let { body ->
                     view.setRecyclerView(content, body.role == "OWNER", isJoined = true)
-                } ?: kotlin.run {
+                } ?: run {
                     view.setRecyclerView(content, false, isJoined = false)
                 }
             },{
