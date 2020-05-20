@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.JobGroup
 import com.eroom.data.response.JobGroupAndClassResponse
@@ -18,7 +17,7 @@ class InactiveJobFragment : Fragment(), InactiveJobContract.View {
     private lateinit var selectJobBinding: FragmentInactiveJobBinding
     private lateinit var presenter: InactiveJobPresenter
     private val selectedId: ArrayList<Long> = ArrayList()
-    private lateinit var mAdapter: InactiveJobAdapter
+    private lateinit var mAdapter: InactiveJobClassAdapter
 
     companion object {
         @JvmStatic
@@ -65,7 +64,7 @@ class InactiveJobFragment : Fragment(), InactiveJobContract.View {
 
     override fun updateJobGroupAndClass(result: List<JobGroupAndClassResponse>) {
         context?.let {
-            mAdapter = InactiveJobAdapter(it, result, selectedId)
+            mAdapter = InactiveJobClassAdapter(it, result, selectedId)
             selectJobBinding.jobGroupRecycler.apply {
                 adapter = mAdapter
                 layoutManager = LinearLayoutManager(context)

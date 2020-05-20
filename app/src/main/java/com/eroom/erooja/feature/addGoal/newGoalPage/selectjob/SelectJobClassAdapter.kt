@@ -24,7 +24,14 @@ class SelectJobClassAdapter(private var list: ArrayList<JobClass>,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (position) {
-            itemCount - 1 -> holder.bind(list[position * 2].id, list[position * 2].name, null, null)
+            itemCount - 1 -> {
+                if (list.size % 2 == 0) {
+                    holder.bind(list[position * 2].id, list[position * 2].name, list[position * 2 + 1].id, list[position * 2 + 1].name)
+                }
+                else {
+                    holder.bind(list[position * 2].id, list[position * 2].name, null, null)
+                }
+            }
             else -> holder.bind(list[position * 2].id, list[position * 2].name, list[position * 2 + 1].id, list[position * 2 + 1].name)
         }
     }
