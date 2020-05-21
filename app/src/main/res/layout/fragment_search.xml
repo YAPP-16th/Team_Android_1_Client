@@ -66,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 app:tabMode="scrollable"
+                app:tabTextAppearance="@style/CustomTextAppearanceTab"
                 app:tabTextColor="@color/grey4"
                 app:tabSelectedTextColor="@color/orgDefault"
                 app:tabIndicatorColor="@color/orgDefault"
