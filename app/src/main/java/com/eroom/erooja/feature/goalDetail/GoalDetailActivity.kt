@@ -20,6 +20,9 @@ import com.eroom.erooja.feature.goalEdit.GoalEditActivity
 import com.eroom.erooja.feature.otherList.OtherListActivity
 import kotlinx.android.synthetic.main.activity_goal_details.view.*
 import kotlinx.android.synthetic.main.include_completed_goal_desc.view.*
+import kotlinx.android.synthetic.main.include_completed_goal_desc.view.goal_desc
+import kotlinx.android.synthetic.main.include_completed_goal_desc.view.text
+import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
 import org.koin.android.ext.android.get
 import ru.rhanza.constraintexpandablelayout.State
 
@@ -71,19 +74,21 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         binding.goalDateTxt.text =
             if(isDateFixed) startDate.toRealDateFormat() + "~" + endDate.toRealDateFormat()
             else "기간 설정 자유"
-        this.description.set(description)
+        //this.description.set(description)
+        binding.include.text.text = description
 
-        if(description.isEmpty()) {
-            binding.goalDescLayout.goal_desc.apply {
-                invalidateState(State.Statical)
-                binding.goalDescLayout.more_btn.visibility = View.INVISIBLE
+
+        if(description.isEmpty()){
+            binding.goalImage.visibility = View.INVISIBLE
+            binding.goalDescLayout.goal_desc.invalidateState(State.Statical)
+            binding.moreBtn.visibility = View.GONE
+        } else {
+            binding.goalDescLayout.goal_desc.text.post{
+                binding.goalDescLayout.goal_desc.collapsedHeight = binding.goalDescLayout.text.height
+                binding.goalDescLayout.goal_desc.text.maxLines = Int.MAX_VALUE
             }
         }
 
-        binding.goalDescLayout.goal_desc.apply{
-            showButton = false
-            showShadow = false
-        }
     }
 
     override fun setRecyclerView(todoList: ArrayList<MinimalTodoListContent>, isMine: Boolean, isJoined: Boolean) {
