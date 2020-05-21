@@ -1,5 +1,6 @@
 package com.eroom.erooja.feature.otherList
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -35,15 +36,22 @@ class OtherListActivity : AppCompatActivity(),
         binding.othersDetail = this@OtherListActivity
     }
 
+    @SuppressLint("SetTextI18n")
     override fun setAllView(todoList: ArrayList<MinimalTodoListDetail>) {
         binding.othersDetailRecyclerview.apply {
             layoutManager = LinearLayoutManager(this@OtherListActivity)
             adapter = OthersDetailAdapter(todoList)
         }
 
+
         repeat(todoList.size) {
             userTodoList.add(todoList[it].content)
         }
+
+        var count = 0
+        todoList.forEach { if (it.isEnd) count += 1 }
+        binding.participantListText.text =
+            "${((count.toDouble() / todoList.size) * 100).toInt()}% 달성중"
     }
 
     fun initView() {

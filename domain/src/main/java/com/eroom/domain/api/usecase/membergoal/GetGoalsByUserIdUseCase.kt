@@ -27,7 +27,7 @@ class GetGoalsByUserIdUseCase(guestRetrofitRepository: GuestRetrofitRepository) 
 
 
     fun getTodoByGoalId(goalId: Long): Single<TodoGoalListResponse> = memberGoalService
-        .getTodoByGoalId(goalId)
+        .getTodoByGoalId(goalId, sort = "copyCount,desc", size = Integer.MAX_VALUE)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 }

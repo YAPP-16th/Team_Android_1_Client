@@ -13,7 +13,7 @@ class GetInterestedGoalsUseCase(retrofitRepository: GuestRetrofitRepository) {
         .create(GoalService::class.java)
 
     fun getInterestedGoals(interestId: Long, size: Int, page: Int, uid: String?): Single<InterestedGoalsResponse> = goalService
-        .getInterestedGoals(interestId, size, page, uid)
+        .getInterestedGoals(interestId, size, page ,uid)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 }

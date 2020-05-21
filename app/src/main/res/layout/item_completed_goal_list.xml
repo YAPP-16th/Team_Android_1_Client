@@ -4,5 +4,6 @@
     android:id="@+id/completed_detail_checkbox"
     android:button="@drawable/state_completed_checkbox"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clickable="false">
 </CheckBox>
