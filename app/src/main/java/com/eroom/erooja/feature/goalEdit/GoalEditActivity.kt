@@ -93,7 +93,13 @@ class GoalEditActivity : AppCompatActivity(), GoalEditContract.View {
                     finish()
                 }
             } ?: kotlin.run { finish() }
-        } else finish()
+        } else {
+            startActivityForResult(Intent(this, EroojaDialogActivity::class.java).apply {
+                putExtra(Consts.DIALOG_CONTENT, "수정중인 내역이 사라질 수 있습니다. 정말 그만두시겠어요?")
+                putExtra(Consts.DIALOG_CONFIRM, true)
+                putExtra(Consts.DIALOG_CANCEL, true)
+            }, 6000)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -104,6 +110,13 @@ class GoalEditActivity : AppCompatActivity(), GoalEditContract.View {
                 if (result) {
                     requestEdit()
                 } else {
+                    finish()
+                }
+            }
+        }
+        if (requestCode == 6000 && resultCode == 6000) {
+            data?.let {
+                if (it.getBooleanExtra(Consts.DIALOG_RESULT, false)) {
                     finish()
                 }
             }
@@ -129,10 +142,6 @@ class GoalEditActivity : AppCompatActivity(), GoalEditContract.View {
     }
 
     override fun onBackPressed() {
-        if (lengthIsFine.get()!!) {
-            navigateToFinish()
-        } else {
-            finish()
-        }
+        navigateToFinish()
     }
 }
