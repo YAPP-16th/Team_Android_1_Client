@@ -32,6 +32,7 @@ class SearchResultAdapter (callback: DiffUtil.ItemCallback<GoalContent>, private
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(goalContent[position].title, goalContent[position].joinCount, goalContent[position].startDt,
             goalContent[position].endDt, goalContent[position].isDateFixed, click, goalContent[position].id, goalContent[position].jobInterests)
+        holder.frame.removeAllViews()
         when (goalContent[position].userImages.size) {
             3 -> {
                 if (goalContent[position].joinCount > 3) {
