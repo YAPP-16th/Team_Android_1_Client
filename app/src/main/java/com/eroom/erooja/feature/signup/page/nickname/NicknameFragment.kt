@@ -2,6 +2,8 @@ package com.eroom.erooja.feature.signup.page.nickname
 
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +14,8 @@ import com.eroom.domain.globalconst.Consts
 
 import com.eroom.erooja.databinding.FragmentNicknameBinding
 import com.eroom.erooja.feature.signup.kakao.KakaoSignUpActivity
-import com.jakewharton.rxbinding.widget.RxTextView
 import kotlinx.android.synthetic.main.fragment_nickname.*
 import org.koin.android.ext.android.get
-import java.util.concurrent.TimeUnit
 
 /**
  * A simple [Fragment] subclass.
@@ -54,35 +54,37 @@ class NicknameFragment : Fragment(), NicknameContract.View {
     }
 
     private fun initView() {
-        RxTextView.textChanges(nicknameBinding.nicknameText)
-            .debounce(300, TimeUnit.MILLISECONDS)
-            .map { it.toString() }
-            .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
-            .subscribe {
-                nickname.value = it
-                nicknameBinding.nicknameLengthError.visibility =
-                    if (!it.contains(" ")) {
-                        if (it.length in 1..1) {
+        nicknameBinding.nicknameText.addTextChangedListener(object :TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                s?.let { if (it.toString() != "") {
+                    nickname.value = s.toString()
+                    nicknameBinding.nicknameLengthError.visibility =
+                        if (!s.toString().contains(" ")) {
+                            if (s.toString().length in 1..1) {
+                                unsetValidatedNickname()
+                                View.VISIBLE
+                            } else View.INVISIBLE
+                        } else View.VISIBLE
+                    if (!s.toString().contains(" ")) {
+                        if (s.toString().length >= 2)
+                            presenter.checkNickname(s.toString())
+                        else {
+                            unsetDuplicatedNickname()
                             unsetValidatedNickname()
-                            View.VISIBLE
-                        } else View.INVISIBLE
-                    } else View.VISIBLE
-                if (!it.contains(" ")) {
-                    if (it.length >= 2)
-                        presenter.checkNickname(it)
-                    else {
+                            hideCheckImage()
+                            hideErrorImage()
+                        }
+                    } else {
                         unsetDuplicatedNickname()
                         unsetValidatedNickname()
+                        showErrorImage()
                         hideCheckImage()
-                        hideErrorImage()
                     }
-                } else {
-                    unsetDuplicatedNickname()
-                    unsetValidatedNickname()
-                    showErrorImage()
-                    hideCheckImage()
                 }
-            }
+            } }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
         arguments?.let { nicknameBinding.nicknameText.setText(it.getString(Consts.NICKNAME) ?: "") }
     }
 
