@@ -2,6 +2,8 @@ package com.eroom.erooja.feature.search.search_detail_page
 
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +16,6 @@ import com.eroom.erooja.databinding.ActivitySearchDetailBinding
 import com.eroom.erooja.feature.search.search_detail_frame.*
 import com.eroom.erooja.singleton.JobClassHashMap
 import com.google.android.material.tabs.TabLayout
-import com.jakewharton.rxbinding.widget.RxTextView
 import rx.android.schedulers.AndroidSchedulers
 import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
@@ -90,33 +91,37 @@ class SearchDetailActivity : AppCompatActivity() {
         searchAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, autoSearch)
         searchDetailBinding.searchEditText.setAdapter(searchAdapter)
 
-        RxTextView.textChanges(searchDetailBinding.searchEditText)
-            .debounce(500, TimeUnit.MILLISECONDS)
-            .map { it.toString() }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                searchWord.value = it
-                if (searchWord.value == "") {
-                    loadFragment(changeNum)
-                } else {
-                    when (changeNum) {
-                        0 -> { // 직무
-                            val key =
-                                JobClassHashMap.hashmap.getKeyFromValue(searchWord.value.toString())
-                            key?.let { keyId: Long ->
-                                (searchDetailFrame[3] as SearchResultFragment).setKey(keyId)
-                            } ?: run {
-                                loadFragment(2)
-                            }
-                        }
+        searchDetailBinding.searchEditText.addTextChangedListener(object :TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                s?.let {
+                    if (it.toString() != "") {
+                        searchWord.value = it.toString()
+                        if (searchWord.value == "") {
+                            loadFragment(changeNum)
+                        } else {
+                            when (changeNum) {
+                                0 -> { // 직무
+                                    val key =
+                                        JobClassHashMap.hashmap.getKeyFromValue(searchWord.value.toString())
+                                    key?.let { keyId: Long ->
+                                        (searchDetailFrame[3] as SearchResultFragment).setKey(keyId)
+                                    } ?: run {
+                                        loadFragment(2)
+                                    }
+                                }
 
-                        1 -> { // 목표
-                            val title = URLEncoder.encode(searchWord.value, "UTF-8")
-                            (searchDetailFrame[3] as SearchResultFragment).setTitle(title)
+                                1 -> { // 목표
+                                    val title = URLEncoder.encode(searchWord.value, "UTF-8")
+                                    (searchDetailFrame[3] as SearchResultFragment).setTitle(title)
+                                }
+                            }
                         }
                     }
                 }
             }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
     }
 
     fun changeView(pos: Int) {

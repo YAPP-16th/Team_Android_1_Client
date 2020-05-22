@@ -4,8 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ObservableField
@@ -17,9 +18,7 @@ import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.setting.SettingFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.jakewharton.rxbinding.widget.RxTextView
 import org.koin.android.ext.android.get
-import java.util.concurrent.TimeUnit
 
 
 class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContract.View {
@@ -68,31 +67,34 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
     }
 
     private fun initView() {
-        RxTextView.textChanges(mBinding.nicknameText)
-            .debounce(300, TimeUnit.MILLISECONDS)
-            .map { it.toString() }
-            .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
-            .subscribe {
-                nickname.value = it
-                if (originalNickname.equals(it)) //pass
-                else {
-                    if (!it.contains(" ")) {
-                        if (it.length in 2..5)
-                            presenter.checkNickname(it)
-                        else {
-                            mBinding.nicknameErrorText.text =
-                                resources.getString(R.string.nickname_rule_info)
-                            mBinding.nicknameErrorText.visibility = View.VISIBLE
-                            nicknameCheck.set(false)
+        mBinding.nicknameText.addTextChangedListener(object :TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                s?.let {
+                    if (it.toString() != "") {
+                        nickname.value = it.toString()
+                        if (originalNickname != it.toString()) {
+                            if (!it.contains(" ")) {
+                                if (it.length in 2..5)
+                                    presenter.checkNickname(it.toString())
+                                else {
+                                    mBinding.nicknameErrorText.text =
+                                        resources.getString(R.string.nickname_rule_info)
+                                    mBinding.nicknameErrorText.visibility = View.VISIBLE
+                                    nicknameCheck.set(false)
+                                }
+                            } else {
+                                mBinding.nicknameErrorText.text =
+                                    resources.getString(R.string.nickname_rule_info)
+                                mBinding.nicknameErrorText.visibility = View.VISIBLE
+                                nicknameCheck.set(false)
+                            }
                         }
-                    } else {
-                        mBinding.nicknameErrorText.text =
-                            resources.getString(R.string.nickname_rule_info)
-                        mBinding.nicknameErrorText.visibility = View.VISIBLE
-                        nicknameCheck.set(false)
                     }
                 }
             }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
     }
 
     override fun nicknameDuplicationError() {
