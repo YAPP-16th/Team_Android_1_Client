@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.loadDrawable
 import com.eroom.domain.utils.toastShort
+import com.eroom.domain.utils.vibrateShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalEditBinding
 import com.eroom.erooja.dialog.EroojaDialogActivity
@@ -24,6 +25,7 @@ class GoalEditActivity : AppCompatActivity(), GoalEditContract.View {
     lateinit var baseTitle: String
     lateinit var baseDescription: String
     private var goalId: Long = -1
+    private var isMoreThanMaxLength = false
 
     private val contentDiff: MutableLiveData<Boolean> = MutableLiveData(false)
     val underlineError: ObservableField<Boolean> = ObservableField(false)
@@ -55,6 +57,16 @@ class GoalEditActivity : AppCompatActivity(), GoalEditContract.View {
         binding.goalDetailContent.setText(baseDescription)
         binding.goalTitleLength.text = "${binding.goalTitle.text.length}/50"
         binding.goalTitle.addTextChangedListener {
+            it?.let { editable -> if (editable.length >= 50) {
+                if (!isMoreThanMaxLength) {
+                    isMoreThanMaxLength = true
+                    Thread(Runnable {
+                        this.vibrateShort()
+                    }).start()
+                }
+            } else {
+                isMoreThanMaxLength = false
+            } }
             binding.goalTitleLength.text = "${it?.length ?: ""}/50"
             it?.length?.let { length: Int ->
                 lengthIsFine.set(length >= 5)
