@@ -29,7 +29,8 @@ interface GoalService {
     fun getSearchJobInterest(@Path("interestId") interestId: Long?,
                              @Query("size") size: Int,
                              @Query("page") page: Int,
-                             @Query("sort") sort: String
+                             @Query("sort") sort: String,
+                             @Query("uid") uid: String
     ): Single<InterestedGoalsResponse>
 //    *size : 한 페이지당 크기
 //    *page : 페이지번호

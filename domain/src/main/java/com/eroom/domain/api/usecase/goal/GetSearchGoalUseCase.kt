@@ -14,8 +14,8 @@ class GetSearchGoalUseCase(retrofitRepository: AccessRetrofitRepository) {
         .getAccessRetrofit()
         .create(GoalService::class.java)
 
-    fun getSearchJobInterest(interestId: Long?, size: Int, page: Int, sortBy: SortBy): Single<InterestedGoalsResponse> = goalService
-        .getSearchJobInterest(interestId, size, page, sort = sortBy.itemName)
+    fun getSearchJobInterest(interestId: Long?, size: Int, page: Int, sortBy: SortBy, uid: String): Single<InterestedGoalsResponse> = goalService
+        .getSearchJobInterest(interestId, size, page, sort = sortBy.itemName, uid = uid)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 

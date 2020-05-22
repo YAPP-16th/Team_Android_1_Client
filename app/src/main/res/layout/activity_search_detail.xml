@@ -46,16 +46,25 @@
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
+            <LinearLayout
                 android:id="@+id/cancel"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:gravity="center"
                 android:onClick="@{searchdetail::searchCancel}"
-                android:layout_gravity="end"
-                android:background="@drawable/ic_icon_check_btn_gray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{searchdetail::searchCancel}"
+                    android:layout_margin="15dp"
+                    android:layout_gravity="end"
+                    android:background="@drawable/ic_icon_check_btn_gray" />
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

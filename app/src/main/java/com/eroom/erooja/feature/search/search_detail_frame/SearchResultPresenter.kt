@@ -6,6 +6,7 @@ import com.eroom.data.entity.GoalContent
 import com.eroom.data.localclass.SortBy
 import com.eroom.domain.api.usecase.goal.GetSearchGoalUseCase
 import com.eroom.domain.utils.addTo
+import com.eroom.erooja.singleton.UserInfo
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
@@ -18,7 +19,7 @@ class SearchResultPresenter(override var view: SearchResultContract.View,
 
     @SuppressLint("CheckResult")
     override fun getSearchJobInterest(interestId: Long?, page: Int) {
-        getSearchGoalUseCase.getSearchJobInterest(interestId, size = 10, page = page, sortBy = SortBy.CREATED_DT)
+        getSearchGoalUseCase.getSearchJobInterest(interestId, size = 10, page = page, sortBy = SortBy.CREATED_DT, uid = UserInfo.myUId)
             .subscribe ({
                 view.setAllView(it.content)
                 view.setIsEnd(it.totalPages <= page)
