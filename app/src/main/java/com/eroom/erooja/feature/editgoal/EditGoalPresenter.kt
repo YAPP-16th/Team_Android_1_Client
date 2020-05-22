@@ -35,6 +35,7 @@ class EditGoalPresenter(override val view: EditGoalContract.View,
         putTodoListUseCase.putTodoList(goalId, todoList)
             .subscribe({
                 getTodoData(uid, goalId)
+                view.changeSuccess()
             },{
                 Timber.e(it.localizedMessage)
             })
