@@ -42,6 +42,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+<!--    apply tablayout upper/lower case -->
+    <style name="CustomTextAppearanceTab" parent="TextAppearance.Design.Tab">
+        <item name="android:textStyle">bold</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
 
 
 </resources>

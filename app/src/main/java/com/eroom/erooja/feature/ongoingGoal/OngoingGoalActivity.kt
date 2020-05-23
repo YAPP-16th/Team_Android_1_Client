@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,10 +58,18 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     override fun setGoalData(goalData: GoalDetailResponse) {
         binding.goalNameTxt.text = goalData.title
         binding.include.text.text = goalData.description
-        binding.goalDescLayout.goal_desc.apply {
-            showButton = false
-            showShadow = false
+
+        if(goalData.description.isEmpty()){
+            binding.goalImage.visibility = View.INVISIBLE
+            binding.goalDescLayout.goal_desc.invalidateState(State.Statical)
+            binding.moreBtn.visibility = View.GONE
+        } else {
+            binding.goalDescLayout.text.post{
+                binding.goalDescLayout.goal_desc.collapsedHeight = binding.goalDescLayout.text.height
+                binding.goalDescLayout.goal_desc.text.maxLines = Int.MAX_VALUE
+            }
         }
+
 
         binding.goalDescLayout.keyword_txt.text = goalData.jobInterests.mapIndexed { index: Int, goalType: GoalType ->
             if (index == goalData.jobInterests.size - 1) goalType.name else goalType.name add ", "
@@ -94,6 +103,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
             showButton = false
             showShadow = false
         }
+
 
         when (binding.goalDescLayout.goal_desc.state) {
             State.Expanded, State.Expanding -> binding.moreBtn.loadDrawable(resources.getDrawable(R.drawable.ic_icon_small_arrow_top_white, null))
