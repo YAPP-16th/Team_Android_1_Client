@@ -11,6 +11,7 @@ interface EndedGoalContract {
         fun setIsAbandoned(isAbandoned: Boolean)
         fun setIsDateFixed(isDateFixed: Boolean)
         fun setIsBeforeEndDt(isBeforeEndDt: Boolean)
+        fun settingDate(startDt: String, endDt: String)
     }
 
     interface Presenter{

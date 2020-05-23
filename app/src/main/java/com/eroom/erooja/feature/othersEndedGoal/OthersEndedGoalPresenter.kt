@@ -3,6 +3,7 @@ package com.eroom.erooja.feature.othersEndedGoal
 import android.annotation.SuppressLint
 import com.eroom.domain.api.usecase.goal.GetGoalDetailUseCase
 import com.eroom.domain.api.usecase.membergoal.GetGoalInfoByGoalIdUseCase
+import com.eroom.domain.api.usecase.membergoal.GetGoalInfoByUIdAndGoalIdUseCase
 import com.eroom.domain.api.usecase.todo.GetTodoListUseCase
 import com.eroom.erooja.feature.endedGoal.EndedGoalContract
 import io.reactivex.disposables.CompositeDisposable
@@ -14,7 +15,8 @@ import java.util.*
 class OthersEndedGoalPresenter(override var view: OthersEndedGoalContract.View,
                                private val getGoalDetailUseCase: GetGoalDetailUseCase,
                                private val getTodoListUseCase: GetTodoListUseCase,
-                               private val getGoalInfoByGoalIdUseCase: GetGoalInfoByGoalIdUseCase
+                               private val getGoalInfoByGoalIdUseCase: GetGoalInfoByGoalIdUseCase,
+                               private val getGoalInfoByUIdAndGoalIdUseCase: GetGoalInfoByUIdAndGoalIdUseCase
 ): OthersEndedGoalContract.Presenter {
 
     val compositeDisposable = CompositeDisposable()
@@ -41,40 +43,48 @@ class OthersEndedGoalPresenter(override var view: OthersEndedGoalContract.View,
     }
 
     @SuppressLint("CheckResult", "SimpleDateFormat")
-    override fun getGoalInfoByGoalId(goalId: Long) {
+    override fun getMyGoalInfoByGoalId(goalId: Long) {
         //목표상세조회 API를 통해 기간이 지났는지 확인 후 아래의 usecase를 실행해야한다.
         getGoalInfoByGoalIdUseCase.getInfoByGoalId(goalId)
             .subscribe({
                 it.body()?.let { body ->
+                    view.setIsExistedInMyPage(true)
                     view.setIsAbandoned(body.isEnd)
 
                     val endDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(body.endDt)
                     val currentTime: Date = Calendar.getInstance().time
                     val isBeforeEndDt = (currentTime.time - endDate.time) < 0
 
-                    if(isBeforeEndDt)
-                        view.setIsMyOngoingGoal(!body.isEnd)
-                    else
+                    if (isBeforeEndDt) {
+                        view.setIsMyOngoingGoal(true) //mypage 참여중 탭에있는 경우 true
+                    } else {
                         view.setIsMyOngoingGoal(false)
-                } ?: if (it.code() == 400) view.setIsMyOngoingGoal(false)
+                    }
+                } ?: if (it.code() == 400) view.setIsExistedInMyPage(false)
             }, {
                 Timber.e(it.localizedMessage)
-                handleError(it)
             })
     }
 
-    private fun handleError(throwable: Throwable) {
-        if (throwable is HttpException) {
-            val statusCode = throwable.code()
-            // handle different HTTP error codes here (4xx)
-            if (statusCode == 400) {
-                view.setIsMyOngoingGoal(false)
-            }
-        }
-    }
+    @SuppressLint("CheckResult", "SimpleDateFormat")
+    override fun getOthersGoalInfoByUIdAndGoalId(goalId: Long, uid: String) {
+        getGoalInfoByUIdAndGoalIdUseCase.getParticipatedInfoByUIdAndGoalId(goalId, uid)
+            .subscribe({
+                it.body()?.let { body ->
+                    view.settingDate(body.startDt, body.endDt)
 
-    override fun setTodoEnd(boolean: Boolean) {
+                    val endDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(body.endDt)
+                    val currentTime: Date = Calendar.getInstance().time
+                    val isBeforeEndDt = (currentTime.time - endDate.time) < 0
 
+                    view.setIsBeforeEndDt(isBeforeEndDt)
+                } ?: if (it.code() == 400) {
+                    view.settingDate("0000","0000")
+                    view.setIsBeforeEndDt(false)
+                }
+            }, {
+                Timber.e(it.localizedMessage)
+            })
     }
 
     override fun onCleared() {

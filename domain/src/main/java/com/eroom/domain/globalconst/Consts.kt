@@ -62,5 +62,7 @@ class Consts {
         const val OWNER_UID = "OWNER_UID"
         const val IS_MY_ENDED_GOAL = "IS_MY_ENDED_GOAL"
         const val IS_MY_ABANDONED_GOAL = "IS_MY_ABANDONED_GOAL"
+
+        const val START_DATE = "START_DATE"
     }
 }

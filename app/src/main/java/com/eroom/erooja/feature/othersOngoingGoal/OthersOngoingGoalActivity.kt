@@ -38,6 +38,7 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
 
     private var goalId: Long = -1
     private var isMyOngoingGoal = false
+    private var isExistedInMyPage = false
 
     private var mLastClickTime: Long = 0
 
@@ -57,11 +58,13 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
         initBottomSheet()
     }
 
+    override fun setIsExistedInMyPage(isExistedInMyPage: Boolean) {
+        this.isExistedInMyPage = isExistedInMyPage
+    }
+
     @SuppressLint("SetTextI18n")
     override fun setGoalData(goalData: GoalDetailResponse) {
         binding.goalNameTxt.text = goalData.title
-        binding.goalDateTxt.text =
-            "${goalData.startDt.toRealDateFormat()}~${goalData.endDt.toRealDateFormat()}"
         binding.include.text.text = goalData.description
 
         binding.goalDescLayout.goal_desc.apply {
@@ -95,7 +98,7 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
     }
 
     fun initView() {
-        presenter = OthersOngoingGoalPresenter(this, get(), get(), get(), get())
+        presenter = OthersOngoingGoalPresenter(this, get(), get(), get(), get(), get())
 
         statusBarColor(this@OthersOngoingGoalActivity, R.color.orgDefault)
 
@@ -123,15 +126,21 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
 
         val intent = intent
         goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
-        presenter.getGoalInfoByGoalId(goalId)
-        presenter.getData(goalId)
         uId = intent.getStringExtra(Consts.UID) ?: ""
+        presenter.getMyGoalInfoByGoalId(goalId)
+        presenter.getOthersGoalInfoByUIdAndGoalId(goalId, uId)
+        presenter.getData(goalId)
         presenter.getTodoData(uId, goalId)
     }
 
     override fun onResume() {
         super.onResume()
         reRequestTodoList()
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun settingDate(startDt: String, endDt: String) {
+        binding.goalDateTxt.text = "${startDt.toRealDateFormat()}~${endDt.toRealDateFormat()}"
     }
 
     override fun reRequestTodoList() {
