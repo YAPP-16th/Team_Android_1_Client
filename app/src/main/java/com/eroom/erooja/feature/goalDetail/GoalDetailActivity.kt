@@ -1,6 +1,5 @@
 package com.eroom.erooja.feature.goalDetail
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -8,8 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.eroom.data.entity.GoalType
 import com.eroom.data.entity.MinimalTodoListContent
 import com.eroom.data.entity.MinimalTodoListDetail
+import com.eroom.data.response.GoalDetailResponse
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.*
 import com.eroom.erooja.R
@@ -18,11 +19,7 @@ import com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivit
 import com.eroom.erooja.feature.joinOtherList.joinTodoListPage.JoinOtherListActivity
 import com.eroom.erooja.feature.goalEdit.GoalEditActivity
 import com.eroom.erooja.feature.otherList.OtherListActivity
-import kotlinx.android.synthetic.main.activity_goal_details.view.*
-import kotlinx.android.synthetic.main.include_completed_goal_desc.view.*
 import kotlinx.android.synthetic.main.include_completed_goal_desc.view.goal_desc
-import kotlinx.android.synthetic.main.include_completed_goal_desc.view.text
-import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
 import org.koin.android.ext.android.get
 import ru.rhanza.constraintexpandablelayout.State
 
@@ -31,7 +28,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     lateinit var presenter: GoalDetailPresenter
 
     var description: ObservableField<String> = ObservableField("")
-    var jobClass: ObservableField<String> = ObservableField("")
+  //  var jobClass: ObservableField<String> = ObservableField("")
     lateinit var userTodoList : ArrayList<String>
     private var userUid = ""
     private var goalId: Long = -1
@@ -68,29 +65,37 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         presenter.getData(goalId)
     }
 
-    @SuppressLint("SetTextI18n")
-    override fun setView(title: String, description: String, joinCount: Int, isDateFixed: Boolean, startDate: String, endDate: String) {
-        binding.participantListText.text = "참여자목록" add "($joinCount)"
+    //ongoing_text : desc
+    //keyword_text : keyword
+    override fun setInitialView(list: GoalDetailResponse) {
+        binding.participantListText.text = "참여자목록" add "(${list.joinCount})"
         binding.goalNameTxt.text = title
         binding.goalDateTxt.text =
-            if(isDateFixed) startDate.toRealDateFormat() + "~" + endDate.toRealDateFormat()
+            if(list.isDateFixed) list.startDt.toRealDateFormat() + "~" + list.endDt.toRealDateFormat()
             else "기간 설정 자유"
         //this.description.set(description)
-        binding.include.text.text = description
+        binding.include.ongoingDescText.text = list.description
 
 
-        if(description.isEmpty()){
+        if(list.description.isEmpty()){
             binding.goalImage.visibility = View.INVISIBLE
             binding.goalDescLayout.goal_desc.invalidateState(State.Statical)
             binding.moreBtn.visibility = View.GONE
-        } else {
-            binding.goalDescLayout.goal_desc.text.post{
-                binding.goalDescLayout.goal_desc.collapsedHeight = binding.goalDescLayout.text.height
-                binding.goalDescLayout.goal_desc.text.maxLines = Int.MAX_VALUE
+        }
+        else {
+            binding.include.ongoingDescText.post{
+                binding.include.goalDesc.collapsedHeight = binding.include.ongoingDescText.height
+                binding.include.ongoingDescText.maxLines = Int.MAX_VALUE
             }
         }
 
+        binding.include.keywordTxt.text =
+            list.jobInterests.mapIndexed { index: Int, goalType: GoalType ->
+                if (index == list.jobInterests.size - 1) goalType.name else goalType.name add ", "
+            }.toList().join()
     }
+
+
 
     override fun setRecyclerView(todoList: ArrayList<MinimalTodoListContent>, isMine: Boolean, isJoined: Boolean) {
         isJoin = isJoined
@@ -111,7 +116,8 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         for (string in list) {
             result += string add ", "
         }
-        this.jobClass.set(result)
+        //this.jobClass.set(result)
+        binding.include.ongoingDescText.text = result
     }
 
     //Todo: 참여자 목록의 Todo list 상세보기 (카드뷰)
@@ -124,7 +130,8 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
                 putExtra(Consts.NAME, nickname)
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
-                putExtra(Consts.DESCRIPTION, description.get())
+//                putExtra(Consts.DESCRIPTION, description.get())
+                putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
                 putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isJoin)
                 putExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, isJoin)
             }
@@ -154,7 +161,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
                 putExtra(Consts.UID, uid)
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
-                putExtra(Consts.DESCRIPTION, binding.include.text.text)
+                putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
                 putExtra(Consts.USER_TODO_LIST, userTodoList)
             }
         startActivity(intent)
@@ -162,7 +169,8 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
 
 
     fun moreClick(v: View) {
-        binding.goalDescLayout.goal_desc.onStateChangeListener =
+        binding.include.goalDesc.onStateChangeListener =
+//        binding.goalDescLayout.goal_desc.onStateChangeListener =
             { oldState: State, newState: State ->
                 when (newState) {
                     State.Expanded -> {
@@ -185,7 +193,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
             .apply{
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
-                putExtra(Consts.DESCRIPTION, binding.include.text.text)
+                putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
                 putExtra(Consts.GOAL_ID,intent.getLongExtra(Consts.GOAL_ID, -1))
             }
         startActivity(intent)

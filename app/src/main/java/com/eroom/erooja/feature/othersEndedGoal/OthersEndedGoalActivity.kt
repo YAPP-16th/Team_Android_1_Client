@@ -63,7 +63,10 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
     @SuppressLint("SetTextI18n")
     override fun setGoalData(goalData: GoalDetailResponse) {
         binding.goalNameTxt.text = goalData.title
-        binding.include.text.text = goalData.description
+       // binding.include.text.text = goalData.description
+
+        binding.goalDateTxt.text = "${goalData.startDt.toRealDateFormat()}~${goalData.endDt.toRealDateFormat()}"
+        binding.include.ongoingDescText.text = goalData.description
 
         binding.goalDescLayout.goal_desc.apply {
             showButton = false

@@ -16,50 +16,52 @@
         android:layout_marginEnd="38dp"
         android:orientation="vertical">
 
-        <ru.rhanza.constraintexpandablelayout.ExpandableLayout
-            android:id="@+id/goal_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:el_animationDuration="300"
-            app:el_collapsedHeight="100dp"
-            app:el_initialState="collapsed"
-            app:el_showShadow="false"
-            app:el_showButton="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+    <ru.rhanza.constraintexpandablelayout.ExpandableLayout
+        android:id="@+id/goal_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:el_animationDuration="300"
+        app:el_collapsedHeight="100dp"
+        app:el_initialState="collapsed"
+        app:el_showShadow="false"
+        app:el_showButton="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:maxLines="3"
-                android:background="@android:color/transparent"
-                android:lineSpacingExtra="11sp"
-                android:text=""
-                android:textColor="@color/grey5"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/temp_txt" />
+    <TextView
+        android:id="@+id/ongoing_desc_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:lineSpacingExtra="11sp"
+        android:text="@string/temp_txt"
+        android:maxLines="3"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/keyword_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="@{goalDetail.jobClass}"
-                app:layout_constraintStart_toStartOf="@id/text"
-                app:layout_constraintTop_toBottomOf="@+id/text"
-                tools:text="ui, ux ~, Android, IOS" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/connected_job"
+        android:textStyle="bold" />
 
-        </ru.rhanza.constraintexpandablelayout.ExpandableLayout>
-
+    <TextView
+        android:id="@+id/keyword_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="@string/temp_txt"
+        tools:text="ui, ux ~, Android, IOS"
+        app:layout_constraintStart_toStartOf="@id/text"
+        app:layout_constraintTop_toBottomOf="@+id/text" />
+    </ru.rhanza.constraintexpandablelayout.ExpandableLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 
