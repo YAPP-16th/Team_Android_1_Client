@@ -1,5 +1,7 @@
 package com.eroom.domain.koin.modules
 
+import com.eroom.domain.api.usecase.alarm.GetUnCheckedAlarmsUseCase
+import com.eroom.domain.api.usecase.alarm.PutAlarmIdUseCase
 import com.eroom.domain.api.usecase.auth.PostKakaoLoginUseCase
 import com.eroom.domain.api.usecase.auth.GetRefreshTokenUseCase
 import com.eroom.domain.api.usecase.goal.*
@@ -71,4 +73,8 @@ val usecaseModule = module {
     factory { PutGoalReparticipateUseCase(get())}
 
     factory { GetGoalInfoByUIdAndGoalIdUseCase(get())}
+
+    factory { GetUnCheckedAlarmsUseCase(get()) }
+
+    factory { PutAlarmIdUseCase(get()) }
 }

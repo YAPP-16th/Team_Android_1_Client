@@ -18,3 +18,11 @@ fun String.toRealDateFormat(): String {
     val day = dateList[2]
     return "$year.$month.$day"
 }
+
+fun toLocalDateNonTimeFormat(year: Int, month: Int, day: Int): String {
+    val tMonth = if (month < 10) "0$month" else "$month"
+    val tDay = if (day < 10) "0$day" else "$day"
+    return "$year-$tMonth-${tDay}"
+}
+
+fun String.toNonTimeDate(): String = this.split("T")[0]

@@ -9,6 +9,8 @@ class Consts {
 
         const val TOKEN_TIME_KEY = "TOKEN_TIME_KEY"
 
+        const val END_POP_UP_CHECKED_DATE = "END_POP_UP_CHECKED_DATE"
+
         const val IS_GUEST = "IS_GUEST"
         const val ACCESS_TOKEN = "ACCESS_TOKEN"
         const val REFRESH_TOKEN = "REFRESH_TOKEN"
@@ -65,5 +67,6 @@ class Consts {
 
         const val START_DATE = "START_DATE"
         const val ALARM_FLAG = "ALARM_FLAG"
+        const val POP_UP_LIST = "POP_UP_LIST"
     }
 }

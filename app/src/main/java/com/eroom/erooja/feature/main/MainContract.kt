@@ -1,5 +1,6 @@
 package com.eroom.erooja.feature.main
 
+import com.eroom.data.entity.AlarmContent
 import com.eroom.data.entity.GoalContent
 import com.eroom.data.entity.JobClass
 import com.eroom.data.entity.MinimalGoalDetailContent
@@ -11,6 +12,8 @@ interface MainContract {
         fun setParticipatedList(list: ArrayList<MinimalGoalDetailContent>)
         fun saveUid(uid: String)
         fun setNewGoalBrowse(content: ArrayList<GoalContent>)
+        fun setUnReadNotification()
+        fun showEndPopUp(list: ArrayList<AlarmContent>)
     }
 
     interface Presenter {
@@ -20,5 +23,6 @@ interface MainContract {
         fun onCleared()
         fun getInterestedGoals(interestId: Long, uid: String)
         fun getMyParticipatedList(uid: String)
+        fun getNotificationInfo()
     }
 }
