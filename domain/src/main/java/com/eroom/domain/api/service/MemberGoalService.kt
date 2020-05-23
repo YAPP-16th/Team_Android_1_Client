@@ -37,6 +37,9 @@ interface MemberGoalService {
     @GET("membergoal/{goalId}/info")
     fun getInfoByGoalId(@Path("goalId") goalId: Long): Single<Response<ParticipatedGoalInfoResponse>>
 
+    @GET("membergoal/{goalId}/{uid}/info")
+    fun getParticipatedInfoByUIdAndGoalId(@Path("goalId") goalId: Long, @Path("uid") uid: String): Single<Response<ParticipatedGoalInfoResponse>>
+
     @PUT("membergoal/{goalId}")
     fun putGoalIsAbandoned(@Path("goalId") goalId: Long, @Body goalAbandonedRequest: GoalAbandonedRequest): Single<ParticipatedGoalInfoResponse>
 

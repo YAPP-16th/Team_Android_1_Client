@@ -43,6 +43,8 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
     private var isAbandoned: Boolean = false
     private var isDateFixed: Boolean = false
 
+    private var isExistedInMyPage: Boolean = false
+    private var isBeforeEndDt: Boolean = false
     private var isMyOngoingGoal: Boolean = false
 
     private var mLastClickTime: Long = 0
@@ -61,7 +63,6 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
     @SuppressLint("SetTextI18n")
     override fun setGoalData(goalData: GoalDetailResponse) {
         binding.goalNameTxt.text = goalData.title
-        binding.goalDateTxt.text = "${goalData.startDt.toRealDateFormat()}~${goalData.endDt.toRealDateFormat()}"
         binding.include.text.text = goalData.description
 
         binding.goalDescLayout.goal_desc.apply {
@@ -74,7 +75,7 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
         }.toList().join()
 
         setBottomSheetAlert()
-        initBottomSheet(goalData.joinCount)
+        initBottomSheet()
     }
 
     @SuppressLint("SetTextI18n")
@@ -89,7 +90,7 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
     }
 
     fun initView() {
-        presenter = OthersEndedGoalPresenter(this, get(), get(), get())
+        presenter = OthersEndedGoalPresenter(this, get(), get(), get(), get())
 
         statusBarColor(this@OthersEndedGoalActivity, R.color.grey1)
 
@@ -112,8 +113,15 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
         isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, false)
 
         presenter.getTodoData(uId, goalId)
-        presenter.getGoalInfoByGoalId(goalId)
+        presenter.getMyGoalInfoByGoalId(goalId)
+        presenter.getOthersGoalInfoByUIdAndGoalId(goalId,uId)
     }
+
+    @SuppressLint("SetTextI18n")
+    override fun settingDate(startDt: String, endDt: String) {
+        binding.goalDateTxt.text = "${startDt.toRealDateFormat()}~${endDt.toRealDateFormat()}"
+    }
+
 
     fun moreClick(v: View) {
         binding.goalDescLayout.goal_desc.toggle()
@@ -136,7 +144,7 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
         }
     }
 
-    private fun initBottomSheet(count: Int) {
+    private fun initBottomSheet() {
         bottom = BottomSheetFragment.newInstance().apply {
             arguments = Bundle().apply {
                 if (isMyOngoingGoal) {
@@ -165,7 +173,7 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
             }
         }
         bottom.callback.observe(this, Observer {
-            if (isMyOngoingGoal) {
+            if (isExistedInMyPage && isBeforeEndDt && !isAbandoned) {
                 when (it) {
                     0 -> { //현재 참여중인 목표입니다
                         startActivity(
@@ -190,6 +198,7 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
                     else -> {}
                 }
             } else {
+                //if(isExistedInMyPage)////////이전에 1번이라도 참여이력이 있다면
                 when (it) {
                     0 -> { //이 리스트에 참여하기
                         startActivity(
@@ -230,12 +239,20 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
         this.isAbandoned = isAbandoned
     }
 
-    override fun setIsMyOngoingGoal(isOngoing: Boolean) {
-        this.isMyOngoingGoal = isOngoing
+    override fun setIsExistedInMyPage(isExisted: Boolean) {
+        this.isExistedInMyPage = isExisted
     }
 
     override fun setIsDateFixed(isDateFixed: Boolean) {
         this.isDateFixed = isDateFixed
+    }
+
+    override fun setIsBeforeEndDt(isBeforeEndDt: Boolean) {
+        this.isBeforeEndDt = isBeforeEndDt
+    }
+
+    override fun setIsMyOngoingGoal(isMyOngoingGoal: Boolean) {
+        this.isMyOngoingGoal = isMyOngoingGoal
     }
 
     fun additionalOptionClicked() {
@@ -244,11 +261,17 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
         }
         mLastClickTime = SystemClock.elapsedRealtime()
 
-        if(!isDateFixed || (isDateFixed && isAbandoned)) {
-            bottom.show(supportFragmentManager, bottom.tag)
-        } else {
+        if(isDateFixed && !isBeforeEndDt) {
             bottomAlert.show(supportFragmentManager, bottom.tag)
+        } else {
+            bottom.show(supportFragmentManager, bottom.tag)
         }
+//
+//        if(!isDateFixed || (isDateFixed && isAbandoned)) {
+//            bottom.show(supportFragmentManager, bottom.tag)
+//        } else {
+//            bottomAlert.show(supportFragmentManager, bottom.tag)
+//        }
     }
 
     fun backClick() {

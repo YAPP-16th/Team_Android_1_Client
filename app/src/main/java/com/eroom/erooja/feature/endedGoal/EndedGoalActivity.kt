@@ -58,7 +58,6 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     @SuppressLint("SetTextI18n")
     override fun setGoalData(goalData: GoalDetailResponse) {
         binding.goalNameTxt.text = goalData.title
-        binding.goalDateTxt.text = "${goalData.startDt.toRealDateFormat()}~${goalData.endDt.toRealDateFormat()}"
         binding.include.text.text = goalData.description
 
         binding.goalDescLayout.goal_desc.apply {
@@ -110,6 +109,11 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
 
         presenter.getTodoData(uId, goalId)
         presenter.getGoalInfoByGoalId(goalId)
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun settingDate(startDt: String, endDt: String) {
+        binding.goalDateTxt.text = "${startDt.toRealDateFormat()}~${endDt.toRealDateFormat()}"
     }
 
     fun moreClick(v: View) {
@@ -211,7 +215,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
         }
         mLastClickTime = SystemClock.elapsedRealtime()
 
-        if(!isBeforeEndDt){
+        if(!isBeforeEndDt && isDateFixed){
             bottomAlert.show(supportFragmentManager, bottom.tag)
         } else {
             bottom.show(supportFragmentManager, bottom.tag)

@@ -45,7 +45,7 @@ class EndedGoalPresenter(override var view: EndedGoalContract.View,
             .subscribe({
                 it.body()?.let { body ->
                     view.setIsAbandoned(body.isEnd)
-
+                    view.settingDate(body.startDt, body.endDt)
                     val endDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(body.endDt)
                     val currentTime: Date = Calendar.getInstance().time
                     val isBeforeEndDt = (currentTime.time - endDate.time) < 0

@@ -69,4 +69,6 @@ val usecaseModule = module {
     factory { PutGoalInfoUseCase(get()) }
 
     factory { PutGoalReparticipateUseCase(get())}
+
+    factory { GetGoalInfoByUIdAndGoalIdUseCase(get())}
 }
