@@ -28,7 +28,10 @@ import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.*
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalFinishActivity
 import com.eroom.erooja.feature.addDirectList.inactivejob.InactiveJobFragment
+import com.eroom.erooja.feature.addGoal.newGoalPage.GoalListFragment
 import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinGoalPeriodFragment
+import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinTodoListFragment
+import com.eroom.erooja.singleton.UserInfo
 import org.koin.android.ext.android.get
 import java.util.*
 import kotlin.collections.ArrayList
@@ -134,9 +137,20 @@ class AddMyListActivity : AppCompatActivity(),
     }
 
     private fun observeData() {
-        (mFragmentList[4] as AddMyTodoListFragment).writingText.observe(this, Observer {
-            additionalGoalList = it
+        (mFragmentList[4] as AddMyTodoListFragment).goalList.observe(this, Observer {
+            this.goalList = it
+            nextClickable.set(!it.isNullOrEmpty())
         })
+        (mFragmentList[4] as AddMyTodoListFragment).goalListCheck.observe(this, Observer {
+            nextClickable.set(it)
+        })
+
+        (mFragmentList[4] as AddMyTodoListFragment).writingText.observe(this, Observer {
+            additionalGoalList = it //한 글자마다 인식 엔터 칠때마다 다시 여기로 들어
+        })
+
+//        if(goalList.size >= 1) newGoalBinding.nextTextView.setTextColor(resources.getColor(R.color.grey4, null))
+//        else newGoalBinding.nextTextView.setTextColor(resources.getColor(R.color.grey7, null))
     }
 
     private fun initFragment() {
@@ -253,6 +267,7 @@ class AddMyListActivity : AppCompatActivity(),
         val intent = Intent(this, NewGoalFinishActivity::class.java)
         intent.putExtra(Consts.GOAL_TITLE, goalTitleText)
         intent.putExtra(Consts.ADD_NEW_GOAL_RESULT_ID, resultId)
+        intent.putExtra(Consts.UID, UserInfo.myUId)
         startActivity(intent)
         finish()
     }
@@ -311,7 +326,7 @@ class AddMyListActivity : AppCompatActivity(),
 
                 if (endDate != "-") {
                     val time = endDate.split("-")
-                    (mFragmentList[0] as JoinGoalPeriodFragment).setEndDate("${time[0]}년 ${time[1]}월 ${time[2]}일")
+                    (mFragmentList[3] as AddGoalPeriodFragment).setEndDate("${time[0]}년 ${time[1]}월 ${time[2]}일")
                     this.endDate = toLocalDateFormat(time[0], time[1], time[2])
                 }
             }
