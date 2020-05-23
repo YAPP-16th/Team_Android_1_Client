@@ -62,7 +62,7 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
     override fun setGoalData(goalData: GoalDetailResponse) {
         binding.goalNameTxt.text = goalData.title
         binding.goalDateTxt.text = "${goalData.startDt.toRealDateFormat()}~${goalData.endDt.toRealDateFormat()}"
-        binding.include.text.text = goalData.description
+        binding.include.ongoingDescText.text = goalData.description
 
         binding.goalDescLayout.goal_desc.apply {
             showButton = false
