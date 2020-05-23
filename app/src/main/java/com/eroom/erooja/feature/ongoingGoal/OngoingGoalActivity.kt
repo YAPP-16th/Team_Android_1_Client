@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +18,6 @@ import com.eroom.domain.customview.bottomsheet.BottomSheetFragment
 import com.eroom.domain.customview.bottomsheet.BottomSheetInfo
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.*
-import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalBinding
 import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.editgoal.EditGoalActivity
@@ -29,6 +27,10 @@ import com.eroom.erooja.feature.participants_list.ParticipantsListActivity
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
 import org.koin.android.ext.android.get
 import ru.rhanza.constraintexpandablelayout.State
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.databinding.ObservableField
+import com.eroom.erooja.R.*
+
 
 class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     lateinit var binding: ActivityGoalBinding
@@ -42,6 +44,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     private var isFromMyPage: Boolean = false
 
     private var mLastClickTime: Long = 0
+    var onlyOneLine: ObservableField<Boolean> = ObservableField(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +53,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     }
 
     fun setUpDataBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_goal)
+        binding = DataBindingUtil.setContentView(this, layout.activity_goal)
         binding.mygoal = this@OngoingGoalActivity
     }
 
@@ -60,9 +63,10 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         binding.include.text.text = goalData.description
 
         if(goalData.description.isEmpty()){
-            binding.goalImage.visibility = View.INVISIBLE
             binding.goalDescLayout.goal_desc.invalidateState(State.Statical)
             binding.moreBtn.visibility = View.GONE
+            updateView()
+
         } else {
             binding.goalDescLayout.text.post{
                 binding.goalDescLayout.goal_desc.collapsedHeight = binding.goalDescLayout.text.height
@@ -77,6 +81,11 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
 
         initBottomSheet(goalData.joinCount)
     }
+
+    fun updateView() {
+        onlyOneLine.set(true)
+    }
+
 
     @SuppressLint("SetTextI18n")
     override fun setTodoList(todoList: ArrayList<MinimalTodoListDetail>) {
@@ -97,7 +106,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     fun initView() {
         presenter = OngoingGoalPresenter(this, get(), get(), get(), get(), get())
 
-        statusBarColor(this@OngoingGoalActivity, R.color.orgDefault)
+        statusBarColor(this@OngoingGoalActivity, color.orgDefault)
 
         binding.goalDescLayout.goal_desc.apply {
             showButton = false
@@ -106,8 +115,10 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
 
 
         when (binding.goalDescLayout.goal_desc.state) {
-            State.Expanded, State.Expanding -> binding.moreBtn.loadDrawable(resources.getDrawable(R.drawable.ic_icon_small_arrow_top_white, null))
-            State.Collapsed, State.Collapsing -> binding.moreBtn.loadDrawable(resources.getDrawable(R.drawable.ic_icon_small_arrow_right_white, null))
+            State.Expanded, State.Expanding -> binding.moreBtn.loadDrawable(resources.getDrawable(
+                drawable.ic_icon_small_arrow_top_white, null))
+            State.Collapsed, State.Collapsing -> binding.moreBtn.loadDrawable(resources.getDrawable(
+                drawable.ic_icon_small_arrow_right_white, null))
             else -> {}
         }
 
@@ -143,8 +154,10 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     fun moreClick(v: View) {
         binding.goalDescLayout.goal_desc.toggle()
         when (binding.goalDescLayout.goal_desc.state) {
-            State.Expanded, State.Expanding -> binding.moreBtn.loadDrawable(resources.getDrawable(R.drawable.ic_icon_small_arrow_top_white, null))
-            State.Collapsed, State.Collapsing -> binding.moreBtn.loadDrawable(resources.getDrawable(R.drawable.ic_icon_small_arrow_right_white, null))
+            State.Expanded, State.Expanding -> binding.moreBtn.loadDrawable(resources.getDrawable(
+                drawable.ic_icon_small_arrow_top_white, null))
+            State.Collapsed, State.Collapsing -> binding.moreBtn.loadDrawable(resources.getDrawable(
+                drawable.ic_icon_small_arrow_right_white, null))
             else -> {}
         }
     }
