@@ -66,7 +66,7 @@ class OthersOngoingGoalPresenter(
                     val isBeforeEndDt = (currentTime.time - endDate.time) < 0
 
                     if (isBeforeEndDt) {
-                        view.setIsMyOngoingGoal(true) //mypage 참여중 탭에있는 경우 true
+                        view.setIsMyOngoingGoal(!body.isEnd) //mypage 참여중 탭에있는 경우 true
                     } else {
                         view.setIsMyOngoingGoal(false)
                     }
