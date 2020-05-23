@@ -3,10 +3,7 @@ package com.eroom.erooja.feature.goalDetail
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +15,7 @@ import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.*
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityGoalDetailsBinding
+import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity
 import com.eroom.erooja.feature.joinOtherList.joinTodoListPage.JoinOtherListActivity
 import com.eroom.erooja.feature.goalEdit.GoalEditActivity
@@ -142,7 +140,6 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
                 putExtra(Consts.NAME, nickname)
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
-//                putExtra(Consts.DESCRIPTION, description.get())
                 putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
                 putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isJoin)
                 putExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, isJoin)
@@ -152,9 +149,28 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
 
     //Todo: 카드뷰의 "+ 버튼"을 눌러 TodoList 에 참여하기
     private fun clickPlusBtn() = { uid:String ->
-        presenter.getUserTodoList(uid, intent.getLongExtra(Consts.GOAL_ID, -1))
+
+        showAlert(uid)
         userUid = uid
     }
+
+    private fun showAlert(uid: String) {
+            startActivityForResult(
+                Intent(
+                    this,
+                    EroojaDialogActivity::class.java
+                ).apply {
+                    putExtra(Consts.DIALOG_TITLE, "")
+                    putExtra(
+                        Consts.DIALOG_CONTENT,
+                        "이 리스트에 참여하시겠어요?"
+                    )
+                    putExtra(Consts.DIALOG_CONFIRM, true)
+                    putExtra(Consts.DIALOG_CANCEL, true)
+                }, 4000
+            )
+        }
+
 
     override fun setTodoList(todoList: ArrayList<MinimalTodoListDetail>) {
         userTodoList = ArrayList()
@@ -182,7 +198,6 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
 
     fun moreClick(v: View) {
         binding.include.goalDesc.onStateChangeListener =
-//        binding.goalDescLayout.goal_desc.onStateChangeListener =
             { oldState: State, newState: State ->
                 when (newState) {
                     State.Expanded -> {
@@ -217,6 +232,17 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
             putExtra(Consts.DESCRIPTION, description.get())
             putExtra(Consts.GOAL_ID, goalId)
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val result = data?.getBooleanExtra(Consts.DIALOG_RESULT, false) //확인 or 취소
+
+        if(requestCode == 4000 && resultCode == 6000){
+            if (result!!) {
+                presenter.getUserTodoList(userUid, intent.getLongExtra(Consts.GOAL_ID, -1))
+            }
+        } else finish()
     }
 
     fun navigationToBack() {
