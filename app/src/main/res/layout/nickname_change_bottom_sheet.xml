@@ -10,7 +10,7 @@
         <import type="android.view.View"/>
         <variable
             name="view"
-            type="android.view.View" />
+            type="View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +19,7 @@
         android:layout_height="200dp"
         android:layout_width="match_parent"
         android:paddingBottom="50dp">
+
         <ImageButton
             android:id="@+id/imageButton"
             android:layout_width="wrap_content"
@@ -59,14 +60,14 @@
             android:layout_margin="16dp"
             android:background="@drawable/border_round_grey"
             android:hint="5자 이상 한글 닉네임 입력"
+            android:maxLines="1"
             android:paddingStart="20dp"
             android:textSize="16sp"
-            android:maxLines="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8"
-            app:layout_constraintVertical_bias="0.32999998" />
+            app:layout_constraintVertical_bias="0.2" />
 
 
         <ImageView
