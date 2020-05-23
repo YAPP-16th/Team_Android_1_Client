@@ -23,8 +23,10 @@ import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.*
 import com.eroom.erooja.feature.addDirectList.inactivejob.InactiveJobFragment
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalFinishActivity
+import com.eroom.erooja.feature.addGoal.newGoalPage.GoalListFragment
 import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinGoalPeriodFragment
 import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinTodoListFragment
+import com.eroom.erooja.singleton.UserInfo
 import org.koin.android.ext.android.get
 import java.util.*
 import kotlin.collections.ArrayList
@@ -125,6 +127,13 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
     }
 
     private fun observeData() {
+        (mFragmentList[4] as JoinTodoListFragment).goalList.observe(this, Observer {
+            nextClickable.set(!it.isNullOrEmpty())
+        })
+        (mFragmentList[4] as JoinTodoListFragment).goalListCheck.observe(this, Observer {
+            nextClickable.set(it)
+        })
+
         (mFragmentList[4] as JoinTodoListFragment).writingText.observe(this, Observer {
             additionalGoalList = it
         })
@@ -167,6 +176,7 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
                     .hide(it[index]).commit()
             }
             supportFragmentManager.beginTransaction().show(it[mPage]).commit()
+            nextClickable.set(true)
         }
         setProgressBar(true)
     }
@@ -307,6 +317,7 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
         val intent = Intent(this, NewGoalFinishActivity::class.java)
         intent.putExtra(Consts.GOAL_TITLE, goalTitleText)
         intent.putExtra(Consts.ADD_NEW_GOAL_RESULT_ID, resultId)
+        intent.putExtra(Consts.UID, UserInfo.myUId)
         startActivity(intent)
         finish()
     }

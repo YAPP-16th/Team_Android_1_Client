@@ -42,7 +42,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         super.onCreate(savedInstanceState)
         initPresenter()
         setUpDataBinding()
-        initView()
+       // initView()
     }
 
     fun initPresenter() {
@@ -64,6 +64,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
 
     override fun onResume() {
         super.onResume()
+        initView()
         presenter.getData(goalId)
     }
 
@@ -153,7 +154,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
                 putExtra(Consts.UID, uid)
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
-                putExtra(Consts.DESCRIPTION, description.get())
+                putExtra(Consts.DESCRIPTION, binding.include.text.text)
                 putExtra(Consts.USER_TODO_LIST, userTodoList)
             }
         startActivity(intent)
@@ -184,7 +185,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
             .apply{
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
-                putExtra(Consts.DESCRIPTION, description.get())
+                putExtra(Consts.DESCRIPTION, binding.include.text.text)
                 putExtra(Consts.GOAL_ID,intent.getLongExtra(Consts.GOAL_ID, -1))
             }
         startActivity(intent)

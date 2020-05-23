@@ -34,7 +34,8 @@ class JoinOtherListPresenter(
             )
         )
             .subscribe({
-                it.body()?.goalId?.let { id -> view.redirectNewGoalFinish(id) }
+                if(it.code() == 400 ) view.failRequest()
+                else view.redirectNewGoalFinish(goalId!!)
             }, {
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
