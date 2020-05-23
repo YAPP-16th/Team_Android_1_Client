@@ -1,12 +1,10 @@
 package com.eroom.erooja.feature.main
 
 import android.annotation.SuppressLint
-import androidx.recyclerview.widget.DiffUtil
-import com.eroom.data.entity.GoalContent
 import com.eroom.data.entity.JobClass
 import com.eroom.data.localclass.Direction
 import com.eroom.data.localclass.SortBy
-import com.eroom.domain.api.usecase.goal.GetInterestedGoalsUseCase
+import com.eroom.domain.api.usecase.goal.GetSearchGoalUseCase
 import com.eroom.domain.api.usecase.member.GetMemberInfoUseCase
 import com.eroom.domain.api.usecase.member.GetMemberJobInterestsUseCase
 import com.eroom.domain.api.usecase.membergoal.GetGoalsByUserIdUseCase
@@ -21,7 +19,7 @@ class MainPresenter(
     private val sharedPrefRepository: SharedPrefRepository,
     private val getMemberInfoUseCase: GetMemberInfoUseCase,
     private val getMemberJobInterestUseCase: GetMemberJobInterestsUseCase,
-    private val getInterestedGoalsUseCase: GetInterestedGoalsUseCase,
+    private val getSearchGoalUseCase: GetSearchGoalUseCase,
     private val getGoalsByUserIdUseCase: GetGoalsByUserIdUseCase
 ) : MainContract.Presenter {
 
@@ -60,8 +58,7 @@ class MainPresenter(
 
     @SuppressLint("CheckResult")
     override fun getInterestedGoals(interestId: Long, uid: String) {
-        val optionalUid = if (uid == "") null else uid
-        getInterestedGoalsUseCase.getInterestedGoals(interestId, 3, 0, optionalUid)
+        getSearchGoalUseCase.getSearchJobInterest(interestId, 3, 0, SortBy.JOINCOUNT_DESC, uid)
             .subscribe({
                 view.setNewGoalBrowse(it.content)
             },{

@@ -18,14 +18,6 @@ interface GoalService {
     fun postNewGoal(@Body newGoalRequest: NewGoalRequest): Single<NewGoalResponse>
 
     @GET("goal/interest/{interestId}")
-    fun getInterestedGoals(
-        @Path("interestId") interestId: Long,
-        @Query("size") size: Int,
-        @Query("page") page: Int,
-        @Query("uid") uid: String?
-    ): Single<InterestedGoalsResponse>
-
-    @GET("goal/interest/{interestId}")
     fun getSearchJobInterest(@Path("interestId") interestId: Long?,
                              @Query("size") size: Int,
                              @Query("page") page: Int,

@@ -34,8 +34,6 @@ val usecaseModule = module {
 
     factory { PostNewGoalUseCase(get()) }
 
-    factory { GetInterestedGoalsUseCase(get()) }
-
     factory { GetSearchGoalUseCase(get()) }
 
     factory { GetGoalDetailUseCase(get()) }
