@@ -68,7 +68,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     //ongoing_text : desc
     //keyword_text : keyword
     override fun setInitialView(list: GoalDetailResponse) {
-        binding.participantListText.text = "참여자목록" add "(${list.joinCount})"
+        binding.participantListText.text = "참여자 리스트" add "(${list.joinCount})"
         binding.goalNameTxt.text = title
         binding.goalDateTxt.text =
             if(list.isDateFixed) list.startDt.toRealDateFormat() + "~" + list.endDt.toRealDateFormat()
