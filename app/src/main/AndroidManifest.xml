@@ -87,7 +87,7 @@
             android:name=".feature.ongoingGoal.OngoingGoalActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.setting.setting_detail.AlarmActivity"
+            android:name=".feature.setting.setting_alarm.AlarmActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".feature.setting.setting_help.HelpActivity"
