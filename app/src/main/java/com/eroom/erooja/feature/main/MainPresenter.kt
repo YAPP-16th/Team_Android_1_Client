@@ -58,7 +58,7 @@ class MainPresenter(
 
     @SuppressLint("CheckResult")
     override fun getInterestedGoals(interestId: Long, uid: String) {
-        getSearchGoalUseCase.getSearchJobInterest(interestId, 3, 0, SortBy.JOINCOUNT_ASC, uid)
+        getSearchGoalUseCase.getSearchJobInterest(interestId, 3, 0, SortBy.JOINCOUNT_DESC, uid)
             .subscribe({
                 view.setNewGoalBrowse(it.content)
             },{

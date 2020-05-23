@@ -92,8 +92,7 @@
                         android:textSize="13sp"
                         android:textColor="@color/colorError"
                         android:visibility="@{activity.underlineError ? view.VISIBLE : view.INVISIBLE}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.125"
+                        android:layout_marginStart="20dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/goalTitle" />
 
