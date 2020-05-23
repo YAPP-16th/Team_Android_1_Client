@@ -19,6 +19,7 @@ import com.eroom.erooja.feature.setting.SettingFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.android.ext.android.get
+import java.util.regex.Pattern
 
 
 class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContract.View {
@@ -76,6 +77,7 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
                         if (!originalNickname.equals(it.toString())) {
                             if (!it.contains(" ")) {
                                 if (it.length in 2..5)
+                                    //{ Pattern.matches("^[가-힣]*$")} -> 한글만
                                     presenter.checkNickname(it.toString())
                                 else {
                                     mBinding.nicknameErrorText.text =
@@ -163,6 +165,8 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
         }
     }
 
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1300 && resultCode == 6000) {
@@ -181,6 +185,5 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
             initView()
         }
     }
-
 }
 
