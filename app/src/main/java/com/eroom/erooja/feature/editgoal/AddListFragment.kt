@@ -41,7 +41,6 @@ class AddListFragment : Fragment(), TextView.OnEditorActionListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_add_todo_list, container, false)
         setUpDataBinding(inflater, container)
         initView()
         return addTodoBinding.root

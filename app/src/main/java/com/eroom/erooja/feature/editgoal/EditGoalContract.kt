@@ -7,6 +7,7 @@ interface EditGoalContract {
     interface View {
         fun setEditList(todoList: ArrayList<MinimalTodoListDetail>)
         fun finishActivity()
+        fun changeSuccess()
     }
 
     interface Presenter {

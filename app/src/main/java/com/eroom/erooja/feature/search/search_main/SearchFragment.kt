@@ -132,31 +132,24 @@ class SearchFragment : Fragment(), SearchContract.View {
 
     override fun setAlignedJobInterest(interest: MutableSet<String>) {
         var isFirst = true
-        when(searchBinding.searchMainTablayout.tabCount) {
-            0 -> {
-                interest.forEach {
-                    if (isFirst) {
+        interest.forEach {
+            if (isFirst) {
 
-                        isFirst = false
-                    }
-                    searchBinding.searchMainTablayout.addTab(
-                        searchBinding.searchMainTablayout.newTab().setText(it)
-                    )
-                }
-                for (index in 0 until searchBinding.searchMainTablayout.childCount) {
-                    searchBinding.searchMainTablayout.getChildAt(index).setOnClickListener {
-                        it.isClickable = false
-                        Thread(Runnable {
-                            Thread.sleep(1000)
-                            Handler().post {
-                                it.isClickable = true
-                            }
-                        }).start()
-                    }
-                }
+                isFirst = false
             }
-            else -> {
-                Timber.i("PASS")
+            searchBinding.searchMainTablayout.addTab(
+                searchBinding.searchMainTablayout.newTab().setText(it)
+            )
+        }
+        for (index in 0 until searchBinding.searchMainTablayout.childCount) {
+            searchBinding.searchMainTablayout.getChildAt(index).setOnClickListener {
+                it.isClickable = false
+                Thread(Runnable {
+                    Thread.sleep(1000)
+                    Handler().post {
+                        it.isClickable = true
+                    }
+                }).start()
             }
         }
     }
@@ -230,22 +223,24 @@ class SearchFragment : Fragment(), SearchContract.View {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == 1000 && resultCode == 1000) {
-            selectedGroupClassesName.clear()
-            selectedGroupClassesNum.clear()
+            data?.let {
+                selectedGroupClassesName.clear()
+                selectedGroupClassesNum.clear()
 
-            val result1 = data?.getSerializableExtra("selectedId") as ArrayList<Long>
-            val result2 = data?.getSerializableExtra("HashMap") as HashMap<Long, String>
+                val result1 = it.getSerializableExtra("selectedId") as ArrayList<Long>
+                val result2 = it.getSerializableExtra("HashMap") as HashMap<Long, String>
 
-            repeat(result1.size) {
-                result2[result1[it]]?.let { it ->
-                    selectedGroupClassesName.add(it) }
+                repeat(result1.size) { index ->
+                    result2[result1[index]]?.let { it ->
+                        selectedGroupClassesName.add(it) }
 
-                selectedGroupClassesNum.add(result1[it])
+                    selectedGroupClassesNum.add(result1[index])
+                }
+
+                confirmCheck?.let{
+                    updateTab(selectedGroupClassesName) }
+                    .also{ confirmCheck.set(false) }
             }
-
-            confirmCheck?.let{
-                updateTab(selectedGroupClassesName) }
-                .also{ confirmCheck.set(false) }
         }
     }
 
@@ -279,7 +274,7 @@ class SearchFragment : Fragment(), SearchContract.View {
             number.add(selectedGroupClassesNum[it])
         }
 
-        intent.putExtra("search",number)
+        intent.putExtra("search", number)
         startActivityForResult(intent, 1000)
     }
 }

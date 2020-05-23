@@ -23,6 +23,7 @@ import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
 import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
 import com.eroom.erooja.feature.search.search_detail_page.SearchDetailActivity
 import com.eroom.erooja.feature.tab.TabActivity
+import com.eroom.erooja.singleton.UserInfo
 import org.koin.android.ext.android.get
 
 class MainFragment : Fragment(), MainContract.View {
@@ -65,18 +66,18 @@ class MainFragment : Fragment(), MainContract.View {
             nicknameText.set("게스트 님의 관심직무")
         } else {
             presenter.getUserInfo()
-            presenter.getMemberJobInterest()
         }
     }
 
     override fun saveUid(uid: String) {
         uId = uid
         presenter.getMyParticipatedList(uId)
+        presenter.getMemberJobInterest()
     }
 
     override fun onResume() {
         super.onResume()
-        presenter.getMyParticipatedList(uId)
+        presenter.getMyParticipatedList(UserInfo.myUId)
     }
 
     override fun setNickname(nickname: String) = nicknameText.set("$nickname 님의 관심직무")

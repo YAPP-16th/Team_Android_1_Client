@@ -251,6 +251,14 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
         }
     }
 
+    override fun changeSuccess() {
+        startActivity(Intent(this, EroojaDialogActivity::class.java).apply {
+            putExtra(Consts.DIALOG_CONTENT, "리스트 수정이 완료되었습니다!")
+            putExtra(Consts.DIALOG_CONFIRM, true)
+            putExtra(Consts.DIALOG_CANCEL, false)
+        })
+    }
+
     private val deleteClicked = { index: Int , isChecked: Boolean ->
         isCanDelete = if (isChecked) {
             temporaryDeleteList.add(index)
