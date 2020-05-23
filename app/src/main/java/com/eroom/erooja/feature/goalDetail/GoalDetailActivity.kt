@@ -242,7 +242,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
             if (result!!) {
                 presenter.getUserTodoList(userUid, intent.getLongExtra(Consts.GOAL_ID, -1))
             }
-        } else finish()
+        }
     }
 
     fun navigationToBack() {
