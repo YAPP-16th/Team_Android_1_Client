@@ -11,7 +11,7 @@ import com.eroom.domain.utils.toRealDateFormat
 import com.eroom.erooja.R
 import kotlinx.android.synthetic.main.item_my_participated_ongoing_goal.view.*
 
-class MyPageOngoingGoalAdapter(
+open class MyPageOngoingGoalAdapter(
     private val minimalGoalDetailContentList: ArrayList<MinimalGoalDetailContent>,
     private val isClicked: (Long) -> Unit
 ): RecyclerView.Adapter<MyPageOngoingGoalAdapter.ViewHolder>() {
@@ -31,7 +31,7 @@ class MyPageOngoingGoalAdapter(
         val item: MinimalGoalDetailContent = minimalGoalDetailContentList[position]
         val jobClassInfo = item.minimalGoalDetail.jobInterests.filter { it.jobInterestType != Consts.JOB_GROUP }.toList()
         val extraInfo = if(jobClassInfo.size - 1 == 0) "" else " 외 ${jobClassInfo.size - 1}"
-        holder.bind(goalId = item.goalId, isOrg = position % 2 == 0, percent = "50%",
+        holder.bind(goalId = item.goalId, isOrg = position % 2 == 0, percent = (item.checkedTodoRate * 100).toInt().toString() + "%",
             jobClasses = "${jobClassInfo[0].name}$extraInfo",
             titleText = item.minimalGoalDetail.title,
             duration = "${item.startDt.toRealDateFormat()}~${item.endDt.toRealDateFormat()}",

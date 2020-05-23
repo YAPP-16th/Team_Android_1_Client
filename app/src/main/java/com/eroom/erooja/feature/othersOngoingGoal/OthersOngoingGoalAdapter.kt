@@ -33,11 +33,11 @@ class Holder(itemView: View) : RecyclerView.ViewHolder(itemView){
             if (isEnd) {
                 paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 setTextColor(context.getColor(R.color.grey4))
-                setOnClickListener { saveAnimate(false, todoId) }
+                //setOnClickListener { saveAnimate(false, todoId) }
             } else {
                 paintFlags = 0
                 setTextColor(context.getColor(R.color.grey7))
-                setOnClickListener { saveAnimate(true, todoId) }
+                //setOnClickListener { saveAnimate(true, todoId) }
             }
         }
     }

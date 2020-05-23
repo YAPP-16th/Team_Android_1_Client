@@ -32,7 +32,7 @@ class MyPageEndedGoalAdapter(
         val jobClassInfo = item.minimalGoalDetail.jobInterests.filter { it.jobInterestType != Consts.JOB_GROUP }.toList()
         val extraInfo = if(jobClassInfo.size - 1 == 0) "" else " 외 ${jobClassInfo.size - 1}"
         holder.bind(goalId = item.goalId,
-            percent = "94%",
+            percent = (item.checkedTodoRate * 100).toInt().toString() + "%",
             jobClasses = "${jobClassInfo[0].name}$extraInfo",
             titleText = item.minimalGoalDetail.title,
             duration = "${item.startDt.toRealDateFormat()}~${item.endDt.toRealDateFormat()}",
