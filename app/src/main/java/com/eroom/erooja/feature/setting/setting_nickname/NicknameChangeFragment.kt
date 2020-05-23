@@ -47,7 +47,7 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
     ): View? {
         initPresenter()
         setUpDataBinding(inflater, container)
-        initView()
+//        initView()
         return mBinding.root
     }
 
@@ -64,6 +64,7 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
     override fun setMyNickname(nickname: String) {
         mBinding.nicknameText.setText(nickname)
         originalNickname = nickname
+        initView()
     }
 
     private fun initView() {
@@ -72,7 +73,7 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
                 s?.let {
                     if (it.toString() != "") {
                         nickname.value = it.toString()
-                        if (originalNickname != it.toString()) {
+                        if (!originalNickname.equals(it.toString())) {
                             if (!it.contains(" ")) {
                                 if (it.length in 2..5)
                                     presenter.checkNickname(it.toString())
@@ -181,10 +182,5 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
         }
     }
 
-    @SuppressLint("MissingSuperCall")
-    override fun onDestroy() {
-        showAlertBeforeClose()
-      //  super.onDestroy()
-    }
 }
 
