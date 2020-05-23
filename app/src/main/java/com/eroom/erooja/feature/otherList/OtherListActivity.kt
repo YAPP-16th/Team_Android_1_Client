@@ -75,17 +75,6 @@ class OtherListActivity : AppCompatActivity(),
    ///////--------------------- + Button 을 눌러 리스트에 참여하기 -----------------------//////
     fun addTodoListBtn() {
        showAlert()
-
-//        val intent = Intent(this@OtherListActivity, JoinOtherListActivity::class.java)
-//            .apply {
-//                putExtra(Consts.GOAL_ID, intent.getLongExtra(Consts.GOAL_ID, -1))
-//                putExtra(Consts.UID, userUid)
-//                putExtra(Consts.DATE, binding.goalDateTxt.text)
-//                putExtra(Consts.GOAL_TITLE, intent.getStringExtra(Consts.GOAL_TITLE))
-//                putExtra(Consts.DESCRIPTION, intent.getStringExtra(Consts.DESCRIPTION))
-//                putExtra(Consts.USER_TODO_LIST, userTodoList)
-//            }
-//        startActivity(intent)
     }
 
     private fun showAlert(){
