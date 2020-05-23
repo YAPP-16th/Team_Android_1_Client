@@ -3,7 +3,10 @@ package com.eroom.erooja.feature.goalDetail
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +37,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     private var goalId: Long = -1
 
     private var isJoin: Boolean = false
+    var onlyOneLine: ObservableField<Boolean> = ObservableField(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,14 +77,13 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         binding.goalDateTxt.text =
             if(list.isDateFixed) list.startDt.toRealDateFormat() + "~" + list.endDt.toRealDateFormat()
             else "기간 설정 자유"
-        //this.description.set(description)
         binding.include.ongoingDescText.text = list.description
 
 
         if(list.description.isEmpty()){
-            binding.goalImage.visibility = View.INVISIBLE
             binding.goalDescLayout.goal_desc.invalidateState(State.Statical)
             binding.moreBtn.visibility = View.GONE
+            updateView()
         }
         else {
             binding.include.ongoingDescText.post{
@@ -93,6 +96,14 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
             list.jobInterests.mapIndexed { index: Int, goalType: GoalType ->
                 if (index == list.jobInterests.size - 1) goalType.name else goalType.name add ", "
             }.toList().join()
+
+        binding.include.goneKeywordTxt.text = binding.include.keywordTxt.text
+
+
+    }
+
+    fun updateView() {
+        onlyOneLine.set(true)
     }
 
 
@@ -118,6 +129,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         }
         //this.jobClass.set(result)
         binding.include.ongoingDescText.text = result
+//        binding.include.goneKeywordTxt.text = result
     }
 
     //Todo: 참여자 목록의 Todo list 상세보기 (카드뷰)
