@@ -19,7 +19,7 @@ class SearchResultPresenter(override var view: SearchResultContract.View,
 
     @SuppressLint("CheckResult")
     override fun getSearchJobInterest(interestId: Long?, page: Int) {
-        getSearchGoalUseCase.getSearchJobInterest(interestId, size = 10, page = page, sortBy = SortBy.CREATED_DT, uid = UserInfo.myUId)
+        getSearchGoalUseCase.getSearchJobInterest(interestId, size = 10, page = page, sortBy = SortBy.JOINCOUNT_ASC, uid = UserInfo.myUId)
             .subscribe ({
                 view.setAllView(it.content)
                 view.setIsEnd(it.totalPages <= page)
