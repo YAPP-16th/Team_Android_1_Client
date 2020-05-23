@@ -93,10 +93,6 @@
     <string name="terms_of_service">이용약관</string>
     <string name="logout">로그아웃</string>
 
-    <string name="new_goal_start_alarm">새 목표 시작 알림</string>
-    <string name="percent_change_alarm">달성률 변동 알림</string>
-    <string name="end_goal_alarm">목표 종료 알림</string>
-
     <string name="change_profile"><u>사진 변경하기</u></string>
     <string name="save_txt">저장</string>
     <string name="list_edit_text">리스트 수정</string>
@@ -105,5 +101,7 @@
     <string name="no_content_text">등록된 목표가 없습니다.</string>
     <string name="change_nickname">닉네임 변경</string>
     <string name="goal_edit_text">목표 수정</string>
+
+    <string name="end_alarm_notice">종료된 목표 알림</string>
 
 </resources>
