@@ -4,7 +4,7 @@
     <data>
         <variable
             name="alarm"
-            type="com.eroom.erooja.feature.setting.setting_detail.AlarmActivity" />
+            type="com.eroom.erooja.feature.setting.setting_alarm.AlarmActivity" />
 
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,7 +41,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:padding="16dp"
-        android:text="@string/new_goal_start_alarm"
+        android:text="@string/end_alarm_notice"
         android:textColor="@color/grey8"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,64 +64,6 @@
         android:layout_height="1dp"
         android:background="@color/grey3"
         app:layout_constraintTop_toBottomOf="@+id/new_goal_start_alarm" />
-
-    <TextView
-        android:id="@+id/percent_change_alarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="@string/percent_change_alarm"
-        android:textColor="@color/grey8"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/new_goal_start_alarm"
-        app:layout_constraintTop_toBottomOf="@+id/new_goal_start_alarm" />
-
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey3"
-        app:layout_constraintTop_toBottomOf="@+id/percent_change_alarm"/>
-
-    <Switch
-        android:id="@+id/switch2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:track="@drawable/switch_track_selector"
-        android:thumb="@drawable/switch_thumb_selector"
-        app:layout_constraintBottom_toBottomOf="@+id/percent_change_alarm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/percent_change_alarm" />
-
-    <TextView
-        android:id="@+id/end_goal_alarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="@string/end_goal_alarm"
-        android:textColor="@color/grey8"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/percent_change_alarm"
-        app:layout_constraintTop_toBottomOf="@+id/percent_change_alarm" />
-
-    <View
-        android:id="@+id/view3"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey3"
-        app:layout_constraintTop_toBottomOf="@+id/end_goal_alarm"/>
-
-    <Switch
-        android:id="@+id/switch3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:track="@drawable/switch_track_selector"
-        android:thumb="@drawable/switch_thumb_selector"
-        app:layout_constraintBottom_toBottomOf="@+id/end_goal_alarm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/end_goal_alarm" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

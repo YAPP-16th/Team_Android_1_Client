@@ -39,19 +39,23 @@ class AddMyListPresenter(
             )
         )
             .subscribe({
-                it.body()?.goalId?.let { id -> view.redirectNewGoalFinish(id) }
+               if(it.code() == 400) view.failRequest()
+               else view.redirectNewGoalFinish(it.body()!!.goalId)
             }, {
                 view.failRequest()
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
     }
 
+
     override fun reparticipateToMyEndedGoal(goalId: Long, endDt: String) {
         putGoalReparticipateUseCase.putGoalReparticate(
             goalId,
             GoalReParticipateRequest(changedIsEnd = false, endDt = endDt)
         ).subscribe({
-            it.body()?.goalId?.let { id -> view.redirectNewGoalFinish(id) }
+            if(it.code() == 400 ) view.failRequest()
+            else view.redirectNewGoalFinish(goalId)
+
         }, {
             view.failRequest()
             Timber.e(it.localizedMessage)

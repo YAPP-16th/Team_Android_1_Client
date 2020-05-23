@@ -71,7 +71,7 @@ class OngoingGoalPresenter(override var view: OngoingGoalContract.View,
                 it.body()?.let { body ->
                     view.settingDate(body.startDt, body.endDt)
                     view.settingEditButton(body.role == "OWNER")
-                } ?: kotlin.run {
+                } ?: run {
                     view.settingEditButton(false)
                 }
             },{

@@ -15,6 +15,7 @@ import com.eroom.erooja.databinding.FragmentSettingBinding
 import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.filter.FilterActivity
 import com.eroom.erooja.feature.login.LoginActivity
+import com.eroom.erooja.feature.setting.setting_alarm.AlarmActivity
 import com.eroom.erooja.feature.setting.setting_detail.*
 import com.eroom.erooja.feature.setting.setting_help.HelpActivity
 import com.eroom.erooja.feature.setting.setting_nickname.NicknameChangeFragment

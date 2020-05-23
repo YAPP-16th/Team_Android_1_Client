@@ -70,7 +70,7 @@ class AddMyTodoListFragment : Fragment(), TextView.OnEditorActionListener {
             if (actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
                 val len = v?.text?.trim()?.length
                 if (len != null) {
-                    if (len < 1) {
+                    if (len < 1) { //엔터로 넘어갈 떄마다 들어옴
                         requestFocus(v)
                         context?.toastShort("한 글자 이상 입력해주세요")
                         if (goalItem.size == 0) {

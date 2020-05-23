@@ -48,7 +48,7 @@ class InactiveJobGroupAdapter(private var list: ArrayList<JobClass>,
             }
             if (firstBoolean) {
                 binding.classTitle.setTextColor(context.resources.getColor(R.color.grey5, null))
-                binding.itemClassBorder.background = context.resources.getDrawable(R.drawable.border_inactive_job_class_grey5, null)
+                binding.itemClassBorder.background = context.resources.getDrawable(R.drawable.border_inactive_job_class_grey1, null)
             } else {
                 binding.classTitle.setTextColor(context.resources.getColor(R.color.grey4, null))
                 binding.itemClassBorder.background = context.resources.getDrawable(R.drawable.border_inactive_job_class_grey4, null)
@@ -62,7 +62,8 @@ class InactiveJobGroupAdapter(private var list: ArrayList<JobClass>,
                 binding.itemClassBorder2.visibility = View.VISIBLE
                 if (secondBoolean) {
                     binding.classTitle2.setTextColor(context.resources.getColor(R.color.grey5, null))
-                    binding.itemClassBorder2.background = context.resources.getDrawable(R.drawable.border_inactive_job_class_grey5, null)
+                    binding.classTitle2.setBackgroundColor(context.resources.getColor(R.color.grey1, null))
+                    binding.itemClassBorder2.background = context.resources.getDrawable(R.drawable.border_inactive_job_class_grey1, null)
                 } else {
                     binding.classTitle2.setTextColor(context.resources.getColor(R.color.grey4, null))
                     binding.itemClassBorder2.background = context.resources.getDrawable(R.drawable.border_inactive_job_class_grey4, null)

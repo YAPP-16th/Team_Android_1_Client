@@ -58,7 +58,9 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     @SuppressLint("SetTextI18n")
     override fun setGoalData(goalData: GoalDetailResponse) {
         binding.goalNameTxt.text = goalData.title
-        binding.include.text.text = goalData.description
+       // binding.include.text.text = goalData.description
+        binding.goalDateTxt.text = "${goalData.startDt.toRealDateFormat()}~${goalData.endDt.toRealDateFormat()}"
+        binding.include.ongoingDescText.text = goalData.description
 
         binding.goalDescLayout.goal_desc.apply {
             showButton = false
@@ -159,7 +161,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
                             ).apply {
                                 putExtra(Consts.GOAL_ID, goalId)
                                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text.toString().trim())
-                                putExtra(Consts.DESCRIPTION, binding.include.text.text)
+                                putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
                                 putExtra(Consts.DATE, "기간 설정 자유")
                                 putExtra(Consts.OWNER_UID, UserInfo.myUId)
                                 putExtra(Consts.IS_MY_ENDED_GOAL, true)
@@ -175,7 +177,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
                             ).apply {
                                 putExtra(Consts.GOAL_ID, goalId)
                                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text.toString().trim())
-                                putExtra(Consts.DESCRIPTION, binding.include.text.text)
+                                putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
                                 putExtra(Consts.DATE, binding.goalDateTxt.text)
                                 putExtra(Consts.OWNER_UID, UserInfo.myUId)
                                 putExtra(Consts.IS_MY_ENDED_GOAL, true)
