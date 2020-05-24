@@ -6,6 +6,7 @@ import com.eroom.data.response.GoalDetailResponse
 interface OthersOngoingGoalContract {
     interface View{
         fun setIsMyOngoingGoal(isMyOngoing: Boolean)
+        fun setIsDateFixed(isDateFixed: Boolean)
         fun setGoalData(goalData: GoalDetailResponse)
         fun setTodoList(todoList: ArrayList<MinimalTodoListDetail>)
         fun reRequestTodoList()

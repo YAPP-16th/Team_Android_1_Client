@@ -20,12 +20,19 @@ class JoinOtherListPresenter(
         endDt: String,
         todoList: ArrayList<String>
     ) {
+        var a = goalId
+        var b = ownerUid
+        var c = endDt
+        var d = todoList
+
         val todoListResult = ArrayList<TodoList>()
         var index: Long = 0
         for (todo in todoList) {
             todoListResult.add(TodoList(todo, index))
             index++
         }
+        var e = todoListResult
+        var f = null
 
         postAddMyGoalUseCase.postAddMyGoal(
             AddMyGoalRequest(
