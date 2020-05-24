@@ -15,7 +15,7 @@
         app:layout_constraintVertical_bias="0.33"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:lottie_fileName="onboarding-1.json"
+        app:lottie_fileName="onboarding1.json"
         app:lottie_autoPlay="true"/>
 
     <LinearLayout

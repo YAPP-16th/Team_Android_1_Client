@@ -9,12 +9,21 @@ import androidx.viewpager.widget.ViewPager
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityOnboardingBinding
 import com.eroom.erooja.feature.login.LoginActivity
+import com.eroom.erooja.feature.onboarding.onboardingpage.OnboardingFirst
+import com.eroom.erooja.feature.onboarding.onboardingpage.OnboardingPage
+import com.eroom.erooja.feature.onboarding.onboardingpage.OnboardingSecond
+import com.eroom.erooja.feature.onboarding.onboardingpage.OnboardingThird
 import kotlinx.android.synthetic.main.activity_onboarding.*
 
 class OnboardingActivity : AppCompatActivity(), OnboardingContract.View {
     private lateinit var onboardBinding: ActivityOnboardingBinding
-    private val pagerAdapter by lazy { OnboardingAdapter(supportFragmentManager) }
+    private val pagerAdapter by lazy { OnboardingAdapter(supportFragmentManager, this) }
     private val presenter by lazy { OnboardingPresenter(this) }
+    val fragments : List<OnboardingPage> = listOf(
+        OnboardingFirst.newInstance(),
+        OnboardingSecond.newInstance(),
+        OnboardingThird.newInstance()
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +47,7 @@ class OnboardingActivity : AppCompatActivity(), OnboardingContract.View {
             }
             override fun onPageSelected(p0: Int) {
                 circle_indicator.selectDot(p0)
+                fragments[p0].loadLottieAnimation()
             }
         })
 

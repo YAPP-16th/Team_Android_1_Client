@@ -28,18 +28,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/goal_title"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie100Image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elegantTextHeight="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.33"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_fileName="popup100.json" />
+
+        <ImageView
+            android:id="@+id/gifImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.33"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/goal_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="34dp"
             android:ellipsize="end"
-            android:gravity="center_horizontal"
-            android:lineSpacingExtra="14sp"
             android:maxLines="1"
-            android:paddingStart="35dp"
-            android:paddingEnd="35dp"
-            tools:text="목표를 80% 달성했습니다!"
             android:textColor="@color/grey7"
             android:textSize="21sp"
             android:textStyle="bold"
@@ -47,30 +64,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.11" />
+            app:layout_constraintVertical_bias="0.648"
+            tools:text="애프터이펙트 익스프레션 어쩌구구asjfaaldfasldfksafdslfaskdlkalsfdklljkafjsdf" />
 
-        <ImageView
-            android:id="@+id/achieve_over_70_background"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_img_achieve_rate_paper"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.06" />
-
-
-        <ImageView
-            android:id="@+id/achieve_rate_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_achieve_rate_over_70"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.34" />
 
         <TextView
             android:id="@+id/achieve_rate"
@@ -83,16 +79,16 @@
             android:paddingTop="5dp"
             android:paddingEnd="12dp"
             android:paddingBottom="5dp"
-            tools:text="89% 달성"
             android:textColor="@color/orgDefault"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.66" />
-
+            app:layout_constraintVertical_bias="0.111"
+            tools:text="89% 달성" />
 
         <TextView
             android:id="@+id/achieve_maxim"
@@ -112,22 +108,32 @@
 
         <TextView
             android:id="@+id/rl_done_btn"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="28dp"
-            android:background="@color/orgDefault"
+            android:layout_marginBottom="37dp"
             android:gravity="center"
-            android:onClick="@{() -> activity.navigateToSearchGoal()}"
-            android:text="@string/lookup_new_goal"
-            android:textColor="@color/colorWhite"
+            android:text="1/1"
+            android:textStyle="bold"
+            android:textColor="@color/orgDefault"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> activity.nextButtonClicked()}"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="22dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_icon_next_arrow_oval" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

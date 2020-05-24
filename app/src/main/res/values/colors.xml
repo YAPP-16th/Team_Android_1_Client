@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="orgBright">#FEF0EA</color>
     <color name="orgLight1">#FBCFB9</color>
     <color name="orgLight2">#F9AD88</color>
     <color name="orgHover1">#F89C70</color>

@@ -23,11 +23,23 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.othersEndedGoal.OthersEndedGoalActivity" android:screenOrientation="portrait" />
-        <activity android:name=".feature.goalEdit.GoalEditActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".feature.othersOngoingGoal.OthersOngoingGoalActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".feature.endedGoal.EndedGoalActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".feature.othersPage.OthersPageActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".feature.notification.NotificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.othersEndedGoal.OthersEndedGoalActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.goalEdit.GoalEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.othersOngoingGoal.OthersOngoingGoalActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.endedGoal.EndedGoalActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.othersPage.OthersPageActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".feature.endPopUp.EndGoalPopUpActivity"
             android:screenOrientation="portrait" />
@@ -107,7 +119,8 @@
         <activity
             android:name=".feature.addDirectList.addMyTodoListPage.AddMyListActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".feature.joinOtherList.joinTodoListPage.JoinOtherListActivity"
+        <activity
+            android:name=".feature.joinOtherList.joinTodoListPage.JoinOtherListActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

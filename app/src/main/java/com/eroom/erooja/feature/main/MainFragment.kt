@@ -11,20 +11,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.eroom.data.entity.AlarmContent
 import com.eroom.data.entity.GoalContent
 import com.eroom.data.entity.JobClass
 import com.eroom.data.entity.MinimalGoalDetailContent
+import com.eroom.domain.customview.parcelizeclass.ParcelizeAlarmContent
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.toRealDateFormat
 
 import com.eroom.erooja.databinding.FragmentMainBinding
 import com.eroom.erooja.dialog.EroojaDialogActivity
+import com.eroom.erooja.feature.endPopUp.EndGoalPopUpActivity
 import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
+import com.eroom.erooja.feature.notification.NotificationActivity
 import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
 import com.eroom.erooja.feature.search.search_detail_page.SearchDetailActivity
 import com.eroom.erooja.feature.tab.TabActivity
 import com.eroom.erooja.singleton.UserInfo
 import org.koin.android.ext.android.get
+import timber.log.Timber
+import java.time.LocalDateTime
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainFragment : Fragment(), MainContract.View {
     private lateinit var mainBinding: FragmentMainBinding
@@ -44,7 +52,7 @@ class MainFragment : Fragment(), MainContract.View {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        presenter = MainPresenter(this, get(), get(), get(), get(), get())
+        presenter = MainPresenter(this, get(), get(), get(), get(), get(), get())
     }
 
     override fun onCreateView(
@@ -78,6 +86,7 @@ class MainFragment : Fragment(), MainContract.View {
     override fun onResume() {
         super.onResume()
         presenter.getMyParticipatedList(UserInfo.myUId)
+        presenter.getNotificationInfo()
     }
 
     override fun setNickname(nickname: String) = nicknameText.set("$nickname 님의 관심직무")
@@ -158,11 +167,27 @@ class MainFragment : Fragment(), MainContract.View {
         })
     }
 
+    override fun setUnReadNotification() {
+        mainBinding.unReadNotificationIcon.visibility = View.VISIBLE
+    }
+
+    override fun showEndPopUp(list: ArrayList<AlarmContent>) {
+        val popUpList = ArrayList<ParcelizeAlarmContent>()
+        list.forEach {
+            popUpList.add(ParcelizeAlarmContent(id = it.id, title = it.title, content = it.content, goalId = it.goalId))
+        }
+        startActivity(Intent(activity, EndGoalPopUpActivity::class.java).apply {
+            putExtra(Consts.POP_UP_LIST, popUpList)
+        })
+    }
+
     fun navigateToSearchTab() = (activity as TabActivity).changeTabToSearch()
 
     fun navigateToMyPageTab() = (activity as TabActivity).changeTabToMyPage()
 
     fun navigateToAddGoal() = (activity as TabActivity).navigateToNewGoal(uId)
+
+    fun navigateToNotification() = startActivity(Intent(activity, NotificationActivity::class.java))
 
     fun navigateToSearchActivity() =
         startActivity(Intent(activity, SearchDetailActivity::class.java))

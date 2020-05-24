@@ -103,5 +103,9 @@
     <string name="goal_edit_text">목표 수정</string>
 
     <string name="end_alarm_notice">종료된 목표 알림</string>
+    <string name="notification_text">알림</string>
+    <string name="no_notification_text">알림이 존재하지 않습니다.</string>
+    <string name="end_goal_noti_text">목표가 종료되었습니다.</string>
+    <string name="pull_to_refresh_text">서버 네트워크가 원활하지 않습니다.\n아래로 당겨 새로고침 해주세요.</string>
 
 </resources>

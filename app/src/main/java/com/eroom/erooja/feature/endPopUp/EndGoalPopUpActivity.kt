@@ -4,14 +4,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import com.eroom.data.entity.AlarmContent
+import com.eroom.domain.customview.parcelizeclass.ParcelizeAlarmContent
+import com.eroom.domain.globalconst.Consts
+import com.eroom.domain.utils.loadGif
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityEndGoalPopUpBinding
 import com.eroom.erooja.databinding.ActivityNewGoalFinishBinding
 import com.google.android.gms.common.util.DataUtils
+import org.koin.android.ext.android.get
 
 class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
     private lateinit var endGoalPopUpBinding: ActivityEndGoalPopUpBinding
     private lateinit var presenter : EndGoalPopUpPresenter
+
+    private lateinit var list: ArrayList<ParcelizeAlarmContent>
+    private var alarmSize: Int = 0
+    private var index = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +31,27 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
     private fun setUpDataBinding() {
         endGoalPopUpBinding = DataBindingUtil.setContentView(this, R.layout.activity_end_goal_pop_up)
         endGoalPopUpBinding.activity = this
+    }
+
+    override fun initView() {
+        presenter = EndGoalPopUpPresenter(this, get(), get())
+        list = intent.getParcelableArrayListExtra(Consts.POP_UP_LIST) ?: ArrayList()
+        alarmSize = list.size
+        if (alarmSize == 0) finish()
+        else loadPopUpData()
+    }
+
+    private fun loadPopUpData() {
+        if (index >= alarmSize) endGoalPopUpBinding.nextButton.visibility = View.GONE
+        else {
+            presenter.getData(list[index])
+            presenter.readAlarmRequest(list[index].id)
+        }
+    }
+
+    fun nextButtonClicked() {
+        index++
+        loadPopUpData()
     }
 
     override fun setView(goalTitle: String, achieveRate: Int) {
@@ -35,16 +65,18 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
 
         when {
             achieveRate <= 40 -> {
-                endGoalPopUpBinding.achieveRateImage.setImageResource(R.drawable.ic_achieve_rate_under_40)
+                endGoalPopUpBinding.gifImage.loadGif(R.raw.onboarding0to40)
+                endGoalPopUpBinding.lottie100Image.visibility = View.GONE
                 endGoalPopUpBinding.achieveMaxim.text = badMaxim
             }
             achieveRate < 70 -> {
-                endGoalPopUpBinding.achieveRateImage.setImageResource(R.drawable.ic_achieve_rate_40_to_70)
+                endGoalPopUpBinding.gifImage.loadGif(R.raw.onboarding40to70)
+                endGoalPopUpBinding.lottie100Image.visibility = View.GONE
                 endGoalPopUpBinding.achieveMaxim.text = badMaxim
             }
             else -> {
-                endGoalPopUpBinding.achieveRateImage.setImageResource(R.drawable.ic_achieve_rate_over_70)
-                endGoalPopUpBinding.achieveOver70Background.visibility = View.VISIBLE
+                endGoalPopUpBinding.lottie100Image.playAnimation()
+                endGoalPopUpBinding.gifImage.visibility = View.GONE
                 endGoalPopUpBinding.achieveMaxim.text = goodMaxim
             }
         }
@@ -52,15 +84,5 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
 
     override fun navigateToMainPage() {
         finish()
-    }
-
-    override fun initView() {
-        presenter = EndGoalPopUpPresenter(this)
-        presenter.getData()
-    }
-
-    override fun navigateToSearchGoal() {
-        finish()
-        //목표탐색뷰로 넘어가는 로직 추가
     }
 }
