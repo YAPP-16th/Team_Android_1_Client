@@ -163,7 +163,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
                                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text.toString().trim())
                                 putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
                                 putExtra(Consts.DATE, "기간 설정 자유")
-                                putExtra(Consts.OWNER_UID, UserInfo.myUId)
+                                //putExtra(Consts.OWNER_UID, UserInfo.myUId)
                                 putExtra(Consts.IS_MY_ENDED_GOAL, true)
                                 putExtra(Consts.IS_MY_ABANDONED_GOAL, isAbandoned) //isAbandoned로 해야하나?
                             }
@@ -179,7 +179,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
                                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text.toString().trim())
                                 putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
                                 putExtra(Consts.DATE, binding.goalDateTxt.text)
-                                putExtra(Consts.OWNER_UID, UserInfo.myUId)
+                                //putExtra(Consts.OWNER_UID, UserInfo.myUId)
                                 putExtra(Consts.IS_MY_ENDED_GOAL, true)
                                 putExtra(Consts.IS_MY_ABANDONED_GOAL, true) //isAbandoned로 해야하나?
                             })

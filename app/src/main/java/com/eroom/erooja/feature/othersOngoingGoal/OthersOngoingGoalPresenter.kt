@@ -28,6 +28,7 @@ class OthersOngoingGoalPresenter(
         getGoalDetailUseCase.getGoalDetail(goalId)
             .subscribe({
                 view.setGoalData(it)
+                view.setIsDateFixed(it.isDateFixed)
             }, {
                 Timber.e(it.localizedMessage)
             })

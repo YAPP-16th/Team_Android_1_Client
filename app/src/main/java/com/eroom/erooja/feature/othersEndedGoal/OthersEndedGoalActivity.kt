@@ -23,6 +23,7 @@ import com.eroom.erooja.databinding.ActivityOthersEndedGoalBinding
 import com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity
 import com.eroom.erooja.feature.endedGoal.EndedGoalAdapter
 import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
+import com.eroom.erooja.feature.joinOtherList.joinTodoListPage.JoinOtherListActivity
 import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
 import com.eroom.erooja.singleton.UserInfo
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
@@ -48,6 +49,8 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
     private var isMyOngoingGoal: Boolean = false
 
     private var mLastClickTime: Long = 0
+
+    private lateinit var userTodoList: ArrayList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +86,7 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
 
     @SuppressLint("SetTextI18n")
     override fun setTodoList(todoList: ArrayList<MinimalTodoListDetail>) {
+        setUserToDoList(todoList)
         binding.mygoalRecyclerview.apply{
             layoutManager = LinearLayoutManager(this@OthersEndedGoalActivity)
             adapter = OthersEndedGoalAdapter(todoList)
@@ -176,7 +180,7 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
             }
         }
         bottom.callback.observe(this, Observer {
-            if (isExistedInMyPage && isBeforeEndDt && !isAbandoned) {
+            if (isMyOngoingGoal) {
                 when (it) {
                     0 -> { //현재 참여중인 목표입니다
                         startActivity(
@@ -204,20 +208,10 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
                 //if(isExistedInMyPage)////////이전에 1번이라도 참여이력이 있다면
                 when (it) {
                     0 -> { //이 리스트에 참여하기
-                        startActivity(
-                            Intent(
-                                this@OthersEndedGoalActivity,
-                                AddMyListActivity::class.java
-                            ).apply {
-                                putExtra(Consts.GOAL_ID, goalId)
-                                putExtra(Consts.UID, uId) //myUId(x) - owner의 uid
-                                putExtra(Consts.GOAL_DETAIL_REQUEST_verOTHER, true)
-                                putExtra(Consts.DATE, binding.goalDateTxt.text.toString())
-                                putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text.toString())
-                                // putExtra(Consts.DESCRIPTION, "DUMMY")
-                                putExtra("Description", "DUMMY")
-                            }
-                        )
+                        if(isExistedInMyPage) {
+                            //alert
+                        }
+                        joinOtherList(uId)
                     }
                     1 -> { // 다른 참여자 리스트 둘러보기
                         startActivity(
@@ -236,6 +230,24 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
             }
             bottom.dismiss()
         })
+    }
+
+    //Todo: 현재 액티비티에서 JoinOtherListActivity 로 넘어갈 때 필요한 요소: GoalID, UID, NAME, DATE, GoalTITLE, DESC)
+    private fun joinOtherList(uid: String) {
+        val intent = Intent(this@OthersEndedGoalActivity, JoinOtherListActivity::class.java)
+            .apply{
+                putExtra(Consts.GOAL_ID, intent.getLongExtra(Consts.GOAL_ID, -1))
+                putExtra(Consts.UID, uid)
+                if(isDateFixed) {
+                    putExtra(Consts.DATE, binding.goalDateTxt.text)
+                } else {
+                    putExtra(Consts.DATE, "기간 설정 자유")
+                }
+                putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
+                putExtra(Consts.DESCRIPTION, binding.include.text.text)
+                putExtra(Consts.USER_TODO_LIST, userTodoList)
+            }
+        startActivity(intent)
     }
 
     override fun setIsAbandoned(isAbandoned: Boolean) {
@@ -257,6 +269,14 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
     override fun setIsMyOngoingGoal(isMyOngoingGoal: Boolean) {
         this.isMyOngoingGoal = isMyOngoingGoal
     }
+
+    private fun setUserToDoList(todoList: ArrayList<MinimalTodoListDetail>) {
+        userTodoList = ArrayList()
+        repeat(todoList.size) {
+            userTodoList.add(todoList[it].content)
+        }
+    }
+
 
     fun additionalOptionClicked() {
         if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
