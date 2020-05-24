@@ -23,6 +23,7 @@ import com.eroom.erooja.databinding.FragmentMainBinding
 import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.endPopUp.EndGoalPopUpActivity
 import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
+import com.eroom.erooja.feature.notification.NotificationActivity
 import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
 import com.eroom.erooja.feature.search.search_detail_page.SearchDetailActivity
 import com.eroom.erooja.feature.tab.TabActivity
@@ -73,7 +74,6 @@ class MainFragment : Fragment(), MainContract.View {
             nicknameText.set("게스트 님의 관심직무")
         } else {
             presenter.getUserInfo()
-            presenter.getNotificationInfo()
         }
     }
 
@@ -86,6 +86,7 @@ class MainFragment : Fragment(), MainContract.View {
     override fun onResume() {
         super.onResume()
         presenter.getMyParticipatedList(UserInfo.myUId)
+        presenter.getNotificationInfo()
     }
 
     override fun setNickname(nickname: String) = nicknameText.set("$nickname 님의 관심직무")
@@ -185,6 +186,8 @@ class MainFragment : Fragment(), MainContract.View {
     fun navigateToMyPageTab() = (activity as TabActivity).changeTabToMyPage()
 
     fun navigateToAddGoal() = (activity as TabActivity).navigateToNewGoal(uId)
+
+    fun navigateToNotification() = startActivity(Intent(activity, NotificationActivity::class.java))
 
     fun navigateToSearchActivity() =
         startActivity(Intent(activity, SearchDetailActivity::class.java))

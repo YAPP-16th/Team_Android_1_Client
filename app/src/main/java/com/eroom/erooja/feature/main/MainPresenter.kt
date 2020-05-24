@@ -98,7 +98,7 @@ class MainPresenter(
                     it.content.forEach { alarmContent ->
                         if (alarmContent.createDt.toNonTimeDate() == yesterdayTime && alarmContent.goalId != null) yesterdayList.add(alarmContent)
                     }
-                    if (yesterdayList.size > 0) {
+                    if (yesterdayList.size > 0 && sharedPrefRepository.getPrefsBooleanValue(Consts.ALARM_FLAG, true)) {
                         view.showEndPopUp(yesterdayList)
                     }
                     sharedPrefRepository.writePrefs(Consts.END_POP_UP_CHECKED_DATE, yesterdayTime)

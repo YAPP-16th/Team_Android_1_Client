@@ -5,7 +5,7 @@ import com.eroom.data.entity.Pageable
 import com.eroom.data.entity.Sort
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class UnCheckedAlarmsResponse(
+data class AlarmsResponse(
     @JsonProperty("content") var content: ArrayList<AlarmContent>,
     @JsonProperty("pageable") var pageable: Pageable,
     @JsonProperty("totalElement") var totalElement: Int,
