@@ -4,6 +4,7 @@ interface GoalEditContract {
     interface View {
         fun finishEdit()
         fun showMessage()
+        fun stopAnimation()
     }
 
     interface Presenter {

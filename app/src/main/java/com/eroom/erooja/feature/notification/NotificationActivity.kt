@@ -66,9 +66,13 @@ class NotificationActivity : AppCompatActivity(), NotificationContract.View {
         binding.alarmRecycler.visibility = View.VISIBLE
         if (!::mAdapter.isInitialized) {
             mAdapter = NotificationAdapter(presenter.mAlarmDiffCallback, contentList, this, gotoAlarm)
+            binding.alarmRecycler.apply {
+                adapter = mAdapter
+                layoutManager = LinearLayoutManager(this@NotificationActivity)
+            }
         } else {
             mAdapter.submitList(contentList)
-            mAdapter.notifyItemRangeChanged(0, contentList.size)
+            mAdapter.notifyDataSetChanged()
         }
         binding.refresh.isRefreshing = false
     }
@@ -100,11 +104,38 @@ class NotificationActivity : AppCompatActivity(), NotificationContract.View {
         }
     }
 
-    private val gotoAlarm = { goalId: Long? ->
-        if (goalId != null) startActivity(Intent(this, EndedGoalActivity::class.java).apply {
-            putExtra(Consts.GOAL_ID, goalId)
-            putExtra(Consts.UID, UserInfo.myUId)
-        })
+    private val gotoAlarm = { alarmId: Long, goalId: Long? ->
+        if (goalId != null) {
+            presenter.requestReadRequest(alarmId)
+            startActivity(Intent(this, EndedGoalActivity::class.java).apply {
+                putExtra(Consts.GOAL_ID, goalId)
+                putExtra(Consts.UID, UserInfo.myUId)
+            })
+        }
         else this.toastShort("알 수 없는 에러입니다")
+    }
+
+    fun startBlockAnimation() {
+        binding.colorLoading.visibility = View.GONE
+        binding.blockView.visibility = View.VISIBLE
+        binding.whiteLoading.visibility = View.VISIBLE
+        binding.colorLoading.cancelAnimation()
+        binding.whiteLoading.playAnimation()
+    }
+
+    override fun startAnimation() {
+        binding.blockView.visibility = View.GONE
+        binding.whiteLoading.visibility = View.GONE
+        binding.colorLoading.visibility = View.VISIBLE
+        binding.whiteLoading.cancelAnimation()
+        binding.colorLoading.playAnimation()
+    }
+
+    override fun stopAnimation() {
+        binding.blockView.visibility = View.GONE
+        binding.whiteLoading.visibility = View.GONE
+        binding.colorLoading.visibility = View.GONE
+        binding.whiteLoading.cancelAnimation()
+        binding.colorLoading.cancelAnimation()
     }
 }

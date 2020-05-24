@@ -65,9 +65,11 @@ class LoginPresenter(override val view: LoginContract.View,
                     sharedPrefRepository.writePrefs(Consts.AUTO_LOGIN, true)
                     view.redirectMainActivity()
                 }
+                view.stopAnimation()
             },{
                 Timber.e(it.localizedMessage)
                 logout()
+                view.stopAnimation()
             }) addTo compositeDisposable
     }
 

@@ -43,8 +43,10 @@ class SearchPresenter(override val view:SearchContract.View,
             .subscribe ({
                 if (it.totalPages > page) view.setAllView(it.content)
                 view.setIsEnd(it.totalPages -1 <= page)
+                view.stopAnimation()
             },{
                 Timber.i(it.localizedMessage)
+                view.stopAnimation()
             }) addTo compositeDisposable
     }
 

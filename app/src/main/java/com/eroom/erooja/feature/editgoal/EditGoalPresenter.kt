@@ -25,8 +25,10 @@ class EditGoalPresenter(override val view: EditGoalContract.View,
         getTodoListUseCase.getUserTodoList(uid, goalId)
             .subscribe({
                 view.setEditList(it.content)
+                view.stopAnimation()
             },{
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             })
     }
 
@@ -36,8 +38,10 @@ class EditGoalPresenter(override val view: EditGoalContract.View,
             .subscribe({
                 getTodoData(uid, goalId)
                 view.changeSuccess()
+                view.stopAnimation()
             },{
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             })
     }
 
@@ -46,8 +50,10 @@ class EditGoalPresenter(override val view: EditGoalContract.View,
         putTodoListUseCase.putTodoList(goalId, todoList)
             .subscribe({
                 view.finishActivity()
+                view.stopAnimation()
             },{
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             })
     }
 

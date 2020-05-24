@@ -12,6 +12,8 @@ interface OthersOngoingGoalContract {
         fun reRequestTodoList()
         fun settingDate(startDt: String, endDt: String)
         fun setIsExistedInMyPage(isExistedInMyPage: Boolean)
+        fun startAnimation()
+        fun stopAnimation()
     }
 
     interface Presenter{

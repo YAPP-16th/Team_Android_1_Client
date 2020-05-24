@@ -31,8 +31,10 @@ class GoalDetailPresenter(override var view: GoalDetailContract.View,
             .subscribe({
                // view.setView(it.title, it.description, it.joinCount, it.isDateFixed, it.startDt, it.endDt)
                 view.setInitialView(it)
+                view.stopAnimation()
             },{
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             }) addTo compositeDisposable
     }
 

@@ -284,4 +284,28 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
         presenter.onCleared()
         super.onDestroy()
     }
+
+    fun startBlockAnimation() {
+        othersPageBinding.colorLoading.visibility = View.GONE
+        othersPageBinding.blockView.visibility = View.VISIBLE
+        othersPageBinding.whiteLoading.visibility = View.VISIBLE
+        othersPageBinding.colorLoading.cancelAnimation()
+        othersPageBinding.whiteLoading.playAnimation()
+    }
+
+    override fun startAnimation() {
+        othersPageBinding.blockView.visibility = View.GONE
+        othersPageBinding.whiteLoading.visibility = View.GONE
+        othersPageBinding.colorLoading.visibility = View.VISIBLE
+        othersPageBinding.whiteLoading.cancelAnimation()
+        othersPageBinding.colorLoading.playAnimation()
+    }
+
+    override fun stopAnimation() {
+        othersPageBinding.blockView.visibility = View.GONE
+        othersPageBinding.whiteLoading.visibility = View.GONE
+        othersPageBinding.colorLoading.visibility = View.GONE
+        othersPageBinding.whiteLoading.cancelAnimation()
+        othersPageBinding.colorLoading.cancelAnimation()
+    }
 }

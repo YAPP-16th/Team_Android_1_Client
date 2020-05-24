@@ -12,6 +12,7 @@ interface EndedGoalContract {
         fun setIsDateFixed(isDateFixed: Boolean)
         fun setIsBeforeEndDt(isBeforeEndDt: Boolean)
         fun settingDate(startDt: String, endDt: String)
+        fun stopAnimation()
     }
 
     interface Presenter{

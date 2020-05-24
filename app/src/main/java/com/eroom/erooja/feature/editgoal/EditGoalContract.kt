@@ -8,6 +8,7 @@ interface EditGoalContract {
         fun setEditList(todoList: ArrayList<MinimalTodoListDetail>)
         fun finishActivity()
         fun changeSuccess()
+        fun stopAnimation()
     }
 
     interface Presenter {

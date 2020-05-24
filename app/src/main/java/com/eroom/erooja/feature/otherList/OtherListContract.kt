@@ -7,7 +7,8 @@ interface OtherListContract {
     interface View{
         fun setAllView(todoList:ArrayList<MinimalTodoListDetail>)
         fun setProfileImage(imagePath: String?)
-
+        fun startAnimation()
+        fun stopAnimation()
     }
 
     interface Presenter{

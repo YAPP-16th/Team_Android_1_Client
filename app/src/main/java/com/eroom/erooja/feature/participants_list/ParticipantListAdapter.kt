@@ -39,11 +39,13 @@ class ParticipantListAdapter(
 
 
     override fun onBindViewHolder(holder: ParticipantViewHolder, position: Int) {
-        var a = list
         holder.name.text =
             list[position].nickname add if (list[position].uid == uId) "(you)" else ""
         holder.jobClassText.text =
-            list[position].jobInterests[0].name add if (list[position].jobInterests.size < 2) "" else " 외 ${list[position].jobInterests.size - 1}개"
+            if (list[position].jobInterests.size > 0)
+                list[position].jobInterests[0].name add if (list[position].jobInterests.size < 2) "" else " 외 ${list[position].jobInterests.size - 1}개"
+            else
+                ""
         if (list[position].uid == uId) holder.naviImage.visibility = View.GONE
         holder.item.setOnClickListener {
             if (list[position].uid != uId) {

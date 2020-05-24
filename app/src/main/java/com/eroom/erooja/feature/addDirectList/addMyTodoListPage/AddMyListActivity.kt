@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -273,6 +274,7 @@ class AddMyListActivity : AppCompatActivity(),
     }
 
     private fun networkRequest() {
+        startBlockAnimation()
         if(isMyEndedGoal) {
             //myPage -> 종료탭에 있는 목표라면? -> 재참
             presenter.reparticipateToMyEndedGoal(goalId!!, endDate)
@@ -360,5 +362,29 @@ class AddMyListActivity : AppCompatActivity(),
     override fun onDestroy() {
         presenter.onCleared()
         super.onDestroy()
+    }
+
+    fun startBlockAnimation() {
+        newGoalBinding.colorLoading.visibility = View.GONE
+        newGoalBinding.blockView.visibility = View.VISIBLE
+        newGoalBinding.whiteLoading.visibility = View.VISIBLE
+        newGoalBinding.colorLoading.cancelAnimation()
+        newGoalBinding.whiteLoading.playAnimation()
+    }
+
+    fun startAnimation() {
+        newGoalBinding.blockView.visibility = View.GONE
+        newGoalBinding.whiteLoading.visibility = View.GONE
+        newGoalBinding.colorLoading.visibility = View.VISIBLE
+        newGoalBinding.whiteLoading.cancelAnimation()
+        newGoalBinding.colorLoading.playAnimation()
+    }
+
+    override fun stopAnimation() {
+        newGoalBinding.blockView.visibility = View.GONE
+        newGoalBinding.whiteLoading.visibility = View.GONE
+        newGoalBinding.colorLoading.visibility = View.GONE
+        newGoalBinding.whiteLoading.cancelAnimation()
+        newGoalBinding.colorLoading.cancelAnimation()
     }
 }

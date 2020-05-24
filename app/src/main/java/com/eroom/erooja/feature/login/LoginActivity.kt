@@ -2,6 +2,7 @@ package com.eroom.erooja.feature.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.eroom.domain.globalconst.Consts
@@ -42,7 +43,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     }
 
     private fun initView() {
-        callback = SessionCallback(presenter.requestMe)
+        callback = SessionCallback(presenter.requestMe, startBlockAnimation)
         Session.getCurrentSession().addCallback(callback)
         Session.getCurrentSession().checkAndImplicitOpen()
     }
@@ -60,8 +61,9 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         presenter.onCleared()
     }
 
-    private class SessionCallback(val requestMe: () -> Future<MeV2Response>) : ISessionCallback {
+    private class SessionCallback(val requestMe: () -> Future<MeV2Response>, val startAnimation: () -> Unit) : ISessionCallback {
         override fun onSessionOpened() {
+            startAnimation()
             requestMe()
         }
 
@@ -83,4 +85,27 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     fun kakaoLoginButtonClicked() = loginBinding.comKakaoLogin.performClick()
 
+    private val startBlockAnimation = {
+        loginBinding.colorLoading.visibility = View.GONE
+        loginBinding.blockView.visibility = View.VISIBLE
+        loginBinding.whiteLoading.visibility = View.VISIBLE
+        loginBinding.colorLoading.cancelAnimation()
+        loginBinding.whiteLoading.playAnimation()
+    }
+
+    fun startAnimation() {
+        loginBinding.blockView.visibility = View.GONE
+        loginBinding.whiteLoading.visibility = View.GONE
+        loginBinding.colorLoading.visibility = View.VISIBLE
+        loginBinding.whiteLoading.cancelAnimation()
+        loginBinding.colorLoading.playAnimation()
+    }
+
+    override fun stopAnimation() {
+        loginBinding.blockView.visibility = View.GONE
+        loginBinding.whiteLoading.visibility = View.GONE
+        loginBinding.colorLoading.visibility = View.GONE
+        loginBinding.whiteLoading.cancelAnimation()
+        loginBinding.colorLoading.cancelAnimation()
+    }
 }

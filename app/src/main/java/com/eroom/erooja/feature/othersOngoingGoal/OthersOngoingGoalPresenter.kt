@@ -25,12 +25,15 @@ class OthersOngoingGoalPresenter(
 
     @SuppressLint("CheckResult")
     override fun getData(goalId: Long) {
+        view.startAnimation()
         getGoalDetailUseCase.getGoalDetail(goalId)
             .subscribe({
                 view.setGoalData(it)
                 view.setIsDateFixed(it.isDateFixed)
+                view.stopAnimation()
             }, {
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             })
     }
 

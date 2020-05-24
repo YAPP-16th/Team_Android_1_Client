@@ -23,6 +23,7 @@ class SelectJobPresenter(override val view: SelectJobContract.View,
                 view.reRequestClassByGroup(it)
             },{
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             }) addTo compositeDisposable
     }
 
@@ -35,8 +36,10 @@ class SelectJobPresenter(override val view: SelectJobContract.View,
             }.toList()
             .subscribe({
                 view.updateJobGroupAndClass(it)
+                view.stopAnimation()
             },{
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             }) addTo compositeDisposable
     }
 

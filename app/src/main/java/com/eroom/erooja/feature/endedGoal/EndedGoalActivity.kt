@@ -76,6 +76,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
             if (index == goalData.jobInterests.size - 1) goalType.name else goalType.name add ", "
         }.toList().join()
 
+        stopAnimation()
         setBottomSheetAlert()
         initBottomSheet()
     }
@@ -111,6 +112,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
 
         val intent = intent
         goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
+        startBlockAnimation()
         presenter.getData(goalId)
         //uId = intent.getStringExtra(Consts.UID) ?: ""
         uId = UserInfo.myUId
@@ -243,9 +245,9 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
         mLastClickTime = SystemClock.elapsedRealtime()
 
         if(!isBeforeEndDt && isDateFixed){
-            bottomAlert.show(supportFragmentManager, bottom.tag)
+            if (::bottomAlert.isInitialized) bottomAlert.show(supportFragmentManager, bottom.tag)
         } else {
-            bottom.show(supportFragmentManager, bottom.tag)
+            if (::bottom.isInitialized) bottom.show(supportFragmentManager, bottom.tag)
         }
     }
 
@@ -260,5 +262,29 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     override fun onDestroy() {
         presenter.onCleared()
         super.onDestroy()
+    }
+
+    fun startBlockAnimation() {
+        binding.colorLoading.visibility = View.GONE
+        binding.blockView.visibility = View.VISIBLE
+        binding.whiteLoading.visibility = View.VISIBLE
+        binding.colorLoading.cancelAnimation()
+        binding.whiteLoading.playAnimation()
+    }
+
+    fun startAnimation() {
+        binding.blockView.visibility = View.GONE
+        binding.whiteLoading.visibility = View.GONE
+        binding.colorLoading.visibility = View.VISIBLE
+        binding.whiteLoading.cancelAnimation()
+        binding.colorLoading.playAnimation()
+    }
+
+    override fun stopAnimation() {
+        binding.blockView.visibility = View.GONE
+        binding.whiteLoading.visibility = View.GONE
+        binding.colorLoading.visibility = View.GONE
+        binding.whiteLoading.cancelAnimation()
+        binding.colorLoading.cancelAnimation()
     }
 }

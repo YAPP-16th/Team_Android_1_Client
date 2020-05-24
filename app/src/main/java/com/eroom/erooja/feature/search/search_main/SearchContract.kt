@@ -11,6 +11,7 @@ interface SearchContract{
         fun setUserJobInterest(interest: MutableSet<JobClass>)
         fun setAllView(search: ArrayList<GoalContent>)
         fun setIsEnd(boolean: Boolean)
+        fun stopAnimation()
     }
 
     interface Presenter{

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
@@ -137,6 +138,7 @@ class GoalEditActivity : AppCompatActivity(), GoalEditContract.View {
 
     fun requestEdit() {
         if (lengthIsFine.get()!!) {
+            startBlockAnimation()
             presenter.requestEditGoal(
                 goalId,
                 binding.goalTitle.text.toString(),
@@ -155,5 +157,29 @@ class GoalEditActivity : AppCompatActivity(), GoalEditContract.View {
 
     override fun onBackPressed() {
         navigateToFinish()
+    }
+
+    fun startBlockAnimation() {
+        binding.colorLoading.visibility = View.GONE
+        binding.blockView.visibility = View.VISIBLE
+        binding.whiteLoading.visibility = View.VISIBLE
+        binding.colorLoading.cancelAnimation()
+        binding.whiteLoading.playAnimation()
+    }
+
+    fun startAnimation() {
+        binding.blockView.visibility = View.GONE
+        binding.whiteLoading.visibility = View.GONE
+        binding.colorLoading.visibility = View.VISIBLE
+        binding.whiteLoading.cancelAnimation()
+        binding.colorLoading.playAnimation()
+    }
+
+    override fun stopAnimation() {
+        binding.blockView.visibility = View.GONE
+        binding.whiteLoading.visibility = View.GONE
+        binding.colorLoading.visibility = View.GONE
+        binding.whiteLoading.cancelAnimation()
+        binding.colorLoading.cancelAnimation()
     }
 }

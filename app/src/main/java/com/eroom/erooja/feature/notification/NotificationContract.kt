@@ -8,6 +8,8 @@ interface NotificationContract {
         fun nonAlarmList()
         fun networkError()
         fun setIsEnd()
+        fun stopAnimation()
+        fun startAnimation()
     }
     interface Presenter {
         val view: View

@@ -22,7 +22,7 @@ class EndGoalPopUpPresenter(override var view: EndGoalPopUpContract.View,
                     response.content.forEach { todo ->
                         if (todo.isEnd) endSize++
                     }
-                    view.setView(content.title, ((endSize.toDouble() / totalSize) * 100).toInt())
+                    view.setView(content.content, ((endSize.toDouble() / totalSize) * 100).toInt())
                 }, { throwable ->
                     Timber.e(throwable.localizedMessage)
                 })

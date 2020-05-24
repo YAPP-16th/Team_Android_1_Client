@@ -26,6 +26,7 @@ class EndedGoalPresenter(override var view: EndedGoalContract.View,
                 view.setIsDateFixed(it.isDateFixed)
             },{
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             })
     }
 
@@ -36,6 +37,7 @@ class EndedGoalPresenter(override var view: EndedGoalContract.View,
                 view.setTodoList(it.content)
             },{
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             })
     }
 
@@ -66,6 +68,7 @@ class EndedGoalPresenter(override var view: EndedGoalContract.View,
 //                } ?: if (it.code() == 400) view.setIsMyOngoingGoal(false)
             }, {
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             })
     }
 

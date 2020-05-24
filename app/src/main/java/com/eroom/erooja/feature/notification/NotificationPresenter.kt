@@ -25,14 +25,17 @@ class NotificationPresenter(override val view: NotificationContract.View,
 
     @SuppressLint("CheckResult")
     override fun requestAlarms(page: Int) {
+        view.startAnimation()
         getAlarmsUseCase.getAlarms(page = page, size = 10, sortBy = SortBy.CREATED_DT)
             .subscribe({
                 view.loadAlarms(it.content)
                 if (page == 0 && it.content.size == 0) view.nonAlarmList()
                 if (page >= it.totalPages - 1) view.setIsEnd()
+                view.stopAnimation()
             }, {
                 Timber.e(it.localizedMessage)
                 view.networkError()
+                view.stopAnimation()
             })
     }
 
