@@ -29,7 +29,9 @@ import org.koin.android.ext.android.get
 import ru.rhanza.constraintexpandablelayout.State
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.ObservableField
+import com.eroom.data.response.UserInfoResponse
 import com.eroom.erooja.R.*
+import com.eroom.erooja.singleton.UserInfo
 
 
 class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
@@ -125,7 +127,8 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         val intent = intent
         goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
         presenter.getGoalInfo(goalId)
-        uId = intent.getStringExtra(Consts.UID) ?: ""
+        //uId = intent.getStringExtra(Consts.UID) ?: ""
+        uId = UserInfo.myUId
 
         presenter.getTodoData(uId, goalId)
 

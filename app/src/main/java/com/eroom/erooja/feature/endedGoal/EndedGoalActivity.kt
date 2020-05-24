@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.GoalType
 import com.eroom.data.entity.MinimalTodoListDetail
 import com.eroom.data.localclass.BottomSheetColor
+import com.eroom.data.request.GoalAbandonedRequest
 import com.eroom.data.response.GoalDetailResponse
 import com.eroom.domain.customview.bottomsheetAlert.BottomSheetAlertFragment
 import com.eroom.domain.customview.bottomsheet.BottomSheetFragment
@@ -20,8 +21,10 @@ import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.*
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityEndedGoalBinding
+import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity
 import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
+import com.eroom.erooja.feature.joinOtherList.joinTodoListPage.JoinOtherListActivity
 import com.eroom.erooja.singleton.UserInfo
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
 import org.koin.android.ext.android.get
@@ -43,6 +46,8 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     private var isBeforeEndDt: Boolean = false
 
     private var mLastClickTime: Long = 0
+
+    private lateinit var userTodoList: ArrayList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +82,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
 
     @SuppressLint("SetTextI18n")
     override fun setTodoList(todoList: ArrayList<MinimalTodoListDetail>) {
+        setUserToDoList(todoList)
         binding.mygoalRecyclerview.apply{
             layoutManager = LinearLayoutManager(this@EndedGoalActivity)
             adapter = EndedGoalAdapter(todoList)
@@ -106,7 +112,8 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
         val intent = intent
         goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
         presenter.getData(goalId)
-        uId = intent.getStringExtra(Consts.UID) ?: ""
+        //uId = intent.getStringExtra(Consts.UID) ?: ""
+        uId = UserInfo.myUId
         //isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, false)
 
         presenter.getTodoData(uId, goalId)
@@ -151,51 +158,42 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
         }
         bottom.callback.observe(this, Observer {
             when (it) {
-                0 -> { // 목표에 다시 참여하기
-                    if(!isDateFixed) {
-                        this.toastShort("이 목표는 기간 설정 자유")
-                        startActivity(
-                            Intent(
-                                this@EndedGoalActivity,
-                                AddMyListActivity::class.java
-                            ).apply {
-                                putExtra(Consts.GOAL_ID, goalId)
-                                putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text.toString().trim())
-                                putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
-                                putExtra(Consts.DATE, "기간 설정 자유")
-                                //putExtra(Consts.OWNER_UID, UserInfo.myUId)
-                                putExtra(Consts.IS_MY_ENDED_GOAL, true)
-                                putExtra(Consts.IS_MY_ABANDONED_GOAL, isAbandoned) //isAbandoned로 해야하나?
-                            }
-                        )
-                    } else {
-                        this.toastLong(" 이목표는 기간설정 못함니다")
-                        startActivity(
-                            Intent(
-                                this@EndedGoalActivity,
-                                AddMyListActivity::class.java
-                            ).apply {
-                                putExtra(Consts.GOAL_ID, goalId)
-                                putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text.toString().trim())
-                                putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
-                                putExtra(Consts.DATE, binding.goalDateTxt.text)
-                                //putExtra(Consts.OWNER_UID, UserInfo.myUId)
-                                putExtra(Consts.IS_MY_ENDED_GOAL, true)
-                                putExtra(Consts.IS_MY_ABANDONED_GOAL, true) //isAbandoned로 해야하나?
-                            })
-                    }
+                0 -> { //이 리스트에 참여하기
+                    startActivityForResult(Intent(this, EroojaDialogActivity::class.java).apply {
+                        putExtra(Consts.DIALOG_TITLE, "")
+                        putExtra(Consts.DIALOG_CONTENT, "이미 목표에 참여한 이력이 존재합니다. 참여 시 해당 이력이 삭제될 수 있습니다.")
+                        putExtra(Consts.DIALOG_CONFIRM, true)
+                        putExtra(Consts.DIALOG_CANCEL, true)
+                    }, Consts.MY_GOAL_REJOIN_REQUEST)
                 }
                 1 -> { // 다른 참여자 리스트 둘러보기
                     startActivity(Intent(this@EndedGoalActivity, GoalDetailActivity::class.java).apply {
                         putExtra(Consts.GOAL_ID, goalId)
                         putExtra(Consts.UID, uId)
-                        //putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isFromMyPage)
                     })
                 }
                 else -> {}
             }
             bottom.dismiss()
         })
+    }
+
+    //Todo: 현재 액티비티에서 JoinOtherListActivity 로 넘어갈 때 필요한 요소: GoalID, UID, NAME, DATE, GoalTITLE, DESC)
+    private fun joinOtherList(uid: String) {
+        val intent = Intent(this@EndedGoalActivity, JoinOtherListActivity::class.java)
+            .apply{
+                putExtra(Consts.GOAL_ID, intent.getLongExtra(Consts.GOAL_ID, -1))
+                putExtra(Consts.UID, UserInfo.myUId)
+                if(isDateFixed) {
+                    putExtra(Consts.DATE, binding.goalDateTxt.text)
+                } else {
+                    putExtra(Consts.DATE, "기간 설정 자유")
+                }
+                putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
+                putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
+                putExtra(Consts.USER_TODO_LIST, userTodoList)
+            }
+        startActivity(intent)
     }
 
     override fun setIsAbandoned(isAbandoned: Boolean) {
@@ -209,6 +207,33 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     override fun setIsBeforeEndDt(isBeforeEndDt: Boolean) {
         this.isBeforeEndDt = isBeforeEndDt
     }
+
+    private fun setUserToDoList(todoList: ArrayList<MinimalTodoListDetail>) {
+        userTodoList = ArrayList()
+        repeat(todoList.size) {
+            userTodoList.add(todoList[it].content)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == Consts.MY_GOAL_REJOIN_REQUEST && resultCode == 6000) {
+            data?.let {
+                val result = it.getBooleanExtra(Consts.DIALOG_RESULT, false)
+                if (result) {
+                    joinOtherList(uId)
+                }
+            }
+        }
+    }
+
+//    override fun onAbandonedSuccess() {
+//        finish()
+//    }
+//
+//    override fun onAbandonedFailure() {
+//        this.toastShort("포기 실패 ㅠㅠ 다시 시도해주세요.")
+//    }
 
     fun additionalOptionClicked() {
         //'현수짱 괴롭히기' 목표의 경우 더보기 버튼 눌렸을때 어떤 종류의 bottmSheet을 띄울지 실시간으로 반영해야한다면? -> API 한 번 더 요청?(getIsDateFixed or getIsBeforeEndDt)

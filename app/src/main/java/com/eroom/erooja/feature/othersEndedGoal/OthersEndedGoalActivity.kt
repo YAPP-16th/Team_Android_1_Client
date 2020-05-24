@@ -20,6 +20,7 @@ import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.*
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityOthersEndedGoalBinding
+import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity
 import com.eroom.erooja.feature.endedGoal.EndedGoalAdapter
 import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
@@ -79,9 +80,6 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
         binding.goalDescLayout.keyword_txt.text = goalData.jobInterests.mapIndexed { index: Int, goalType: GoalType ->
             if (index == goalData.jobInterests.size - 1) goalType.name else goalType.name add ", "
         }.toList().join()
-
-        setBottomSheetAlert()
-        initBottomSheet()
     }
 
     @SuppressLint("SetTextI18n")
@@ -205,13 +203,18 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
                     else -> {}
                 }
             } else {
-                //if(isExistedInMyPage)////////이전에 1번이라도 참여이력이 있다면
                 when (it) {
                     0 -> { //이 리스트에 참여하기
                         if(isExistedInMyPage) {
-                            //alert
+                            startActivityForResult(Intent(this, EroojaDialogActivity::class.java).apply {
+                                putExtra(Consts.DIALOG_TITLE, "")
+                                putExtra(Consts.DIALOG_CONTENT, "이미 목표에 참여한 이력이 존재합니다. 참여 시 해당 이력이 삭제될 수 있습니다.")
+                                putExtra(Consts.DIALOG_CONFIRM, true)
+                                putExtra(Consts.DIALOG_CANCEL, true)
+                            }, Consts.MY_GOAL_REJOIN_REQUEST)
+                        } else {
+                            joinOtherList(uId)
                         }
-                        joinOtherList(uId)
                     }
                     1 -> { // 다른 참여자 리스트 둘러보기
                         startActivity(
@@ -244,7 +247,7 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
                     putExtra(Consts.DATE, "기간 설정 자유")
                 }
                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
-                putExtra(Consts.DESCRIPTION, binding.include.text.text)
+                putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
                 putExtra(Consts.USER_TODO_LIST, userTodoList)
             }
         startActivity(intent)
@@ -268,6 +271,8 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
 
     override fun setIsMyOngoingGoal(isMyOngoingGoal: Boolean) {
         this.isMyOngoingGoal = isMyOngoingGoal
+        setBottomSheetAlert()
+        initBottomSheet()
     }
 
     private fun setUserToDoList(todoList: ArrayList<MinimalTodoListDetail>) {
@@ -277,6 +282,17 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == Consts.MY_GOAL_REJOIN_REQUEST && resultCode == 6000) {
+            data?.let {
+                val result = it.getBooleanExtra(Consts.DIALOG_RESULT, false)
+                if (result) {
+                    joinOtherList(uId)
+                }
+            }
+        }
+    }
 
     fun additionalOptionClicked() {
         if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
