@@ -29,6 +29,7 @@ class OngoingGoalPresenter(override var view: OngoingGoalContract.View,
                 view.setGoalData(it)
             },{
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             })
     }
 

@@ -43,8 +43,10 @@ class JoinOtherListPresenter(
             .subscribe({
                 if(it.code() == 400 ) view.failRequest()
                 else view.redirectNewGoalFinish(goalId!!)
+                view.stopAnimation()
             }, {
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             }) addTo compositeDisposable
     }
 }

@@ -4,6 +4,7 @@ interface AddMyListContract {
     interface View {
         fun redirectNewGoalFinish(resultId: Long)
         fun failRequest()
+        fun stopAnimation()
     }
 
     interface Presenter {

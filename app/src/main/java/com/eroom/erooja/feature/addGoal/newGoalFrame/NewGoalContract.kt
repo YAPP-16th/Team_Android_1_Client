@@ -6,6 +6,7 @@ interface NewGoalContract {
     interface View {
         fun redirectNewGoalFinish(resultId: Long)
         fun failRequest()
+        fun stopAnimation()
     }
 
     interface Presenter {

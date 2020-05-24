@@ -11,6 +11,7 @@ import com.eroom.data.entity.JobGroup
 import com.eroom.data.response.JobGroupAndClassResponse
 
 import com.eroom.erooja.databinding.FragmentSelectJobBinding
+import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalActivity
 import org.koin.android.ext.android.get
 import timber.log.Timber
 
@@ -49,6 +50,7 @@ class SelectJobFragment : Fragment(), SelectJobContract.View {
     }
 
     private fun initView() {
+        (activity as NewGoalActivity).startAnimation()
         presenter.getJobGroups()
     }
 
@@ -86,4 +88,6 @@ class SelectJobFragment : Fragment(), SelectJobContract.View {
         presenter.onCleared()
         super.onDestroy()
     }
+
+    override fun stopAnimation() = (activity as NewGoalActivity).stopAnimation()
 }

@@ -13,6 +13,7 @@ interface OngoingGoalContract {
         fun onAbandonedFailure()
         fun settingEditButton(isMine: Boolean)
         fun settingDate(startDt: String, endDt: String)
+        fun stopAnimation()
     }
 
     interface Presenter{

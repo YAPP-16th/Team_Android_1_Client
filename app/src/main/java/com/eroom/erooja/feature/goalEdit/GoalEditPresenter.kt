@@ -12,9 +12,11 @@ class GoalEditPresenter(override val view: GoalEditContract.View,
         putGoalInfoUseCase.putGoalInfo(goalId, title, description)
             .subscribe({
                 view.finishEdit()
+                view.stopAnimation()
             },{
                 Timber.e(it.localizedMessage)
                 view.showMessage()
+                view.stopAnimation()
             })
     }
 }

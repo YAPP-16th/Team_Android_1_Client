@@ -2,6 +2,7 @@ package com.eroom.erooja.feature.signup.kakao
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -124,6 +125,30 @@ class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
     override fun onDestroy() {
         presenter.onCleared()
         super.onDestroy()
+    }
+
+    fun startBlockAnimation() {
+        kakaoBinding.colorLoading.visibility = View.GONE
+        kakaoBinding.blockView.visibility = View.VISIBLE
+        kakaoBinding.whiteLoading.visibility = View.VISIBLE
+        kakaoBinding.colorLoading.cancelAnimation()
+        kakaoBinding.whiteLoading.playAnimation()
+    }
+
+    fun startAnimation() {
+        kakaoBinding.blockView.visibility = View.GONE
+        kakaoBinding.whiteLoading.visibility = View.GONE
+        kakaoBinding.colorLoading.visibility = View.VISIBLE
+        kakaoBinding.whiteLoading.cancelAnimation()
+        kakaoBinding.colorLoading.playAnimation()
+    }
+
+    fun stopAnimation() {
+        kakaoBinding.blockView.visibility = View.GONE
+        kakaoBinding.whiteLoading.visibility = View.GONE
+        kakaoBinding.colorLoading.visibility = View.GONE
+        kakaoBinding.whiteLoading.cancelAnimation()
+        kakaoBinding.colorLoading.cancelAnimation()
     }
 }
 

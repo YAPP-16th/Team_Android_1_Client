@@ -3,6 +3,7 @@ package com.eroom.erooja.feature.tab
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.eroom.data.entity.JobGroup
@@ -114,5 +115,29 @@ class TabActivity : AppCompatActivity(), TabContract.View {
 
     fun replaceFragment(index: Int) {
         loadFragment(index)
+    }
+
+    fun startBlockAnimation() {
+        mainBinding.colorLoading.visibility = View.GONE
+        mainBinding.blockView.visibility = View.VISIBLE
+        mainBinding.whiteLoading.visibility = View.VISIBLE
+        mainBinding.colorLoading.cancelAnimation()
+        mainBinding.whiteLoading.playAnimation()
+    }
+
+    fun startAnimation() {
+        mainBinding.blockView.visibility = View.GONE
+        mainBinding.whiteLoading.visibility = View.GONE
+        mainBinding.colorLoading.visibility = View.VISIBLE
+        mainBinding.whiteLoading.cancelAnimation()
+        mainBinding.colorLoading.playAnimation()
+    }
+
+    fun stopAnimation() {
+        mainBinding.blockView.visibility = View.GONE
+        mainBinding.whiteLoading.visibility = View.GONE
+        mainBinding.colorLoading.visibility = View.GONE
+        mainBinding.whiteLoading.cancelAnimation()
+        mainBinding.colorLoading.cancelAnimation()
     }
 }

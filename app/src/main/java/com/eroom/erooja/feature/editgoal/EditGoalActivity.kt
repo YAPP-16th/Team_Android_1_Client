@@ -68,6 +68,7 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
     private fun initView() {
         uId = intent.getStringExtra(Consts.UID) ?: ""
         goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
+        startAnimation()
         presenter.getTodoData(uId, goalId)
         imageListenerInit()
         buttonListenerInit()
@@ -243,6 +244,7 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
                             editTodoList.mapIndexed { index: Int, todo: Todo ->
                                 todo.priority = index
                             }
+                            startBlockAnimation()
                             presenter.putTodoList(uId, goalId, editTodoList)
                         }
                     }
@@ -343,6 +345,7 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
                     editTodoList.mapIndexed { index: Int, todo: Todo ->
                         todo.priority = index
                     }
+                    startBlockAnimation()
                     presenter.putTodoList(goalId, editTodoList)
                 } else {
                     finish()
@@ -405,5 +408,29 @@ class EditGoalActivity : AppCompatActivity(), EditGoalContract.View, EditGoalAda
                 } ?: finish()
             }
         }
+    }
+
+    fun startBlockAnimation() {
+        editGoalBinding.colorLoading.visibility = View.GONE
+        editGoalBinding.blockView.visibility = View.VISIBLE
+        editGoalBinding.whiteLoading.visibility = View.VISIBLE
+        editGoalBinding.colorLoading.cancelAnimation()
+        editGoalBinding.whiteLoading.playAnimation()
+    }
+
+    fun startAnimation() {
+        editGoalBinding.blockView.visibility = View.GONE
+        editGoalBinding.whiteLoading.visibility = View.GONE
+        editGoalBinding.colorLoading.visibility = View.VISIBLE
+        editGoalBinding.whiteLoading.cancelAnimation()
+        editGoalBinding.colorLoading.playAnimation()
+    }
+
+    override fun stopAnimation() {
+        editGoalBinding.blockView.visibility = View.GONE
+        editGoalBinding.whiteLoading.visibility = View.GONE
+        editGoalBinding.colorLoading.visibility = View.GONE
+        editGoalBinding.whiteLoading.cancelAnimation()
+        editGoalBinding.colorLoading.cancelAnimation()
     }
 }

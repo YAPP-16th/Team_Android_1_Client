@@ -33,9 +33,11 @@ class NewGoalPresenter(override val view: NewGoalContract.View,
         postNewGoalUseCase.postNewGoal(NewGoalRequest(title, description, isDateFixed, endDt, interestIdList, todoListResult))
             .subscribe({
                 view.redirectNewGoalFinish(it.id)
+                view.stopAnimation()
             },{
                 Timber.e(it.localizedMessage)
                 view.failRequest()
+                view.stopAnimation()
             }) addTo compositeDisposable
     }
 

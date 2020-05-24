@@ -7,6 +7,7 @@ interface LoginContract {
     interface View {
         val redirectSignUpActivity: (nickname: String?) -> Unit
         val redirectMainActivity: () -> Unit
+        fun stopAnimation()
     }
 
     interface Presenter {

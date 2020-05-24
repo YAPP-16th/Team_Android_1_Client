@@ -46,6 +46,7 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
     }
 
     private fun initView() {
+        startBlockAnimation()
         presenter.getJobGroups()
 
         val settingTxt: String? = intent.getStringExtra("JOB_CLASS_CHANGE")
@@ -206,5 +207,29 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
     override fun onDestroy() {
         presenter.onCleared()
         super.onDestroy()
+    }
+
+    fun startBlockAnimation() {
+        filterBinding.colorLoading.visibility = View.GONE
+        filterBinding.blockView.visibility = View.VISIBLE
+        filterBinding.whiteLoading.visibility = View.VISIBLE
+        filterBinding.colorLoading.cancelAnimation()
+        filterBinding.whiteLoading.playAnimation()
+    }
+
+    fun startAnimation() {
+        filterBinding.blockView.visibility = View.GONE
+        filterBinding.whiteLoading.visibility = View.GONE
+        filterBinding.colorLoading.visibility = View.VISIBLE
+        filterBinding.whiteLoading.cancelAnimation()
+        filterBinding.colorLoading.playAnimation()
+    }
+
+    override fun stopAnimation() {
+        filterBinding.blockView.visibility = View.GONE
+        filterBinding.whiteLoading.visibility = View.GONE
+        filterBinding.colorLoading.visibility = View.GONE
+        filterBinding.whiteLoading.cancelAnimation()
+        filterBinding.colorLoading.cancelAnimation()
     }
 }

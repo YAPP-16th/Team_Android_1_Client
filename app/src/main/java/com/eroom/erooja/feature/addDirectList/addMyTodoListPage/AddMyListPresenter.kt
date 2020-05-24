@@ -39,10 +39,12 @@ class AddMyListPresenter(
             )
         )
             .subscribe({
-               if(it.code() == 400) view.failRequest()
-               else view.redirectNewGoalFinish(it.body()!!.goalId)
+                if(it.code() == 400) view.failRequest()
+                else view.redirectNewGoalFinish(it.body()!!.goalId)
+                view.stopAnimation()
             }, {
                 view.failRequest()
+                view.stopAnimation()
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
     }
@@ -55,9 +57,10 @@ class AddMyListPresenter(
         ).subscribe({
             if(it.code() == 400 ) view.failRequest()
             else view.redirectNewGoalFinish(goalId)
-
+            view.stopAnimation()
         }, {
             view.failRequest()
+            view.stopAnimation()
             Timber.e(it.localizedMessage)
         }) addTo compositeDisposable
 

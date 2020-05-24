@@ -25,6 +25,7 @@ import com.eroom.erooja.feature.search.search_detail_frame.SearchNoContentFragme
 import com.eroom.erooja.feature.search.search_detail_frame.SearchResultAdapter
 import com.eroom.erooja.feature.search.search_detail_page.SearchDetailActivity
 import com.eroom.erooja.feature.search.search_main_frame.SearchNoGoalListFragment
+import com.eroom.erooja.feature.tab.TabActivity
 import com.eroom.erooja.singleton.JobClassHashMap
 import com.google.android.material.tabs.TabLayout
 import org.koin.android.ext.android.get
@@ -100,6 +101,7 @@ class SearchFragment : Fragment(), SearchContract.View {
         val key = JobClassHashMap.hashmap.getKeyFromValue(text)
         key?.let {
             mKey = it
+            (activity as TabActivity).startAnimation()
             presenter.getSearchJobInterest(mKey, mPage)
         }
     }
@@ -277,4 +279,6 @@ class SearchFragment : Fragment(), SearchContract.View {
         intent.putExtra("search", number)
         startActivityForResult(intent, 1000)
     }
+
+    override fun stopAnimation() = (activity as TabActivity).stopAnimation()
 }

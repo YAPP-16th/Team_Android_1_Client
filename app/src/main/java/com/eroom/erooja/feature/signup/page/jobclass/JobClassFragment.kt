@@ -60,6 +60,7 @@ class JobClassFragment : Fragment(), JobClassContract.View {
 
     fun settingGroup(jobGroup: JobGroup?) {
         jobGroup?.let {
+            (activity as KakaoSignUpActivity).startBlockAnimation()
             presenter.getJobGroups(it) }
     }
 
@@ -106,4 +107,6 @@ class JobClassFragment : Fragment(), JobClassContract.View {
         presenter.onCleared()
         super.onDestroy()
     }
+
+    override fun stopAnimation() = (activity as KakaoSignUpActivity).stopAnimation()
 }

@@ -59,6 +59,35 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         binding.mygoal = this@OngoingGoalActivity
     }
 
+    fun initView() {
+        presenter = OngoingGoalPresenter(this, get(), get(), get(), get(), get())
+
+        statusBarColor(this@OngoingGoalActivity, color.orgDefault)
+
+        binding.goalDescLayout.goal_desc.apply {
+            showButton = false
+            showShadow = false
+        }
+
+
+        when (binding.goalDescLayout.goal_desc.state) {
+            State.Expanded, State.Expanding -> binding.moreBtn.loadDrawable(resources.getDrawable(
+                drawable.ic_icon_small_arrow_top_white, null))
+            State.Collapsed, State.Collapsing -> binding.moreBtn.loadDrawable(resources.getDrawable(
+                drawable.ic_icon_small_arrow_right_white, null))
+            else -> {}
+        }
+
+        val intent = intent
+        goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
+        presenter.getGoalInfo(goalId)
+        uId = intent.getStringExtra(Consts.UID) ?: ""
+
+        presenter.getTodoData(uId, goalId)
+
+        isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, false)
+    }
+
     @SuppressLint("SetTextI18n")
     override fun setGoalData(goalData: GoalDetailResponse) {
         binding.goalNameTxt.text = goalData.title
@@ -82,6 +111,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         }.toList().join()
 
         initBottomSheet(goalData.joinCount)
+        stopAnimation()
     }
 
     fun updateView() {
@@ -104,40 +134,11 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     private val saveChange = { boolean: Boolean, todoId: Long ->
         presenter.setTodoEnd(todoId, boolean)
     }
-
-    fun initView() {
-        presenter = OngoingGoalPresenter(this, get(), get(), get(), get(), get())
-
-        statusBarColor(this@OngoingGoalActivity, color.orgDefault)
-
-        binding.goalDescLayout.goal_desc.apply {
-            showButton = false
-            showShadow = false
-        }
-
-
-        when (binding.goalDescLayout.goal_desc.state) {
-            State.Expanded, State.Expanding -> binding.moreBtn.loadDrawable(resources.getDrawable(
-                drawable.ic_icon_small_arrow_top_white, null))
-            State.Collapsed, State.Collapsing -> binding.moreBtn.loadDrawable(resources.getDrawable(
-                drawable.ic_icon_small_arrow_right_white, null))
-            else -> {}
-        }
-
-        val intent = intent
-        goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
-        presenter.getGoalInfo(goalId)
-        //uId = intent.getStringExtra(Consts.UID) ?: ""
-        uId = UserInfo.myUId
-
-        presenter.getTodoData(uId, goalId)
-
-        isFromMyPage = intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, false)
-    }
-
+    
     override fun onResume() {
         super.onResume()
         reRequestTodoList()
+        startBlockAnimation()
         presenter.getData(goalId)
     }
 
@@ -236,7 +237,8 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
             return
         }
         mLastClickTime = SystemClock.elapsedRealtime()
-        bottom.show(supportFragmentManager, bottom.tag)
+        if (::bottom.isInitialized)
+            bottom.show(supportFragmentManager, bottom.tag)
     }
 
     fun navigateToEdit() {
@@ -258,5 +260,29 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     override fun onDestroy() {
         presenter.onCleared()
         super.onDestroy()
+    }
+
+    fun startBlockAnimation() {
+        binding.colorLoading.visibility = View.GONE
+        binding.blockView.visibility = View.VISIBLE
+        binding.whiteLoading.visibility = View.VISIBLE
+        binding.colorLoading.cancelAnimation()
+        binding.whiteLoading.playAnimation()
+    }
+
+    fun startAnimation() {
+        binding.blockView.visibility = View.GONE
+        binding.whiteLoading.visibility = View.GONE
+        binding.colorLoading.visibility = View.VISIBLE
+        binding.whiteLoading.cancelAnimation()
+        binding.colorLoading.playAnimation()
+    }
+
+    override fun stopAnimation() {
+        binding.blockView.visibility = View.GONE
+        binding.whiteLoading.visibility = View.GONE
+        binding.colorLoading.visibility = View.GONE
+        binding.whiteLoading.cancelAnimation()
+        binding.colorLoading.cancelAnimation()
     }
 }

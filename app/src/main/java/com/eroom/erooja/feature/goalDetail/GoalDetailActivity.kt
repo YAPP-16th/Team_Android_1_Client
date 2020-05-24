@@ -64,6 +64,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     override fun onResume() {
         super.onResume()
         initView()
+        startAnimation()
         presenter.getData(goalId)
     }
 
@@ -254,4 +255,27 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         super.onDestroy()
     }
 
+    fun startBlockAnimation() {
+        binding.colorLoading.visibility = View.GONE
+        binding.blockView.visibility = View.VISIBLE
+        binding.whiteLoading.visibility = View.VISIBLE
+        binding.colorLoading.cancelAnimation()
+        binding.whiteLoading.playAnimation()
+    }
+
+    fun startAnimation() {
+        binding.blockView.visibility = View.GONE
+        binding.whiteLoading.visibility = View.GONE
+        binding.colorLoading.visibility = View.VISIBLE
+        binding.whiteLoading.cancelAnimation()
+        binding.colorLoading.playAnimation()
+    }
+
+    override fun stopAnimation() {
+        binding.blockView.visibility = View.GONE
+        binding.whiteLoading.visibility = View.GONE
+        binding.colorLoading.visibility = View.GONE
+        binding.whiteLoading.cancelAnimation()
+        binding.colorLoading.cancelAnimation()
+    }
 }

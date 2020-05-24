@@ -13,6 +13,8 @@ interface OthersEndedGoalContract {
         fun setIsMyOngoingGoal(isMyOngoingGoal: Boolean)
         fun settingDate(startDt: String, endDt: String)
         fun setIsBeforeEndDt(isBeforeEndDt: Boolean)
+        fun startAnimation()
+        fun stopAnimation()
     }
 
     interface Presenter{

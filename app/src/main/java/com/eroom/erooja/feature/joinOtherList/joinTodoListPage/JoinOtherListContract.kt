@@ -4,6 +4,7 @@ interface JoinOtherListContract {
     interface View {
         fun redirectNewGoalFinish(resultId: Long)
         fun failRequest()
+        fun stopAnimation()
     }
 
     interface Presenter {

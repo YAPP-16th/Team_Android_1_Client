@@ -10,7 +10,7 @@ interface GoalDetailContract {
         fun setInterestedClassName(list: List<String>)
         fun setRecyclerView(todoList: ArrayList<MinimalTodoListContent>, isMine: Boolean, isJoined: Boolean)
         fun setTodoList(todoList:ArrayList<MinimalTodoListDetail>)
-
+        fun stopAnimation()
         fun setInitialView(list: GoalDetailResponse)
     }
 

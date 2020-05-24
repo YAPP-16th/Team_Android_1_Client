@@ -16,6 +16,8 @@ interface OthersPageContract {
         fun setEndedGoalList(list: ArrayList<MinimalGoalDetailContent>)
         fun setOngoingGoalListSizeOnTabLayout(totalElements: Int)
         fun setEndedGoalListSizeOnTabLayout(totalElements: Int)
+        fun startAnimation()
+        fun stopAnimation()
     }
 
     interface Presenter {

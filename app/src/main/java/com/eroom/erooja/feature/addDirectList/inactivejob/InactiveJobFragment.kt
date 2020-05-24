@@ -10,6 +10,7 @@ import com.eroom.data.entity.JobGroup
 import com.eroom.data.response.JobGroupAndClassResponse
 import com.eroom.domain.globalconst.Consts
 import com.eroom.erooja.databinding.FragmentInactiveJobBinding
+import com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity
 import org.koin.android.ext.android.get
 
 
@@ -45,6 +46,7 @@ class InactiveJobFragment : Fragment(), InactiveJobContract.View {
     }
 
     private fun initView() {
+        (activity as AddMyListActivity).startAnimation()
         presenter.getJobGroups()
         presenter.getJobInterestOfTodoList(arguments?.getLong(Consts.GOAL_ID))
     }
@@ -76,4 +78,6 @@ class InactiveJobFragment : Fragment(), InactiveJobContract.View {
         presenter.onCleared()
         super.onDestroy()
     }
+
+    override fun stopAnimation() = (activity as AddMyListActivity).stopAnimation()
 }

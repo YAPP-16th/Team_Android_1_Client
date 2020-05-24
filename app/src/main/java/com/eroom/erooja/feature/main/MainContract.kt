@@ -14,6 +14,8 @@ interface MainContract {
         fun setNewGoalBrowse(content: ArrayList<GoalContent>)
         fun setUnReadNotification()
         fun showEndPopUp(list: ArrayList<AlarmContent>)
+        fun startAnimation()
+        fun stopAnimation()
     }
 
     interface Presenter {

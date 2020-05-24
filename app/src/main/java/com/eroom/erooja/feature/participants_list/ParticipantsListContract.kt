@@ -6,6 +6,8 @@ interface ParticipantsListContract {
     interface View {
         fun updateList(list: ArrayList<Member>, totalElement: Int)
         fun updateIsEnd(boolean: Boolean)
+        fun startAnimation()
+        fun stopAnimation()
     }
 
     interface Presenter {

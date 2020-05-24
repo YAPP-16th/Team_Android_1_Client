@@ -22,6 +22,7 @@ class FilterPresenter(override val view: FilterContract.View,
                 view.reRequestClassByGroup(it)
             },{
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             }) addTo compositeDisposable
     }
 
@@ -34,8 +35,10 @@ class FilterPresenter(override val view: FilterContract.View,
             }.toList()
             .subscribe({
                 view.updateJobGroupAndClass(it) //사용자의 직무, 직군 불러옴
+                view.stopAnimation()
             },{
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             }) addTo compositeDisposable
     }
 

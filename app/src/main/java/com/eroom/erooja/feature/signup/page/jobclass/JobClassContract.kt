@@ -7,6 +7,7 @@ interface JobClassContract {
     interface View {
         fun settingGroupView(jobClasses: ArrayList<JobClass>)
         fun settingGroupId(id: Long)
+        fun stopAnimation()
     }
 
     interface Presenter {

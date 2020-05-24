@@ -14,12 +14,15 @@ class OtherListPresenter(override var view: OtherListContract.View,
     : OtherListContract.Presenter {
 
     @SuppressLint("CheckResult")
-    override fun getData(uid: String, goalId: Long){
+    override fun getData(uid: String, goalId: Long) {
+        view.startAnimation()
         getTodoListUseCase.getUserTodoList(uid, goalId)
             .subscribe({
                 view.setAllView(it.content)
+                view.stopAnimation()
             },{
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             })
     }
 

@@ -196,4 +196,7 @@ class MainFragment : Fragment(), MainContract.View {
         presenter.onCleared()
         super.onDestroy()
     }
+
+    override fun startAnimation() = (activity as TabActivity).startAnimation()
+    override fun stopAnimation() = (activity as TabActivity).stopAnimation()
 }

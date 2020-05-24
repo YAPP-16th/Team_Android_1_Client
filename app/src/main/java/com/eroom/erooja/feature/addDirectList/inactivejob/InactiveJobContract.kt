@@ -8,6 +8,7 @@ interface InactiveJobContract {
         fun reRequestClassByGroup(jobGroupList: ArrayList<JobGroup>)
         fun updateJobGroupAndClass(result: List<JobGroupAndClassResponse>)
         fun setJobInterestOfTodoList(jobInterestList: List<Long>)
+        fun stopAnimation()
     }
 
     interface Presenter {

@@ -73,11 +73,14 @@ class MainPresenter(
 
     @SuppressLint("CheckResult")
     override fun getMyParticipatedList(uid: String) {
+        view.startAnimation()
         getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = 0, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, end = false)
             .subscribe({
                 view.setParticipatedList(it.content)
+                view.stopAnimation()
             },{
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             }) addTo compositeDisposable
     }
 
@@ -85,24 +88,31 @@ class MainPresenter(
     override fun getNotificationInfo() {
         val lastChecked = sharedPrefRepository.getPrefsStringValue(Consts.END_POP_UP_CHECKED_DATE) ?: ""
         val calendar = Calendar.getInstance()
-        calendar.add(Calendar.DATE, - 1)
-        val yesterdayTime = toLocalDateNonTimeFormat(calendar.get(Calendar.YEAR),
+        calendar.add(Calendar.MINUTE, -35)
+        val todayTime = toLocalDateNonTimeFormat(calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH) + 1,
             calendar.get(Calendar.DATE))
 
-        if (lastChecked != yesterdayTime) {
+        if (lastChecked != todayTime) {
             getUnCheckedAlarmsUseCase.getUncheckedAlarms(0, SortBy.CREATED_DT, Int.MAX_VALUE)
                 .subscribe({
                     if (it.content.size > 0) view.setUnReadNotification()
                     val yesterdayList = ArrayList<AlarmContent>()
                     it.content.forEach { alarmContent ->
-                        if (alarmContent.createDt.toNonTimeDate() == yesterdayTime && alarmContent.goalId != null) yesterdayList.add(alarmContent)
+                        if (alarmContent.createDt.toNonTimeDate() == todayTime && alarmContent.goalId != null) yesterdayList.add(alarmContent)
                     }
                     if (yesterdayList.size > 0 && sharedPrefRepository.getPrefsBooleanValue(Consts.ALARM_FLAG, true)) {
                         view.showEndPopUp(yesterdayList)
                     }
-                    sharedPrefRepository.writePrefs(Consts.END_POP_UP_CHECKED_DATE, yesterdayTime)
+                    sharedPrefRepository.writePrefs(Consts.END_POP_UP_CHECKED_DATE, todayTime)
                 },{
+                    Timber.e(it.localizedMessage)
+                })
+        } else {
+            getUnCheckedAlarmsUseCase.getUncheckedAlarms(0, SortBy.CREATED_DT, Int.MAX_VALUE)
+                .subscribe({
+                    if (it.content.size > 0) view.setUnReadNotification()
+                }, {
                     Timber.e(it.localizedMessage)
                 })
         }

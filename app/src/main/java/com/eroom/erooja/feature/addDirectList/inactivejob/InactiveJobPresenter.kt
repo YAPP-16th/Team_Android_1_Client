@@ -25,6 +25,7 @@ class InactiveJobPresenter(
                 view.reRequestClassByGroup(it)
             }, {
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             }) addTo compositeDisposable
     }
 
@@ -37,8 +38,10 @@ class InactiveJobPresenter(
             }.toList()
             .subscribe({
                 view.updateJobGroupAndClass(it)
+                view.stopAnimation()
             }, {
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             }) addTo compositeDisposable
     }
 
@@ -50,7 +53,7 @@ class InactiveJobPresenter(
                        it.id
                    })
                }, {
-
+                    view.stopAnimation()
                })
        }
     }

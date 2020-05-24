@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -116,4 +117,28 @@ class ParticipantsListActivity : AppCompatActivity(), ParticipantsListContract.V
 //        @JsonProperty("imagePath") var imagePath: String?,
 //        @JsonProperty("jobInterests") var jobInterests: ArrayList<JobInterest>
 //    )
+
+    fun startBlockAnimation() {
+        particiBinding.colorLoading.visibility = View.GONE
+        particiBinding.blockView.visibility = View.VISIBLE
+        particiBinding.whiteLoading.visibility = View.VISIBLE
+        particiBinding.colorLoading.cancelAnimation()
+        particiBinding.whiteLoading.playAnimation()
+    }
+
+    override fun startAnimation() {
+        particiBinding.blockView.visibility = View.GONE
+        particiBinding.whiteLoading.visibility = View.GONE
+        particiBinding.colorLoading.visibility = View.VISIBLE
+        particiBinding.whiteLoading.cancelAnimation()
+        particiBinding.colorLoading.playAnimation()
+    }
+
+    override fun stopAnimation() {
+        particiBinding.blockView.visibility = View.GONE
+        particiBinding.whiteLoading.visibility = View.GONE
+        particiBinding.colorLoading.visibility = View.GONE
+        particiBinding.whiteLoading.cancelAnimation()
+        particiBinding.colorLoading.cancelAnimation()
+    }
 }

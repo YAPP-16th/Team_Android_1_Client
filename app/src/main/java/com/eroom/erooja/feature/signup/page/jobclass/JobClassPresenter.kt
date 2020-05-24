@@ -26,6 +26,7 @@ class JobClassPresenter(
                 }
             },{
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             }) addTo compositeDisposable
     }
 
@@ -35,8 +36,10 @@ class JobClassPresenter(
             .subscribe({
                 view.settingGroupView(it.jobInterests)
                 view.settingGroupId(groupId)
+                view.stopAnimation()
             },{
                 Timber.e(it.localizedMessage)
+                view.stopAnimation()
             }) addTo compositeDisposable
     }
 
