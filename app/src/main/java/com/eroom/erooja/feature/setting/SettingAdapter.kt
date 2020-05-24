@@ -55,7 +55,7 @@ class SettingAdapter(
         }
 
         holder.item.setOnClickListener { click(position) }
-
+        holder.settingBtn.setOnClickListener { click(position) }
     }
 
 
