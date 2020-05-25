@@ -19,7 +19,7 @@ class NotificationAdapter(
     callback: DiffUtil.ItemCallback<AlarmContent>,
     private val list: ArrayList<AlarmContent>,
     private val context: Context,
-    private val itemClick: (Long, Long?) -> Unit
+    private val itemClick: (Long, Long?, Int) -> Unit
 ) : ListAdapter<AlarmContent, NotificationViewHolder>(callback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
         val binding =
@@ -33,9 +33,12 @@ class NotificationAdapter(
         if (!list[position].isChecked) {
             holder.backgroud.setBackgroundColor(context.resources.getColor(R.color.orgBright, null))
             holder.roundIcon.loadDrawable(context.resources.getDrawable(R.drawable.ic_oval_org, null))
+        } else {
+            holder.backgroud.setBackgroundColor(context.resources.getColor(R.color.colorWhite, null))
+            holder.roundIcon.loadDrawable(context.resources.getDrawable(R.drawable.ic_oval_copy_3, null))
         }
         holder.itemView.setOnClickListener {
-            itemClick(list[position].id, list[position].goalId)
+            itemClick(list[position].id, list[position].goalId, position)
         }
     }
 

@@ -176,9 +176,7 @@ class MainFragment : Fragment(), MainContract.View {
         list.forEach {
             popUpList.add(ParcelizeAlarmContent(id = it.id, title = it.title, content = it.content, goalId = it.goalId))
         }
-        startActivity(Intent(activity, EndGoalPopUpActivity::class.java).apply {
-            putExtra(Consts.POP_UP_LIST, popUpList)
-        })
+        (activity as TabActivity).navigateToPopUp(popUpList)
     }
 
     fun navigateToSearchTab() = (activity as TabActivity).changeTabToSearch()

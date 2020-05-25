@@ -104,13 +104,16 @@ class NotificationActivity : AppCompatActivity(), NotificationContract.View {
         }
     }
 
-    private val gotoAlarm = { alarmId: Long, goalId: Long? ->
+    private val gotoAlarm = { alarmId: Long, goalId: Long?, position: Int ->
         if (goalId != null) {
             presenter.requestReadRequest(alarmId)
+            contentList[position].isChecked = true
             startActivity(Intent(this, EndedGoalActivity::class.java).apply {
                 putExtra(Consts.GOAL_ID, goalId)
                 putExtra(Consts.UID, UserInfo.myUId)
             })
+            mAdapter.submitList(contentList)
+            mAdapter.notifyDataSetChanged()
         }
         else this.toastShort("알 수 없는 에러입니다")
     }

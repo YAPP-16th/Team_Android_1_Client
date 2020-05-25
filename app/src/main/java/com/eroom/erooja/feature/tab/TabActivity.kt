@@ -8,11 +8,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.eroom.data.entity.JobGroup
 import com.eroom.data.response.JobGroupAndClassResponse
+import com.eroom.domain.customview.parcelizeclass.ParcelizeAlarmContent
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityTabBinding
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalActivity
+import com.eroom.erooja.feature.endPopUp.EndGoalPopUpActivity
 import com.eroom.erooja.feature.main.MainFragment
 import com.eroom.erooja.feature.mypage.MyPageFragment
 import com.eroom.erooja.feature.search.search_main.SearchFragment
@@ -115,6 +117,13 @@ class TabActivity : AppCompatActivity(), TabContract.View {
 
     fun replaceFragment(index: Int) {
         loadFragment(index)
+    }
+
+    fun navigateToPopUp(list: ArrayList<ParcelizeAlarmContent>) {
+        startActivity(Intent(this, EndGoalPopUpActivity::class.java).apply {
+            putExtra(Consts.POP_UP_LIST, list)
+        })
+        overridePendingTransition(R.anim.slide_up, R.anim.hold)
     }
 
     fun startBlockAnimation() {
