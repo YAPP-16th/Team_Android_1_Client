@@ -75,6 +75,9 @@ class MainFragment : Fragment(), MainContract.View {
         } else {
             presenter.getUserInfo()
         }
+        (activity as TabActivity).alarmCallBack.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            mainBinding.unReadNotificationIcon.visibility = View.GONE
+        })
     }
 
     override fun saveUid(uid: String) {
@@ -196,5 +199,6 @@ class MainFragment : Fragment(), MainContract.View {
     }
 
     override fun startAnimation() = (activity as TabActivity).startAnimation()
+    override fun startBlockAnimation() = (activity as TabActivity).startBlockAnimation()
     override fun stopAnimation() = (activity as TabActivity).stopAnimation()
 }

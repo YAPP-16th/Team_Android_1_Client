@@ -70,5 +70,7 @@ class Consts {
         const val POP_UP_LIST = "POP_UP_LIST"
 
         const val MY_GOAL_REJOIN_REQUEST = 2340
+
+        const val ALL_READ = "ALL_READ"
     }
 }

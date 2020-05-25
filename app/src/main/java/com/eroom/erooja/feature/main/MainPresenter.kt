@@ -94,6 +94,7 @@ class MainPresenter(
             calendar.get(Calendar.DATE))
 
         if (lastChecked != todayTime) {
+            view.startBlockAnimation()
             getUnCheckedAlarmsUseCase.getUncheckedAlarms(0, SortBy.CREATED_DT, Int.MAX_VALUE)
                 .subscribe({
                     if (it.content.size > 0) view.setUnReadNotification()
@@ -105,8 +106,10 @@ class MainPresenter(
                         view.showEndPopUp(yesterdayList)
                     }
                     sharedPrefRepository.writePrefs(Consts.END_POP_UP_CHECKED_DATE, todayTime)
+                    view.stopAnimation()
                 },{
                     Timber.e(it.localizedMessage)
+                    view.stopAnimation()
                 })
         } else {
             getUnCheckedAlarmsUseCase.getUncheckedAlarms(0, SortBy.CREATED_DT, Int.MAX_VALUE)

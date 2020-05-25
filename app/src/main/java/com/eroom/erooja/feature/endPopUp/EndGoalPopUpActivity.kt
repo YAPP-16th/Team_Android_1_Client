@@ -1,5 +1,6 @@
 package com.eroom.erooja.feature.endPopUp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -21,6 +22,8 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
     private lateinit var list: ArrayList<ParcelizeAlarmContent>
     private var alarmSize: Int = 0
     private var index = 0
+
+    private var isAllRead = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +69,10 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
         endGoalPopUpBinding.goalTitle.text = goalTitle.trim()
         endGoalPopUpBinding.achieveRate.text = "${achieveRate}% 달성"
         endGoalPopUpBinding.rlDoneBtn.text = "${index + 1}/$alarmSize"
-        if (index == alarmSize -1) endGoalPopUpBinding.nextButton.visibility = View.GONE
+        if (index == alarmSize -1) {
+            endGoalPopUpBinding.nextButton.visibility = View.GONE
+            isAllRead = true
+        }
 
         when {
             achieveRate <= 40 -> {
@@ -91,7 +97,14 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
     }
 
     override fun navigateToMainPage() {
+        setResult(4000, Intent().apply {
+            putExtra(Consts.ALL_READ, isAllRead)
+        })
         finish()
+    }
+
+    override fun onBackPressed() {
+        navigateToMainPage()
     }
 
     fun startBlockAnimation() {
