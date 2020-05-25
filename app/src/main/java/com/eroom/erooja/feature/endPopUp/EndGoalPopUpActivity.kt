@@ -66,6 +66,7 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
         endGoalPopUpBinding.goalTitle.text = goalTitle.trim()
         endGoalPopUpBinding.achieveRate.text = "${achieveRate}% 달성"
         endGoalPopUpBinding.rlDoneBtn.text = "${index + 1}/$alarmSize"
+        if (index == alarmSize -1) endGoalPopUpBinding.nextButton.visibility = View.GONE
 
         when {
             achieveRate <= 40 -> {
