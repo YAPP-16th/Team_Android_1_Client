@@ -280,5 +280,5 @@ class SearchFragment : Fragment(), SearchContract.View {
         startActivityForResult(intent, 1000)
     }
 
-    override fun stopAnimation() = (activity as TabActivity).stopAnimation()
+    override fun stopAnimation() = (activity as TabActivity)?.stopAnimation()
 }
