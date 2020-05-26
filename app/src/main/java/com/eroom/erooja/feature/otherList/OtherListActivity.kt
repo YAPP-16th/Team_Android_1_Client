@@ -15,6 +15,7 @@ import com.eroom.erooja.databinding.ActivityOthersListBinding
 import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity
 import com.eroom.erooja.feature.joinOtherList.joinTodoListPage.JoinOtherListActivity
+import com.eroom.erooja.feature.othersPage.OthersPageActivity
 import org.koin.android.ext.android.get
 import timber.log.Timber
 
@@ -25,6 +26,8 @@ class OtherListActivity : AppCompatActivity(),
     private var userTodoList = ArrayList<String>()
     private var userUid = ""
     private var goalId = 0L
+    //private var memberNickName = "anonymous"
+    private var memberImagePath = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +69,7 @@ class OtherListActivity : AppCompatActivity(),
         presenter = OtherListPresenter(this, get(), get())
         presenter.getData(userUid, goalId)
         presenter.getProfileImage(userUid)
+        //memberNickName = intent.getStringExtra(Consts.NAME)
         binding.usernameList.text = intent.getStringExtra(Consts.NAME)
         binding.goalDateTxt.text = intent.getStringExtra(Consts.DATE)
 
@@ -96,6 +100,7 @@ class OtherListActivity : AppCompatActivity(),
 
     override fun setProfileImage(imagePath: String?) {
         imagePath?.let {
+            memberImagePath = imagePath //nullable로 해야되나요?
             binding.circleImageView.loadUrl(it)
             Timber.e(it)
         }
@@ -129,6 +134,21 @@ class OtherListActivity : AppCompatActivity(),
                 finish()
             }
         }
+    }
+
+    //Todo: 참여자 목록의 Todo list 상세보기 (카드뷰)
+    //Todo: 현재 액티비티에서 AddMyListActivity 로 넘어갈 때 필요한 요소: GoalID, UID, NAME, DATE, GoalTITLE, DESC)
+    fun memberImageClicked() {
+        startActivity(Intent(this@OtherListActivity, OthersPageActivity::class.java).apply {
+            val jobInterestList: ArrayList<String> = ArrayList()
+            putExtra(Consts.UID, userUid)
+            putExtra(Consts.NICKNAME, intent.getStringExtra(Consts.NAME))
+            putExtra(Consts.IMAGE_PATH, memberImagePath)
+//            member.jobInterests.map {
+//                jobInterestList.add(it.name)
+//            }
+            putStringArrayListExtra(Consts.JOB_INTEREST, jobInterestList)
+        })
     }
 
 
