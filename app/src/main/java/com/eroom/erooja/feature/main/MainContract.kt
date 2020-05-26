@@ -15,6 +15,7 @@ interface MainContract {
         fun setUnReadNotification()
         fun showEndPopUp(list: ArrayList<AlarmContent>)
         fun startAnimation()
+        fun startBlockAnimation()
         fun stopAnimation()
     }
 

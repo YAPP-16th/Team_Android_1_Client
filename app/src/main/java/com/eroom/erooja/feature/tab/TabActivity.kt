@@ -6,13 +6,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import com.eroom.data.entity.JobGroup
 import com.eroom.data.response.JobGroupAndClassResponse
+import com.eroom.domain.customview.parcelizeclass.ParcelizeAlarmContent
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityTabBinding
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalActivity
+import com.eroom.erooja.feature.endPopUp.EndGoalPopUpActivity
 import com.eroom.erooja.feature.main.MainFragment
 import com.eroom.erooja.feature.mypage.MyPageFragment
 import com.eroom.erooja.feature.search.search_main.SearchFragment
@@ -28,6 +31,7 @@ class TabActivity : AppCompatActivity(), TabContract.View {
 
     private val FINISH_INTERVAL_TIME: Long = 2000
     private var backPressedTime: Long = 0
+    val alarmCallBack: MutableLiveData<Boolean> = MutableLiveData()
 
     lateinit var listener: BottomNavigationView.OnNavigationItemSelectedListener
 
@@ -115,6 +119,22 @@ class TabActivity : AppCompatActivity(), TabContract.View {
 
     fun replaceFragment(index: Int) {
         loadFragment(index)
+    }
+
+    fun navigateToPopUp(list: ArrayList<ParcelizeAlarmContent>) {
+        startActivityForResult(Intent(this, EndGoalPopUpActivity::class.java).apply {
+            putExtra(Consts.POP_UP_LIST, list)
+        }, 3000)
+        overridePendingTransition(R.anim.slide_up, R.anim.hold)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 3000 && resultCode == 4000) {
+            data?.let {
+                alarmCallBack.value = it.getBooleanExtra(Consts.ALL_READ, false)
+            }
+        }
     }
 
     fun startBlockAnimation() {

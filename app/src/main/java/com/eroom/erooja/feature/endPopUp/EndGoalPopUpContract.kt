@@ -7,6 +7,7 @@ interface EndGoalPopUpContract {
         fun setView(goalTitle: String, achieveRate: Int)
         fun navigateToMainPage()
         fun initView()
+        fun stopAnimation()
     }
 
     interface Presenter {

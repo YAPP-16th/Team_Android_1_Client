@@ -30,8 +30,8 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie100Image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="222dp"
+            android:layout_height="230dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintVertical_bias="0.33"
@@ -41,8 +41,8 @@
 
         <ImageView
             android:id="@+id/gifImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="201dp"
+            android:layout_height="219dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintVertical_bias="0.33"
@@ -51,8 +51,9 @@
 
         <TextView
             android:id="@+id/goal_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxWidth="350dp"
             android:layout_marginStart="36dp"
             android:layout_marginEnd="34dp"
             android:ellipsize="end"
@@ -65,7 +66,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.648"
-            tools:text="애프터이펙트 익스프레션 어쩌구구asjfaaldfasldfksafdslfaskdlkalsfdklljkafjsdf" />
+            tools:text="애프터이펙트 익스프레asjdfalsfajsldfjaslf" />
 
 
         <TextView
@@ -135,5 +136,36 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_icon_next_arrow_oval" />
+
+        <com.eroom.domain.customview.BlockView
+            android:id="@+id/blockView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="#80333333" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/whiteLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_fileName="loading.json"
+            app:lottie_loop="true" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/colorLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_fileName="loadingcolor.json"
+            app:lottie_loop="true" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

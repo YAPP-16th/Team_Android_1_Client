@@ -12,7 +12,7 @@ class GetAlarmsUseCase(accessRetrofitRepository: AccessRetrofitRepository) {
         .create(AlarmService::class.java)
 
     fun getAlarms(page: Int, sortBy: SortBy, size: Int) = alarmService
-        .getUnCheckedAlarms(page, sortBy.itemName, size)
+        .getNotifications(page, sortBy.itemName, size)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 }

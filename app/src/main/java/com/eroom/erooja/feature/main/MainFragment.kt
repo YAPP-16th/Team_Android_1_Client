@@ -75,6 +75,9 @@ class MainFragment : Fragment(), MainContract.View {
         } else {
             presenter.getUserInfo()
         }
+        (activity as TabActivity).alarmCallBack.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            mainBinding.unReadNotificationIcon.visibility = View.GONE
+        })
     }
 
     override fun saveUid(uid: String) {
@@ -176,9 +179,7 @@ class MainFragment : Fragment(), MainContract.View {
         list.forEach {
             popUpList.add(ParcelizeAlarmContent(id = it.id, title = it.title, content = it.content, goalId = it.goalId))
         }
-        startActivity(Intent(activity, EndGoalPopUpActivity::class.java).apply {
-            putExtra(Consts.POP_UP_LIST, popUpList)
-        })
+        (activity as TabActivity).navigateToPopUp(popUpList)
     }
 
     fun navigateToSearchTab() = (activity as TabActivity).changeTabToSearch()
@@ -198,5 +199,6 @@ class MainFragment : Fragment(), MainContract.View {
     }
 
     override fun startAnimation() = (activity as TabActivity).startAnimation()
+    override fun startBlockAnimation() = (activity as TabActivity).startBlockAnimation()
     override fun stopAnimation() = (activity as TabActivity).stopAnimation()
 }

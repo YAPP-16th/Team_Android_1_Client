@@ -1,5 +1,6 @@
 package com.eroom.erooja.feature.endPopUp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -22,6 +23,8 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
     private var alarmSize: Int = 0
     private var index = 0
 
+    private var isAllRead = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpDataBinding()
@@ -34,6 +37,7 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
     }
 
     override fun initView() {
+        overridePendingTransition(R.anim.hold, R.anim.slide_down)
         presenter = EndGoalPopUpPresenter(this, get(), get())
         list = intent.getParcelableArrayListExtra(Consts.POP_UP_LIST) ?: ArrayList()
         alarmSize = list.size
@@ -44,6 +48,8 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
     private fun loadPopUpData() {
         if (index >= alarmSize) endGoalPopUpBinding.nextButton.visibility = View.GONE
         else {
+            endGoalPopUpBinding.nextButton.visibility = View.VISIBLE
+            startAnimation()
             presenter.getData(list[index])
             presenter.readAlarmRequest(list[index].id)
         }
@@ -62,19 +68,27 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
 
         endGoalPopUpBinding.goalTitle.text = goalTitle.trim()
         endGoalPopUpBinding.achieveRate.text = "${achieveRate}% 달성"
+        endGoalPopUpBinding.rlDoneBtn.text = "${index + 1}/$alarmSize"
+        if (index == alarmSize -1) {
+            endGoalPopUpBinding.nextButton.visibility = View.GONE
+            isAllRead = true
+        }
 
         when {
             achieveRate <= 40 -> {
+                endGoalPopUpBinding.gifImage.visibility = View.VISIBLE
                 endGoalPopUpBinding.gifImage.loadGif(R.raw.onboarding0to40)
                 endGoalPopUpBinding.lottie100Image.visibility = View.GONE
                 endGoalPopUpBinding.achieveMaxim.text = badMaxim
             }
             achieveRate < 70 -> {
+                endGoalPopUpBinding.gifImage.visibility = View.VISIBLE
                 endGoalPopUpBinding.gifImage.loadGif(R.raw.onboarding40to70)
                 endGoalPopUpBinding.lottie100Image.visibility = View.GONE
                 endGoalPopUpBinding.achieveMaxim.text = badMaxim
             }
             else -> {
+                endGoalPopUpBinding.lottie100Image.visibility = View.VISIBLE
                 endGoalPopUpBinding.lottie100Image.playAnimation()
                 endGoalPopUpBinding.gifImage.visibility = View.GONE
                 endGoalPopUpBinding.achieveMaxim.text = goodMaxim
@@ -83,6 +97,37 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
     }
 
     override fun navigateToMainPage() {
+        setResult(4000, Intent().apply {
+            putExtra(Consts.ALL_READ, isAllRead)
+        })
         finish()
+    }
+
+    override fun onBackPressed() {
+        navigateToMainPage()
+    }
+
+    fun startBlockAnimation() {
+        endGoalPopUpBinding.colorLoading.visibility = View.GONE
+        endGoalPopUpBinding.blockView.visibility = View.VISIBLE
+        endGoalPopUpBinding.whiteLoading.visibility = View.VISIBLE
+        endGoalPopUpBinding.colorLoading.cancelAnimation()
+        endGoalPopUpBinding.whiteLoading.playAnimation()
+    }
+
+    fun startAnimation() {
+        endGoalPopUpBinding.blockView.visibility = View.GONE
+        endGoalPopUpBinding.whiteLoading.visibility = View.GONE
+        endGoalPopUpBinding.colorLoading.visibility = View.VISIBLE
+        endGoalPopUpBinding.whiteLoading.cancelAnimation()
+        endGoalPopUpBinding.colorLoading.playAnimation()
+    }
+
+    override fun stopAnimation() {
+        endGoalPopUpBinding.blockView.visibility = View.GONE
+        endGoalPopUpBinding.whiteLoading.visibility = View.GONE
+        endGoalPopUpBinding.colorLoading.visibility = View.GONE
+        endGoalPopUpBinding.whiteLoading.cancelAnimation()
+        endGoalPopUpBinding.colorLoading.cancelAnimation()
     }
 }

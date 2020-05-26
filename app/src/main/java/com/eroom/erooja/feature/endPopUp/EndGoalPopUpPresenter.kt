@@ -23,8 +23,10 @@ class EndGoalPopUpPresenter(override var view: EndGoalPopUpContract.View,
                         if (todo.isEnd) endSize++
                     }
                     view.setView(content.content, ((endSize.toDouble() / totalSize) * 100).toInt())
+                    view.stopAnimation()
                 }, { throwable ->
                     Timber.e(throwable.localizedMessage)
+                    view.stopAnimation()
                 })
         }
     }
