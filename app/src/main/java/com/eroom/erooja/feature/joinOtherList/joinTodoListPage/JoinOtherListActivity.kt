@@ -24,7 +24,6 @@ import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.*
 import com.eroom.erooja.feature.addDirectList.inactivejob.InactiveJobFragment
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalFinishActivity
-import com.eroom.erooja.feature.addGoal.newGoalPage.GoalListFragment
 import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinGoalPeriodFragment
 import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinTodoListFragment
 import com.eroom.erooja.singleton.UserInfo
@@ -147,6 +146,8 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
                     InactiveJobFragment.newInstance().apply {
                         arguments = Bundle().apply {
                             goalId?.let { putLong(Consts.GOAL_ID, it) }
+                            putString(Consts.JOIN_OTHER_LIST,Consts.JOIN_OTHER_LIST)
+
                         }
                     },
                     InactiveGoalTitleFragment.newInstance().apply {

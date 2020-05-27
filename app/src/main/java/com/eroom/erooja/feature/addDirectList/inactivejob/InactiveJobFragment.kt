@@ -11,6 +11,7 @@ import com.eroom.data.response.JobGroupAndClassResponse
 import com.eroom.domain.globalconst.Consts
 import com.eroom.erooja.databinding.FragmentInactiveJobBinding
 import com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity
+import com.eroom.erooja.feature.joinOtherList.joinTodoListPage.JoinOtherListActivity
 import org.koin.android.ext.android.get
 
 
@@ -19,6 +20,7 @@ class InactiveJobFragment : Fragment(), InactiveJobContract.View {
     private lateinit var presenter: InactiveJobPresenter
     private val selectedId: ArrayList<Long> = ArrayList()
     private lateinit var mAdapter: InactiveJobClassAdapter
+    private var startAnimationPosition = ""
 
     companion object {
         @JvmStatic
@@ -46,7 +48,15 @@ class InactiveJobFragment : Fragment(), InactiveJobContract.View {
     }
 
     private fun initView() {
-        (activity as AddMyListActivity).startAnimation()
+        arguments?.getString(Consts.ADD_MY_LIST)?.let{
+            startAnimationPosition = Consts.ADD_MY_LIST
+        }?:run{
+            startAnimationPosition = Consts.JOIN_OTHER_LIST
+        }
+
+        if(startAnimationPosition.equals(Consts.ADD_MY_LIST)) (activity as AddMyListActivity).startAnimation()
+        else (activity as JoinOtherListActivity).startAnimation()
+
         presenter.getJobGroups()
         presenter.getJobInterestOfTodoList(arguments?.getLong(Consts.GOAL_ID))
     }
@@ -79,5 +89,8 @@ class InactiveJobFragment : Fragment(), InactiveJobContract.View {
         super.onDestroy()
     }
 
-    override fun stopAnimation() = (activity as AddMyListActivity).stopAnimation()
+    override fun stopAnimation() {
+        if(startAnimationPosition.equals(Consts.ADD_MY_LIST)) (activity as AddMyListActivity).stopAnimation()
+        else (activity as JoinOtherListActivity).stopAnimation()
+    }
 }
