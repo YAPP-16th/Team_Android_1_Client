@@ -27,7 +27,7 @@
     <string name="please_input_nickname">닉네임을 입력하세요.</string>
     <string name="nickname_max_info">한글 2자 이상~5자 이내</string>
     <string name="already_using_nickname">이미 사용 중인 닉네임입니다.</string>
-    <string name="nickname_rule_info">2~5자 공백없이 입력해주세요.</string>
+    <string name="nickname_rule_info">2~5자 한글로 공백없이 입력해주세요.</string>
     <string name="please_select_job_group">관심있는 직군을 골라주세요.</string>
     <string name="group_development">개발 직군</string>
     <string name="group_design">디자인 직군</string>
@@ -107,5 +107,6 @@
     <string name="no_notification_text">알림이 존재하지 않습니다.</string>
     <string name="end_goal_noti_text">목표가 종료되었습니다.</string>
     <string name="pull_to_refresh_text">서버 네트워크가 원활하지 않습니다.\n아래로 당겨 새로고침 해주세요.</string>
+
 
 </resources>

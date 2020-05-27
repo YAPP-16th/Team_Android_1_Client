@@ -1,60 +1,39 @@
 package com.eroom.erooja.feature.setting.setting_nickname
 
-import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.eroom.domain.globalconst.Consts
 import com.eroom.erooja.R
-import com.eroom.erooja.databinding.NicknameChangeBottomSheetBinding
+import com.eroom.erooja.databinding.ActivityChangeNicknameBinding
 import com.eroom.erooja.dialog.EroojaDialogActivity
-import com.eroom.erooja.feature.setting.SettingFragment
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.android.ext.android.get
 import java.util.regex.Pattern
 
-
-class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContract.View {
-    lateinit var mBinding: NicknameChangeBottomSheetBinding
+class NicknameChangeActivity : AppCompatActivity(), NicknameChangeContract.View{
+    lateinit var mBinding: ActivityChangeNicknameBinding
     val nickname: MutableLiveData<String> = MutableLiveData()
     var nicknameCheck: ObservableField<Boolean> = ObservableField(false)
     val showCheckBtn: ObservableField<Boolean> = ObservableField(false)
     lateinit var presenter: NicknameChangePresenter
     private var originalNickname = ""
 
-    companion object {
-        fun newInstance() =
-            NicknameChangeFragment()
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    override fun getTheme(): Int = R.style.BottomSheetDialogTheme_round
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-        BottomSheetDialog(requireContext(), theme)
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        setupDataBinding()
         initPresenter()
-        setUpDataBinding(inflater, container)
-//        initView()
-        return mBinding.root
     }
 
-    private fun setUpDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        mBinding = NicknameChangeBottomSheetBinding.inflate(inflater, container, false)
-        mBinding.fragment = this@NicknameChangeFragment
+    private fun setupDataBinding(){
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_change_nickname)
+        mBinding.changeNickname = this
     }
 
     private fun initPresenter() {
@@ -67,25 +46,29 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
         originalNickname = nickname
         initView()
     }
-
     private fun initView() {
-        mBinding.nicknameText.addTextChangedListener(object :TextWatcher {
+        mBinding.nicknameText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 s?.let {
                     if (it.toString() != "") {
                         nickname.value = it.toString()
                         if (!originalNickname.equals(it.toString())) {
-                            if (!it.contains(" ")) {
-                                if (it.length in 2..5)
-                                    //{ Pattern.matches("^[가-힣]*$")} -> 한글만
-                                    presenter.checkNickname(it.toString())
-                                else {
-                                    mBinding.nicknameErrorText.text =
-                                        resources.getString(R.string.nickname_rule_info)
-                                    mBinding.nicknameErrorText.visibility = View.VISIBLE
-                                    nicknameCheck.set(false)
-                                }
-                            } else {
+                            if (!it.contains(" ") && Pattern.matches("^[ㄱ-ㅣ|ㅏ-ㅣ|가-힣\\s]*$", it) && it.length in 2..5) {
+                                presenter.checkNickname(it.toString())
+                            }
+                            else {
+                                mBinding.nicknameErrorText.text =
+                                    resources.getString(R.string.nickname_rule_info)
+                                mBinding.nicknameErrorText.visibility = View.VISIBLE
+                                nicknameCheck.set(false)
+                            }
+
+                        } else {
+                            mBinding.nicknameErrorText.visibility = View.INVISIBLE
+                            nicknameCheck.set(false)
+                        }
+                    }
+                        else {
                                 mBinding.nicknameErrorText.text =
                                     resources.getString(R.string.nickname_rule_info)
                                 mBinding.nicknameErrorText.visibility = View.VISIBLE
@@ -93,8 +76,7 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
                             }
                         }
                     }
-                }
-            }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
@@ -131,7 +113,7 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
     private fun showAlertBeforeSave(){
         startActivityForResult(
             Intent(
-                context,
+                this,
                 EroojaDialogActivity::class.java
             ).apply {
                 putExtra(Consts.DIALOG_TITLE, "")
@@ -150,7 +132,7 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
         if(!originalNickname.equals(nickname.value)){
             startActivityForResult(
                 Intent(
-                    context,
+                    this,
                     EroojaDialogActivity::class.java
                 ).apply {
                     putExtra(Consts.DIALOG_TITLE, "")
@@ -162,10 +144,8 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
                     putExtra(Consts.DIALOG_CANCEL, true)
                 }, 1300
             )
-        }
+        } else finish()
     }
-
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -173,8 +153,8 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
             data.let {
                 val result = it?.getBooleanExtra(Consts.DIALOG_RESULT, false)
                 if (result!!) { //확인
-                    (parentFragment as SettingFragment).dismissBottomSheet()
                     presenter.onCleared()
+                    finish()
                 }
             }
         } else if ( requestCode == 1400 && resultCode == 6000) {
@@ -186,4 +166,3 @@ class NicknameChangeFragment : BottomSheetDialogFragment(), NicknameChangeContra
         }
     }
 }
-

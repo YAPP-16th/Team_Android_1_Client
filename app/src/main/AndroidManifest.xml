@@ -122,6 +122,9 @@
         <activity
             android:name=".feature.joinOtherList.joinTodoListPage.JoinOtherListActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".feature.setting.setting_nickname.NicknameChangeActivity"
+            android:screenOrientation="portrait" />
+
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
