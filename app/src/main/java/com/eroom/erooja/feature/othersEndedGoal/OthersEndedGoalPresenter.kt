@@ -63,9 +63,14 @@ class OthersEndedGoalPresenter(override var view: OthersEndedGoalContract.View,
                     } else {
                         view.setIsMyOngoingGoal(false)
                     }
-                } ?: if (it.code() == 400) view.setIsExistedInMyPage(false)
+                } ?: if (it.code() == 400) {
+                    view.setIsExistedInMyPage(false)
+                    view.setIsMyOngoingGoal(false)
+                }
             }, {
                 Timber.e(it.localizedMessage)
+                view.setIsExistedInMyPage(false)
+                view.setIsMyOngoingGoal(false)
             })
     }
 
