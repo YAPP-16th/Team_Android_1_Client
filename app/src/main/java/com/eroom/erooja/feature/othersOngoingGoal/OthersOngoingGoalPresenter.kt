@@ -80,6 +80,8 @@ class OthersOngoingGoalPresenter(
                 }
             }, {
                 Timber.e(it.localizedMessage)
+                view.setIsExistedInMyPage(false)
+                view.setIsMyOngoingGoal(false)
             })
     }
 
