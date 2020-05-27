@@ -3,16 +3,12 @@ package com.eroom.erooja.feature.addDirectList.addMyTodoListPage
 
 import android.app.Activity
 import android.content.Context
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
@@ -29,9 +25,6 @@ import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.*
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalFinishActivity
 import com.eroom.erooja.feature.addDirectList.inactivejob.InactiveJobFragment
-import com.eroom.erooja.feature.addGoal.newGoalPage.GoalListFragment
-import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinGoalPeriodFragment
-import com.eroom.erooja.feature.joinOtherList.joinTodoListFrame.JoinTodoListFragment
 import com.eroom.erooja.singleton.UserInfo
 import org.koin.android.ext.android.get
 import java.util.*
@@ -147,7 +140,7 @@ class AddMyListActivity : AppCompatActivity(),
         })
 
         (mFragmentList[4] as AddMyTodoListFragment).writingText.observe(this, Observer {
-            additionalGoalList = it //한 글자마다 인식 엔터 칠때마다 다시 여기로 들어
+            additionalGoalList = it
         })
 
 //        if(goalList.size >= 1) newGoalBinding.nextTextView.setTextColor(resources.getColor(R.color.grey4, null))
@@ -161,6 +154,7 @@ class AddMyListActivity : AppCompatActivity(),
                     InactiveJobFragment.newInstance().apply{
                         arguments = Bundle().apply{
                             goalId?.let { putLong(Consts.GOAL_ID, it) }
+                            putString(Consts.ADD_MY_LIST, Consts.ADD_MY_LIST)
                         }
                     },
                     InactiveGoalTitleFragment.newInstance().apply {

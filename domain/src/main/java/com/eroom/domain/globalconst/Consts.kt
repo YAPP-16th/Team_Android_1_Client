@@ -47,11 +47,6 @@ class Consts {
 
         const val IS_FROM_MYPAGE_ONGOING_GOAL = "IS_FROM_MYPAGE_ONGOING_GOAL"
         const val IS_FROM_MYPAGE_ENDED_GOAL = "IS_FROM_MYPAGE_ENDED_GOAL"
-        const val GOAL_DETAIL_REQUEST_verME = "GOAL_DETAIL_REQUEST"
-        const val GOAL_DETAIL_REQUEST_NUM_verME = 2020
-
-        const val GOAL_DETAIL_REQUEST_verOTHER = "GOAL_DETAIL_REQUEST_verOTHER"
-        const val GOAL_DETAIL_REQUEST_NUM_verOTHER = 3030
 
         const val IMAGE_PATH = "IMAGE_PATH"
 
@@ -72,5 +67,8 @@ class Consts {
         const val MY_GOAL_REJOIN_REQUEST = 2340
 
         const val ALL_READ = "ALL_READ"
+
+        const val ADD_MY_LIST = "ADD_MY_LIST"
+        const val JOIN_OTHER_LIST = "JOIN_OTHER_LIST"
     }
 }
