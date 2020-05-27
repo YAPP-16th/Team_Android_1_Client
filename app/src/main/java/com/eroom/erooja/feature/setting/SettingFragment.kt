@@ -18,23 +18,20 @@ import com.eroom.erooja.feature.login.LoginActivity
 import com.eroom.erooja.feature.setting.setting_alarm.AlarmActivity
 import com.eroom.erooja.feature.setting.setting_detail.*
 import com.eroom.erooja.feature.setting.setting_help.HelpActivity
-import com.eroom.erooja.feature.setting.setting_nickname.NicknameChangeFragment
+import com.eroom.erooja.feature.setting.setting_nickname.NicknameChangeActivity
 import com.eroom.erooja.feature.tab.TabActivity
 import org.koin.android.ext.android.get
 
-class SettingFragment :Fragment(), SettingContract.View{
+class SettingFragment : Fragment(), SettingContract.View {
     private lateinit var settingBinding: FragmentSettingBinding
-    private lateinit var presenter : SettingPresenter
-    private lateinit var settingList : Array<String>
-    lateinit var bottomAlert: NicknameChangeFragment
-
+    private lateinit var presenter: SettingPresenter
+    private lateinit var settingList: Array<String>
     private var selectedGroupClassesNum = ArrayList<Long>()
 
     companion object {
         @JvmStatic
         fun newInstance() = SettingFragment()
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,50 +47,45 @@ class SettingFragment :Fragment(), SettingContract.View{
         settingBinding.setting = this
     }
 
-    private fun initView(){
+    private fun initView() {
         settingList = resources.getStringArray(R.array.setting)
         presenter = SettingPresenter(this, get(), get(), get(), get())
         presenter.getSettingList(settingList)
         presenter.getAlignedJobInterest()
-        setBottomSheetAlert()
 
     }
 
     override fun setUserJobInterest(interest: MutableSet<JobClass>) {
-        interest.map{
+        interest.map {
             selectedGroupClassesNum.add(it.id)
         }
     }
 
     override fun setList(list: Array<String>) {
-        settingBinding.settingRecycler.apply{
+        settingBinding.settingRecycler.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = SettingAdapter(context, list, click)
         }
     }
 
     private var click = { position: Int ->
-        when(position){
-            0-> startActivity(Intent(context, AlarmActivity::class.java))
-            1-> bottomAlert.show(childFragmentManager, "changeNickname")
-            2-> openSearchFilter()
-            3-> startActivity(Intent(context, HelpActivity::class.java))
-            4-> startActivity(Intent(context, OpensourceActivity::class.java))
-            5-> startActivity(Intent(context, TOSActivity::class.java))
-            6-> isLogout()
+        when (position) {
+            0 -> startActivity(Intent(context, AlarmActivity::class.java))
+            1 -> startActivity(Intent(context, NicknameChangeActivity::class.java))
+            2 -> openSearchFilter()
+            3 -> startActivity(Intent(context, HelpActivity::class.java))
+            4 -> startActivity(Intent(context, OpensourceActivity::class.java))
+            5 -> startActivity(Intent(context, TOSActivity::class.java))
+            6 -> isLogout()
         }
     }
 
-    private fun setBottomSheetAlert() {
-        bottomAlert = NicknameChangeFragment.newInstance()
-    }
-
-    fun back(v: View){
+    fun back(v: View) {
         (activity as TabActivity).replaceFragment(2)
 
     }
 
-    private fun isLogout(){
+    private fun isLogout() {
         startActivityForResult(
             Intent(
                 context,
@@ -120,11 +112,11 @@ class SettingFragment :Fragment(), SettingContract.View{
         val intent = Intent(activity, FilterActivity::class.java)
         val number = ArrayList<Long>()
 
-        repeat(selectedGroupClassesNum.size){
+        repeat(selectedGroupClassesNum.size) {
             number.add(selectedGroupClassesNum[it])
         }
 
-        intent.putExtra(Consts.SEARCH,number)
+        intent.putExtra(Consts.SEARCH, number)
         intent.putExtra(Consts.JOB_CLASS_CHANGE, resources.getString(R.string.job_class_change))
         intent.putExtra(Consts.SETTING_REQUEST, Consts.SETTING_REQUEST_NUM)
         startActivityForResult(intent, Consts.SETTING_REQUEST_NUM)
@@ -133,12 +125,12 @@ class SettingFragment :Fragment(), SettingContract.View{
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == Consts.SETTING_REQUEST_NUM && resultCode == 1000) {
+        if (requestCode == Consts.SETTING_REQUEST_NUM && resultCode == 1000) {
 
             val result1 = data?.getSerializableExtra("selectedId") as ArrayList<Long>
             presenter.updateJobInterest(selectedGroupClassesNum, result1)
             selectedGroupClassesNum.clear()
-            repeat(result1.size){
+            repeat(result1.size) {
                 selectedGroupClassesNum.add(result1[it])
             }
         } else if (requestCode == 1200 && resultCode == 6000) {
@@ -149,12 +141,7 @@ class SettingFragment :Fragment(), SettingContract.View{
         }
     }
 
-    fun dismissBottomSheet(){
-        bottomAlert.dismiss()
-    }
-
-
     override fun InformUpdatedMsg() {
-       context?.toastLong("직군 변경 완료")
+        context?.toastLong("직군 변경 완료")
     }
 }
