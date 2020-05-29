@@ -108,6 +108,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         })
         (mFragmentList[4] as GoalListFragment).goalListCheck.observe(this, Observer {
             nextClickable.set(it)
+            if (mPage == 0) nextClickable.set((mSelectedIds?.toTypedArray()?.isNullOrEmpty()) != true)
         })
         (mFragmentList[4] as GoalListFragment).writingText.observe(this, Observer {
             additionalGoalList = it

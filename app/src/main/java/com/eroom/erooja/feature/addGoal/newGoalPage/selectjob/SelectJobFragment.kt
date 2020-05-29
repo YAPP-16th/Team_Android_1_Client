@@ -46,6 +46,7 @@ class SelectJobFragment : Fragment(), SelectJobContract.View {
         arguments?.let { it.getLongArray(Consts.INTERESTED_JOB_CLASS)?.toTypedArray()?.let { array ->
             selectedId.addAll(array)
         } }
+        selectCheck.value = selectedId.size != 0
     }
 
     private fun setUpDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
