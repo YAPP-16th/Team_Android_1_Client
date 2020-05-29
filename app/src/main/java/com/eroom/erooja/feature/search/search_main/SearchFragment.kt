@@ -125,11 +125,11 @@ class SearchFragment : Fragment(), SearchContract.View {
     }
 
     private fun emptyFragment() {
-        searchBinding.searchMainContainer.visibility = View.VISIBLE
+        searchBinding.noContentText.visibility = View.VISIBLE
     }
 
     private fun hideEmptyFragment() {
-        searchBinding.searchMainContainer.visibility = View.GONE
+        searchBinding.noContentText.visibility = View.GONE
     }
 
     override fun setAlignedJobInterest(interest: MutableSet<String>) {
