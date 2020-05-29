@@ -55,6 +55,7 @@
                         android:hint="@string/goal_item_hint"
                         android:imeOptions="actionNext"
                         android:inputType="text"
+                        android:maxLength="254"
                         android:maxLines="1"
                         android:paddingStart="40dp"
                         android:paddingTop="10dp"
