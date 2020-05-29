@@ -13,7 +13,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.eroom.domain.utils.toastLong
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityNewGoalBinding
 import com.eroom.calendar.AirCalendarDatePickerActivity
@@ -49,6 +48,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private var additionalGoalList = ""
 
     private var uId: String = ""
+    private var mSelectedIds: LongArray? = null
 
     private var mLastClickTime: Long = 0
 
@@ -64,6 +64,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private fun initPresenter() {
         presenter = NewGoalPresenter(this, get())
         uId = intent.getStringExtra(Consts.UID) ?: ""
+        mSelectedIds = intent.getLongArrayExtra(Consts.INTERESTED_JOB_CLASS)
     }
 
     private fun setDefaultPeriod() {
@@ -117,7 +118,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         mFragmentList.apply {
             addAll(
                 listOf(
-                    SelectJobFragment.newInstance(),
+                    SelectJobFragment.newInstance().apply { arguments = Bundle().apply { putLongArray(Consts.INTERESTED_JOB_CLASS, mSelectedIds) } },
                     GoalTitleFragment.newInstance()/*.apply { arguments = Bundle().apply { putString("key", "value") } }*/,
                     GoalDetailFragment.newInstance(),
                     GoalPeriodFragment.newInstance(),

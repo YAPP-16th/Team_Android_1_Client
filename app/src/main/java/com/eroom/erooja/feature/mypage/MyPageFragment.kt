@@ -276,7 +276,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         }
     }
 
-    fun navigateToAddGoal() = (activity as TabActivity).navigateToNewGoal(uId)
+    fun navigateToAddGoal() = (activity as TabActivity).navigateToNewGoal(uId, mClassList)
 
     override fun onDestroy() {
         presenter.onCleared()
