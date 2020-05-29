@@ -6,7 +6,6 @@
         android:id="@+id/back"
         android:orientation="vertical" android:layout_width="194dp"
         android:layout_height="245dp"
-        android:elevation="4dp"
         android:layout_marginBottom="7dp"
         android:background="@drawable/back_item_add_grey">
 

@@ -24,119 +24,150 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@{activity.nicknameText}"
-            android:textColor="@color/grey8"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/backButton"
-            app:layout_constraintVertical_bias="0.0"
-            tools:text="김현수 님" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/jobClassRecycler"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_name"
-            app:layout_constraintVertical_bias="0.04"
-            tools:itemCount="2"
-            tools:listitem="@layout/item_mypage_job_class" />
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/jobClassRecycler"
-            app:layout_constraintVertical_bias="0.0"
-            app:tabIndicatorColor="@color/orgDefault"
-            app:tabTextAppearance="@style/tab_text"
-            app:tabSelectedTextColor="@color/orgDefault"
-            app:tabTextColor="@color/grey4">
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/ongoing_goal_tab"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="참여중" />
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/ended_goal_tab"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:text="종료">
-
-            </com.google.android.material.tabs.TabItem>
-
-        </com.google.android.material.tabs.TabLayout>
-
-        <FrameLayout
-            android:id="@+id/search_container"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tab_layout">
+            android:layout_height="match_parent"
+            android:layout_marginTop="48dp"
+            android:fillViewport="true">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/my_participated_ongoing_recyclerview"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible"
-                tools:itemCount="4"
-                tools:listitem="@layout/item_my_participated_ongoing_goal"
-                scrollAdapter="@{activity.ongoingRecyclerViewScrollListener}"/>
-            <TextView
-                android:id="@+id/there_are_no_ongoing_goals"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="invisible"
-                android:textSize="15sp"
-                android:textColor="@color/grey4"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:gravity="center_horizontal"
-                android:text="참여중인 목표가 없네요."
-                />
+                android:orientation="vertical" >
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/my_participated_ended_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="invisible"
-                tools:itemCount="0"
-                tools:listitem="@layout/item_my_participated_ended_goal"
-                scrollAdapter="@{activity.endedRecyclerViewScrollListener}"/>
-            <TextView
-                android:id="@+id/there_are_no_ended_goals"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"
-                android:textSize="15sp"
-                android:textColor="@color/grey4"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:gravity="center_horizontal"
-                android:text="아직 종료된 목표가 없네요."
-                />
-        </FrameLayout>
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profile_image"
+                        android:src="@drawable/ic_icon_users_blank"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="7dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@{activity.nicknameText}"
+                        android:textColor="@color/grey8"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0"
+                        tools:text="김현수 님" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/jobClassRecycler"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="20dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/user_name"
+                        app:layout_constraintVertical_bias="0.04"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/item_mypage_job_class" />
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tab_layout"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/jobClassRecycler"
+                        app:layout_constraintVertical_bias="0.0"
+                        app:tabIndicatorColor="@color/orgDefault"
+                        app:tabTextAppearance="@style/tab_text"
+                        app:tabSelectedTextColor="@color/orgDefault"
+                        app:tabTextColor="@color/grey4">
+
+                        <com.google.android.material.tabs.TabItem
+                            android:id="@+id/ongoing_goal_tab"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="참여중" />
+
+                        <com.google.android.material.tabs.TabItem
+                            android:id="@+id/ended_goal_tab"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:text="종료">
+
+                        </com.google.android.material.tabs.TabItem>
+
+                    </com.google.android.material.tabs.TabLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/my_participated_ongoing_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        app:layout_constraintTop_toBottomOf="@+id/tab_layout"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:itemCount="4"
+                        tools:listitem="@layout/item_my_participated_ongoing_goal"
+                        scrollAdapter="@{activity.ongoingRecyclerViewScrollListener}"/>
+
+                    <TextView
+                        android:id="@+id/there_are_no_ongoing_goals"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@+id/tab_layout"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textSize="15sp"
+                        android:textColor="@color/grey4"
+                        android:gravity="center_horizontal"
+                        android:text="참여중인 목표가 없네요."
+                        />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/my_participated_ended_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/tab_layout"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:visibility="gone"
+                        tools:itemCount="0"
+                        tools:listitem="@layout/item_my_participated_ended_goal"
+                        scrollAdapter="@{activity.endedRecyclerViewScrollListener}"/>
+
+                    <TextView
+                        android:id="@+id/there_are_no_ended_goals"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@+id/tab_layout"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:textSize="15sp"
+                        android:textColor="@color/grey4"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="아직 종료된 목표가 없네요."
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <com.eroom.domain.customview.BlockView
             android:id="@+id/blockView"

@@ -94,17 +94,17 @@ class MyPageFragment : Fragment(), MyPageContract.View {
                         if(isOnGoingGoalListEmpty) {
                             myPageBinding.thereAreNoOngoingGoals.visibility = View.VISIBLE
                         }
-                        myPageBinding.thereAreNoEndedGoals.visibility = View.INVISIBLE
+                        myPageBinding.thereAreNoEndedGoals.visibility = View.GONE
                         myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.VISIBLE
-                        myPageBinding.myParticipatedEndedRecyclerview.visibility = View.INVISIBLE
+                        myPageBinding.myParticipatedEndedRecyclerview.visibility = View.GONE
 
                     }
                     1 -> {
                         if(isEndedGoalListEmpty) {
                             myPageBinding.thereAreNoEndedGoals.visibility = View.VISIBLE
                         }
-                        myPageBinding.thereAreNoOngoingGoals.visibility = View.INVISIBLE
-                        myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.INVISIBLE
+                        myPageBinding.thereAreNoOngoingGoals.visibility = View.GONE
+                        myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.GONE
                         myPageBinding.myParticipatedEndedRecyclerview.visibility = View.VISIBLE
                     }
                 }
@@ -142,7 +142,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
     override fun setJobInterestInfo(classList: ArrayList<JobClass>) {
         mClassList = classList
         if(classList.size <= 4) {
-            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classList, expandButtonClicked, false)
+            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classList, this, isMoreInfo = false, isExpaned = false)
         } else {
             val classListLimitedFour = ArrayList<JobClass>()
             for((index, jobClass) in classList.withIndex()) {
@@ -150,7 +150,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
                     break
                 classListLimitedFour.add(jobClass)
             }
-            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classListLimitedFour, expandButtonClicked, true)
+            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classListLimitedFour, this, isMoreInfo = true, isExpaned = false)
         }
     }
 
@@ -234,8 +234,18 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         })
     }
 
-    private val expandButtonClicked =  {
-        myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(mClassList, {}, false)
+    val expandButtonClicked =  { isExpanded: Boolean ->
+        if (isExpanded) {
+            val classListLimitedFour = ArrayList<JobClass>()
+            for((index, jobClass) in mClassList.withIndex()) {
+                if(index >=4)
+                    break
+                classListLimitedFour.add(jobClass)
+            }
+            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classListLimitedFour, this, isMoreInfo = true, isExpaned = false)
+        }
+        else
+            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(mClassList, this, isMoreInfo = true, isExpaned = true)
     }
 
     fun settingClick() {

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eroom.data.entity.JobClass
 import com.eroom.data.entity.MinimalGoalDetailContent
 import com.eroom.domain.globalconst.Consts
+import com.eroom.domain.utils.loadUrl
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityOthersPageBinding
 import com.eroom.erooja.databinding.FragmentMyPageBinding
@@ -71,8 +72,9 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
         val intent = intent
         saveUid(intent.getStringExtra(Consts.UID) ?: "")
         setNickname(intent.getStringExtra(Consts.NICKNAME) ?: "anonymous")
+        othersPageBinding.profileImage.loadUrl(intent.getStringExtra(Consts.IMAGE_PATH))
 
-        mClassList = intent.getStringArrayListExtra(Consts.JOB_INTEREST)
+        mClassList = intent.getStringArrayListExtra(Consts.JOB_INTEREST) ?: ArrayList()
         setJobInterestInfo(mClassList)
         //val othersJobInterestedList: ArrayList<JobClass>//타계정의 관심직무&직군
 
@@ -87,17 +89,17 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
                         if(isOnGoingGoalListEmpty) {
                             othersPageBinding.thereAreNoOngoingGoals.visibility = View.VISIBLE
                         }
-                        othersPageBinding.thereAreNoEndedGoals.visibility = View.INVISIBLE
+                        othersPageBinding.thereAreNoEndedGoals.visibility = View.GONE
                         othersPageBinding.myParticipatedOngoingRecyclerview.visibility = View.VISIBLE
-                        othersPageBinding.myParticipatedEndedRecyclerview.visibility = View.INVISIBLE
+                        othersPageBinding.myParticipatedEndedRecyclerview.visibility = View.GONE
 
                     }
                     1 -> {
                         if(isEndedGoalListEmpty) {
                             othersPageBinding.thereAreNoEndedGoals.visibility = View.VISIBLE
                         }
-                        othersPageBinding.thereAreNoOngoingGoals.visibility = View.INVISIBLE
-                        othersPageBinding.myParticipatedOngoingRecyclerview.visibility = View.INVISIBLE
+                        othersPageBinding.thereAreNoOngoingGoals.visibility = View.GONE
+                        othersPageBinding.myParticipatedOngoingRecyclerview.visibility = View.GONE
                         othersPageBinding.myParticipatedEndedRecyclerview.visibility = View.VISIBLE
                     }
                 }
@@ -153,7 +155,7 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
     override fun setJobInterestInfo(jobInterestList: ArrayList<String>) {
         if(jobInterestList.size <= 4) {
             othersPageBinding.jobClassRecycler.adapter =
-                OthersPageJobClassAdapter(jobInterestList, expandButtonClicked, false)
+                OthersPageJobClassAdapter(jobInterestList, this, isMoreInfo = false, isExpaned = false)
         } else {
             val classListLimitedFour = ArrayList<String>()
             for((index, jobClass) in jobInterestList.withIndex()) {
@@ -162,7 +164,7 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
                 classListLimitedFour.add(jobClass)
             }
             othersPageBinding.jobClassRecycler.adapter =
-                OthersPageJobClassAdapter(classListLimitedFour,expandButtonClicked, true)
+                OthersPageJobClassAdapter(classListLimitedFour, this, isMoreInfo = true, isExpaned = false)
         }
     }
 
@@ -244,8 +246,18 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
         })
     }
 
-    private val expandButtonClicked =  {
-        othersPageBinding.jobClassRecycler.adapter = OthersPageJobClassAdapter(mClassList, {}, false)
+    val expandButtonClicked =  { isExpanded: Boolean ->
+        if (isExpanded) {
+            val classListLimitedFour = ArrayList<String>()
+            for((index, jobClass) in mClassList.withIndex()) {
+                if(index >=4)
+                    break
+                classListLimitedFour.add(jobClass)
+            }
+            othersPageBinding.jobClassRecycler.adapter = OthersPageJobClassAdapter(classListLimitedFour, this, isMoreInfo = true, isExpaned = false)
+        }
+        else
+            othersPageBinding.jobClassRecycler.adapter = OthersPageJobClassAdapter(mClassList, this, isMoreInfo = true, isExpaned = true)
     }
 
     val ongoingRecyclerViewScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {

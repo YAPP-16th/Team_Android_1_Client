@@ -61,6 +61,7 @@ class NotificationActivity : AppCompatActivity(), NotificationContract.View {
     }
 
     override fun loadAlarms(list: ArrayList<AlarmContent>) {
+        val startPosition = contentList.size
         contentList.addAll(list)
         mPage += 1
         binding.alarmRecycler.visibility = View.VISIBLE
@@ -113,7 +114,7 @@ class NotificationActivity : AppCompatActivity(), NotificationContract.View {
                 putExtra(Consts.UID, UserInfo.myUId)
             })
             mAdapter.submitList(contentList)
-            mAdapter.notifyDataSetChanged()
+            mAdapter.notifyItemChanged(position)
         }
         else this.toastShort("알 수 없는 에러입니다")
     }
