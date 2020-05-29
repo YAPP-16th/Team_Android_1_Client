@@ -40,7 +40,7 @@
             android:paddingBottom="15dp"
             android:lineSpacingExtra="12sp"
             android:visibility="@{goalDetail.onlyOneLine ? view.VISIBLE : view.GONE }"
-            app:layout_constraintStart_toStartOf="@+id/related_job_interest"
+            app:layout_constraintStart_toStartOf="@+id/gone_related_job_interest"
             app:layout_constraintTop_toBottomOf="@+id/gone_related_job_interest"
             tools:text="ui, ux ~, Android, IOS" />
 

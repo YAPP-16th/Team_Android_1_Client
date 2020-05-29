@@ -101,7 +101,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
 
     }
 
-    fun updateView() {
+    private fun updateView() {
         onlyOneLine.set(true)
     }
 
@@ -126,9 +126,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         for (string in list) {
             result += string add ", "
         }
-        //this.jobClass.set(result)
         binding.include.ongoingDescText.text = result
-//        binding.include.goneKeywordTxt.text = result
     }
 
     //Todo: 참여자 목록의 Todo list 상세보기 (카드뷰)
