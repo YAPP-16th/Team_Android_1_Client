@@ -27,8 +27,8 @@
             android:layout_height="wrap_content"
             android:text="@string/connected_job"
             android:lineSpacingExtra="12sp"
-            android:visibility="@{activity.onlyOneLine ? view.VISIBLE : view.GONE }"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +39,7 @@
             android:text="@string/temp_txt"
             android:paddingBottom="15dp"
             android:lineSpacingExtra="12sp"
-            android:visibility="@{activity.onlyOneLine ? view.VISIBLE : view.GONE }"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@+id/gone_related_job_interest"
             app:layout_constraintTop_toBottomOf="@+id/gone_related_job_interest"
             tools:text="ui, ux ~, Android, IOS" />
@@ -80,7 +80,6 @@
                 android:layout_marginTop="24dp"
                 android:lineSpacingExtra="12sp"
                 android:text="@string/connected_job"
-                android:visibility="@{activity.onlyOneLine ? view.GONE :  view.VISIBLE }"
                 android:textStyle="bold" />
 
             <TextView
@@ -91,7 +90,6 @@
                 android:lineSpacingExtra="12sp"
                 android:text="@string/temp_txt"
                 tools:text="ui, ux ~, Android, IOS"
-                android:visibility="@{activity.onlyOneLine ? view.GONE : view.VISIBLE }"
                 app:layout_constraintStart_toStartOf="@id/text"
                 app:layout_constraintTop_toBottomOf="@+id/text" />
 
