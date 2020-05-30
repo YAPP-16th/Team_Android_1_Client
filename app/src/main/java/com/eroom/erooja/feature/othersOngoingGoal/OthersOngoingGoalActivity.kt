@@ -88,11 +88,6 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
         binding.goalNameTxt.text = goalData.title
         binding.include.text.text = goalData.description
 
-//        binding.goalDescLayout.goal_desc.apply {
-//            showButton = false
-//            showShadow = false
-//        }
-
         if(goalData.description.isEmpty()){
             binding.goalDescLayout.goal_desc.invalidateState(State.Statical)
             binding.moreBtn.visibility = View.INVISIBLE
@@ -111,9 +106,6 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
             }.toList().join()
 
         binding.include.goneKeywordTxt.text = binding.include.keywordTxt.text
-
-
-        //initBottomSheet()
     }
 
     private fun updateView() {
