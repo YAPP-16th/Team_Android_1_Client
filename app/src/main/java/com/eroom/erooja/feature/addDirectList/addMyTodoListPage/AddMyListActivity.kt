@@ -73,7 +73,7 @@ class AddMyListActivity : AppCompatActivity(),
 
     private fun addMyList() {
         // case 1: 기간 고정, 내가 리스트를 추가하는 경우
-        when(mPage) {
+        when (mPage) {
             4 -> {
                 showFragment()
                 val endGoalDate = goalDate!!.split("~")
@@ -154,8 +154,8 @@ class AddMyListActivity : AppCompatActivity(),
         mFragmentList.apply {
             addAll(
                 listOf(
-                    InactiveJobFragment.newInstance().apply{
-                        arguments = Bundle().apply{
+                    InactiveJobFragment.newInstance().apply {
+                        arguments = Bundle().apply {
                             goalId?.let { putLong(Consts.GOAL_ID, it) }
                             putString(Consts.ADD_MY_LIST, Consts.ADD_MY_LIST)
                         }
@@ -251,22 +251,22 @@ class AddMyListActivity : AppCompatActivity(),
     }
 
     private fun showAlert() {
-            //해당 리스트 추가를 그만두시겠어요?
-            startActivityForResult(
-                Intent(
-                    this,
-                    EroojaDialogActivity::class.java
-                ).apply {
-                    putExtra(Consts.DIALOG_TITLE, "")
-                    putExtra(
-                        Consts.DIALOG_CONTENT,
-                        "해당 리스트 추가를 그만두시겠어요?"
-                    )
-                    putExtra(Consts.DIALOG_CONFIRM, true)
-                    putExtra(Consts.DIALOG_CANCEL, true)
-                }, 1300
-            )
-        }
+        //해당 리스트 추가를 그만두시겠어요?
+        startActivityForResult(
+            Intent(
+                this,
+                EroojaDialogActivity::class.java
+            ).apply {
+                putExtra(Consts.DIALOG_TITLE, "")
+                putExtra(
+                    Consts.DIALOG_CONTENT,
+                    "해당 리스트 추가를 그만두시겠어요?"
+                )
+                putExtra(Consts.DIALOG_CONFIRM, true)
+                putExtra(Consts.DIALOG_CANCEL, true)
+            }, 1300
+        )
+    }
 
     override fun redirectNewGoalFinish(resultId: Long) {
         val intent = Intent(this, NewGoalFinishActivity::class.java)
@@ -279,7 +279,7 @@ class AddMyListActivity : AppCompatActivity(),
 
     private fun networkRequest() {
         startBlockAnimation()
-        if(isMyEndedGoal) {
+        if (isMyEndedGoal) {
             //myPage -> 종료탭에 있는 목표라면? -> 재참
             presenter.reparticipateToMyEndedGoal(goalId!!, endDate)
         } else {

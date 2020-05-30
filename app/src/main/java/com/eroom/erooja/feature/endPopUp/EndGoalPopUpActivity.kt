@@ -5,19 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import com.eroom.data.entity.AlarmContent
 import com.eroom.domain.customview.parcelizeclass.ParcelizeAlarmContent
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.loadGif
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityEndGoalPopUpBinding
-import com.eroom.erooja.databinding.ActivityNewGoalFinishBinding
-import com.google.android.gms.common.util.DataUtils
 import org.koin.android.ext.android.get
 
 class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
     private lateinit var endGoalPopUpBinding: ActivityEndGoalPopUpBinding
-    private lateinit var presenter : EndGoalPopUpPresenter
+    private lateinit var presenter: EndGoalPopUpPresenter
 
     private lateinit var list: ArrayList<ParcelizeAlarmContent>
     private var alarmSize: Int = 0
@@ -32,7 +29,8 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
     }
 
     private fun setUpDataBinding() {
-        endGoalPopUpBinding = DataBindingUtil.setContentView(this, R.layout.activity_end_goal_pop_up)
+        endGoalPopUpBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_end_goal_pop_up)
         endGoalPopUpBinding.activity = this
     }
 
@@ -69,7 +67,7 @@ class EndGoalPopUpActivity : AppCompatActivity(), EndGoalPopUpContract.View {
         endGoalPopUpBinding.goalTitle.text = goalTitle.trim()
         endGoalPopUpBinding.achieveRate.text = "${achieveRate}% 달성"
         endGoalPopUpBinding.rlDoneBtn.text = "${index + 1}/$alarmSize"
-        if (index == alarmSize -1) {
+        if (index == alarmSize - 1) {
             endGoalPopUpBinding.nextButton.visibility = View.GONE
             isAllRead = true
         }

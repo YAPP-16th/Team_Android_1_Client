@@ -25,10 +25,10 @@ class TOSActivity : AppCompatActivity() {
         binding.tos = this@TOSActivity
     }
 
-    private fun initView(){
+    private fun initView() {
         val inputStream: InputStream? = resources.openRawResource(R.raw.erooja_tos)
 
-        inputStream?.let{
+        inputStream?.let {
             val stream = InputStreamReader(inputStream, "UTF-8")
             val buffer = BufferedReader(stream)
             var read: String?
@@ -37,8 +37,8 @@ class TOSActivity : AppCompatActivity() {
             while (true) {
                 read = buffer.readLine()
 
-                if(read == null) break
-                else if(read.equals("")) sb.append("\n")
+                if (read == null) break
+                else if (read.equals("")) sb.append("\n")
                 else sb.append(read)
             }
             binding.tosTxt.text = sb.toString()
@@ -46,7 +46,7 @@ class TOSActivity : AppCompatActivity() {
 
     }
 
-    fun back(v: View){
+    fun back(v: View) {
         finish()
     }
 }

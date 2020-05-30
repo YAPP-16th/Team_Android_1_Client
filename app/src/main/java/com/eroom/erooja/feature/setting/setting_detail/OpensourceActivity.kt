@@ -28,7 +28,7 @@ class OpensourceActivity : AppCompatActivity() {
     private fun initView() {
         val inputStream: InputStream? = resources.openRawResource(R.raw.open_source)
 
-        inputStream?.let{
+        inputStream?.let {
             val stream = InputStreamReader(inputStream, "UTF-8")
             val buffer = BufferedReader(stream)
             var read: String?
@@ -37,15 +37,15 @@ class OpensourceActivity : AppCompatActivity() {
             while (true) {
                 read = buffer.readLine()
 
-                if(read == null) break
-                else if(read.equals("")) sb.append("\n")
+                if (read == null) break
+                else if (read.equals("")) sb.append("\n")
                 else sb.append(read)
             }
             binding.contentText.text = sb.toString()
         }
     }
 
-    fun back(v: View){
+    fun back(v: View) {
         finish()
     }
 }

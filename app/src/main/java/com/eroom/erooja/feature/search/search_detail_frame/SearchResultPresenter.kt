@@ -10,20 +10,26 @@ import com.eroom.erooja.singleton.UserInfo
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
-class SearchResultPresenter(override var view: SearchResultContract.View,
-                            private val getSearchGoalUseCase: GetSearchGoalUseCase
-)
-    : SearchResultContract.Presenter {
+class SearchResultPresenter(
+    override var view: SearchResultContract.View,
+    private val getSearchGoalUseCase: GetSearchGoalUseCase
+) : SearchResultContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
 
     @SuppressLint("CheckResult")
     override fun getSearchJobInterest(interestId: Long?, page: Int) {
-        getSearchGoalUseCase.getSearchJobInterest(interestId, size = 10, page = page, sortBy = SortBy.JOINCOUNT_DESC, uid = UserInfo.myUId)
-            .subscribe ({
+        getSearchGoalUseCase.getSearchJobInterest(
+            interestId,
+            size = 10,
+            page = page,
+            sortBy = SortBy.JOINCOUNT_DESC,
+            uid = UserInfo.myUId
+        )
+            .subscribe({
                 view.setAllView(it.content)
                 view.setIsEnd(it.totalPages <= page)
-            },{
+            }, {
                 Timber.i(it.localizedMessage)
             }) addTo compositeDisposable
     }
@@ -34,7 +40,7 @@ class SearchResultPresenter(override var view: SearchResultContract.View,
             .subscribe({
                 view.setAllView(it.content)
                 view.setIsEnd(it.totalPages <= page)
-            },{
+            }, {
                 Timber.i(it.localizedMessage)
             }) addTo compositeDisposable
     }
@@ -43,6 +49,7 @@ class SearchResultPresenter(override var view: SearchResultContract.View,
         override fun areItemsTheSame(oldItem: GoalContent, newItem: GoalContent): Boolean {
             return oldItem.id == newItem.id
         }
+
         override fun areContentsTheSame(oldItem: GoalContent, newItem: GoalContent): Boolean {
             return (oldItem.title == newItem.title) && (oldItem.id == newItem.id)
         }

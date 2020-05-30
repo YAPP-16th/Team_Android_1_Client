@@ -33,7 +33,8 @@ class NewGoalFinishActivity : AppCompatActivity() {
     }
 
     private fun setUpDataBinding() {
-        newGoalFinishBinding = DataBindingUtil.setContentView(this, R.layout.activity_new_goal_finish)
+        newGoalFinishBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_new_goal_finish)
         newGoalFinishBinding.activity = this
     }
 

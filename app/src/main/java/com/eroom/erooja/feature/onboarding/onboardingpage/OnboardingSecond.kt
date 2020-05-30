@@ -21,7 +21,7 @@ class OnboardingSecond : Fragment(), OnboardingPage {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_onboarding2, container,false)
+        val view = inflater.inflate(R.layout.fragment_onboarding2, container, false)
         return view
     }
 

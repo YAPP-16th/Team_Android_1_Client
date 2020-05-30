@@ -16,7 +16,8 @@ class AddGoalItem(context: Context?, isClicked: () -> Unit) : ConstraintLayout(c
     }
 
     fun initView(context: Context?, isClicked: () -> Unit) {
-        val binding = ItemMyParticipantedAddBinding.inflate(LayoutInflater.from(context), this, true)
+        val binding =
+            ItemMyParticipantedAddBinding.inflate(LayoutInflater.from(context), this, true)
 
         binding.back.setOnClickListener {
             isClicked()

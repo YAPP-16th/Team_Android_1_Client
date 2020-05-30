@@ -1,6 +1,5 @@
 package com.eroom.erooja.feature.signup.page.jobgroup
 
-
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,9 +12,6 @@ import com.eroom.data.localclass.JobGroup
 import com.eroom.erooja.databinding.FragmentJobGroupBinding
 import com.eroom.erooja.feature.signup.kakao.KakaoSignUpActivity
 
-/**
- * A simple [Fragment] subclass.
- */
 class JobGroupFragment : Fragment() {
     private lateinit var jobGroupBinding: FragmentJobGroupBinding
 

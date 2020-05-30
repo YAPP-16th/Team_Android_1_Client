@@ -2,7 +2,6 @@ package com.eroom.erooja.feature.goalDetail
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
-import com.eroom.data.entity.GoalContent
 import com.eroom.data.entity.MinimalTodoListContent
 import com.eroom.domain.api.usecase.goal.GetGoalDetailUseCase
 import com.eroom.domain.api.usecase.job.GetJobClassByIdUseCase
@@ -18,13 +17,14 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class GoalDetailPresenter(override var view: GoalDetailContract.View,
-                          private val getGoalDetailUseCase: GetGoalDetailUseCase,
-                          private val getJobClassByIdUseCase: GetJobClassByIdUseCase,
-                          private var getTodoListUseCase: GetTodoListUseCase,
-                          private val getGoalsByUserIdUseCase: GetGoalsByUserIdUseCase,
-                          private val getGoalInfoByGoalIdUseCase: GetGoalInfoByGoalIdUseCase
-) :GoalDetailContract.Presenter{
+class GoalDetailPresenter(
+    override var view: GoalDetailContract.View,
+    private val getGoalDetailUseCase: GetGoalDetailUseCase,
+    private val getJobClassByIdUseCase: GetJobClassByIdUseCase,
+    private var getTodoListUseCase: GetTodoListUseCase,
+    private val getGoalsByUserIdUseCase: GetGoalsByUserIdUseCase,
+    private val getGoalInfoByGoalIdUseCase: GetGoalInfoByGoalIdUseCase
+) : GoalDetailContract.Presenter {
 
     val compositeDisposable = CompositeDisposable()
 
@@ -32,10 +32,10 @@ class GoalDetailPresenter(override var view: GoalDetailContract.View,
     override fun getData(goalId: Long) {
         getGoalDetailUseCase.getGoalDetail(goalId)
             .subscribe({
-               // view.setView(it.title, it.description, it.joinCount, it.isDateFixed, it.startDt, it.endDt)
+                // view.setView(it.title, it.description, it.joinCount, it.isDateFixed, it.startDt, it.endDt)
                 view.setInitialView(it)
                 view.stopAnimation()
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
                 view.stopAnimation()
             }) addTo compositeDisposable
@@ -50,7 +50,7 @@ class GoalDetailPresenter(override var view: GoalDetailContract.View,
             }.toList()
             .subscribe({
                 view.setInterestedClassName(it)
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
     }
@@ -60,17 +60,26 @@ class GoalDetailPresenter(override var view: GoalDetailContract.View,
         getGoalsByUserIdUseCase.getTodoByGoalId(goalId)
             .subscribe({
                 getGoalInfo(goalId, it.content)
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
             })
     }
 
     private val mGoalContentCallback = object : DiffUtil.ItemCallback<MinimalTodoListContent>() {
-        override fun areItemsTheSame(oldItem: MinimalTodoListContent, newItem: MinimalTodoListContent): Boolean {
+        override fun areItemsTheSame(
+            oldItem: MinimalTodoListContent,
+            newItem: MinimalTodoListContent
+        ): Boolean {
             return oldItem.uid.equals(newItem.uid)
         }
-        override fun areContentsTheSame(oldItem: MinimalTodoListContent, newItem: MinimalTodoListContent): Boolean {
-            return (oldItem.todoList[0].content.equals(newItem.todoList[0].content)) && (oldItem.uid.equals(newItem.uid))
+
+        override fun areContentsTheSame(
+            oldItem: MinimalTodoListContent,
+            newItem: MinimalTodoListContent
+        ): Boolean {
+            return (oldItem.todoList[0].content.equals(newItem.todoList[0].content)) && (oldItem.uid.equals(
+                newItem.uid
+            ))
         }
     }
 
@@ -79,7 +88,7 @@ class GoalDetailPresenter(override var view: GoalDetailContract.View,
         getTodoListUseCase.getUserTodoList(uid, goalId)
             .subscribe({
                 view.setTodoList(it.content)
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
             })
     }
@@ -103,7 +112,7 @@ class GoalDetailPresenter(override var view: GoalDetailContract.View,
                     view.setIsExistedInMyPage(false)
                     view.setRecyclerView(content, false, isJoined = false)
                 }
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
                 handleError(it, content)
             })
@@ -119,7 +128,8 @@ class GoalDetailPresenter(override var view: GoalDetailContract.View,
         }
     }
 
-    fun getGoalContentCallback(): DiffUtil.ItemCallback<MinimalTodoListContent> = mGoalContentCallback
+    fun getGoalContentCallback(): DiffUtil.ItemCallback<MinimalTodoListContent> =
+        mGoalContentCallback
 
 
     override fun onCleared() {

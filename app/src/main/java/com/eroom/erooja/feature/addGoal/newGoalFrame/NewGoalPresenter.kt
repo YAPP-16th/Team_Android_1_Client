@@ -8,8 +8,9 @@ import com.eroom.domain.utils.addTo
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
-class NewGoalPresenter(override val view: NewGoalContract.View,
-                       private val postNewGoalUseCase: PostNewGoalUseCase
+class NewGoalPresenter(
+    override val view: NewGoalContract.View,
+    private val postNewGoalUseCase: PostNewGoalUseCase
 ) : NewGoalContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
@@ -30,11 +31,20 @@ class NewGoalPresenter(override val view: NewGoalContract.View,
             todoListResult.add(TodoList(todo, index))
             index++
         }
-        postNewGoalUseCase.postNewGoal(NewGoalRequest(title, description, isDateFixed, endDt, interestIdList, todoListResult))
+        postNewGoalUseCase.postNewGoal(
+            NewGoalRequest(
+                title,
+                description,
+                isDateFixed,
+                endDt,
+                interestIdList,
+                todoListResult
+            )
+        )
             .subscribe({
                 view.redirectNewGoalFinish(it.id)
                 view.stopAnimation()
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
                 view.failRequest()
                 view.stopAnimation()

@@ -16,14 +16,8 @@ import com.eroom.erooja.databinding.ActivitySearchDetailBinding
 import com.eroom.erooja.feature.search.search_detail_frame.*
 import com.eroom.erooja.singleton.JobClassHashMap
 import com.google.android.material.tabs.TabLayout
-import rx.android.schedulers.AndroidSchedulers
 import java.net.URLEncoder
-import java.util.concurrent.TimeUnit
 
-
-/**
- * A simple [Fragment] subclass.
- */
 class SearchDetailActivity : AppCompatActivity() {
     private var changeNum: Int = 0
     private lateinit var searchDetailFrame: ArrayList<Fragment>
@@ -91,7 +85,7 @@ class SearchDetailActivity : AppCompatActivity() {
         searchAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, autoSearch)
         searchDetailBinding.searchEditText.setAdapter(searchAdapter)
 
-        searchDetailBinding.searchEditText.addTextChangedListener(object :TextWatcher {
+        searchDetailBinding.searchEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 s?.let {
                     if (it.toString() != "") {
@@ -119,6 +113,7 @@ class SearchDetailActivity : AppCompatActivity() {
                     }
                 }
             }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })

@@ -16,14 +16,15 @@ import com.kakao.usermgmt.response.model.UserAccount
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
-class LoginPresenter(override val view: LoginContract.View,
-                     private val postKakaoLoginUseCase: PostKakaoLoginUseCase,
-                     private val sharedPrefRepository: SharedPrefRepository
+class LoginPresenter(
+    override val view: LoginContract.View,
+    private val postKakaoLoginUseCase: PostKakaoLoginUseCase,
+    private val sharedPrefRepository: SharedPrefRepository
 ) : LoginContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
 
-    override val requestMe =  {
+    override val requestMe = {
         UserManagement.getInstance().me(object : MeV2ResponseCallback() {
             override fun onFailure(errorResult: ErrorResult) {
                 val message = "failed to get user info. msg=$errorResult"
@@ -40,7 +41,7 @@ class LoginPresenter(override val view: LoginContract.View,
                 val profile: Profile? = kakaoAccount.profile
                 var nickname: String? = null
                 var thumbnailImage: String? = null
-                if(profile != null) {
+                if (profile != null) {
                     nickname = profile.nickname
                     thumbnailImage = profile.thumbnailImageUrl
                     Timber.d("nickname: " + profile.nickname)
@@ -56,8 +57,14 @@ class LoginPresenter(override val view: LoginContract.View,
     private fun checkUserInfo(userId: Long, nickname: String?, thumbnailImage: String?) {
         postKakaoLoginUseCase.postKakaoLogin(userId)
             .subscribe({
-                sharedPrefRepository.writePrefs(Consts.ACCESS_TOKEN, ConverterUtil._Encode(it.token))
-                sharedPrefRepository.writePrefs(Consts.REFRESH_TOKEN, ConverterUtil._Encode(it.refreshToken))
+                sharedPrefRepository.writePrefs(
+                    Consts.ACCESS_TOKEN,
+                    ConverterUtil._Encode(it.token)
+                )
+                sharedPrefRepository.writePrefs(
+                    Consts.REFRESH_TOKEN,
+                    ConverterUtil._Encode(it.refreshToken)
+                )
                 logout()
                 if (it.isAdditionalInfoNeeded)
                     view.redirectSignUpActivity(nickname)
@@ -66,7 +73,7 @@ class LoginPresenter(override val view: LoginContract.View,
                     view.redirectMainActivity()
                 }
                 view.stopAnimation()
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
                 logout()
                 view.stopAnimation()

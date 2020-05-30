@@ -21,13 +21,10 @@ import com.eroom.domain.utils.*
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityOthersOngoingGoalBinding
 import com.eroom.erooja.dialog.EroojaDialogActivity
-import com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity
 import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
 import com.eroom.erooja.feature.joinOtherList.joinTodoListPage.JoinOtherListActivity
 import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
 import com.eroom.erooja.singleton.UserInfo
-import kotlinx.android.synthetic.main.include_completed_goal_desc.view.*
-import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.goal_desc
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.keyword_txt
 import org.koin.android.ext.android.get
@@ -78,7 +75,7 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
 
     private fun setUserToDoList(todoList: ArrayList<MinimalTodoListDetail>) {
         userTodoList = ArrayList()
-        repeat(todoList.size){
+        repeat(todoList.size) {
             userTodoList.add(todoList[it].content)
         }
     }
@@ -88,13 +85,12 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
         binding.goalNameTxt.text = goalData.title
         binding.include.text.text = goalData.description
 
-        if(goalData.description.isEmpty()){
+        if (goalData.description.isEmpty()) {
             binding.goalDescLayout.goal_desc.invalidateState(State.Statical)
             binding.moreBtn.visibility = View.INVISIBLE
             updateView()
-        }
-        else {
-            binding.include.text.post{
+        } else {
+            binding.include.text.post {
                 binding.include.goalDesc.collapsedHeight = binding.include.text.height
                 binding.include.text.maxLines = Int.MAX_VALUE
             }
@@ -246,18 +242,27 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
                                 putExtra(Consts.UID, uId)
                             })
                     }
-                    else -> {}
+                    else -> {
+                    }
                 }
             } else {
                 when (it) {
                     0 -> { //이 리스트에 참여하기
-                        if(isExistedInMyPage) {
-                            startActivityForResult(Intent(this, EroojaDialogActivity::class.java).apply {
-                                putExtra(Consts.DIALOG_TITLE, "")
-                                putExtra(Consts.DIALOG_CONTENT, "이미 목표에 참여한 이력이 존재합니다. 참여 시 해당 이력이 삭제될 수 있습니다.")
-                                putExtra(Consts.DIALOG_CONFIRM, true)
-                                putExtra(Consts.DIALOG_CANCEL, true)
-                            }, Consts.MY_GOAL_REJOIN_REQUEST)
+                        if (isExistedInMyPage) {
+                            startActivityForResult(
+                                Intent(
+                                    this,
+                                    EroojaDialogActivity::class.java
+                                ).apply {
+                                    putExtra(Consts.DIALOG_TITLE, "")
+                                    putExtra(
+                                        Consts.DIALOG_CONTENT,
+                                        "이미 목표에 참여한 이력이 존재합니다. 참여 시 해당 이력이 삭제될 수 있습니다."
+                                    )
+                                    putExtra(Consts.DIALOG_CONFIRM, true)
+                                    putExtra(Consts.DIALOG_CANCEL, true)
+                                }, Consts.MY_GOAL_REJOIN_REQUEST
+                            )
                         } else {
                             joinOtherList(uId)
                         }
@@ -272,7 +277,8 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
                                 putExtra(Consts.UID, uId)
                             })
                     }
-                    else -> {}
+                    else -> {
+                    }
 
                 }
 
@@ -284,10 +290,10 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
     //Todo: 현재 액티비티에서 JoinOtherListActivity 로 넘어갈 때 필요한 요소: GoalID, UID, NAME, DATE, GoalTITLE, DESC)
     private fun joinOtherList(uid: String) {
         val intent = Intent(this@OthersOngoingGoalActivity, JoinOtherListActivity::class.java)
-            .apply{
+            .apply {
                 putExtra(Consts.GOAL_ID, intent.getLongExtra(Consts.GOAL_ID, -1))
                 putExtra(Consts.UID, uid)
-                if(isDateFixed) {
+                if (isDateFixed) {
                     putExtra(Consts.DATE, binding.goalDateTxt.text)
                 } else {
                     putExtra(Consts.DATE, "기간 설정 자유")
@@ -301,7 +307,7 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == Consts.MY_GOAL_REJOIN_REQUEST && resultCode == 6000) {
+        if (requestCode == Consts.MY_GOAL_REJOIN_REQUEST && resultCode == 6000) {
             data?.let {
                 val result = it.getBooleanExtra(Consts.DIALOG_RESULT, false)
                 if (result) {

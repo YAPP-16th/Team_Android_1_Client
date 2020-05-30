@@ -1,6 +1,5 @@
 package com.eroom.erooja.feature.mypage
 
-
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -14,17 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eroom.data.entity.JobClass
 import com.eroom.data.entity.MinimalGoalDetailContent
 import com.eroom.domain.globalconst.Consts
-import com.eroom.domain.utils.loadUri
 import com.eroom.domain.utils.loadUrl
 import org.koin.android.ext.android.get
-
 import com.eroom.erooja.databinding.FragmentMyPageBinding
 import com.eroom.erooja.feature.endedGoal.EndedGoalActivity
 import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
 import com.eroom.erooja.feature.tab.TabActivity
 import com.eroom.erooja.singleton.UserInfo
 import com.google.android.material.tabs.TabLayout
-
 
 class MyPageFragment : Fragment(), MyPageContract.View {
 
@@ -41,7 +37,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
     private var endedGoalPage = 0
     private var endedGoalContentSize = 0
     private var endedGoalIsEnd = false
-    
+
     val nicknameText: ObservableField<String> = ObservableField()
     private var uId: String = ""
     private var isOnGoingGoalListEmpty: Boolean = false
@@ -83,18 +79,19 @@ class MyPageFragment : Fragment(), MyPageContract.View {
             if (it != "") myPageBinding.profileImage.loadUrl(it)
         }
 
-        myPageBinding.myPageTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+        myPageBinding.myPageTabLayout.addOnTabSelectedListener(object :
+            TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {}
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                when(tab?.position) {
+                when (tab?.position) {
                     0 -> {
                         myPageBinding.thereAreNoEndedGoals.visibility = View.INVISIBLE
                         myPageBinding.myParticipatedEndedRecyclerview.visibility = View.GONE
                         myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.VISIBLE
-                        if(isOnGoingGoalListEmpty) {
+                        if (isOnGoingGoalListEmpty) {
                             myPageBinding.thereAreNoOngoingGoals.visibility = View.VISIBLE
                             myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.GONE
 
@@ -104,7 +101,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
                         myPageBinding.thereAreNoOngoingGoals.visibility = View.INVISIBLE
                         myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.GONE
                         myPageBinding.myParticipatedEndedRecyclerview.visibility = View.VISIBLE
-                        if(isEndedGoalListEmpty) {
+                        if (isEndedGoalListEmpty) {
                             myPageBinding.thereAreNoEndedGoals.visibility = View.VISIBLE
                             myPageBinding.myParticipatedEndedRecyclerview.visibility = View.GONE
                         }
@@ -138,7 +135,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
             presenter.getOngoingGoalList(uId, ongoingGoalPage)
             presenter.getEndedGoalList(uId, endedGoalPage)
         }
-        if(myPageBinding.myPageTabLayout.selectedTabPosition == 1) {
+        if (myPageBinding.myPageTabLayout.selectedTabPosition == 1) {
             myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.GONE
         }
 
@@ -150,39 +147,43 @@ class MyPageFragment : Fragment(), MyPageContract.View {
 
     override fun setJobInterestInfo(classList: ArrayList<JobClass>) {
         mClassList = classList
-        if(classList.size <= 4) {
-            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classList, this, isMoreInfo = false, isExpaned = false)
+        if (classList.size <= 4) {
+            myPageBinding.jobClassRecycler.adapter =
+                MyPageJobClassAdapter(classList, this, isMoreInfo = false, isExpaned = false)
         } else {
             val classListLimitedFour = ArrayList<JobClass>()
-            for((index, jobClass) in classList.withIndex()) {
-                if(index >=4)
+            for ((index, jobClass) in classList.withIndex()) {
+                if (index >= 4)
                     break
                 classListLimitedFour.add(jobClass)
             }
-            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classListLimitedFour, this, isMoreInfo = true, isExpaned = false)
+            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(
+                classListLimitedFour,
+                this,
+                isMoreInfo = true,
+                isExpaned = false
+            )
         }
     }
 
     override fun setOngoingGoalListSizeOnTabLayout(totalElements: Int) {
-        if(totalElements == 0) {
+        if (totalElements == 0) {
             isOnGoingGoalListEmpty = true
             myPageBinding.thereAreNoOngoingGoals.visibility = View.VISIBLE
             myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.GONE
-        }
-        else {
+        } else {
             isOnGoingGoalListEmpty = false
             myPageBinding.thereAreNoOngoingGoals.visibility = View.INVISIBLE
-            if(myPageBinding.myPageTabLayout.selectedTabPosition == 0)
+            if (myPageBinding.myPageTabLayout.selectedTabPosition == 0)
                 myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.VISIBLE
         }
         myPageBinding.myPageTabLayout.getTabAt(0)?.text = "참여중(${totalElements})"
     }
 
     override fun setEndedGoalListSizeOnTabLayout(totalElements: Int) {
-        if(totalElements == 0) {
+        if (totalElements == 0) {
             isEndedGoalListEmpty = true
-        }
-        else {
+        } else {
             isEndedGoalListEmpty = false
             myPageBinding.thereAreNoEndedGoals.visibility = View.INVISIBLE
         }
@@ -193,7 +194,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         ongoingGoalContentSize += list.size
         if (ongoingGoalContentSize != 0) {
             if (ongoingGoalPage < 1) {
-               //Timber.e(list.map { it.minimalGoalDetail.title }.join())
+                //Timber.e(list.map { it.minimalGoalDetail.title }.join())
                 ongoingGoalAdapter = MyPageOngoingGoalAdapter(list, ongoingGoalClicked)
                 myPageBinding.myParticipatedOngoingRecyclerview.apply {
                     layoutManager = LinearLayoutManager(context)
@@ -208,8 +209,8 @@ class MyPageFragment : Fragment(), MyPageContract.View {
 
     override fun setEndedGoalList(list: ArrayList<MinimalGoalDetailContent>) {
         endedGoalContentSize += list.size
-        if(endedGoalContentSize != 0) {
-            if(endedGoalPage < 1) {
+        if (endedGoalContentSize != 0) {
+            if (endedGoalPage < 1) {
                 endedGoalAdapter = MyPageEndedGoalAdapter(list, endedGoalClicked)
                 myPageBinding.myParticipatedEndedRecyclerview.apply {
                     layoutManager = LinearLayoutManager(context)
@@ -247,47 +248,54 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         })
     }
 
-    val expandButtonClicked =  { isExpanded: Boolean ->
+    val expandButtonClicked = { isExpanded: Boolean ->
         if (isExpanded) {
             val classListLimitedFour = ArrayList<JobClass>()
-            for((index, jobClass) in mClassList.withIndex()) {
-                if(index >=4)
+            for ((index, jobClass) in mClassList.withIndex()) {
+                if (index >= 4)
                     break
                 classListLimitedFour.add(jobClass)
             }
-            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(classListLimitedFour, this, isMoreInfo = true, isExpaned = false)
-        }
-        else
-            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(mClassList, this, isMoreInfo = true, isExpaned = true)
+            myPageBinding.jobClassRecycler.adapter = MyPageJobClassAdapter(
+                classListLimitedFour,
+                this,
+                isMoreInfo = true,
+                isExpaned = false
+            )
+        } else
+            myPageBinding.jobClassRecycler.adapter =
+                MyPageJobClassAdapter(mClassList, this, isMoreInfo = true, isExpaned = true)
     }
 
     fun settingClick() {
         (activity as TabActivity).replaceFragment(3)
     }
 
-    val ongoingRecyclerViewScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-            if(dy >= 0 && ongoingGoalContentSize > 0) {
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                if (layoutManager.findLastCompletelyVisibleItemPosition() >= ongoingGoalContentSize - 1  && !ongoingGoalIsEnd) {
-                    presenter.getOngoingGoalList(uId, ongoingGoalPage)
+    val ongoingRecyclerViewScrollListener: RecyclerView.OnScrollListener =
+        object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy >= 0 && ongoingGoalContentSize > 0) {
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() >= ongoingGoalContentSize - 1 && !ongoingGoalIsEnd) {
+                        presenter.getOngoingGoalList(uId, ongoingGoalPage)
+                    }
                 }
             }
         }
-    }
 
-    val endedRecyclerViewScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-            if(dy >= 0 && endedGoalContentSize > 0) {
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                if (layoutManager.findLastCompletelyVisibleItemPosition() >= endedGoalContentSize - 1  && !endedGoalIsEnd) {
-                    presenter.getEndedGoalList(uId, endedGoalPage)
+    val endedRecyclerViewScrollListener: RecyclerView.OnScrollListener =
+        object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy >= 0 && endedGoalContentSize > 0) {
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() >= endedGoalContentSize - 1 && !endedGoalIsEnd) {
+                        presenter.getEndedGoalList(uId, endedGoalPage)
+                    }
                 }
             }
         }
-    }
 
     fun navigateToAddGoal() = (activity as TabActivity).navigateToNewGoal(uId, mClassList)
 

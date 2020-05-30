@@ -7,7 +7,7 @@ import android.widget.FrameLayout
 import com.eroom.erooja.databinding.ItemCircleJoinCountBinding
 
 @SuppressLint("ViewConstructor")
-class ItemCircleJoinCount(context: Context, count: Int): FrameLayout(context) {
+class ItemCircleJoinCount(context: Context, count: Int) : FrameLayout(context) {
     init {
         initView(context, count)
     }

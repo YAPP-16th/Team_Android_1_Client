@@ -2,7 +2,7 @@ package com.eroom.erooja.singleton
 
 import android.annotation.SuppressLint
 
-object JobClassHashMap{
+object JobClassHashMap {
     @SuppressLint("UseSparseArrays")
     val hashmap = HashMap<Long, String>()
 }

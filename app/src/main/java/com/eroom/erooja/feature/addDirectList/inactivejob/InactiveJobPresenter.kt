@@ -46,16 +46,16 @@ class InactiveJobPresenter(
     }
 
     override fun getJobInterestOfTodoList(goalId: Long?) {
-       goalId?.let {
-           getGoalDetailUseCase.getGoalDetail(goalId)
-               .subscribe({
-                   view.setJobInterestOfTodoList(it.jobInterests.map {
-                       it.id
-                   })
-               }, {
+        goalId?.let {
+            getGoalDetailUseCase.getGoalDetail(goalId)
+                .subscribe({
+                    view.setJobInterestOfTodoList(it.jobInterests.map {
+                        it.id
+                    })
+                }, {
                     view.stopAnimation()
-               })
-       }
+                })
+        }
     }
 
     override fun onCleared() {

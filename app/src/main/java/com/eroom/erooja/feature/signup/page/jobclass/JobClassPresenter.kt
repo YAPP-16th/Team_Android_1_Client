@@ -24,7 +24,7 @@ class JobClassPresenter(
                     if (existGroup.name == jobGroup.groupName)
                         getJobGroupAndClasses(existGroup.id)
                 }
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
                 view.stopAnimation()
             }) addTo compositeDisposable
@@ -37,7 +37,7 @@ class JobClassPresenter(
                 view.settingGroupView(it.jobInterests)
                 view.settingGroupId(groupId)
                 view.stopAnimation()
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
                 view.stopAnimation()
             }) addTo compositeDisposable

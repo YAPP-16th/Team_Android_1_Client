@@ -19,9 +19,8 @@ import kotlinx.android.synthetic.main.activity_onboarding.*
 class OnboardingActivity : AppCompatActivity(), OnboardingContract.View {
     private lateinit var onboardBinding: ActivityOnboardingBinding
     private val pagerAdapter by lazy { OnboardingAdapter(supportFragmentManager, this) }
-    private val presenter by lazy { OnboardingPresenter(this) }
     private var isLastPage = false
-    val fragments : List<OnboardingPage> = listOf(
+    val fragments: List<OnboardingPage> = listOf(
         OnboardingFirst.newInstance(),
         OnboardingSecond.newInstance(),
         OnboardingThird.newInstance()
@@ -45,23 +44,39 @@ class OnboardingActivity : AppCompatActivity(), OnboardingContract.View {
         onboardBinding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(p0: Int) {
             }
+
             override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
             }
+
             override fun onPageSelected(p0: Int) {
                 circle_indicator.selectDot(p0)
                 fragments[p0].loadLottieAnimation()
                 if (p0 == 2) {
-                    onboardBinding.btnNext.loadDrawable(resources.getDrawable(R.drawable.btn_start_cta, null))
+                    onboardBinding.btnNext.loadDrawable(
+                        resources.getDrawable(
+                            R.drawable.btn_start_cta,
+                            null
+                        )
+                    )
                     isLastPage = true
-                }
-                else if (isLastPage) {
+                } else if (isLastPage) {
                     isLastPage = false
-                    onboardBinding.btnNext.loadDrawable(resources.getDrawable(R.drawable.btn_next_normal, null))
+                    onboardBinding.btnNext.loadDrawable(
+                        resources.getDrawable(
+                            R.drawable.btn_next_normal,
+                            null
+                        )
+                    )
                 }
             }
         })
 
-        onboardBinding.circleIndicator.createDotPanel(3, R.drawable.indicator_dot_off, R.drawable.indicator_dot_on, 0)
+        onboardBinding.circleIndicator.createDotPanel(
+            3,
+            R.drawable.indicator_dot_off,
+            R.drawable.indicator_dot_on,
+            0
+        )
     }
 
     fun onNextClickListener(v: View) {

@@ -26,7 +26,6 @@ class OtherListActivity : AppCompatActivity(),
     private var userTodoList = ArrayList<String>()
     private var userUid = ""
     private var goalId = 0L
-    //private var memberNickName = "anonymous"
     private var memberImagePath: String? = null
     private var isExistedInMyPage: Boolean = false
 
@@ -76,12 +75,12 @@ class OtherListActivity : AppCompatActivity(),
         statusBarColor(this@OtherListActivity, R.color.subLight3)
     }
 
-   ///////--------------------- + Button 을 눌러 리스트에 참여하기 -----------------------//////
+    ///////--------------------- + Button 을 눌러 리스트에 참여하기 -----------------------//////
     fun addTodoListBtn() {
-       showAlert()
+        showAlert()
     }
 
-    private fun showAlert(){
+    private fun showAlert() {
         startActivityForResult(
             Intent(
                 this,
@@ -90,7 +89,7 @@ class OtherListActivity : AppCompatActivity(),
                 putExtra(Consts.DIALOG_TITLE, "")
                 putExtra(
                     Consts.DIALOG_CONTENT,
-                    if(isExistedInMyPage) "이미 목표에 참여한 이력이 존재합니다. 참여 시 해당 이력이 삭제될 수 있습니다." else "이 리스트에 참여하시겠어요?"
+                    if (isExistedInMyPage) "이미 목표에 참여한 이력이 존재합니다. 참여 시 해당 이력이 삭제될 수 있습니다." else "이 리스트에 참여하시겠어요?"
                 )
                 putExtra(Consts.DIALOG_CONFIRM, true)
                 putExtra(Consts.DIALOG_CANCEL, true)
@@ -118,7 +117,7 @@ class OtherListActivity : AppCompatActivity(),
         super.onActivityResult(requestCode, resultCode, data)
         val result = data?.getBooleanExtra(Consts.DIALOG_RESULT, false) //확인 or 취소
 
-        if(requestCode == 1500 && resultCode == 6000) {
+        if (requestCode == 1500 && resultCode == 6000) {
             if (result!!) {
                 val intent = Intent(this@OtherListActivity, JoinOtherListActivity::class.java)
                     .apply {

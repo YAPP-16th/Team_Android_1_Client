@@ -22,7 +22,7 @@ class JobInterestActivity : AppCompatActivity() {
         binding.setting = this@JobInterestActivity
     }
 
-    private fun initView(){
+    private fun initView() {
 
     }
 }

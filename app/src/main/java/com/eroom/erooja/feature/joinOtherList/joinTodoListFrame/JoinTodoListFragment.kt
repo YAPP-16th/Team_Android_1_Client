@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.ObservableField
@@ -20,8 +19,6 @@ import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.FragmentJoinTodoListBinding
-import com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity
-import com.eroom.erooja.feature.joinOtherList.joinTodoListPage.JoinOtherListActivity
 
 class JoinTodoListFragment : Fragment(), TextView.OnEditorActionListener {
     lateinit var addTodoBinding: FragmentJoinTodoListBinding

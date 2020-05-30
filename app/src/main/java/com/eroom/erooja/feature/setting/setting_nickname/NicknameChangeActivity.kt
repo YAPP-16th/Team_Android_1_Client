@@ -16,7 +16,7 @@ import com.eroom.erooja.dialog.EroojaDialogActivity
 import org.koin.android.ext.android.get
 import java.util.regex.Pattern
 
-class NicknameChangeActivity : AppCompatActivity(), NicknameChangeContract.View{
+class NicknameChangeActivity : AppCompatActivity(), NicknameChangeContract.View {
     lateinit var mBinding: ActivityChangeNicknameBinding
     val nickname: MutableLiveData<String> = MutableLiveData()
     var nicknameCheck: ObservableField<Boolean> = ObservableField(false)
@@ -31,7 +31,7 @@ class NicknameChangeActivity : AppCompatActivity(), NicknameChangeContract.View{
         initPresenter()
     }
 
-    private fun setupDataBinding(){
+    private fun setupDataBinding() {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_change_nickname)
         mBinding.changeNickname = this
     }
@@ -46,6 +46,7 @@ class NicknameChangeActivity : AppCompatActivity(), NicknameChangeContract.View{
         originalNickname = nickname
         initView()
     }
+
     private fun initView() {
         mBinding.nicknameText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -53,10 +54,13 @@ class NicknameChangeActivity : AppCompatActivity(), NicknameChangeContract.View{
                     if (it.toString() != "") {
                         nickname.value = it.toString()
                         if (!originalNickname.equals(it.toString())) {
-                            if (!it.contains(" ") && Pattern.matches("^[ㄱ-ㅣ|ㅏ-ㅣ|가-힣\\s]*$", it) && it.length in 2..5) {
+                            if (!it.contains(" ") && Pattern.matches(
+                                    "^[ㄱ-ㅣ|ㅏ-ㅣ|가-힣\\s]*$",
+                                    it
+                                ) && it.length in 2..5
+                            ) {
                                 presenter.checkNickname(it.toString())
-                            }
-                            else {
+                            } else {
                                 mBinding.nicknameErrorText.text =
                                     resources.getString(R.string.nickname_rule_info)
                                 mBinding.nicknameErrorText.visibility = View.VISIBLE
@@ -67,15 +71,14 @@ class NicknameChangeActivity : AppCompatActivity(), NicknameChangeContract.View{
                             mBinding.nicknameErrorText.visibility = View.INVISIBLE
                             nicknameCheck.set(false)
                         }
+                    } else {
+                        mBinding.nicknameErrorText.text =
+                            resources.getString(R.string.nickname_rule_info)
+                        mBinding.nicknameErrorText.visibility = View.VISIBLE
+                        nicknameCheck.set(false)
                     }
-                        else {
-                                mBinding.nicknameErrorText.text =
-                                    resources.getString(R.string.nickname_rule_info)
-                                mBinding.nicknameErrorText.visibility = View.VISIBLE
-                                nicknameCheck.set(false)
-                            }
-                        }
-                    }
+                }
+            }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -110,7 +113,7 @@ class NicknameChangeActivity : AppCompatActivity(), NicknameChangeContract.View{
         showAlertBeforeClose()
     }
 
-    private fun showAlertBeforeSave(){
+    private fun showAlertBeforeSave() {
         startActivityForResult(
             Intent(
                 this,
@@ -127,9 +130,9 @@ class NicknameChangeActivity : AppCompatActivity(), NicknameChangeContract.View{
         )
     }
 
-    private fun showAlertBeforeClose(){
+    private fun showAlertBeforeClose() {
         //닉네임이 변경되었다면
-        if(!originalNickname.equals(nickname.value)){
+        if (!originalNickname.equals(nickname.value)) {
             startActivityForResult(
                 Intent(
                     this,
@@ -157,7 +160,7 @@ class NicknameChangeActivity : AppCompatActivity(), NicknameChangeContract.View{
                     finish()
                 }
             }
-        } else if ( requestCode == 1400 && resultCode == 6000) {
+        } else if (requestCode == 1400 && resultCode == 6000) {
             presenter.updateNickname(mBinding.nicknameText.text.toString())
             originalNickname = mBinding.nicknameText.text.toString()
             showCheckBtn.set(false)

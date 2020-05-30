@@ -7,11 +7,11 @@ import com.eroom.domain.customview.parcelizeclass.ParcelizeAlarmContent
 import com.eroom.erooja.singleton.UserInfo
 import timber.log.Timber
 
-class EndGoalPopUpPresenter(override var view: EndGoalPopUpContract.View,
-                            private val getTodoListUseCase: GetTodoListUseCase,
-                            private val putAlarmIdUseCase: PutAlarmIdUseCase
-) :
-    EndGoalPopUpContract.Presenter {
+class EndGoalPopUpPresenter(
+    override var view: EndGoalPopUpContract.View,
+    private val getTodoListUseCase: GetTodoListUseCase,
+    private val putAlarmIdUseCase: PutAlarmIdUseCase
+) : EndGoalPopUpContract.Presenter {
 
     override fun getData(content: ParcelizeAlarmContent) {
         content.goalId?.let {

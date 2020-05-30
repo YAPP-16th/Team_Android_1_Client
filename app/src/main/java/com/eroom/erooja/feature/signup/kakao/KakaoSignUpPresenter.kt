@@ -23,7 +23,7 @@ class KakaoSignUpPresenter(
         putNicknameUseCase.putNickname(nickname)
             .subscribe({
                 requestJobInterests(ids)
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
     }
@@ -35,7 +35,7 @@ class KakaoSignUpPresenter(
                 sharedPrefRepository.writePrefs(Consts.AUTO_LOGIN, true)
                 sharedPrefRepository.writePrefs(Consts.IS_GUEST, false)
                 view.navigateToMain()
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
     }

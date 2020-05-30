@@ -16,9 +16,6 @@ import com.eroom.erooja.databinding.FragmentJobClassBinding
 import com.eroom.erooja.feature.signup.kakao.KakaoSignUpActivity
 import org.koin.android.ext.android.get
 
-/**
- * A simple [Fragment] subclass.
- */
 class JobClassFragment : Fragment(), JobClassContract.View {
     private lateinit var jobClassBinding: FragmentJobClassBinding
     private lateinit var presenter: JobClassPresenter
@@ -61,14 +58,17 @@ class JobClassFragment : Fragment(), JobClassContract.View {
     fun settingGroup(jobGroup: JobGroup?) {
         jobGroup?.let {
             (activity as KakaoSignUpActivity).startBlockAnimation()
-            presenter.getJobGroups(it) }
+            presenter.getJobGroups(it)
+        }
     }
 
     override fun settingGroupView(jobClasses: ArrayList<JobClass>) {
         selectGroupClasses = jobClasses
-        context?.let { mSelectedClassInfo.value?.let { selectedList: ArrayList<Long> ->
-            mAdapter = ClassAdapter(jobClasses, it, itemClicked, selectedList)
-        }}
+        context?.let {
+            mSelectedClassInfo.value?.let { selectedList: ArrayList<Long> ->
+                mAdapter = ClassAdapter(jobClasses, it, itemClicked, selectedList)
+            }
+        }
         jobClassBinding.classRecycler.adapter = mAdapter
         jobClassBinding.classRecycler.layoutManager = GridLayoutManager(context, 2)
     }
@@ -77,7 +77,8 @@ class JobClassFragment : Fragment(), JobClassContract.View {
         if (isSelected)
             mSelectedClassInfo.value = mSelectedClassInfo.value.apply { this?.remove(classId) }
         else
-            mSelectedClassInfo.value = (mSelectedClassInfo.value ?: ArrayList()).apply { add(classId) }
+            mSelectedClassInfo.value =
+                (mSelectedClassInfo.value ?: ArrayList()).apply { add(classId) }
         mAdapter.notifyDataSetChanged()
         checkInfo()
     }

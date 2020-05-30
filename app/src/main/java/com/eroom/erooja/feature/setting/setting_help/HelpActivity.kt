@@ -10,10 +10,10 @@ import com.eroom.erooja.databinding.ActivityHelpSettingBinding
 
 class HelpActivity : AppCompatActivity(), HelpContract.View {
     private lateinit var binding: ActivityHelpSettingBinding
-    private lateinit var presenter : HelpPresenter
+    private lateinit var presenter: HelpPresenter
 
-    private lateinit var question : Array<String>
-    private lateinit var answer : Array<String>
+    private lateinit var question: Array<String>
+    private lateinit var answer: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +27,7 @@ class HelpActivity : AppCompatActivity(), HelpContract.View {
         binding.help = this@HelpActivity
     }
 
-    private fun initView(){
+    private fun initView() {
         question = resources.getStringArray(R.array.help_question)
         answer = resources.getStringArray(R.array.help_answer)
 
@@ -37,13 +37,13 @@ class HelpActivity : AppCompatActivity(), HelpContract.View {
     }
 
     override fun setRecycler(question: Array<String>, answer: Array<String>) {
-        binding.helpRecycler.apply{
+        binding.helpRecycler.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = HelpAdapter(context, question, answer)
         }
     }
 
-    fun back(v: View){
+    fun back(v: View) {
         finish()
     }
 }

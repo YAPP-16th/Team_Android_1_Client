@@ -1,10 +1,7 @@
 package com.eroom.erooja.feature.addGoal.newGoalPage
 
 import android.os.Bundle
-import android.util.Log
-
 import android.view.KeyEvent
-
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -15,7 +12,6 @@ import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.RecyclerView
 import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.FragmentGoalListBinding
@@ -108,9 +104,10 @@ class GoalListFragment : Fragment(), TextView.OnEditorActionListener {
     }
 
     private fun loadRecyclerView() {
-        arguments?.let{
+        arguments?.let {
             goalItem = it.getStringArrayList("todolist") as ArrayList<String>
-            if(goalItem[0].isNullOrEmpty()) goalItem.clear()}
+            if (goalItem[0].isNullOrEmpty()) goalItem.clear()
+        }
         mAdapter = GoalAdapter(goalItem, deleteItem)
         goalListBinding.goalListRecycler.adapter = mAdapter
     }

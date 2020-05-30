@@ -17,7 +17,7 @@
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="@{privateInfo::back}"
+        android:onClick="@{() -> privateInfo.back()}"
         android:background="@drawable/ic_icon_navi_arrow_left"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

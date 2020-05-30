@@ -8,9 +8,10 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
-class FilterPresenter(override val view: FilterContract.View,
-                      private val getJobGroupUseCase: GetJobGroupUseCase,
-                      private val getJobGroupAndClassUseCase: GetJobGroupAndClassUseCase
+class FilterPresenter(
+    override val view: FilterContract.View,
+    private val getJobGroupUseCase: GetJobGroupUseCase,
+    private val getJobGroupAndClassUseCase: GetJobGroupAndClassUseCase
 ) : FilterContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
@@ -20,7 +21,7 @@ class FilterPresenter(override val view: FilterContract.View,
         getJobGroupUseCase.getJobGroup()
             .subscribe({
                 view.reRequestClassByGroup(it)
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
                 view.stopAnimation()
             }) addTo compositeDisposable
@@ -36,7 +37,7 @@ class FilterPresenter(override val view: FilterContract.View,
             .subscribe({
                 view.updateJobGroupAndClass(it) //사용자의 직무, 직군 불러옴
                 view.stopAnimation()
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
                 view.stopAnimation()
             }) addTo compositeDisposable

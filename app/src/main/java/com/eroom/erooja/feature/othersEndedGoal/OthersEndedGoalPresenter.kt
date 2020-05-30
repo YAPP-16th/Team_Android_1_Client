@@ -5,19 +5,18 @@ import com.eroom.domain.api.usecase.goal.GetGoalDetailUseCase
 import com.eroom.domain.api.usecase.membergoal.GetGoalInfoByGoalIdUseCase
 import com.eroom.domain.api.usecase.membergoal.GetGoalInfoByUIdAndGoalIdUseCase
 import com.eroom.domain.api.usecase.todo.GetTodoListUseCase
-import com.eroom.erooja.feature.endedGoal.EndedGoalContract
 import io.reactivex.disposables.CompositeDisposable
-import retrofit2.HttpException
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
-class OthersEndedGoalPresenter(override var view: OthersEndedGoalContract.View,
-                               private val getGoalDetailUseCase: GetGoalDetailUseCase,
-                               private val getTodoListUseCase: GetTodoListUseCase,
-                               private val getGoalInfoByGoalIdUseCase: GetGoalInfoByGoalIdUseCase,
-                               private val getGoalInfoByUIdAndGoalIdUseCase: GetGoalInfoByUIdAndGoalIdUseCase
-): OthersEndedGoalContract.Presenter {
+class OthersEndedGoalPresenter(
+    override var view: OthersEndedGoalContract.View,
+    private val getGoalDetailUseCase: GetGoalDetailUseCase,
+    private val getTodoListUseCase: GetTodoListUseCase,
+    private val getGoalInfoByGoalIdUseCase: GetGoalInfoByGoalIdUseCase,
+    private val getGoalInfoByUIdAndGoalIdUseCase: GetGoalInfoByUIdAndGoalIdUseCase
+) : OthersEndedGoalContract.Presenter {
 
     val compositeDisposable = CompositeDisposable()
 
@@ -29,7 +28,7 @@ class OthersEndedGoalPresenter(override var view: OthersEndedGoalContract.View,
                 view.setGoalData(it)
                 view.setIsDateFixed(it.isDateFixed)
                 view.stopAnimation()
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
                 view.stopAnimation()
             })
@@ -40,7 +39,7 @@ class OthersEndedGoalPresenter(override var view: OthersEndedGoalContract.View,
         getTodoListUseCase.getUserTodoList(uid, goalId)
             .subscribe({
                 view.setTodoList(it.content)
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
             })
     }
@@ -87,7 +86,7 @@ class OthersEndedGoalPresenter(override var view: OthersEndedGoalContract.View,
 
                     view.setIsBeforeEndDt(isBeforeEndDt)
                 } ?: if (it.code() == 400) {
-                    view.settingDate("0000","0000")
+                    view.settingDate("0000", "0000")
                     view.setIsBeforeEndDt(false)
                 }
             }, {

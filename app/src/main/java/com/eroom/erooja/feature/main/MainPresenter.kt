@@ -36,7 +36,7 @@ class MainPresenter(
             .subscribe({
                 view.setNickname(it.nickname)
                 view.saveUid(it.uid)
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
     }
@@ -56,7 +56,7 @@ class MainPresenter(
                     val index = (a % classList.size).toInt()
                     view.setJobInterestInfo(classList[index].name, classList[index].id, classList)
                 }
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
     }
@@ -66,7 +66,7 @@ class MainPresenter(
         getSearchGoalUseCase.getSearchJobInterest(interestId, 3, 0, SortBy.JOINCOUNT_DESC, uid)
             .subscribe({
                 view.setNewGoalBrowse(it.content)
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
     }
@@ -74,11 +74,18 @@ class MainPresenter(
     @SuppressLint("CheckResult")
     override fun getMyParticipatedList(uid: String) {
         view.startAnimation()
-        getGoalsByUserIdUseCase.getGoalsByUserId(uid, size = 5, page = 0, sortBy = SortBy.END_DT.itemName, direction = Direction.ASC.itemName, end = false)
+        getGoalsByUserIdUseCase.getGoalsByUserId(
+            uid,
+            size = 5,
+            page = 0,
+            sortBy = SortBy.END_DT.itemName,
+            direction = Direction.ASC.itemName,
+            end = false
+        )
             .subscribe({
                 view.setParticipatedList(it.content)
                 view.stopAnimation()
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
                 view.stopAnimation()
             }) addTo compositeDisposable
@@ -86,12 +93,15 @@ class MainPresenter(
 
     @SuppressLint("CheckResult")
     override fun getNotificationInfo() {
-        val lastChecked = sharedPrefRepository.getPrefsStringValue(Consts.END_POP_UP_CHECKED_DATE) ?: ""
+        val lastChecked =
+            sharedPrefRepository.getPrefsStringValue(Consts.END_POP_UP_CHECKED_DATE) ?: ""
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.MINUTE, -35)
-        val todayTime = toLocalDateNonTimeFormat(calendar.get(Calendar.YEAR),
+        val todayTime = toLocalDateNonTimeFormat(
+            calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH) + 1,
-            calendar.get(Calendar.DATE))
+            calendar.get(Calendar.DATE)
+        )
 
         if (lastChecked != todayTime) {
             view.startBlockAnimation()
@@ -100,14 +110,20 @@ class MainPresenter(
                     if (it.content.size > 0) view.setUnReadNotification()
                     val yesterdayList = ArrayList<AlarmContent>()
                     it.content.forEach { alarmContent ->
-                        if (alarmContent.createDt.toNonTimeDate() == todayTime && alarmContent.goalId != null) yesterdayList.add(alarmContent)
+                        if (alarmContent.createDt.toNonTimeDate() == todayTime && alarmContent.goalId != null) yesterdayList.add(
+                            alarmContent
+                        )
                     }
-                    if (yesterdayList.size > 0 && sharedPrefRepository.getPrefsBooleanValue(Consts.ALARM_FLAG, true)) {
+                    if (yesterdayList.size > 0 && sharedPrefRepository.getPrefsBooleanValue(
+                            Consts.ALARM_FLAG,
+                            true
+                        )
+                    ) {
                         view.showEndPopUp(yesterdayList)
                     }
                     sharedPrefRepository.writePrefs(Consts.END_POP_UP_CHECKED_DATE, todayTime)
                     view.stopAnimation()
-                },{
+                }, {
                     Timber.e(it.localizedMessage)
                     view.stopAnimation()
                 })

@@ -10,11 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.JobGroup
 import com.eroom.data.response.JobGroupAndClassResponse
 import com.eroom.domain.globalconst.Consts
-
 import com.eroom.erooja.databinding.FragmentSelectJobBinding
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalActivity
 import org.koin.android.ext.android.get
-import timber.log.Timber
 
 
 class SelectJobFragment : Fragment(), SelectJobContract.View {
@@ -43,10 +41,12 @@ class SelectJobFragment : Fragment(), SelectJobContract.View {
 
     private fun initPresenter() {
         presenter = SelectJobPresenter(this, get(), get())
-        arguments?.let { it.getLongArray(Consts.INTERESTED_JOB_CLASS)?.toTypedArray()?.let { array ->
-            selectedId.addAll(array)
-            selectList.value = selectedId
-        } }
+        arguments?.let {
+            it.getLongArray(Consts.INTERESTED_JOB_CLASS)?.toTypedArray()?.let { array ->
+                selectedId.addAll(array)
+                selectList.value = selectedId
+            }
+        }
         selectCheck.value = selectedId.size != 0
     }
 
@@ -69,11 +69,12 @@ class SelectJobFragment : Fragment(), SelectJobContract.View {
 
     override fun updateJobGroupAndClass(result: List<JobGroupAndClassResponse>) {
         context?.let {
-        mAdapter = SelectJobAdapter(it, result, selectedId, itemClick)
-        selectJobBinding.jobGroupRecycler.apply {
-            adapter = mAdapter
-            layoutManager = LinearLayoutManager(context)
-        } }
+            mAdapter = SelectJobAdapter(it, result, selectedId, itemClick)
+            selectJobBinding.jobGroupRecycler.apply {
+                adapter = mAdapter
+                layoutManager = LinearLayoutManager(context)
+            }
+        }
     }
 
     private val itemClick = { id: Long, preState: Boolean ->

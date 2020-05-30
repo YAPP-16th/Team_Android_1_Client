@@ -8,9 +8,10 @@ import com.eroom.domain.api.usecase.alarm.GetAlarmsUseCase
 import com.eroom.domain.api.usecase.alarm.PutAlarmIdUseCase
 import timber.log.Timber
 
-class NotificationPresenter(override val view: NotificationContract.View,
-                            private val putAlarmIdUseCase: PutAlarmIdUseCase,
-                            private val getAlarmsUseCase: GetAlarmsUseCase
+class NotificationPresenter(
+    override val view: NotificationContract.View,
+    private val putAlarmIdUseCase: PutAlarmIdUseCase,
+    private val getAlarmsUseCase: GetAlarmsUseCase
 ) : NotificationContract.Presenter {
 
     val mAlarmDiffCallback = object : DiffUtil.ItemCallback<AlarmContent>() {

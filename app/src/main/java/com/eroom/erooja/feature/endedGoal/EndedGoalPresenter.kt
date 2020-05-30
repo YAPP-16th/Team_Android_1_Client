@@ -4,17 +4,17 @@ import android.annotation.SuppressLint
 import com.eroom.domain.api.usecase.goal.GetGoalDetailUseCase
 import com.eroom.domain.api.usecase.membergoal.GetGoalInfoByGoalIdUseCase
 import com.eroom.domain.api.usecase.todo.GetTodoListUseCase
-import com.eroom.erooja.feature.ongoingGoal.OngoingGoalContract
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EndedGoalPresenter(override var view: EndedGoalContract.View,
-                         private val getGoalDetailUseCase: GetGoalDetailUseCase,
-                         private val getTodoListUseCase: GetTodoListUseCase,
-                         private val getGoalInfoByGoalIdUseCase: GetGoalInfoByGoalIdUseCase
-): EndedGoalContract.Presenter {
+class EndedGoalPresenter(
+    override var view: EndedGoalContract.View,
+    private val getGoalDetailUseCase: GetGoalDetailUseCase,
+    private val getTodoListUseCase: GetTodoListUseCase,
+    private val getGoalInfoByGoalIdUseCase: GetGoalInfoByGoalIdUseCase
+) : EndedGoalContract.Presenter {
 
     val compositeDisposable = CompositeDisposable()
 
@@ -24,7 +24,7 @@ class EndedGoalPresenter(override var view: EndedGoalContract.View,
             .subscribe({
                 view.setGoalData(it)
                 view.setIsDateFixed(it.isDateFixed)
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
                 view.stopAnimation()
             })
@@ -35,7 +35,7 @@ class EndedGoalPresenter(override var view: EndedGoalContract.View,
         getTodoListUseCase.getUserTodoList(uid, goalId)
             .subscribe({
                 view.setTodoList(it.content)
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
                 view.stopAnimation()
             })

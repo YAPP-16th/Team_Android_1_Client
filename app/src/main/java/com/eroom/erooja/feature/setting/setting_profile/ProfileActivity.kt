@@ -15,12 +15,11 @@ import org.koin.android.ext.android.get
 import timber.log.Timber
 import android.content.Context
 
-
 class ProfileActivity : AppCompatActivity(), ProfileContract.View {
     private lateinit var binding: ActivityChangeProfileSettingBinding
     private lateinit var presenter: ProfilePresenter
     var uploadCheck = ObservableField(false)
-    private lateinit var imagePath : Uri
+    private lateinit var imagePath: Uri
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,27 +30,42 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
     }
 
     private fun setUpDataBinding() {
-        binding = DataBindingUtil.setContentView(this, com.eroom.erooja.R.layout.activity_change_profile_setting)
+        binding = DataBindingUtil.setContentView(
+            this,
+            com.eroom.erooja.R.layout.activity_change_profile_setting
+        )
         binding.profileSetting = this@ProfileActivity
     }
 
-    private fun initView(){
+    private fun initView() {
         presenter = ProfilePresenter(this, get(), get())
         presenter.getProfileImage()
     }
 
     override fun setProfileImage(imagePath: String?) {
 
-       imagePath?.let{ binding.circleImageView.loadUrlCenterCrop(imagePath)
-           this.toastShort(imagePath)}
-           ?:run{ binding.circleImageView.loadDrawable(resources.getDrawable(com.eroom.erooja.R.drawable.ic_icon_users_blank, null)) }
+        imagePath?.let {
+            binding.circleImageView.loadUrlCenterCrop(imagePath)
+            this.toastShort(imagePath)
+        }
+            ?: run {
+                binding.circleImageView.loadDrawable(
+                    resources.getDrawable(
+                        com.eroom.erooja.R.drawable.ic_icon_users_blank,
+                        null
+                    )
+                )
+            }
     }
 
-    fun pickFromImage(){
+    fun pickFromImage() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), Consts.PICK_FROM_IMAGE)
+        startActivityForResult(
+            Intent.createChooser(intent, "Select Picture"),
+            Consts.PICK_FROM_IMAGE
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -62,24 +76,24 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
                 imagePath = data?.data!!
                 binding.circleImageView.loadUri(imagePath)
                 uploadCheck.set(true)
-                this.toastLong(getFileNameByUri(this,imagePath))
+                this.toastLong(getFileNameByUri(this, imagePath))
 
 
             } catch (e: Exception) {
-               Timber.i("PROFILE ACTIVITY IMAGE LOAD ERROR")
+                Timber.i("PROFILE ACTIVITY IMAGE LOAD ERROR")
             }
         } else if (resultCode == RESULT_CANCELED) {
             Timber.i("사진 선택 취소")
         }
     }
 
-    fun saveProfile(v: View){
-        presenter.updateProfileImage(getFileNameByUri(this,imagePath))
+    fun saveProfile(v: View) {
+        presenter.updateProfileImage(getFileNameByUri(this, imagePath))
         finish()
     }
 
 
-    fun back(v: View){
+    fun back(v: View) {
         finish()
     }
 

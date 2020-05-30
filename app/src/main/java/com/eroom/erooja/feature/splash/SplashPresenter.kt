@@ -13,11 +13,12 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
-class SplashPresenter(override val view: SplashContract.View,
-                      private val sharedPrefRepository: SharedPrefRepository,
-                      private val postRefreshTokenUseCase: GetRefreshTokenUseCase,
-                      private val getJobGroupUseCase: GetJobGroupUseCase,
-                      private val getJobGroupAndClassUseCase: GetJobGroupAndClassUseCase
+class SplashPresenter(
+    override val view: SplashContract.View,
+    private val sharedPrefRepository: SharedPrefRepository,
+    private val postRefreshTokenUseCase: GetRefreshTokenUseCase,
+    private val getJobGroupUseCase: GetJobGroupUseCase,
+    private val getJobGroupAndClassUseCase: GetJobGroupAndClassUseCase
 ) : SplashContract.Presenter {
     private val compositeDisposable = CompositeDisposable()
 
@@ -38,26 +39,30 @@ class SplashPresenter(override val view: SplashContract.View,
             if (sharedPrefRepository.getPrefsBooleanValue(Consts.IS_FIRST_USER, true)) {
                 sharedPrefRepository.writePrefs(Consts.IS_FIRST_USER, false)
                 view.navigateToOnBoarding()
-            }
-            else if (sharedPrefRepository.getPrefsBooleanValue(Consts.AUTO_LOGIN, false)) {
+            } else if (sharedPrefRepository.getPrefsBooleanValue(Consts.AUTO_LOGIN, false)) {
                 if (sharedPrefRepository.getPrefsBooleanValue(Consts.IS_GUEST, false))
                     view.navigateToMain()
                 else {
                     postRefreshTokenUseCase.getRefreshToken()
                         .subscribe({
-                            sharedPrefRepository.writePrefs(Consts.ACCESS_TOKEN, ConverterUtil._Encode(it.token))
-                            sharedPrefRepository.writePrefs(Consts.REFRESH_TOKEN, ConverterUtil._Encode(it.refreshToken))
+                            sharedPrefRepository.writePrefs(
+                                Consts.ACCESS_TOKEN,
+                                ConverterUtil._Encode(it.token)
+                            )
+                            sharedPrefRepository.writePrefs(
+                                Consts.REFRESH_TOKEN,
+                                ConverterUtil._Encode(it.refreshToken)
+                            )
                             if (it.isAdditionalInfoNeeded)
                                 view.navigateToSignUp()
                             else
                                 view.navigateToMain()
-                        },{
+                        }, {
                             Timber.e(it.localizedMessage)
                             view.navigateToLogin()
                         }) addTo compositeDisposable
                 }
-            }
-            else
+            } else
                 view.navigateToLogin()
         }
     }
@@ -67,7 +72,7 @@ class SplashPresenter(override val view: SplashContract.View,
         getJobGroupUseCase.getJobGroup()
             .subscribe({
                 view.reRequestClassByGroup(it)
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
     }
@@ -81,7 +86,7 @@ class SplashPresenter(override val view: SplashContract.View,
             }.toList()
             .subscribe({
                 view.updateJobGroupAndClass(it) //사용자의 직무, 직군 불러옴
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
             }) addTo compositeDisposable
     }

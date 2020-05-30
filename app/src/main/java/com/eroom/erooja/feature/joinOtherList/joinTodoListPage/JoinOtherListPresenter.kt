@@ -20,11 +20,6 @@ class JoinOtherListPresenter(
         endDt: String,
         todoList: ArrayList<String>
     ) {
-        var a = goalId
-        var b = ownerUid
-        var c = endDt
-        var d = todoList
-
         val todoListResult = ArrayList<TodoList>()
         var index: Long = 0
         for (todo in todoList) {
@@ -41,7 +36,7 @@ class JoinOtherListPresenter(
             )
         )
             .subscribe({
-                if(it.code() == 400 ) view.failRequest()
+                if (it.code() == 400) view.failRequest()
                 else view.redirectNewGoalFinish(goalId!!)
                 view.stopAnimation()
             }, {

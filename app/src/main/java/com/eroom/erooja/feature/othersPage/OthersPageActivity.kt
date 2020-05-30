@@ -1,29 +1,21 @@
 package com.eroom.erooja.feature.othersPage
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.eroom.data.entity.JobClass
 import com.eroom.data.entity.MinimalGoalDetailContent
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.loadUrl
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityOthersPageBinding
-import com.eroom.erooja.databinding.FragmentMyPageBinding
-import com.eroom.erooja.feature.endedGoal.EndedGoalActivity
 import com.eroom.erooja.feature.mypage.*
-import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
 import com.eroom.erooja.feature.othersEndedGoal.OthersEndedGoalActivity
 import com.eroom.erooja.feature.othersOngoingGoal.OthersOngoingGoalActivity
-import com.eroom.erooja.feature.tab.TabActivity
 import com.google.android.material.tabs.TabLayout
 import org.koin.android.ext.android.get
 
@@ -31,7 +23,7 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
 
     private lateinit var othersPageBinding: ActivityOthersPageBinding
     private lateinit var presenter: OthersPagePresenter
-    //private lateinit var mClassList: ArrayList<JobClass>
+
     private lateinit var mClassList: ArrayList<String>
 
     private lateinit var ongoingGoalAdapter: MyPageOngoingGoalAdapter
@@ -75,24 +67,26 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
         othersPageBinding.profileImage.loadUrl(intent.getStringExtra(Consts.IMAGE_PATH))
         presenter.getOthersJobInterest(uId)
 
-        othersPageBinding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+        othersPageBinding.tabLayout.addOnTabSelectedListener(object :
+            TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {}
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                when(tab?.position) {
+                when (tab?.position) {
                     0 -> {
-                        if(isOnGoingGoalListEmpty) {
+                        if (isOnGoingGoalListEmpty) {
                             othersPageBinding.thereAreNoOngoingGoals.visibility = View.VISIBLE
                         }
                         othersPageBinding.thereAreNoEndedGoals.visibility = View.GONE
-                        othersPageBinding.myParticipatedOngoingRecyclerview.visibility = View.VISIBLE
+                        othersPageBinding.myParticipatedOngoingRecyclerview.visibility =
+                            View.VISIBLE
                         othersPageBinding.myParticipatedEndedRecyclerview.visibility = View.GONE
 
                     }
                     1 -> {
-                        if(isEndedGoalListEmpty) {
+                        if (isEndedGoalListEmpty) {
                             othersPageBinding.thereAreNoEndedGoals.visibility = View.VISIBLE
                         }
                         othersPageBinding.thereAreNoOngoingGoals.visibility = View.GONE
@@ -138,27 +132,36 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
     }
 
     override fun setJobInterestInfo(jobInterestList: ArrayList<String>) {
-        if(jobInterestList.size <= 4) {
+        if (jobInterestList.size <= 4) {
             othersPageBinding.jobClassRecycler.adapter =
-                OthersPageJobClassAdapter(jobInterestList, this, isMoreInfo = false, isExpaned = false)
+                OthersPageJobClassAdapter(
+                    jobInterestList,
+                    this,
+                    isMoreInfo = false,
+                    isExpaned = false
+                )
         } else {
             val classListLimitedFour = ArrayList<String>()
-            for((index, jobClass) in jobInterestList.withIndex()) {
-                if(index >= 4)
+            for ((index, jobClass) in jobInterestList.withIndex()) {
+                if (index >= 4)
                     break
                 classListLimitedFour.add(jobClass)
             }
             othersPageBinding.jobClassRecycler.adapter =
-                OthersPageJobClassAdapter(classListLimitedFour, this, isMoreInfo = true, isExpaned = false)
+                OthersPageJobClassAdapter(
+                    classListLimitedFour,
+                    this,
+                    isMoreInfo = true,
+                    isExpaned = false
+                )
         }
     }
 
     override fun setOngoingGoalListSizeOnTabLayout(totalElements: Int) {
-        if(totalElements == 0) {
+        if (totalElements == 0) {
             isOnGoingGoalListEmpty = true
             othersPageBinding.thereAreNoOngoingGoals.visibility = View.VISIBLE
-        }
-        else {
+        } else {
             isOnGoingGoalListEmpty = false
             othersPageBinding.thereAreNoOngoingGoals.visibility = View.GONE
         }
@@ -166,10 +169,9 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
     }
 
     override fun setEndedGoalListSizeOnTabLayout(totalElements: Int) {
-        if(totalElements == 0) {
+        if (totalElements == 0) {
             isEndedGoalListEmpty = true
-        }
-        else {
+        } else {
             isEndedGoalListEmpty = false
             othersPageBinding.thereAreNoEndedGoals.visibility = View.GONE
         }
@@ -195,8 +197,8 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
 
     override fun setEndedGoalList(list: ArrayList<MinimalGoalDetailContent>) {
         endedGoalContentSize += list.size
-        if(endedGoalContentSize != 0) {
-            if(endedGoalPage < 1) {
+        if (endedGoalContentSize != 0) {
+            if (endedGoalPage < 1) {
                 endedGoalAdapter = MyPageEndedGoalAdapter(list, endedGoalClicked)
                 othersPageBinding.myParticipatedEndedRecyclerview.apply {
                     layoutManager = LinearLayoutManager(context)
@@ -231,43 +233,50 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
         })
     }
 
-    val expandButtonClicked =  { isExpanded: Boolean ->
+    val expandButtonClicked = { isExpanded: Boolean ->
         if (isExpanded) {
             val classListLimitedFour = ArrayList<String>()
-            for((index, jobClass) in mClassList.withIndex()) {
-                if(index >=4)
+            for ((index, jobClass) in mClassList.withIndex()) {
+                if (index >= 4)
                     break
                 classListLimitedFour.add(jobClass)
             }
-            othersPageBinding.jobClassRecycler.adapter = OthersPageJobClassAdapter(classListLimitedFour, this, isMoreInfo = true, isExpaned = false)
-        }
-        else
-            othersPageBinding.jobClassRecycler.adapter = OthersPageJobClassAdapter(mClassList, this, isMoreInfo = true, isExpaned = true)
+            othersPageBinding.jobClassRecycler.adapter = OthersPageJobClassAdapter(
+                classListLimitedFour,
+                this,
+                isMoreInfo = true,
+                isExpaned = false
+            )
+        } else
+            othersPageBinding.jobClassRecycler.adapter =
+                OthersPageJobClassAdapter(mClassList, this, isMoreInfo = true, isExpaned = true)
     }
 
-    val ongoingRecyclerViewScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-            if(dy >= 0 && ongoingGoalContentSize > 0) {
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                if (layoutManager.findLastCompletelyVisibleItemPosition() >= ongoingGoalContentSize - 1  && !ongoingGoalIsEnd) {
-                    presenter.getOngoingGoalList(uId, ongoingGoalPage)
+    val ongoingRecyclerViewScrollListener: RecyclerView.OnScrollListener =
+        object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy >= 0 && ongoingGoalContentSize > 0) {
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() >= ongoingGoalContentSize - 1 && !ongoingGoalIsEnd) {
+                        presenter.getOngoingGoalList(uId, ongoingGoalPage)
+                    }
                 }
             }
         }
-    }
 
-    val endedRecyclerViewScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-            if(dy >= 0 && endedGoalContentSize > 0) {
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                if (layoutManager.findLastCompletelyVisibleItemPosition() >= endedGoalContentSize - 1  && !endedGoalIsEnd) {
-                    presenter.getEndedGoalList(uId, endedGoalPage)
+    val endedRecyclerViewScrollListener: RecyclerView.OnScrollListener =
+        object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy >= 0 && endedGoalContentSize > 0) {
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() >= endedGoalContentSize - 1 && !endedGoalIsEnd) {
+                        presenter.getEndedGoalList(uId, endedGoalPage)
+                    }
                 }
             }
         }
-    }
 
     fun backClick() {
         finish()
