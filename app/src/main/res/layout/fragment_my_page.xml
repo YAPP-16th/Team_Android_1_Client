@@ -181,21 +181,21 @@
                         tools:itemCount="0"
                         tools:listitem="@layout/item_my_participated_ended_goal"
                         scrollAdapter="@{fragment.endedRecyclerViewScrollListener}"/>
+
                     <TextView
                         android:id="@+id/there_are_no_ended_goals"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@+id/my_page_tab_layout"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:visibility="invisible"
-                        android:textSize="15sp"
-                        android:textColor="@color/grey4"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:gravity="center_horizontal"
                         android:text="아직 종료된 목표가 없네요."
-                        />
+                        android:textColor="@color/grey4"
+                        android:textSize="15sp"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/there_are_no_ongoing_goals"
+                        app:layout_constraintEnd_toEndOf="@+id/there_are_no_ongoing_goals"
+                        app:layout_constraintStart_toStartOf="@+id/there_are_no_ongoing_goals"
+                        app:layout_constraintTop_toBottomOf="@+id/my_page_tab_layout" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>

@@ -91,7 +91,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when(tab?.position) {
                     0 -> {
-                        myPageBinding.thereAreNoEndedGoals.visibility = View.GONE
+                        myPageBinding.thereAreNoEndedGoals.visibility = View.INVISIBLE
                         myPageBinding.myParticipatedEndedRecyclerview.visibility = View.GONE
                         myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.VISIBLE
                         if(isOnGoingGoalListEmpty) {
@@ -101,7 +101,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
                         }
                     }
                     1 -> {
-                        myPageBinding.thereAreNoOngoingGoals.visibility = View.GONE
+                        myPageBinding.thereAreNoOngoingGoals.visibility = View.INVISIBLE
                         myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.GONE
                         myPageBinding.myParticipatedEndedRecyclerview.visibility = View.VISIBLE
                         if(isEndedGoalListEmpty) {
@@ -171,7 +171,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         }
         else {
             isOnGoingGoalListEmpty = false
-            myPageBinding.thereAreNoOngoingGoals.visibility = View.GONE
+            myPageBinding.thereAreNoOngoingGoals.visibility = View.INVISIBLE
             if(myPageBinding.myPageTabLayout.selectedTabPosition == 0)
                 myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.VISIBLE
         }
@@ -184,7 +184,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         }
         else {
             isEndedGoalListEmpty = false
-            myPageBinding.thereAreNoEndedGoals.visibility = View.GONE
+            myPageBinding.thereAreNoEndedGoals.visibility = View.INVISIBLE
         }
         myPageBinding.myPageTabLayout.getTabAt(1)?.text = "종료(${totalElements})"
     }
