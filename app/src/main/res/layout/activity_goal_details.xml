@@ -74,6 +74,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
                         android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +95,7 @@
                             android:id="@+id/goal_name_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="60dp"
+                            android:layout_marginEnd="2dp"
                             android:lineSpacingExtra="12sp"
                             android:textColor="@color/colorBlack2"
                             android:textSize="24sp"
@@ -102,8 +103,7 @@
                             tools:text="삼성디자인멤버쉽 2019년도 사전과제 해보기" />
 
                     </LinearLayout>
-
-
+                    
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/goal_desc_layout"
                         android:layout_width="match_parent"

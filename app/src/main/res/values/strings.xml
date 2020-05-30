@@ -93,6 +93,7 @@
     <string name="help">도움말</string>
     <string name="opensource_license">오픈소스 라이선스</string>
     <string name="terms_of_service">이용약관</string>
+    <string name="private_info">개인정보 처리방침</string>
     <string name="logout">로그아웃</string>
 
     <string name="change_profile"><u>사진 변경하기</u></string>
