@@ -45,6 +45,7 @@ class SelectJobFragment : Fragment(), SelectJobContract.View {
         presenter = SelectJobPresenter(this, get(), get())
         arguments?.let { it.getLongArray(Consts.INTERESTED_JOB_CLASS)?.toTypedArray()?.let { array ->
             selectedId.addAll(array)
+            selectList.value = selectedId
         } }
         selectCheck.value = selectedId.size != 0
     }
