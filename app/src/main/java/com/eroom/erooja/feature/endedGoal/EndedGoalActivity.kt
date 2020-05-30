@@ -182,6 +182,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
                 }
                 1 -> { // 다른 참여자 리스트 둘러보기
                     startActivity(Intent(this@EndedGoalActivity, GoalDetailActivity::class.java).apply {
+                        //addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         putExtra(Consts.GOAL_ID, goalId)
                         putExtra(Consts.UID, uId)
                     })
@@ -196,6 +197,8 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     private fun joinOtherList(uid: String) {
         val intent = Intent(this@EndedGoalActivity, JoinOtherListActivity::class.java)
             .apply{
+                //addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
                 putExtra(Consts.GOAL_ID, intent.getLongExtra(Consts.GOAL_ID, -1))
                 putExtra(Consts.UID, UserInfo.myUId)
                 if(isDateFixed) {

@@ -332,8 +332,7 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
         intent.putExtra(Consts.ADD_NEW_GOAL_RESULT_ID, resultId)
         intent.putExtra(Consts.UID, UserInfo.myUId)
         startActivity(intent)
-        finishActivity(Consts.MY_GOAL_REJOIN_REQUEST)
-        finish()
+        finishAffinity()
     }
 
     fun showKeyboard(input: EditText) {
@@ -349,11 +348,6 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
     override fun failRequest() {
         mPage -= 1
         this.toastShort("목표생성을 실패하였습니다")
-    }
-
-    override fun onDestroy() {
-        //presenter.onCleared()
-        super.onDestroy()
     }
 
     fun startBlockAnimation() {

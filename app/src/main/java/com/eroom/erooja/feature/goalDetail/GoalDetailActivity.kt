@@ -135,6 +135,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     private fun click() = { uid:String , nickname: String->
         val intent = Intent(this@GoalDetailActivity, OtherListActivity::class.java)
             .apply{
+                //addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 putExtra(Consts.GOAL_ID, intent.getLongExtra(Consts.GOAL_ID, -1))
                 putExtra(Consts.UID, uid)
                 putExtra(Consts.NAME, nickname)
@@ -205,6 +206,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     private fun joinOtherList(uid: String){
         val intent = Intent(this@GoalDetailActivity, JoinOtherListActivity::class.java)
             .apply{
+                //addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 putExtra(Consts.GOAL_ID, intent.getLongExtra(Consts.GOAL_ID, -1))
                 putExtra(Consts.UID, uid)
                 putExtra(Consts.DATE, binding.goalDateTxt.text)
@@ -241,6 +243,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         } else {
             val intent = Intent(this@GoalDetailActivity, AddMyListActivity::class.java)
                 .apply {
+                    //addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     putExtra(Consts.DATE, binding.goalDateTxt.text)
                     putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
                     putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
