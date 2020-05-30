@@ -163,6 +163,7 @@
                         android:minHeight="500dp"
                         android:overScrollMode="never"
                         android:padding="8dp"
+                        android:layout_marginBottom="30dp"
                         bind:layout_constraintBottom_toBottomOf="@+id/goal_details_parent_layout"
                         bind:layout_constraintEnd_toEndOf="parent"
                         bind:layout_constraintStart_toStartOf="parent"

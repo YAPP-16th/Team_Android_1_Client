@@ -40,7 +40,7 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="16dp"
                     android:textColor="@color/colorBlack"
-                    android:textSize="24sp"
+                    android:textSize="21sp"
                     android:textStyle="bold" />
                 <View
                     android:layout_width="1dp"

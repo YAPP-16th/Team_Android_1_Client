@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableField
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.GoalType
@@ -27,7 +28,10 @@ import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
 import com.eroom.erooja.feature.joinOtherList.joinTodoListPage.JoinOtherListActivity
 import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
 import com.eroom.erooja.singleton.UserInfo
+import kotlinx.android.synthetic.main.include_completed_goal_desc.view.*
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
+import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.goal_desc
+import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.keyword_txt
 import org.koin.android.ext.android.get
 import ru.rhanza.constraintexpandablelayout.State
 
@@ -72,14 +76,35 @@ class OthersEndedGoalActivity : AppCompatActivity(), OthersEndedGoalContract.Vie
         binding.goalDateTxt.text = "${goalData.startDt.toRealDateFormat()}~${goalData.endDt.toRealDateFormat()}"
         binding.include.ongoingDescText.text = goalData.description
 
-        binding.goalDescLayout.goal_desc.apply {
-            showButton = false
-            showShadow = false
+//        binding.goalDescLayout.goal_desc.apply {
+//            showButton = false
+//            showShadow = false
+//        }
+        if(goalData.description.isEmpty()){
+            binding.goalDescLayout.goal_desc.invalidateState(State.Statical)
+            binding.moreBtn.visibility = View.INVISIBLE
+            updateView()
+        }
+        else {
+            binding.include.ongoingDescText.post{
+                binding.include.goalDesc.collapsedHeight = binding.include.ongoingDescText.height
+                binding.include.ongoingDescText.maxLines = Int.MAX_VALUE
+            }
         }
 
         binding.goalDescLayout.keyword_txt.text = goalData.jobInterests.mapIndexed { index: Int, goalType: GoalType ->
             if (index == goalData.jobInterests.size - 1) goalType.name else goalType.name add ", "
         }.toList().join()
+
+        binding.include.goneKeywordTxt.text = binding.include.keywordTxt.text
+
+    }
+
+    private fun updateView(){
+        binding.include.goneRelatedJobInterest.visibility = View.VISIBLE
+        binding.include.goneKeywordTxt.visibility = View.VISIBLE
+        binding.include.keywordTxt.visibility = View.GONE
+        binding.include.relatedJobInterest.visibility = View.GONE
     }
 
     @SuppressLint("SetTextI18n")
