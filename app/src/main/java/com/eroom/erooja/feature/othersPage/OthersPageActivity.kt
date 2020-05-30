@@ -106,6 +106,7 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
     }
 
     override fun setOthersJobInterest(jobInterest: ArrayList<String>) {
+        mClassList = jobInterest
         setJobInterestInfo(jobInterest)
     }
 
