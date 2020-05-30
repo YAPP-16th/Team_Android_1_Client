@@ -27,7 +27,7 @@ class OtherListActivity : AppCompatActivity(),
     private var userUid = ""
     private var goalId = 0L
     //private var memberNickName = "anonymous"
-    private var memberImagePath = ""
+    private var memberImagePath: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

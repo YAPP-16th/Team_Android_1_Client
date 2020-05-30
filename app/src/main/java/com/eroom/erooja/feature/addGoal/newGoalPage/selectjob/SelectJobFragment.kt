@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.JobGroup
 import com.eroom.data.response.JobGroupAndClassResponse
+import com.eroom.domain.globalconst.Consts
 
 import com.eroom.erooja.databinding.FragmentSelectJobBinding
 import com.eroom.erooja.feature.addGoal.newGoalFrame.NewGoalActivity
@@ -42,6 +43,10 @@ class SelectJobFragment : Fragment(), SelectJobContract.View {
 
     private fun initPresenter() {
         presenter = SelectJobPresenter(this, get(), get())
+        arguments?.let { it.getLongArray(Consts.INTERESTED_JOB_CLASS)?.toTypedArray()?.let { array ->
+            selectedId.addAll(array)
+        } }
+        selectCheck.value = selectedId.size != 0
     }
 
     private fun setUpDataBinding(inflater: LayoutInflater, container: ViewGroup?) {

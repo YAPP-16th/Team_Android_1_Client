@@ -7,6 +7,7 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import com.eroom.data.entity.JobClass
 import com.eroom.data.entity.JobGroup
 import com.eroom.data.response.JobGroupAndClassResponse
 import com.eroom.domain.customview.parcelizeclass.ParcelizeAlarmContent
@@ -113,8 +114,9 @@ class TabActivity : AppCompatActivity(), TabContract.View {
         }
     }
 
-    fun navigateToNewGoal(uId: String) = startActivity(Intent(this, NewGoalActivity::class.java).apply {
+    fun navigateToNewGoal(uId: String, classList: ArrayList<JobClass>) = startActivity(Intent(this, NewGoalActivity::class.java).apply {
         putExtra(Consts.UID, uId)
+        putExtra(Consts.INTERESTED_JOB_CLASS, classList.map { it.id }.toLongArray())
     })
 
     fun replaceFragment(index: Int) {

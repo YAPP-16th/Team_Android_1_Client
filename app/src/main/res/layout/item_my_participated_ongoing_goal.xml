@@ -19,12 +19,11 @@
             android:id="@+id/percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:textColor="@color/colorWhite"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.1"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="72%" />
@@ -33,24 +32,28 @@
             android:id="@+id/jobClasses"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:textColor="@color/colorWhite"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/percent"
-            app:layout_constraintTop_toBottomOf="@+id/percent"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="6dp"
+            app:layout_constraintBottom_toTopOf="@id/titleText"
+            app:layout_constraintStart_toStartOf="parent"
             tools:text="UX 디자인 외 1" />
 
         <TextView
             android:id="@+id/titleText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/colorWhite"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/jobClasses"
-            app:layout_constraintTop_toBottomOf="@+id/jobClasses"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="6dp"
+            app:layout_constraintBottom_toTopOf="@+id/duration"
+            app:layout_constraintStart_toStartOf="parent"
             tools:text="포트폴리오 진행…" />
 
         <TextView
@@ -58,13 +61,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
+            android:layout_marginStart="24dp"
             android:textColor="@color/colorWhite"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/titleText"
-            app:layout_constraintTop_toBottomOf="@+id/titleText"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
             tools:text="20.03.05~03.07" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -44,6 +44,7 @@ class MainFragment : Fragment(), MainContract.View {
     val randomJobText: ObservableField<String> = ObservableField()
 
     private var uId: String = ""
+    private lateinit var mClassList: ArrayList<JobClass>
 
     companion object {
         @JvmStatic
@@ -116,6 +117,7 @@ class MainFragment : Fragment(), MainContract.View {
             })
         }
         presenter.getInterestedGoals(randomJobId, uId)
+        mClassList = classList
     }
 
     override fun setParticipatedList(list: ArrayList<MinimalGoalDetailContent>) {
@@ -162,7 +164,7 @@ class MainFragment : Fragment(), MainContract.View {
         })
     }
 
-    private val addGoalClicked = { (activity as TabActivity).navigateToNewGoal(uId) }
+    private val addGoalClicked = { (activity as TabActivity).navigateToNewGoal(uId, mClassList) }
 
     private val newGoalClicked = { goalId: Long ->
         startActivity(Intent(activity, GoalDetailActivity::class.java).apply {
@@ -186,7 +188,7 @@ class MainFragment : Fragment(), MainContract.View {
 
     fun navigateToMyPageTab() = (activity as TabActivity).changeTabToMyPage()
 
-    fun navigateToAddGoal() = (activity as TabActivity).navigateToNewGoal(uId)
+    fun navigateToAddGoal() = (activity as TabActivity).navigateToNewGoal(uId, mClassList)
 
     fun navigateToNotification() = startActivity(Intent(activity, NotificationActivity::class.java))
 

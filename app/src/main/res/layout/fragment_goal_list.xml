@@ -77,6 +77,7 @@
                             android:background="@drawable/goal_list_item_editttext"
                             android:cursorVisible="true"
                             android:gravity="center_vertical"
+                            android:maxLength="254"
                             android:hint="@string/goal_item_hint"
                             android:imeOptions="actionNext"
                             android:inputType="text"

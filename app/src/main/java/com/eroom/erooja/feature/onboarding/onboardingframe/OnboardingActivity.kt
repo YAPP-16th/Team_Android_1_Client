@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
+import com.eroom.domain.utils.loadDrawable
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityOnboardingBinding
 import com.eroom.erooja.feature.login.LoginActivity
@@ -19,6 +20,7 @@ class OnboardingActivity : AppCompatActivity(), OnboardingContract.View {
     private lateinit var onboardBinding: ActivityOnboardingBinding
     private val pagerAdapter by lazy { OnboardingAdapter(supportFragmentManager, this) }
     private val presenter by lazy { OnboardingPresenter(this) }
+    private var isLastPage = false
     val fragments : List<OnboardingPage> = listOf(
         OnboardingFirst.newInstance(),
         OnboardingSecond.newInstance(),
@@ -48,6 +50,14 @@ class OnboardingActivity : AppCompatActivity(), OnboardingContract.View {
             override fun onPageSelected(p0: Int) {
                 circle_indicator.selectDot(p0)
                 fragments[p0].loadLottieAnimation()
+                if (p0 == 2) {
+                    onboardBinding.btnNext.loadDrawable(resources.getDrawable(R.drawable.btn_start_cta, null))
+                    isLastPage = true
+                }
+                else if (isLastPage) {
+                    isLastPage = false
+                    onboardBinding.btnNext.loadDrawable(resources.getDrawable(R.drawable.btn_next_normal, null))
+                }
             }
         })
 

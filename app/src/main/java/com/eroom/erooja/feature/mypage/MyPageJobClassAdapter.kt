@@ -8,13 +8,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.eroom.data.entity.JobClass
+import com.eroom.domain.utils.loadDrawable
 import com.eroom.erooja.R
 
 
 class MyPageJobClassAdapter(
     private val jobClassList: List<JobClass>,
-    private val expendButtonClicked: () -> Unit,
-    private val isMoreInfo: Boolean
+    private val fragment: MyPageFragment,
+    private val isMoreInfo: Boolean,
+    private var isExpaned: Boolean
 ): RecyclerView.Adapter<MyPageJobClassAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -55,8 +57,12 @@ class MyPageJobClassAdapter(
                 itemClassBorder2.visibility = View.INVISIBLE
             }
             expendButton.visibility = if (moreVisibility) View.VISIBLE else View.GONE
+            if (isExpaned)
+                expendButton.loadDrawable(fragment.context?.resources?.getDrawable(R.drawable.ic_icon_small_arrow_top_white, null))
+            else
+                expendButton.loadDrawable(fragment.context?.resources?.getDrawable(R.drawable.ic_icon_small_arrow_bottom_white, null))
             expendButton.setOnClickListener {
-                expendButtonClicked()
+                fragment.expandButtonClicked(isExpaned)
             }
         }
     }

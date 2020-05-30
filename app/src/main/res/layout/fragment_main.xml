@@ -233,7 +233,7 @@
                             android:gravity="center"
                             android:textColor="@color/grey4"
                             android:textSize="15sp"
-                            android:lineSpacingExtra="13sp"
+                            android:lineSpacingExtra="11sp"
                             android:text="@string/no_goal_interested_job_plz_add_goal"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
