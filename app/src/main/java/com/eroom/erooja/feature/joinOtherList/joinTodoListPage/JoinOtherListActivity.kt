@@ -53,6 +53,7 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
     private var goalId: Long = 0L
     private var userUid: String = ""
     var userTodoList: ArrayList<String> = ArrayList()
+    var isActive: ObservableField<Boolean> = ObservableField(false)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -128,7 +129,9 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
 
     private fun observeData() {
         (mFragmentList[4] as JoinTodoListFragment).goalList.observe(this, Observer {
+            userTodoList = it
             nextClickable.set(!it.isNullOrEmpty())
+            isActive.set(it.size > 0)
         })
         (mFragmentList[4] as JoinTodoListFragment).goalListCheck.observe(this, Observer {
             nextClickable.set(it)
@@ -208,6 +211,7 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
     }
 
     fun prevButtonClicked() {
+        isActive.set(true)
         hideKeyBoard()
         mPage -= 1
         if (mPage < 0) {
@@ -238,20 +242,26 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
     }
 
     fun nextButtonClicked() {
-        hideKeyBoard()
-        mPage += 1
-        when {
-            mPage > mFragmentList.size - 1 -> {
-                networkRequest()
-                return
-            }
-            else -> {
-                nextClickable.set(true)
+        isActive.get()?.let {
+            if (it) {
+                hideKeyBoard()
+                mPage += 1
+                when {
+                    mPage > mFragmentList.size - 1 -> {
+                        networkRequest()
+                        return
+                    }
+                    else -> {
+                        if (mPage == 4) {
+                            isActive.set(userTodoList.size > 0)
+                        }
+                        nextClickable.set(true)
+                    }
+                }
+                setProgressBar(true)
+                showFragment()
             }
         }
-        setProgressBar(true)
-        showFragment()
-
     }
 
 

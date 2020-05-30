@@ -63,6 +63,7 @@ class AddMyTodoListFragment : Fragment(), TextView.OnEditorActionListener {
             writingText.value = it.toString()
         }
         requestFocus(addTodoBinding.goalContentEdittext)
+
     }
 
     override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {

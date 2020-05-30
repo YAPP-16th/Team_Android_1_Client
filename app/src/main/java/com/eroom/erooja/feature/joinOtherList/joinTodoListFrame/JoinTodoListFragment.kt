@@ -107,6 +107,7 @@ class JoinTodoListFragment : Fragment(), TextView.OnEditorActionListener {
     private fun loadRecyclerView() {
         arguments.let {
             goalItem = it?.getStringArrayList(Consts.USER_TODO_LIST)
+            goalList.value = goalItem
         }
         mAdapter = goalItem?.let { AddTodoAdapter(it, deleteItem) }!!
         addTodoBinding.goalListRecycler.adapter = mAdapter

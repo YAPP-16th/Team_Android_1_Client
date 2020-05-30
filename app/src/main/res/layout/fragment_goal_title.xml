@@ -38,7 +38,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginTop="55dp"
-            android:backgroundTint="@{fragment.underlineError ? @color/colorError : @color/grey3}"
+            android:backgroundTint="@{fragment.zeroText ? @color/grey3 : @color/orgDefault}"
             android:foregroundTint="@color/grey3"
             android:hint="@string/edit_goal"
             android:maxLength="50"

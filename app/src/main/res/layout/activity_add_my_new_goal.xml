@@ -29,7 +29,7 @@
             android:padding="15dp"
             android:onClick="@{() -> activity.nextButtonClicked()}"
             android:text="@string/next"
-            android:textColor="@color/grey7"
+            android:textColor="@{activity.isActive ? @color/grey7 : @color/grey4}"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -38,18 +38,5 @@ class InactiveGoalTitleFragment : Fragment() {
     private fun initView() {
         val titleText = arguments?.getString(Consts.GOAL_TITLE)
         binding.goalTitle.setText(titleText)
-        binding.goalTitleLength.text = "${binding.goalTitle.text.length}/50"
     }
-
-    fun onLayoutClicked() {
-        binding.goalTitle.requestFocus()
-        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        context?.let {
-            imm.toggleSoftInput(
-                InputMethodManager.SHOW_FORCED,
-                InputMethodManager.HIDE_IMPLICIT_ONLY
-            )
-        }
-    }
-
 }

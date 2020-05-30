@@ -95,6 +95,7 @@
                     android:text="@string/no_content_text"
                     android:textColor="@color/grey4"
                     android:textSize="15sp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/search_constraintLayout"
                     app:layout_constraintEnd_toEndOf="@+id/search_constraintLayout"
                     app:layout_constraintStart_toStartOf="@+id/search_constraintLayout"

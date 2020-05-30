@@ -88,7 +88,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="28dp"
-            android:background="@color/orgDefault"
+            android:background="@drawable/border_all_round_org"
             android:gravity="center"
             android:onClick="@{() -> activity.navigateToGoalDetail()}"
             android:text="@string/navigate_to_goal"
