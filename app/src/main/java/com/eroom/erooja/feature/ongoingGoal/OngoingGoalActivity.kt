@@ -114,7 +114,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         stopAnimation()
     }
 
-    fun updateView() {
+    private fun updateView() {
         onlyOneLine.set(true)
     }
 

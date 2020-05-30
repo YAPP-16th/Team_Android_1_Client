@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableField
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.GoalType
@@ -63,22 +64,37 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
     @SuppressLint("SetTextI18n")
     override fun setGoalData(goalData: GoalDetailResponse) {
         binding.goalNameTxt.text = goalData.title
-       // binding.include.text.text = goalData.description
         binding.goalDateTxt.text = "${goalData.startDt.toRealDateFormat()}~${goalData.endDt.toRealDateFormat()}"
-        binding.include.ongoingDescText.text = goalData.description
+        binding.include.endedDescText.text = goalData.description
 
-        binding.goalDescLayout.goal_desc.apply {
-            showButton = false
-            showShadow = false
+        if(goalData.description.isEmpty()){
+            binding.include.goalDesc.invalidateState(State.Statical)
+            binding.moreBtn.visibility = View.GONE
+            updateView()
+        } else {
+            binding.include.endedDescText.post{
+                binding.include.goalDesc.collapsedHeight = binding.include.endedDescText.height
+                binding.include.endedDescText.maxLines = Int.MAX_VALUE
+            }
         }
 
-        binding.goalDescLayout.keyword_txt.text = goalData.jobInterests.mapIndexed { index: Int, goalType: GoalType ->
+        binding.include.keywordTxt.text = goalData.jobInterests.mapIndexed { index: Int, goalType: GoalType ->
             if (index == goalData.jobInterests.size - 1) goalType.name else goalType.name add ", "
         }.toList().join()
+
+        binding.include.goneKeywordTxt.text = binding.include.keywordTxt.text
+
 
         stopAnimation()
         setBottomSheetAlert()
         initBottomSheet()
+    }
+
+    private fun updateView() {
+        binding.include.goneRelatedJobInterest.visibility = View.VISIBLE
+        binding.include.goneKeywordTxt.visibility = View.VISIBLE
+        binding.include.keywordTxt.visibility = View.GONE
+        binding.include.relatedJobInterest.visibility = View.GONE
     }
 
     @SuppressLint("SetTextI18n")
@@ -98,10 +114,6 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
 
         statusBarColor(this@EndedGoalActivity, R.color.grey1)
 
-        binding.goalDescLayout.goal_desc.apply {
-            showButton = false
-            showShadow = false
-        }
 
         when (binding.goalDescLayout.goal_desc.state) {
             State.Expanded, State.Expanding -> binding.moreBtn.loadDrawable(resources.getDrawable(R.drawable.ic_icon_small_arrow_top_white, null))
@@ -192,7 +204,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
                     putExtra(Consts.DATE, "기간 설정 자유")
                 }
                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
-                putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
+                putExtra(Consts.DESCRIPTION, binding.include.endedDescText.text)
                 putExtra(Consts.USER_TODO_LIST, userTodoList)
             }
         startActivity(intent)

@@ -119,7 +119,7 @@
 
                     <include
                         android:id="@+id/include"
-                        layout="@layout/include_completed_goal_desc"/>
+                        layout="@layout/include_ended_goal_desc"/>
 <!--                        bind:activity="@{activity}"-->
 
                     <ImageView
