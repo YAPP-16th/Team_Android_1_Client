@@ -28,6 +28,7 @@
         android:layout_height="wrap_content"
         android:text="@string/opensource_license"
         android:textColor="@color/grey8"
+        android:textStyle="bold"
         android:textSize="21sp"
         app:layout_constraintBottom_toBottomOf="@+id/backButton"
         app:layout_constraintStart_toEndOf="@+id/backButton"
