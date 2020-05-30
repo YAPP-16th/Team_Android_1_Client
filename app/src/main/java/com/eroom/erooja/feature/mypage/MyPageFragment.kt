@@ -240,6 +240,7 @@ class MyPageFragment : Fragment(), MyPageContract.View {
 
     private val endedGoalClicked = { goalId: Long ->
         startActivity(Intent(activity, EndedGoalActivity::class.java).apply {
+            //addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             putExtra(Consts.GOAL_ID, goalId)
             putExtra(Consts.UID, uId)
             putExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, true)

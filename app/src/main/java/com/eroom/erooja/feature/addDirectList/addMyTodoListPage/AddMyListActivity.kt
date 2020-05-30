@@ -274,7 +274,7 @@ class AddMyListActivity : AppCompatActivity(),
         intent.putExtra(Consts.ADD_NEW_GOAL_RESULT_ID, resultId)
         intent.putExtra(Consts.UID, UserInfo.myUId)
         startActivity(intent)
-        finish()
+        finishAffinity()
     }
 
     private fun networkRequest() {
