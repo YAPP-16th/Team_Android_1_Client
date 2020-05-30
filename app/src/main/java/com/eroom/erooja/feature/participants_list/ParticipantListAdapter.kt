@@ -43,7 +43,7 @@ class ParticipantListAdapter(
             list[position].nickname add if (list[position].uid == uId) "(you)" else ""
         holder.jobClassText.text =
             if (list[position].jobInterests.size > 0)
-                list[position].jobInterests[0].name add if (list[position].jobInterests.size < 2) "" else " 외 ${list[position].jobInterests.size - 1}개"
+                list[position].jobInterests[0].name add if (list[position].jobInterests.size < 2) "" else " 외 ${list[position].jobInterests.size - 1}"
             else
                 ""
         if (list[position].uid == uId) holder.naviImage.visibility = View.GONE

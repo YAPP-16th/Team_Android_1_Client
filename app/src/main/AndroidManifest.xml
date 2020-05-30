@@ -124,6 +124,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".feature.setting.setting_nickname.NicknameChangeActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".feature.setting.setting_detail.PrivateInfoActivity"
+            android:screenOrientation="portrait" />
 
 
         <meta-data

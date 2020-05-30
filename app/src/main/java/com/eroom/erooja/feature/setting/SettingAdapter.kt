@@ -33,7 +33,7 @@ class SettingAdapter(
     override fun getItemCount(): Int = settingList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (position % 3 == 0 && position != 0) {
+        if (position == 3 || position == 7) {
             val param = ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
                 ConstraintLayout.LayoutParams.WRAP_CONTENT

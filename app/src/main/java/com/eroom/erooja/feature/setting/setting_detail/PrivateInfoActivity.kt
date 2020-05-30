@@ -6,12 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityLicenceSettingBinding
+import com.eroom.erooja.databinding.ActivityPrivateInfoBinding
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
 
-class OpensourceActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLicenceSettingBinding
+class PrivateInfoActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityPrivateInfoBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,12 +22,12 @@ class OpensourceActivity : AppCompatActivity() {
     }
 
     private fun setUpDataBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_licence_setting)
-        binding.licence = this@OpensourceActivity
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_private_info)
+        binding.licence = this@PrivateInfoActivity
     }
 
     private fun initView() {
-        val inputStream: InputStream? = resources.openRawResource(R.raw.open_source)
+        val inputStream: InputStream? = resources.openRawResource(R.raw.private_info)
 
         inputStream?.let{
             val stream = InputStreamReader(inputStream, "UTF-8")
