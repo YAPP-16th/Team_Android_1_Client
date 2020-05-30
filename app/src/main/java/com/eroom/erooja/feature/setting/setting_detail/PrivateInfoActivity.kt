@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.eroom.domain.utils.join
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityLicenceSettingBinding
 import com.eroom.erooja.databinding.ActivityPrivateInfoBinding
@@ -29,24 +30,16 @@ class PrivateInfoActivity : AppCompatActivity() {
     private fun initView() {
         val inputStream: InputStream? = resources.openRawResource(R.raw.private_info)
 
-        inputStream?.let{
-            val stream = InputStreamReader(inputStream, "UTF-8")
-            val buffer = BufferedReader(stream)
-            var read: String?
-            val sb = StringBuilder("")
-
-            while (true) {
-                read = buffer.readLine()
-
-                if(read == null) break
-                else if(read.equals("\n")) sb.append("\n")
-                else sb.append(read)
-            }
-            binding.contentText.text = sb.toString()
+        val data = resources.openRawResource(R.raw.private_info).use {
+            val ir = InputStreamReader(it, "UTF-8")
+            ir.readLines()
         }
+
+        binding.contentText.text = data.joinToString("\r\n")
     }
 
     fun back(v: View){
         finish()
     }
 }
+
