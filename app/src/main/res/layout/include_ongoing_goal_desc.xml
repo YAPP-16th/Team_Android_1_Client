@@ -38,7 +38,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/temp_txt"
+            android:layout_marginTop="8dp"
             android:paddingBottom="15dp"
+            android:lineSpacingExtra="8sp"
             android:textColor="@color/grey1"
             android:visibility="@{mygoal.onlyOneLine ? view.VISIBLE : view.GONE }"
             app:layout_constraintStart_toStartOf="@+id/gone_related_job_interest"
@@ -81,6 +83,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
                             android:text="@string/connected_job"
+                            android:visibility="@{mygoal.onlyOneLine ? view.GONE : view.VISIBLE}"
+                            android:layout_marginBottom="8dp"
                             android:textColor="@color/grey1"
                             android:textStyle="bold" />
 
@@ -89,8 +93,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="32dp"
+                            android:lineSpacingExtra="8sp"
                             android:textColor="@color/colorWhite"
                             android:text="@string/temp_txt"
+                            android:visibility="@{mygoal.onlyOneLine ? view.GONE : view.VISIBLE}"
                             tools:text="ui, ux ~, Android, IOS"
                             app:layout_constraintStart_toStartOf="@id/text"
                             app:layout_constraintTop_toBottomOf="@+id/text" />

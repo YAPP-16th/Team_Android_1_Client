@@ -110,6 +110,8 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
             if (index == goalData.jobInterests.size - 1) goalType.name else goalType.name add ", "
         }.toList().join()
 
+        binding.include.goneKeywordTxt.text = binding.include.keywordTxt.text
+
         initBottomSheet(goalData.joinCount)
         stopAnimation()
     }
