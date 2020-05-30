@@ -5,8 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.eroom.erooja.databinding.ItemGoalListBinding
 
-
-class AddTodoAdapter(private var goalList: ArrayList<String>, private val deleteClick: (Int) -> Unit) : RecyclerView.Adapter<AddTodoAdapter.ViewHolder>() {
+class AddTodoAdapter(
+    private var goalList: ArrayList<String>,
+    private val deleteClick: (Int) -> Unit
+) : RecyclerView.Adapter<AddTodoAdapter.ViewHolder>() {
     lateinit var itemGoalListBinding: ItemGoalListBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

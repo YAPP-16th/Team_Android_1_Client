@@ -58,25 +58,29 @@ class GoalEditActivity : AppCompatActivity(), GoalEditContract.View {
         binding.goalDetailContent.setText(baseDescription)
         binding.goalTitleLength.text = "${binding.goalTitle.text.length}/50"
         binding.goalTitle.addTextChangedListener {
-            it?.let { editable -> if (editable.length >= 50) {
-                if (!isMoreThanMaxLength) {
-                    isMoreThanMaxLength = true
-                    Thread(Runnable {
-                        this.vibrateShort()
-                    }).start()
+            it?.let { editable ->
+                if (editable.length >= 50) {
+                    if (!isMoreThanMaxLength) {
+                        isMoreThanMaxLength = true
+                        Thread(Runnable {
+                            this.vibrateShort()
+                        }).start()
+                    }
+                } else {
+                    isMoreThanMaxLength = false
                 }
-            } else {
-                isMoreThanMaxLength = false
-            } }
+            }
             binding.goalTitleLength.text = "${it?.length ?: ""}/50"
             it?.length?.let { length: Int ->
                 lengthIsFine.set(length >= 5)
             }
             lengthIsFine.get()?.let { boolean -> underlineError.set(!boolean) }
-            contentDiff.value = !(it.toString() == baseTitle && binding.goalDetailContent.text.toString() == baseDescription)
+            contentDiff.value =
+                !(it.toString() == baseTitle && binding.goalDetailContent.text.toString() == baseDescription)
         }
         binding.goalDetailContent.addTextChangedListener {
-            contentDiff.value = !(binding.goalTitle.text.toString() == baseTitle && it.toString() == baseDescription)
+            contentDiff.value =
+                !(binding.goalTitle.text.toString() == baseTitle && it.toString() == baseDescription)
         }
     }
 

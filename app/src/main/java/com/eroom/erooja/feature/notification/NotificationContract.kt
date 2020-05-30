@@ -11,6 +11,7 @@ interface NotificationContract {
         fun stopAnimation()
         fun startAnimation()
     }
+
     interface Presenter {
         val view: View
         fun requestAlarms(page: Int)

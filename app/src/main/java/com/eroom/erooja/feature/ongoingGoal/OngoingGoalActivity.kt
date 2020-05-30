@@ -34,7 +34,7 @@ import com.eroom.erooja.R.*
 import com.eroom.erooja.singleton.UserInfo
 
 
-class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
+class OngoingGoalActivity : AppCompatActivity(), OngoingGoalContract.View {
     lateinit var binding: ActivityGoalBinding
     lateinit var presenter: OngoingGoalPresenter
 
@@ -71,11 +71,18 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
 
 
         when (binding.goalDescLayout.goal_desc.state) {
-            State.Expanded, State.Expanding -> binding.moreBtn.loadDrawable(resources.getDrawable(
-                drawable.ic_icon_small_arrow_top_white, null))
-            State.Collapsed, State.Collapsing -> binding.moreBtn.loadDrawable(resources.getDrawable(
-                drawable.ic_icon_small_arrow_right_white, null))
-            else -> {}
+            State.Expanded, State.Expanding -> binding.moreBtn.loadDrawable(
+                resources.getDrawable(
+                    drawable.ic_icon_small_arrow_top_white, null
+                )
+            )
+            State.Collapsed, State.Collapsing -> binding.moreBtn.loadDrawable(
+                resources.getDrawable(
+                    drawable.ic_icon_small_arrow_right_white, null
+                )
+            )
+            else -> {
+            }
         }
 
         val intent = intent
@@ -93,22 +100,24 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         binding.goalNameTxt.text = goalData.title
         binding.include.text.text = goalData.description
 
-        if(goalData.description.isEmpty()){
+        if (goalData.description.isEmpty()) {
             binding.goalDescLayout.goal_desc.invalidateState(State.Statical)
             binding.moreBtn.visibility = View.INVISIBLE
             updateView()
 
         } else {
-            binding.goalDescLayout.text.post{
-                binding.goalDescLayout.goal_desc.collapsedHeight = binding.goalDescLayout.text.height
+            binding.goalDescLayout.text.post {
+                binding.goalDescLayout.goal_desc.collapsedHeight =
+                    binding.goalDescLayout.text.height
                 binding.goalDescLayout.goal_desc.text.maxLines = Int.MAX_VALUE
             }
         }
 
 
-        binding.goalDescLayout.keyword_txt.text = goalData.jobInterests.mapIndexed { index: Int, goalType: GoalType ->
-            if (index == goalData.jobInterests.size - 1) goalType.name else goalType.name add ", "
-        }.toList().join()
+        binding.goalDescLayout.keyword_txt.text =
+            goalData.jobInterests.mapIndexed { index: Int, goalType: GoalType ->
+                if (index == goalData.jobInterests.size - 1) goalType.name else goalType.name add ", "
+            }.toList().join()
 
         binding.include.goneKeywordTxt.text = binding.include.keywordTxt.text
 
@@ -123,20 +132,21 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
 
     @SuppressLint("SetTextI18n")
     override fun setTodoList(todoList: ArrayList<MinimalTodoListDetail>) {
-        binding.mygoalRecyclerview.apply{
+        binding.mygoalRecyclerview.apply {
             layoutManager = LinearLayoutManager(this@OngoingGoalActivity)
             adapter = OngoingGoalAdapter(todoList, saveChange)
         }
         var count = 0
         todoList.forEach { if (it.isEnd) count += 1 }
-        binding.participantListText.text = "${((count.toDouble() / todoList.size)*100).toInt()}% 달성중"
+        binding.participantListText.text =
+            "${((count.toDouble() / todoList.size) * 100).toInt()}% 달성중"
     }
 
 
     private val saveChange = { boolean: Boolean, todoId: Long ->
         presenter.setTodoEnd(todoId, boolean)
     }
-    
+
     override fun onResume() {
         super.onResume()
         reRequestTodoList()
@@ -160,33 +170,46 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     fun moreClick(v: View) {
         binding.goalDescLayout.goal_desc.toggle()
         when (binding.goalDescLayout.goal_desc.state) {
-            State.Expanded, State.Expanding -> binding.moreBtn.loadDrawable(resources.getDrawable(
-                drawable.ic_icon_small_arrow_top_white, null))
-            State.Collapsed, State.Collapsing -> binding.moreBtn.loadDrawable(resources.getDrawable(
-                drawable.ic_icon_small_arrow_right_white, null))
-            else -> {}
+            State.Expanded, State.Expanding -> binding.moreBtn.loadDrawable(
+                resources.getDrawable(
+                    drawable.ic_icon_small_arrow_top_white, null
+                )
+            )
+            State.Collapsed, State.Collapsing -> binding.moreBtn.loadDrawable(
+                resources.getDrawable(
+                    drawable.ic_icon_small_arrow_right_white, null
+                )
+            )
+            else -> {
+            }
         }
     }
 
     private fun initBottomSheet(count: Int) {
         bottom = BottomSheetFragment.newInstance().apply {
             arguments = Bundle().apply {
-                putParcelableArrayList(Consts.BOTTOM_SHEET_KEY, arrayListOf(
-                    BottomSheetInfo("다른 참여자 리스트 둘러보기", BottomSheetColor.DEFAULT),
-                    BottomSheetInfo("참여자 목록($count)", BottomSheetColor.DEFAULT),
-                    BottomSheetInfo("리스트 수정하기", BottomSheetColor.DEFAULT),
-                    BottomSheetInfo("목표 그만두기", BottomSheetColor.RED)
-                ))
+                putParcelableArrayList(
+                    Consts.BOTTOM_SHEET_KEY, arrayListOf(
+                        BottomSheetInfo("다른 참여자 리스트 둘러보기", BottomSheetColor.DEFAULT),
+                        BottomSheetInfo("참여자 목록($count)", BottomSheetColor.DEFAULT),
+                        BottomSheetInfo("리스트 수정하기", BottomSheetColor.DEFAULT),
+                        BottomSheetInfo("목표 그만두기", BottomSheetColor.RED)
+                    )
+                )
             }
         }
         bottom.callback.observe(this, Observer {
             when (it) {
                 0 -> { //다른 참여자 리스트 둘러보기
-                    startActivity(Intent(this@OngoingGoalActivity, GoalDetailActivity::class.java).apply {
-                        putExtra(Consts.GOAL_ID, goalId)
-                        putExtra(Consts.UID, uId)
-                        putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isFromMyPage)
-                    })
+                    startActivity(
+                        Intent(
+                            this@OngoingGoalActivity,
+                            GoalDetailActivity::class.java
+                        ).apply {
+                            putExtra(Consts.GOAL_ID, goalId)
+                            putExtra(Consts.UID, uId)
+                            putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isFromMyPage)
+                        })
                 }
                 1 -> { // 참여자 목록
                     startActivity(Intent(this, ParticipantsListActivity::class.java).apply {
@@ -208,7 +231,8 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
                         putExtra(Consts.DIALOG_CANCEL, true)
                     }, Consts.GOAL_ABANDONED_REQUEST)
                 }
-                else -> {}
+                else -> {
+                }
             }
             bottom.dismiss()
         })
@@ -216,11 +240,14 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == Consts.GOAL_ABANDONED_REQUEST && resultCode == 6000) {
+        if (requestCode == Consts.GOAL_ABANDONED_REQUEST && resultCode == 6000) {
             data?.let {
                 val result = it.getBooleanExtra(Consts.DIALOG_RESULT, false)
                 if (result) {
-                    presenter.setGoalIsAbandoned(goalId, abandonedRequest = GoalAbandonedRequest(true))
+                    presenter.setGoalIsAbandoned(
+                        goalId,
+                        abandonedRequest = GoalAbandonedRequest(true)
+                    )
                 }
             }
         }
@@ -235,7 +262,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
     }
 
     fun additionalOptionClicked() {
-        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
             return
         }
         mLastClickTime = SystemClock.elapsedRealtime()

@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.ObservableField
-
 import androidx.lifecycle.MutableLiveData
 import com.eroom.domain.utils.vibrateShort
 import com.eroom.erooja.databinding.FragmentGoalTitleBinding
@@ -47,16 +46,18 @@ class GoalTitleFragment : Fragment() {
     private fun initView() {
         goalTitleBinding.goalTitle.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                s?.let { editable -> if (editable.length >= 50) {
-                    if (!isMoreThanMaxLength) {
-                        isMoreThanMaxLength = true
-                        Thread(Runnable {
-                            activity?.vibrateShort()
-                        }).start()
+                s?.let { editable ->
+                    if (editable.length >= 50) {
+                        if (!isMoreThanMaxLength) {
+                            isMoreThanMaxLength = true
+                            Thread(Runnable {
+                                activity?.vibrateShort()
+                            }).start()
+                        }
+                    } else {
+                        isMoreThanMaxLength = false
                     }
-                } else {
-                    isMoreThanMaxLength = false
-                } }
+                }
                 val it = s.toString().trim()
                 val len = it.length
                 goalTitleBinding.goalTitleLength.text = "$len/50"
@@ -88,7 +89,12 @@ class GoalTitleFragment : Fragment() {
     fun onLayoutClicked() {
         goalTitleBinding.goalTitle.requestFocus()
         val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        context?.let { imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY) }
+        context?.let {
+            imm.toggleSoftInput(
+                InputMethodManager.SHOW_FORCED,
+                InputMethodManager.HIDE_IMPLICIT_ONLY
+            )
+        }
     }
 
 }

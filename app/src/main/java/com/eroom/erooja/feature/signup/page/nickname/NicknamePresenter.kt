@@ -28,7 +28,7 @@ class NicknamePresenter(
                     view.setValidatedNickname()
                     view.unsetDuplicatedNickname()
                 }
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
                 view.unsetValidatedNickname()
                 view.unsetDuplicatedNickname()

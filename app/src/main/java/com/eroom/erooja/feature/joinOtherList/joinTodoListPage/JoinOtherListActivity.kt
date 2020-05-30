@@ -48,7 +48,6 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
     private var goalTitleText = ""
     private var goalDetailContentText: String? = null
 
-    //getExtra GoalDetailActivity -> NewGoalActivity
     private var goalDate: String? = null
     private var goalId: Long = 0L
     private var userUid: String = ""
@@ -68,7 +67,7 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
 
     private fun joinTodoList() {
         // case 1: 기간 고정, 다른 사람의 리스트를 추가하는 경우
-        when(mPage) {
+        when (mPage) {
             4 -> {
                 showFragment()
                 val endGoalDate = goalDate!!.split("~")
@@ -149,7 +148,7 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
                     InactiveJobFragment.newInstance().apply {
                         arguments = Bundle().apply {
                             goalId?.let { putLong(Consts.GOAL_ID, it) }
-                            putString(Consts.JOIN_OTHER_LIST,Consts.JOIN_OTHER_LIST)
+                            putString(Consts.JOIN_OTHER_LIST, Consts.JOIN_OTHER_LIST)
 
                         }
                     },
@@ -314,7 +313,7 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
                     this.endDate = toLocalDateFormat(time[0], time[1], time[2])
                 }
             }
-        }  else if (requestCode == 1300 && resultCode == 6000) {
+        } else if (requestCode == 1300 && resultCode == 6000) {
             data?.let {
                 val result = it.getBooleanExtra(Consts.DIALOG_RESULT, false) //확인 or 취소
                 if (result) {

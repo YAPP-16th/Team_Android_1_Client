@@ -64,14 +64,24 @@ class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
     private fun initFragment() {
         val getIntent = intent
         mFragmentList.apply {
-            addAll(listOf(
-                NicknameFragment.newInstance().apply { arguments = Bundle().apply { putString(Consts.NICKNAME, getIntent.getStringExtra(Consts.NICKNAME)) } },
-                JobGroupFragment.newInstance(),
-                JobClassFragment.newInstance()
-            ))
+            addAll(
+                listOf(
+                    NicknameFragment.newInstance().apply {
+                        arguments = Bundle().apply {
+                            putString(
+                                Consts.NICKNAME,
+                                getIntent.getStringExtra(Consts.NICKNAME)
+                            )
+                        }
+                    },
+                    JobGroupFragment.newInstance(),
+                    JobClassFragment.newInstance()
+                )
+            )
         }.also {
-            repeat(3) {index ->
-                supportFragmentManager.beginTransaction().add(R.id.loginFrame, it[index]).hide(it[index]).commit()
+            repeat(3) { index ->
+                supportFragmentManager.beginTransaction().add(R.id.loginFrame, it[index])
+                    .hide(it[index]).commit()
             }
             supportFragmentManager.beginTransaction().show(it[0]).commit()
         }
@@ -93,7 +103,7 @@ class KakaoSignUpActivity : AppCompatActivity(), KakaoSignUpContract.View {
     private fun showFragment() {
         hideFragment()
         supportFragmentManager.beginTransaction().show(mFragmentList[mPage]).commit()
-        if (mPage==2) {
+        if (mPage == 2) {
             (mFragmentList[mPage] as JobClassFragment).settingGroup(groupSelected)
             (mFragmentList[mPage] as JobClassFragment).settingSelectedId(classSelected)
         }

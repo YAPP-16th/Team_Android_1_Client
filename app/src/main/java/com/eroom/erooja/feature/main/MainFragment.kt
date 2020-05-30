@@ -76,9 +76,11 @@ class MainFragment : Fragment(), MainContract.View {
         } else {
             presenter.getUserInfo()
         }
-        (activity as TabActivity).alarmCallBack.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            mainBinding.unReadNotificationIcon.visibility = View.GONE
-        })
+        (activity as TabActivity).alarmCallBack.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer {
+                mainBinding.unReadNotificationIcon.visibility = View.GONE
+            })
     }
 
     override fun saveUid(uid: String) {
@@ -124,7 +126,9 @@ class MainFragment : Fragment(), MainContract.View {
         mainBinding.participantFrame.removeAllViews()
         mainBinding.participantScroll.visibility = View.VISIBLE
         for ((index, it) in list.withIndex()) {
-            val jobClassInfo = it.minimalGoalDetail.jobInterests.filter { it.jobInterestType != Consts.JOB_GROUP }.toList()
+            val jobClassInfo =
+                it.minimalGoalDetail.jobInterests.filter { it.jobInterestType != Consts.JOB_GROUP }
+                    .toList()
             val extraInfo = if (jobClassInfo.size - 1 == 0) "" else " 외 ${jobClassInfo.size - 1}"
             mainBinding.participantFrame.addView(
                 ParticipatedItem(
@@ -149,7 +153,12 @@ class MainFragment : Fragment(), MainContract.View {
     override fun setNewGoalBrowse(content: ArrayList<GoalContent>) {
         if (content.size > 0) mainBinding.newGoalAddFrame.visibility = View.GONE
         else mainBinding.newGoalAddFrame.visibility = View.VISIBLE
-        mNewGoalAdapter = NewGoalBrowseAdapter(content, randomJobText.get() ?: "", newGoalClicked, requireContext())
+        mNewGoalAdapter = NewGoalBrowseAdapter(
+            content,
+            randomJobText.get() ?: "",
+            newGoalClicked,
+            requireContext()
+        )
         mainBinding.newGoalRecycler.apply {
             adapter = mNewGoalAdapter
             layoutManager = LinearLayoutManager(context)
@@ -179,7 +188,14 @@ class MainFragment : Fragment(), MainContract.View {
     override fun showEndPopUp(list: ArrayList<AlarmContent>) {
         val popUpList = ArrayList<ParcelizeAlarmContent>()
         list.forEach {
-            popUpList.add(ParcelizeAlarmContent(id = it.id, title = it.title, content = it.content, goalId = it.goalId))
+            popUpList.add(
+                ParcelizeAlarmContent(
+                    id = it.id,
+                    title = it.title,
+                    content = it.content,
+                    goalId = it.goalId
+                )
+            )
         }
         (activity as TabActivity).navigateToPopUp(popUpList)
     }

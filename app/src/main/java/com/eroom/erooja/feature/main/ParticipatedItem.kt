@@ -8,13 +8,32 @@ import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ItemMyParticipantedListBinding
 
 @SuppressLint("ViewConstructor")
-class ParticipatedItem(context: Context?, goalId: Long, isOrg: Boolean, percent: String, jobClasses: String, titleText: String, duration: String, isClicked: (Long) -> Unit): LinearLayout(context) {
+class ParticipatedItem(
+    context: Context?,
+    goalId: Long,
+    isOrg: Boolean,
+    percent: String,
+    jobClasses: String,
+    titleText: String,
+    duration: String,
+    isClicked: (Long) -> Unit
+) : LinearLayout(context) {
     init {
         initView(context, goalId, isOrg, percent, jobClasses, titleText, duration, isClicked)
     }
 
-    fun initView(context: Context?, goalId: Long, isOrg: Boolean, percent: String, jobClasses: String, titleText: String, duration: String, isClicked: (Long) -> Unit) {
-        val binding = ItemMyParticipantedListBinding.inflate(LayoutInflater.from(context), this, true)
+    fun initView(
+        context: Context?,
+        goalId: Long,
+        isOrg: Boolean,
+        percent: String,
+        jobClasses: String,
+        titleText: String,
+        duration: String,
+        isClicked: (Long) -> Unit
+    ) {
+        val binding =
+            ItemMyParticipantedListBinding.inflate(LayoutInflater.from(context), this, true)
 
         context?.let {
             binding.back.background = if (isOrg)

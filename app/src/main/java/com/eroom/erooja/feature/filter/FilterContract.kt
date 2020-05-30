@@ -9,6 +9,7 @@ interface FilterContract {
         fun updateJobGroupAndClass(result: List<JobGroupAndClassResponse>)
         fun stopAnimation()
     }
+
     interface Presenter {
         val view: View
         fun getJobGroups()

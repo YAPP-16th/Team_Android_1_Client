@@ -1,12 +1,12 @@
 package com.eroom.erooja.feature.setting.setting_alarm
 
 interface AlarmContract {
-    interface View{
+    interface View {
         fun completeAlarmSetting()
         fun setAlarmSwitch(switch: Boolean)
     }
 
-    interface Presenter{
+    interface Presenter {
         var view: View
         fun getAlarmFlag()
         fun setAlarmFlag(switch: Boolean)

@@ -58,7 +58,7 @@ class SearchResultFragment : Fragment(), SearchResultContract.View {
         fragmentTitle = null
     }
 
-    fun setTitle(title : String?) {
+    fun setTitle(title: String?) {
         fragmentTitle = title
         resetOption()
         presenter.getSearchGoalTitle(fragmentTitle, mPage)
@@ -77,7 +77,12 @@ class SearchResultFragment : Fragment(), SearchResultContract.View {
         mContentSize += search.size
         mContentList.addAll(search)
         if (mPage == 0) {
-            mAdapter = SearchResultAdapter(presenter.getGoalContentCallback(), mContentList, itemClick, requireContext())
+            mAdapter = SearchResultAdapter(
+                presenter.getGoalContentCallback(),
+                mContentList,
+                itemClick,
+                requireContext()
+            )
             binding.searchResultRecyclerview.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = mAdapter
@@ -90,25 +95,30 @@ class SearchResultFragment : Fragment(), SearchResultContract.View {
     }
 
     private val itemClick = { goalId: Long ->
-        startActivity(Intent(activity, GoalDetailActivity::class.java).apply { putExtra(Consts.GOAL_ID, goalId) })
+        startActivity(
+            Intent(
+                activity,
+                GoalDetailActivity::class.java
+            ).apply { putExtra(Consts.GOAL_ID, goalId) })
     }
 
     override fun setIsEnd(boolean: Boolean) {
         isEnd = boolean
     }
 
-    val recyclerViewScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-            if (dy >= 0 && mContentSize > 0) {
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                if (layoutManager.findLastCompletelyVisibleItemPosition() == mContentSize - 1 && !isEnd) {
-                    fragmentKey?.let { presenter.getSearchJobInterest(it, mPage) }
-                    fragmentTitle?.let { presenter.getSearchGoalTitle(it, mPage) }
+    val recyclerViewScrollListener: RecyclerView.OnScrollListener =
+        object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy >= 0 && mContentSize > 0) {
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() == mContentSize - 1 && !isEnd) {
+                        fragmentKey?.let { presenter.getSearchJobInterest(it, mPage) }
+                        fragmentTitle?.let { presenter.getSearchGoalTitle(it, mPage) }
+                    }
                 }
             }
         }
-    }
 
     override fun onDestroy() {
         presenter.onCleared()

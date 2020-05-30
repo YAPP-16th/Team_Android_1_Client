@@ -12,17 +12,27 @@ import com.eroom.erooja.databinding.ItemHelpListBinding
 import ru.rhanza.constraintexpandablelayout.ExpandableLayout
 import ru.rhanza.constraintexpandablelayout.State
 
-class HelpAdapter (val context: Context, val questionList: Array<String>, val answerList: Array<String>):
-    RecyclerView.Adapter<HelpAdapter.ViewHolder>(){
+class HelpAdapter(
+    val context: Context,
+    val questionList: Array<String>,
+    val answerList: Array<String>
+) :
+    RecyclerView.Adapter<HelpAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder{
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val mBinding = ItemHelpListBinding.inflate(inflater, parent, false)
-        return ViewHolder(mBinding, mBinding.questionText, mBinding.answerText, mBinding.helpExpandable, mBinding.helpMoreBtn)
+        return ViewHolder(
+            mBinding,
+            mBinding.questionText,
+            mBinding.answerText,
+            mBinding.helpExpandable,
+            mBinding.helpMoreBtn
+        )
 
     }
 
-    override fun getItemCount(): Int =questionList.size
+    override fun getItemCount(): Int = questionList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
@@ -33,13 +43,19 @@ class HelpAdapter (val context: Context, val questionList: Array<String>, val an
         holder.layout.onStateChangeListener = { oldState: State, newState: State ->
             when (newState) {
                 State.Expanded -> {
-                    holder.clickBtn.background = context.resources.getDrawable(R.drawable.ic_icon_small_arrow_top_orange, null)
+                    holder.clickBtn.background = context.resources.getDrawable(
+                        R.drawable.ic_icon_small_arrow_top_orange,
+                        null
+                    )
                     holder.helpTxt.ellipsize = null
                     holder.helpTxt.maxLines = Integer.MAX_VALUE
 
                 }
                 State.Collapsed -> {
-                    holder.clickBtn.background = context.resources.getDrawable(R.drawable.ic_icon_small_arrow_bottom_orange, null)
+                    holder.clickBtn.background = context.resources.getDrawable(
+                        R.drawable.ic_icon_small_arrow_bottom_orange,
+                        null
+                    )
                     holder.helpTxt.ellipsize = TextUtils.TruncateAt.END
                     holder.helpTxt.maxLines = 1
                 }
@@ -50,10 +66,10 @@ class HelpAdapter (val context: Context, val questionList: Array<String>, val an
 
 
     inner class ViewHolder(
-        mBinding : ItemHelpListBinding,
-        val helpTxt : TextView,
-        val helpDescTxt : TextView,
-        val layout : ExpandableLayout,
-        var clickBtn : ImageButton
+        mBinding: ItemHelpListBinding,
+        val helpTxt: TextView,
+        val helpDescTxt: TextView,
+        val layout: ExpandableLayout,
+        var clickBtn: ImageButton
     ) : RecyclerView.ViewHolder(mBinding.root)
 }

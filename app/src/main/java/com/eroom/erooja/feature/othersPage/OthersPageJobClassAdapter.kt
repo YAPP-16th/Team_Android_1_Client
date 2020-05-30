@@ -15,7 +15,7 @@ class OthersPageJobClassAdapter(
     private val activity: OthersPageActivity,
     private val isMoreInfo: Boolean,
     private var isExpaned: Boolean
-): RecyclerView.Adapter<OthersPageJobClassAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<OthersPageJobClassAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(parent)
@@ -29,19 +29,29 @@ class OthersPageJobClassAdapter(
         val visibility = (position == itemCount - 1 && isMoreInfo)
         when (position) {
             itemCount - 1 -> {
-                if (jobClassList.size % 2 == 0 ) {
-                    holder.bind(jobClassList[position * 2], jobClassList[position * 2 + 1], visibility)
-                }
-                else {
+                if (jobClassList.size % 2 == 0) {
+                    holder.bind(
+                        jobClassList[position * 2],
+                        jobClassList[position * 2 + 1],
+                        visibility
+                    )
+                } else {
                     holder.bind(jobClassList[position * 2], "", visibility)
                 }
             }
-            else -> holder.bind(jobClassList[position * 2], jobClassList[position * 2 + 1], visibility)
+            else -> holder.bind(
+                jobClassList[position * 2],
+                jobClassList[position * 2 + 1],
+                visibility
+            )
         }
     }
 
-    inner class ViewHolder(parent: ViewGroup):
-        RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_mypage_job_class, parent, false)) {
+    inner class ViewHolder(parent: ViewGroup) :
+        RecyclerView.ViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_mypage_job_class, parent, false)
+        ) {
         private val classTitle: TextView = itemView.findViewById(R.id.class_title)
         private val classTitle2: TextView = itemView.findViewById(R.id.class_title2)
         private val itemClassBorder2: LinearLayout = itemView.findViewById(R.id.item_class_border2)
@@ -49,16 +59,26 @@ class OthersPageJobClassAdapter(
         fun bind(title1: String, title2: String, moreVisibility: Boolean) {
             classTitle.text = title1
             itemClassBorder2.visibility = View.VISIBLE
-            if(title2.isNotEmpty()) {
+            if (title2.isNotEmpty()) {
                 classTitle2.text = title2
             } else {
                 itemClassBorder2.visibility = View.INVISIBLE
             }
             expendButton.visibility = if (moreVisibility) View.VISIBLE else View.GONE
             if (isExpaned)
-                expendButton.loadDrawable(activity.resources.getDrawable(R.drawable.ic_icon_small_arrow_top_white, null))
+                expendButton.loadDrawable(
+                    activity.resources.getDrawable(
+                        R.drawable.ic_icon_small_arrow_top_white,
+                        null
+                    )
+                )
             else
-                expendButton.loadDrawable(activity.resources.getDrawable(R.drawable.ic_icon_small_arrow_bottom_white, null))
+                expendButton.loadDrawable(
+                    activity.resources.getDrawable(
+                        R.drawable.ic_icon_small_arrow_bottom_white,
+                        null
+                    )
+                )
             expendButton.setOnClickListener {
                 activity.expandButtonClicked(isExpaned)
             }

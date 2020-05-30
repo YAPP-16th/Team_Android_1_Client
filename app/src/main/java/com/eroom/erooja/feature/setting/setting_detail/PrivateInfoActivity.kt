@@ -1,15 +1,10 @@
 package com.eroom.erooja.feature.setting.setting_detail
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.eroom.domain.utils.join
 import com.eroom.erooja.R
-import com.eroom.erooja.databinding.ActivityLicenceSettingBinding
 import com.eroom.erooja.databinding.ActivityPrivateInfoBinding
-import java.io.BufferedReader
-import java.io.InputStream
 import java.io.InputStreamReader
 
 class PrivateInfoActivity : AppCompatActivity() {
@@ -28,8 +23,6 @@ class PrivateInfoActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        val inputStream: InputStream? = resources.openRawResource(R.raw.private_info)
-
         val data = resources.openRawResource(R.raw.private_info).use {
             val ir = InputStreamReader(it, "UTF-8")
             ir.readLines()
@@ -38,7 +31,7 @@ class PrivateInfoActivity : AppCompatActivity() {
         binding.contentText.text = data.joinToString("\r\n")
     }
 
-    fun back(v: View){
+    fun back() {
         finish()
     }
 }

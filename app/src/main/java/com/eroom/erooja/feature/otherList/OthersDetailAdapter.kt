@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eroom.data.entity.MinimalTodoListDetail
 import com.eroom.erooja.R
 import kotlinx.android.synthetic.main.item_completed_goal_list.view.*
-import kotlinx.android.synthetic.main.item_ongoing_goal_list.view.*
 
 class OthersDetailAdapter(private val TodoList: ArrayList<MinimalTodoListDetail>) :
     RecyclerView.Adapter<Holder>() {

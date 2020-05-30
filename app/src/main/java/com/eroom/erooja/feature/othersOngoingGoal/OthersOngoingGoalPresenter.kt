@@ -7,7 +7,6 @@ import com.eroom.domain.api.usecase.membergoal.GetGoalInfoByUIdAndGoalIdUseCase
 import com.eroom.domain.api.usecase.todo.GetTodoListUseCase
 import com.eroom.domain.api.usecase.todo.PutTodoEditUseCase
 import io.reactivex.disposables.CompositeDisposable
-import retrofit2.HttpException
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -92,7 +91,7 @@ class OthersOngoingGoalPresenter(
                 it.body()?.let { body ->
                     view.settingDate(body.startDt, body.endDt)
                 } ?: if (it.code() == 400) {
-                    view.settingDate("0000","0000")
+                    view.settingDate("0000", "0000")
                 }
             }, {
                 Timber.e(it.localizedMessage)

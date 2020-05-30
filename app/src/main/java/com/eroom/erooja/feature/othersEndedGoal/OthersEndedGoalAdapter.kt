@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eroom.data.entity.MinimalTodoListDetail
 import com.eroom.erooja.R
 import kotlinx.android.synthetic.main.item_ended_goal_list.view.*
-import kotlinx.android.synthetic.main.item_ongoing_goal_list.view.*
 
-class OthersEndedGoalAdapter(val todoList: ArrayList<MinimalTodoListDetail>):
+class OthersEndedGoalAdapter(val todoList: ArrayList<MinimalTodoListDetail>) :
     RecyclerView.Adapter<Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_ended_goal_list, parent, false)
+        val inflatedView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_ended_goal_list, parent, false)
         return Holder(inflatedView)
 
     }
@@ -26,7 +26,7 @@ class OthersEndedGoalAdapter(val todoList: ArrayList<MinimalTodoListDetail>):
     }
 }
 
-class Holder(itemView: View) : RecyclerView.ViewHolder(itemView){
+class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(contentText: String, isEnd: Boolean) {
         itemView.ended_detail_checkbox.text = contentText
         itemView.ended_detail_checkbox.apply {

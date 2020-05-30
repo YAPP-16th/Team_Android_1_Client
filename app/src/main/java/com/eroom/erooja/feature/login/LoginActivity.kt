@@ -61,7 +61,10 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
         presenter.onCleared()
     }
 
-    private class SessionCallback(val requestMe: () -> Future<MeV2Response>, val startAnimation: () -> Unit) : ISessionCallback {
+    private class SessionCallback(
+        val requestMe: () -> Future<MeV2Response>,
+        val startAnimation: () -> Unit
+    ) : ISessionCallback {
         override fun onSessionOpened() {
             startAnimation()
             requestMe()
@@ -73,7 +76,12 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     }
 
     override val redirectSignUpActivity = { nickname: String? ->
-        val intent = Intent(this, KakaoSignUpActivity::class.java).apply { putExtra(Consts.NICKNAME, nickname ?: "") }
+        val intent = Intent(this, KakaoSignUpActivity::class.java).apply {
+            putExtra(
+                Consts.NICKNAME,
+                nickname ?: ""
+            )
+        }
         startActivity(intent)
     }
 

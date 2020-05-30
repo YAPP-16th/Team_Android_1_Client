@@ -39,7 +39,7 @@ class AddMyListPresenter(
             )
         )
             .subscribe({
-                if(it.code() == 400) view.failRequest()
+                if (it.code() == 400) view.failRequest()
                 else view.redirectNewGoalFinish(it.body()!!.goalId)
                 view.stopAnimation()
             }, {
@@ -55,7 +55,7 @@ class AddMyListPresenter(
             goalId,
             GoalReParticipateRequest(changedIsEnd = false, endDt = endDt)
         ).subscribe({
-            if(it.code() == 400 ) view.failRequest()
+            if (it.code() == 400) view.failRequest()
             else view.redirectNewGoalFinish(goalId)
             view.stopAnimation()
         }, {

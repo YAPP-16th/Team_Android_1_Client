@@ -14,7 +14,6 @@ import com.eroom.erooja.databinding.ActivityFilterBinding
 import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.singleton.JobClassHashMap.hashmap
 import org.koin.android.ext.android.get
-import timber.log.Timber
 
 
 class FilterActivity : AppCompatActivity(), FilterContract.View {
@@ -24,7 +23,7 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
 
     val classCheck: ObservableField<Boolean> = ObservableField(false)
     private val selectedId: ArrayList<Long> = ArrayList()
-    private lateinit var interestNum : ArrayList<Long>
+    private lateinit var interestNum: ArrayList<Long>
     private var dialogFlag = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,12 +49,12 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
         presenter.getJobGroups()
 
         val settingTxt: String? = intent.getStringExtra("JOB_CLASS_CHANGE")
-        settingTxt?.let{
+        settingTxt?.let {
             filterBinding.filterText.text = settingTxt
             filterBinding.closeButton.setImageResource(R.drawable.ic_icon_navi_arrow_left)
         }
 
-        if(intent.getIntExtra(Consts.SETTING_REQUEST,1) == Consts.SETTING_REQUEST_NUM){
+        if (intent.getIntExtra(Consts.SETTING_REQUEST, 1) == Consts.SETTING_REQUEST_NUM) {
             filterBinding.resetText.text = resources.getText(R.string.save_txt)
         }
     }
@@ -70,7 +69,7 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
     //직무 직군 버튼 다 가져오는 함수임
     override fun updateJobGroupAndClass(result: List<JobGroupAndClassResponse>) {
         interestNum = intent.getSerializableExtra("search") as ArrayList<Long>
-        for(i in interestNum){
+        for (i in interestNum) {
             selectedId.add(i)
         }
 
@@ -96,7 +95,7 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
         super.onActivityResult(requestCode, resultCode, data)
         val result = data?.getBooleanExtra(Consts.DIALOG_RESULT, false) //확인 or 취소
 
-        if(resultCode == 6000){
+        if (resultCode == 6000) {
             if (result!!) { //if ok (when request code ; 1200, 1300 )
                 completeButtonClicked()
             }
@@ -104,16 +103,16 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
     }
 
     fun completeButtonClicked() {
-        val result1 = intent.putExtra("selectedId",selectedId)
+        val result1 = intent.putExtra("selectedId", selectedId)
         val result2 = intent.putExtra("HashMap", hashmap)
         setResult(1000, result1)
         setResult(1000, result2)
 
-        if(classCheck.get()!!) finish()
+        if (classCheck.get()!!) finish()
 
     }
 
-    fun resetFilterButtonClicked(){
+    fun resetFilterButtonClicked() {
         selectedId.clear()
         mAdapter.notifyDataSetChanged()
         checkSelect()
@@ -127,8 +126,8 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
         showAlert()
     }
 
-    private fun showAlert(){
-        if(selectedId.isNullOrEmpty()){
+    private fun showAlert() {
+        if (selectedId.isNullOrEmpty()) {
             //필터에 1개 이상의 직무를 지정해주세요.
             startActivityForResult(
                 Intent(
@@ -142,9 +141,9 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
                     )
                     putExtra(Consts.DIALOG_CONFIRM, true)
                     putExtra(Consts.DIALOG_CANCEL, false)
-                }, 5000)
-        }
-        else {
+                }, 5000
+            )
+        } else {
             //변경 내용이 있는지 판단
             dialogFlag = false
             if (selectedId.size != interestNum.size) {
@@ -177,7 +176,7 @@ class FilterActivity : AppCompatActivity(), FilterContract.View {
 
             }
             //entry point : search fragment
-            else{
+            else {
                 //변경된 필터 내용을 저장하시겠어요?
                 if (dialogFlag) {
                     startActivityForResult(

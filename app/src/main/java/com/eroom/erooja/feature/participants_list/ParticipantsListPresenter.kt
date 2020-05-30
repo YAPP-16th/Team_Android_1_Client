@@ -30,7 +30,7 @@ class ParticipantsListPresenter(
         getParticipantedListUseCase.getParticipantedList(goalId, size = 10, page = page)
             .subscribe({
                 view.updateList(it.members, it.totalElement)
-                view.updateIsEnd(it.totalPages -1 <= page)
+                view.updateIsEnd(it.totalPages - 1 <= page)
                 view.stopAnimation()
             }, {
                 Timber.e(it.localizedMessage)

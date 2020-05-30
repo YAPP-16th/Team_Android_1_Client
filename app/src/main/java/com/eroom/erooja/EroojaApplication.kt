@@ -14,8 +14,7 @@ import timber.log.Timber
 import java.io.IOException
 import java.net.SocketException
 
-
-class EroojaApplication: Application() {
+class EroojaApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 

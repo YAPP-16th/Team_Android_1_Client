@@ -10,10 +10,11 @@ import com.eroom.data.response.JobGroupAndClassResponse
 import com.eroom.erooja.databinding.ItemGroupJobBinding
 
 
-class SelectJobAdapter(val context: Context,
-                       private var jobList: List<JobGroupAndClassResponse>,
-                       private var selectedIds: ArrayList<Long>,
-                       private val itemClick: (Long, Boolean) -> Unit
+class SelectJobAdapter(
+    val context: Context,
+    private var jobList: List<JobGroupAndClassResponse>,
+    private var selectedIds: ArrayList<Long>,
+    private val itemClick: (Long, Boolean) -> Unit
 ) : RecyclerView.Adapter<SelectJobAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,7 +31,8 @@ class SelectJobAdapter(val context: Context,
     override fun getItemCount(): Int = jobList.size
 
 
-    inner class ViewHolder(private val mBinding: ItemGroupJobBinding) : RecyclerView.ViewHolder(mBinding.root) {
+    inner class ViewHolder(private val mBinding: ItemGroupJobBinding) :
+        RecyclerView.ViewHolder(mBinding.root) {
         fun bind(groupText: String, context: Context, list: ArrayList<JobClass>) {
             mBinding.groupText.text = groupText
             mBinding.jobClassRecycler.apply {

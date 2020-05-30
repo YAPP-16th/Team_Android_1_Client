@@ -24,7 +24,13 @@ class NotificationAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
         val binding =
             ItemNotificationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return NotificationViewHolder(binding, binding.background, binding.roundIcon, binding.dateText, binding.title)
+        return NotificationViewHolder(
+            binding,
+            binding.background,
+            binding.roundIcon,
+            binding.dateText,
+            binding.title
+        )
     }
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
@@ -32,10 +38,25 @@ class NotificationAdapter(
         holder.dateText.text = list[position].createDt.toMonthAndDateFormat()
         if (!list[position].isChecked) {
             holder.backgroud.setBackgroundColor(context.resources.getColor(R.color.orgBright, null))
-            holder.roundIcon.loadDrawable(context.resources.getDrawable(R.drawable.ic_oval_org, null))
+            holder.roundIcon.loadDrawable(
+                context.resources.getDrawable(
+                    R.drawable.ic_oval_org,
+                    null
+                )
+            )
         } else {
-            holder.backgroud.setBackgroundColor(context.resources.getColor(R.color.colorWhite, null))
-            holder.roundIcon.loadDrawable(context.resources.getDrawable(R.drawable.ic_oval_copy_3, null))
+            holder.backgroud.setBackgroundColor(
+                context.resources.getColor(
+                    R.color.colorWhite,
+                    null
+                )
+            )
+            holder.roundIcon.loadDrawable(
+                context.resources.getDrawable(
+                    R.drawable.ic_oval_copy_3,
+                    null
+                )
+            )
         }
         holder.itemView.setOnClickListener {
             itemClick(list[position].id, list[position].goalId, position)

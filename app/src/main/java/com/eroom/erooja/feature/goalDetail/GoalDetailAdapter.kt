@@ -4,23 +4,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.eroom.data.entity.GoalContent
 import com.eroom.data.entity.MinimalTodoListContent
-import com.eroom.data.entity.TodoList
 import com.eroom.domain.utils.add
-import com.eroom.erooja.R
 import com.eroom.erooja.databinding.GoalSimpleListBinding
-import com.eroom.erooja.databinding.ItemMainNewGoalBinding
-import kotlinx.android.synthetic.main.goal_simple_list.view.*
 
-class GoalDetailAdapter(callback: DiffUtil.ItemCallback<MinimalTodoListContent>,
-                        val TodoList: ArrayList<MinimalTodoListContent>, val isMyOngoingGoal: Boolean, val click: (String, String) -> Unit, val joinTodoList: (String) -> Unit) :
+class GoalDetailAdapter(
+    callback: DiffUtil.ItemCallback<MinimalTodoListContent>,
+    val TodoList: ArrayList<MinimalTodoListContent>,
+    val isMyOngoingGoal: Boolean,
+    val click: (String, String) -> Unit,
+    val joinTodoList: (String) -> Unit
+) :
     ListAdapter<MinimalTodoListContent, GoalDetailAdapter.ViewHolder>(callback) {
 
 
@@ -29,8 +28,10 @@ class GoalDetailAdapter(callback: DiffUtil.ItemCallback<MinimalTodoListContent>,
         val mBinding = GoalSimpleListBinding.inflate(inflater, parent, false)
 
 
-        return ViewHolder(mBinding, mBinding.usernameList, mBinding.putinNumberTxt, mBinding.text1,
-            mBinding.text2, mBinding.text3 , mBinding.goalAddBtn, mBinding.simpleList)
+        return ViewHolder(
+            mBinding, mBinding.usernameList, mBinding.putinNumberTxt, mBinding.text1,
+            mBinding.text2, mBinding.text3, mBinding.goalAddBtn, mBinding.simpleList
+        )
     }
 
     override fun getItemCount(): Int = TodoList.size
@@ -40,7 +41,7 @@ class GoalDetailAdapter(callback: DiffUtil.ItemCallback<MinimalTodoListContent>,
         holder.copyCount.text = TodoList[position].copyCount.toString() add "명이 선택"
 
         val size = TodoList[position].todoList.size
-        when(size){
+        when (size) {
             0 -> {
                 holder.content1.visibility = View.INVISIBLE
                 holder.content2.visibility = View.INVISIBLE
@@ -65,23 +66,28 @@ class GoalDetailAdapter(callback: DiffUtil.ItemCallback<MinimalTodoListContent>,
 
         }
 
-        holder.item.setOnClickListener { click(TodoList[position].uid, TodoList[position].nickName ) }
+        holder.item.setOnClickListener {
+            click(
+                TodoList[position].uid,
+                TodoList[position].nickName
+            )
+        }
         holder.goalBtn.setOnClickListener { joinTodoList(TodoList[position].uid) }
-}
+    }
 
 
     inner class ViewHolder(
-        mBinding : GoalSimpleListBinding,
+        mBinding: GoalSimpleListBinding,
         val nickName: TextView,
         val copyCount: TextView,
         val content1: TextView,
         val content2: TextView,
         val content3: TextView,
-        val goalBtn : Button,
+        val goalBtn: Button,
         val item: ConstraintLayout
-    ) :RecyclerView.ViewHolder(mBinding.root) {
+    ) : RecyclerView.ViewHolder(mBinding.root) {
         init {
-            if(isMyOngoingGoal) {
+            if (isMyOngoingGoal) {
                 mBinding.goalAddBtn.visibility = View.INVISIBLE
             }
         }

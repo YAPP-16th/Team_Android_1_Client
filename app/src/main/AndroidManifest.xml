@@ -84,9 +84,6 @@
             android:name=".feature.tab.TabActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.exam.activity.ExamActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".feature.goalDetail.GoalDetailActivity"
             android:screenOrientation="portrait"
             android:taskAffinity="com.task.joinOtherList"/>

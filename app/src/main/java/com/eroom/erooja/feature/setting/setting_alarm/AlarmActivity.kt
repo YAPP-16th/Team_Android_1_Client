@@ -2,11 +2,8 @@ package com.eroom.erooja.feature.setting.setting_alarm
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.eroom.domain.globalconst.Consts
-import com.eroom.domain.koin.repository.SharedPrefRepository
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityAlarmSettingBinding
 import org.koin.android.ext.android.get
@@ -14,7 +11,7 @@ import timber.log.Timber
 
 class AlarmActivity : AppCompatActivity(), AlarmContract.View {
     private lateinit var binding: ActivityAlarmSettingBinding
-    private lateinit var presenter : AlarmPresenter
+    private lateinit var presenter: AlarmPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,11 +26,11 @@ class AlarmActivity : AppCompatActivity(), AlarmContract.View {
         binding.alarm = this@AlarmActivity
     }
 
-    private fun initPresenter(){
+    private fun initPresenter() {
         presenter = AlarmPresenter(this, get())
     }
 
-    private fun initView(){
+    private fun initView() {
         presenter.getAlarmFlag()
 
         binding.switch1.setOnCheckedChangeListener { _, _ ->
@@ -51,7 +48,7 @@ class AlarmActivity : AppCompatActivity(), AlarmContract.View {
         Timber.i("Alarm Setting Flag Save Success")
     }
 
-    fun back(v: View){
+    fun back(v: View) {
         finish()
     }
 }

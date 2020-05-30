@@ -12,14 +12,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ItemDeleteGoalBinding
 
-class DeleteGoalAdapter (
-    callback : DiffUtil.ItemCallback<String>,
+class DeleteGoalAdapter(
+    callback: DiffUtil.ItemCallback<String>,
     val activity: EditGoalActivity,
     private val deleteClicked: (Int, Boolean) -> Unit
 ) : ListAdapter<String, RecyclerView.ViewHolder>(callback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding = ItemDeleteGoalBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemDeleteGoalBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return DeleteGoalViewHolder(binding)
     }
 
@@ -28,7 +29,8 @@ class DeleteGoalAdapter (
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as DeleteGoalViewHolder).bind(activity.editTodoList[position].content)
         if (activity.editTodoList[position].isEnd) {
-            holder.binding.dot.imageTintList = ColorStateList.valueOf(activity.resources.getColor(R.color.grey4, null))
+            holder.binding.dot.imageTintList =
+                ColorStateList.valueOf(activity.resources.getColor(R.color.grey4, null))
             holder.binding.contentText.apply {
                 paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 setTextColor(context.getColor(R.color.grey4))
@@ -40,7 +42,8 @@ class DeleteGoalAdapter (
         }
     }
 
-    inner class DeleteGoalViewHolder(val binding: ItemDeleteGoalBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class DeleteGoalViewHolder(val binding: ItemDeleteGoalBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("ClickableViewAccessibility")
         fun bind(text: String) {
             binding.contentText.text = text

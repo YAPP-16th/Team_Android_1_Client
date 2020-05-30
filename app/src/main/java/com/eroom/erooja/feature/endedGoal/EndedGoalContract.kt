@@ -5,7 +5,7 @@ import com.eroom.data.response.GoalDetailResponse
 
 
 interface EndedGoalContract {
-    interface View{
+    interface View {
         fun setGoalData(goalData: GoalDetailResponse)
         fun setTodoList(todoList: ArrayList<MinimalTodoListDetail>)
         fun setIsAbandoned(isAbandoned: Boolean)
@@ -15,7 +15,7 @@ interface EndedGoalContract {
         fun stopAnimation()
     }
 
-    interface Presenter{
+    interface Presenter {
         var view: View
         fun getData(goalId: Long)
         fun getTodoData(uid: String, goalId: Long)

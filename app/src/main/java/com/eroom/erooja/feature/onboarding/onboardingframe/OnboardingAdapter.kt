@@ -9,8 +9,10 @@ import com.eroom.erooja.feature.onboarding.onboardingpage.OnboardingSecond
 import com.eroom.erooja.feature.onboarding.onboardingpage.OnboardingThird
 import timber.log.Timber
 
-class OnboardingAdapter(fm: FragmentManager, private val activity: OnboardingActivity) : FragmentStatePagerAdapter(
-    fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class OnboardingAdapter(fm: FragmentManager, private val activity: OnboardingActivity) :
+    FragmentStatePagerAdapter(
+        fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
+    ) {
 
     override fun getItem(position: Int): Fragment {
         return when (position) {

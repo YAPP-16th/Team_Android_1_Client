@@ -1,4 +1,3 @@
-
 package com.eroom.erooja.feature.addGoal.newGoalFrame
 
 import android.app.Activity
@@ -76,7 +75,11 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
                 Calendar.DAY_OF_MONTH
             ) + "일"
         //2020-05-25T00:00:00
-        endDate = toLocalDateFormat(today.get(Calendar.YEAR), (today.get(Calendar.MONTH) + 1), today.get(Calendar.DAY_OF_MONTH))
+        endDate = toLocalDateFormat(
+            today.get(Calendar.YEAR),
+            (today.get(Calendar.MONTH) + 1),
+            today.get(Calendar.DAY_OF_MONTH)
+        )
     }
 
     private fun setUpDataBinding() {
@@ -109,7 +112,9 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         })
         (mFragmentList[4] as GoalListFragment).goalListCheck.observe(this, Observer {
             nextClickable.set(it)
-            if (mPage == 0) nextClickable.set((mSelectedIds?.toTypedArray()?.isNullOrEmpty()) != true)
+            if (mPage == 0) nextClickable.set(
+                (mSelectedIds?.toTypedArray()?.isNullOrEmpty()) != true
+            )
         })
         (mFragmentList[4] as GoalListFragment).writingText.observe(this, Observer {
             additionalGoalList = it
@@ -120,7 +125,14 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         mFragmentList.apply {
             addAll(
                 listOf(
-                    SelectJobFragment.newInstance().apply { arguments = Bundle().apply { putLongArray(Consts.INTERESTED_JOB_CLASS, mSelectedIds) } },
+                    SelectJobFragment.newInstance().apply {
+                        arguments = Bundle().apply {
+                            putLongArray(
+                                Consts.INTERESTED_JOB_CLASS,
+                                mSelectedIds
+                            )
+                        }
+                    },
                     GoalTitleFragment.newInstance()/*.apply { arguments = Bundle().apply { putString("key", "value") } }*/,
                     GoalDetailFragment.newInstance(),
                     GoalPeriodFragment.newInstance(),
@@ -174,7 +186,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     }
 
     fun nextButtonClicked() {
-        if (SystemClock.elapsedRealtime() - mLastClickTime < 300){
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 300) {
             return
         }
         mLastClickTime = SystemClock.elapsedRealtime()
@@ -233,9 +245,22 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
     private fun networkRequest() {
         startBlockAnimation()
         if (additionalGoalList.isNotEmpty())
-            presenter.addNewGoal(goalTitleText, goalDetailContentText, isDateFixed, endDate, selectedIds, goalList.apply { add(additionalGoalList) })
+            presenter.addNewGoal(
+                goalTitleText,
+                goalDetailContentText,
+                isDateFixed,
+                endDate,
+                selectedIds,
+                goalList.apply { add(additionalGoalList) })
         else
-            presenter.addNewGoal(goalTitleText, goalDetailContentText, isDateFixed, endDate, selectedIds, goalList)
+            presenter.addNewGoal(
+                goalTitleText,
+                goalDetailContentText,
+                isDateFixed,
+                endDate,
+                selectedIds,
+                goalList
+            )
     }
 
     override fun onBackPressed() {

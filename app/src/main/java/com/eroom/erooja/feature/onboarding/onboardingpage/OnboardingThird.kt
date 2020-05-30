@@ -9,7 +9,7 @@ import com.eroom.domain.utils.loadGif
 import com.eroom.erooja.R
 import kotlinx.android.synthetic.main.fragment_onboarding3.view.*
 
-class OnboardingThird: Fragment(), OnboardingPage {
+class OnboardingThird : Fragment(), OnboardingPage {
     companion object {
         @JvmStatic
         fun newInstance() = OnboardingThird()
@@ -19,7 +19,7 @@ class OnboardingThird: Fragment(), OnboardingPage {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_onboarding3, container,false)
+        val view = inflater.inflate(R.layout.fragment_onboarding3, container, false)
         view.imageView4.loadGif(R.raw.onboarding3)
         return view
     }

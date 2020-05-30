@@ -6,6 +6,6 @@ interface OnboardingContract {
     }
 
     interface Presenter {
-        val view : View
+        val view: View
     }
 }

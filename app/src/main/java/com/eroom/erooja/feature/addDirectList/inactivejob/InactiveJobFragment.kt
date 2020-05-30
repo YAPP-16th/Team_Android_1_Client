@@ -48,13 +48,13 @@ class InactiveJobFragment : Fragment(), InactiveJobContract.View {
     }
 
     private fun initView() {
-        arguments?.getString(Consts.ADD_MY_LIST)?.let{
+        arguments?.getString(Consts.ADD_MY_LIST)?.let {
             startAnimationPosition = Consts.ADD_MY_LIST
-        }?:run{
+        } ?: run {
             startAnimationPosition = Consts.JOIN_OTHER_LIST
         }
 
-        if(startAnimationPosition.equals(Consts.ADD_MY_LIST)) (activity as AddMyListActivity).startAnimation()
+        if (startAnimationPosition.equals(Consts.ADD_MY_LIST)) (activity as AddMyListActivity).startAnimation()
         else (activity as JoinOtherListActivity).startAnimation()
 
         presenter.getJobGroups()
@@ -69,7 +69,7 @@ class InactiveJobFragment : Fragment(), InactiveJobContract.View {
         }
 
     override fun setJobInterestOfTodoList(jobInterestList: List<Long>) {
-        repeat(jobInterestList.size){
+        repeat(jobInterestList.size) {
             selectedId.add(jobInterestList[it])
         }
     }
@@ -90,7 +90,7 @@ class InactiveJobFragment : Fragment(), InactiveJobContract.View {
     }
 
     override fun stopAnimation() {
-        if(startAnimationPosition.equals(Consts.ADD_MY_LIST)) (activity as AddMyListActivity).stopAnimation()
+        if (startAnimationPosition.equals(Consts.ADD_MY_LIST)) (activity as AddMyListActivity).stopAnimation()
         else (activity as JoinOtherListActivity).stopAnimation()
     }
 }

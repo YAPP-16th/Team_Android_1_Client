@@ -7,18 +7,22 @@ import com.eroom.domain.api.usecase.member.PutMemberProfileImagesUsecase
 import timber.log.Timber
 import java.io.File
 
-class ProfilePresenter(override var view: ProfileContract.View,
-                       private val getMemberProfileImages: GetMemberProfileImagesUseCase,
-                       private val putMemberProfileImages: PutMemberProfileImagesUsecase)
-    : ProfileContract.Presenter {
+class ProfilePresenter(
+    override var view: ProfileContract.View,
+    private val getMemberProfileImages: GetMemberProfileImagesUseCase,
+    private val putMemberProfileImages: PutMemberProfileImagesUsecase
+) : ProfileContract.Presenter {
 
     @SuppressLint("CheckResult")
     override fun getProfileImage() {
         getMemberProfileImages.getMemberProfileImages()
             .subscribe({
-                if(it.isNotEmpty()) { view.setProfileImage(it[it.size - 1]) }
-                else {  view.setProfileImage(null) }
-            },{
+                if (it.isNotEmpty()) {
+                    view.setProfileImage(it[it.size - 1])
+                } else {
+                    view.setProfileImage(null)
+                }
+            }, {
                 Timber.e(it.localizedMessage)
             })
     }
@@ -28,7 +32,7 @@ class ProfilePresenter(override var view: ProfileContract.View,
         putMemberProfileImages.putMemberProfileImages(File(string))
             .subscribe({
                 Timber.i("RESULT: ${Environment.getDataDirectory().toString() + string}")
-            },{
+            }, {
                 it.localizedMessage
             })
     }

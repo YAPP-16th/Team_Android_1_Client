@@ -25,7 +25,6 @@ class InactiveGoalPeriodFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_inactive_goal_pariod, container, false)
         setUpDataBinding(inflater, container)
         initView()
         return binding.root

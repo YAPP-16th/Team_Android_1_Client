@@ -12,13 +12,14 @@ import io.reactivex.disposables.CompositeDisposable
 import retrofit2.HttpException
 import timber.log.Timber
 
-class OngoingGoalPresenter(override var view: OngoingGoalContract.View,
-                           private val getGoalDetailUseCase: GetGoalDetailUseCase,
-                           private val getTodoListUseCase: GetTodoListUseCase,
-                           private val putTodoEditUseCase: PutTodoEditUseCase,
-                           private val putGoalIsAbandonedUseCase: PutGoalIsAbandonedUseCase,
-                           private val getGoalInfoByGoalIdUseCase: GetGoalInfoByGoalIdUseCase
-): OngoingGoalContract.Presenter {
+class OngoingGoalPresenter(
+    override var view: OngoingGoalContract.View,
+    private val getGoalDetailUseCase: GetGoalDetailUseCase,
+    private val getTodoListUseCase: GetTodoListUseCase,
+    private val putTodoEditUseCase: PutTodoEditUseCase,
+    private val putGoalIsAbandonedUseCase: PutGoalIsAbandonedUseCase,
+    private val getGoalInfoByGoalIdUseCase: GetGoalInfoByGoalIdUseCase
+) : OngoingGoalContract.Presenter {
 
     val compositeDisposable = CompositeDisposable()
 
@@ -27,7 +28,7 @@ class OngoingGoalPresenter(override var view: OngoingGoalContract.View,
         getGoalDetailUseCase.getGoalDetail(goalId)
             .subscribe({
                 view.setGoalData(it)
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
                 view.stopAnimation()
             })
@@ -38,7 +39,7 @@ class OngoingGoalPresenter(override var view: OngoingGoalContract.View,
         getTodoListUseCase.getUserTodoList(uid, goalId)
             .subscribe({
                 view.setTodoList(it.content)
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
             })
     }
@@ -48,7 +49,7 @@ class OngoingGoalPresenter(override var view: OngoingGoalContract.View,
         putTodoEditUseCase.putTodoEdit(todoId, boolean)
             .subscribe({
                 view.reRequestTodoList()
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
                 view.reRequestTodoList()
             })
@@ -75,7 +76,7 @@ class OngoingGoalPresenter(override var view: OngoingGoalContract.View,
                 } ?: run {
                     view.settingEditButton(false)
                 }
-            },{
+            }, {
                 Timber.e(it.localizedMessage)
                 handleError(it)
             })

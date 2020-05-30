@@ -9,17 +9,13 @@ interface AddMyListContract {
 
     interface Presenter {
         val view: View
-
         fun addMyGoal(
             goalId: Long?,
             ownerUid: String?,
             endDt: String,
             todoList: ArrayList<String>
         )
-
         fun reparticipateToMyEndedGoal(goalId: Long, endDt: String)
-
         fun onCleared()
-
     }
 }

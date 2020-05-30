@@ -1,9 +1,7 @@
 package com.eroom.erooja.feature.editgoal
 
 import android.os.Bundle
-
 import android.view.KeyEvent
-
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -16,9 +14,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.eroom.domain.utils.toastShort
-import com.eroom.erooja.R
 import com.eroom.erooja.databinding.FragmentAddTodoListBinding
-
 
 class AddListFragment : Fragment(), TextView.OnEditorActionListener {
     lateinit var addTodoBinding: FragmentAddTodoListBinding

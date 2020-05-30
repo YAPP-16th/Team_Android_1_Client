@@ -58,8 +58,8 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
 
     //직무 직군 object 에 다 가져오는 함수임
     override fun updateJobGroupAndClass(result: List<JobGroupAndClassResponse>) {
-        for (i in result){
-            for (j in i.jobInterests){
+        for (i in result) {
+            for (j in i.jobInterests) {
                 JobClassHashMap.hashmap[j.id] = j.name
             }
         }

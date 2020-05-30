@@ -12,7 +12,6 @@ import com.eroom.data.entity.Member
 import com.eroom.domain.globalconst.Consts
 import com.eroom.erooja.R
 import com.eroom.erooja.databinding.ActivityParticipantsListBinding
-import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
 import com.eroom.erooja.feature.othersPage.OthersPageActivity
 import org.koin.android.ext.android.get
 
@@ -55,7 +54,12 @@ class ParticipantsListActivity : AppCompatActivity(), ParticipantsListContract.V
     override fun updateList(list: ArrayList<Member>, totalElement: Int) {
         mContentList.addAll(list)
         if (mPage == 0) {
-            mAdapter = ParticipantListAdapter(presenter.mParticipantDiffCallback, mContentList, uId, memberItemClicked)
+            mAdapter = ParticipantListAdapter(
+                presenter.mParticipantDiffCallback,
+                mContentList,
+                uId,
+                memberItemClicked
+            )
             particiBinding.profileRecycler.adapter = mAdapter
             particiBinding.profileRecycler.layoutManager = LinearLayoutManager(this)
         } else {
@@ -67,17 +71,18 @@ class ParticipantsListActivity : AppCompatActivity(), ParticipantsListContract.V
         mPage += 1
     }
 
-    val recyclerViewScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-            if (dy >= 0 && mContentSize > 0) {
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                if (layoutManager.findLastCompletelyVisibleItemPosition() == mContentSize - 1 && !isEnd) {
-                    presenter.getParticipantedList(goalId, mPage)
+    val recyclerViewScrollListener: RecyclerView.OnScrollListener =
+        object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy >= 0 && mContentSize > 0) {
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() == mContentSize - 1 && !isEnd) {
+                        presenter.getParticipantedList(goalId, mPage)
+                    }
                 }
             }
         }
-    }
 
     fun backButtonClicked() = finish()
 
@@ -92,13 +97,12 @@ class ParticipantsListActivity : AppCompatActivity(), ParticipantsListContract.V
 
     private val memberItemClicked = { member: Member ->
         startActivity(Intent(this@ParticipantsListActivity, OthersPageActivity::class.java).apply {
-          //  val jobInterestList: ArrayList<String> = ArrayList()
+            //  val jobInterestList: ArrayList<String> = ArrayList()
             putExtra(Consts.UID, member.uid)
             putExtra(Consts.NICKNAME, member.nickname)
             putExtra(Consts.IMAGE_PATH, member.imagePath)
-        } )
+        })
     }
-
 
 
     fun startBlockAnimation() {

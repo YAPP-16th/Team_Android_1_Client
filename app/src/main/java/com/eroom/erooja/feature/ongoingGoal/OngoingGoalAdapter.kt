@@ -10,11 +10,15 @@ import com.eroom.data.entity.MinimalTodoListDetail
 import com.eroom.erooja.R
 import kotlinx.android.synthetic.main.item_ongoing_goal_list.view.*
 
-class OngoingGoalAdapter(val todoList: ArrayList<MinimalTodoListDetail>, private val saveAnimate: (Boolean, Long) -> Unit):
+class OngoingGoalAdapter(
+    val todoList: ArrayList<MinimalTodoListDetail>,
+    private val saveAnimate: (Boolean, Long) -> Unit
+) :
     RecyclerView.Adapter<Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_ongoing_goal_list, parent, false)
+        val inflatedView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_ongoing_goal_list, parent, false)
         return Holder(inflatedView)
 
     }
@@ -22,12 +26,22 @@ class OngoingGoalAdapter(val todoList: ArrayList<MinimalTodoListDetail>, private
     override fun getItemCount(): Int = todoList.size
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(todoList[position].content, todoList[position].isEnd, saveAnimate, todoList[position].id)
+        holder.bind(
+            todoList[position].content,
+            todoList[position].isEnd,
+            saveAnimate,
+            todoList[position].id
+        )
     }
 }
 
-class Holder(itemView: View) : RecyclerView.ViewHolder(itemView){
-    fun bind(contentText: String, isEnd: Boolean, saveAnimate: (Boolean, Long) -> Unit, todoId: Long) {
+class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    fun bind(
+        contentText: String,
+        isEnd: Boolean,
+        saveAnimate: (Boolean, Long) -> Unit,
+        todoId: Long
+    ) {
         itemView.ongoing_detail_checkbox.text = contentText
         itemView.ongoing_detail_checkbox.apply {
             isChecked = isEnd

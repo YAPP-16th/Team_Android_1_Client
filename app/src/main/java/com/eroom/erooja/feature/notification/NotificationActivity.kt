@@ -66,7 +66,8 @@ class NotificationActivity : AppCompatActivity(), NotificationContract.View {
         mPage += 1
         binding.alarmRecycler.visibility = View.VISIBLE
         if (!::mAdapter.isInitialized) {
-            mAdapter = NotificationAdapter(presenter.mAlarmDiffCallback, contentList, this, gotoAlarm)
+            mAdapter =
+                NotificationAdapter(presenter.mAlarmDiffCallback, contentList, this, gotoAlarm)
             binding.alarmRecycler.apply {
                 adapter = mAdapter
                 layoutManager = LinearLayoutManager(this@NotificationActivity)
@@ -93,17 +94,18 @@ class NotificationActivity : AppCompatActivity(), NotificationContract.View {
         isEnd = true
     }
 
-    val recyclerViewScrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-            if (dy >= 0 && contentList.size > 0) {
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                if (layoutManager.findLastCompletelyVisibleItemPosition() == contentList.size - 1 && !isEnd) {
-                    presenter.requestAlarms(mPage)
+    val recyclerViewScrollListener: RecyclerView.OnScrollListener =
+        object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy >= 0 && contentList.size > 0) {
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() == contentList.size - 1 && !isEnd) {
+                        presenter.requestAlarms(mPage)
+                    }
                 }
             }
         }
-    }
 
     private val gotoAlarm = { alarmId: Long, goalId: Long?, position: Int ->
         if (goalId != null) {
@@ -115,8 +117,7 @@ class NotificationActivity : AppCompatActivity(), NotificationContract.View {
             })
             mAdapter.submitList(contentList)
             mAdapter.notifyItemChanged(position)
-        }
-        else this.toastShort("알 수 없는 에러입니다")
+        } else this.toastShort("알 수 없는 에러입니다")
     }
 
     fun startBlockAnimation() {

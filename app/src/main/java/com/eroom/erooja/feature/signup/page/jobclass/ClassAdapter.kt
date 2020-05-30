@@ -13,9 +13,10 @@ class ClassAdapter(
     val context: Context,
     private val clicked: (Long, Boolean) -> Unit,
     private val selectedList: ArrayList<Long>
-): RecyclerView.Adapter<ClassViewHolder>() {
+) : RecyclerView.Adapter<ClassViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClassViewHolder {
-        val binding = ItemJobClassButtonBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemJobClassButtonBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ClassViewHolder(
             binding,
             context,
@@ -31,7 +32,11 @@ class ClassAdapter(
     }
 }
 
-class ClassViewHolder(val binding: ItemJobClassButtonBinding, val context: Context, private val selectedList: ArrayList<Long>): RecyclerView.ViewHolder(binding.root) {
+class ClassViewHolder(
+    val binding: ItemJobClassButtonBinding,
+    val context: Context,
+    private val selectedList: ArrayList<Long>
+) : RecyclerView.ViewHolder(binding.root) {
     fun bind(id: Long, title: String, clicked: (Long, Boolean) -> Unit) {
         binding.classTitle.text = title
 
@@ -41,8 +46,9 @@ class ClassViewHolder(val binding: ItemJobClassButtonBinding, val context: Conte
             if (selectedId == id) isSelected = true
         }
 
-        binding.itemClassBorder.background = if (isSelected) context.getDrawable(R.drawable.border_active_job_class)
-        else context.getDrawable(R.drawable.border_inactive_job_class)
+        binding.itemClassBorder.background =
+            if (isSelected) context.getDrawable(R.drawable.border_active_job_class)
+            else context.getDrawable(R.drawable.border_inactive_job_class)
 
         if (isSelected)
             binding.classTitle.setTextColor(context.resources.getColor(R.color.orgDefault, null))

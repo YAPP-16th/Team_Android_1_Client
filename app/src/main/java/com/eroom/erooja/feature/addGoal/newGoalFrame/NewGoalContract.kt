@@ -1,7 +1,5 @@
 package com.eroom.erooja.feature.addGoal.newGoalFrame
 
-import com.eroom.data.entity.TodoList
-
 interface NewGoalContract {
     interface View {
         fun redirectNewGoalFinish(resultId: Long)
@@ -19,6 +17,7 @@ interface NewGoalContract {
             interestIdList: ArrayList<Long>,
             todoList: ArrayList<String>
         )
+
         fun onCleared()
     }
 }
