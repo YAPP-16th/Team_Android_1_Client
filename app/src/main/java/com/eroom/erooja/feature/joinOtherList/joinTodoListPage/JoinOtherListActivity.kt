@@ -332,6 +332,7 @@ class JoinOtherListActivity : AppCompatActivity(), JoinOtherListContract.View {
         intent.putExtra(Consts.ADD_NEW_GOAL_RESULT_ID, resultId)
         intent.putExtra(Consts.UID, UserInfo.myUId)
         startActivity(intent)
+        finishActivity(Consts.MY_GOAL_REJOIN_REQUEST)
         finish()
     }
 

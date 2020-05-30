@@ -91,21 +91,23 @@ class MyPageFragment : Fragment(), MyPageContract.View {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when(tab?.position) {
                     0 -> {
+                        myPageBinding.thereAreNoEndedGoals.visibility = View.GONE
+                        myPageBinding.myParticipatedEndedRecyclerview.visibility = View.GONE
+                        myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.VISIBLE
                         if(isOnGoingGoalListEmpty) {
                             myPageBinding.thereAreNoOngoingGoals.visibility = View.VISIBLE
-                        }
-                        myPageBinding.thereAreNoEndedGoals.visibility = View.GONE
-                        myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.VISIBLE
-                        myPageBinding.myParticipatedEndedRecyclerview.visibility = View.GONE
+                            myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.GONE
 
+                        }
                     }
                     1 -> {
-                        if(isEndedGoalListEmpty) {
-                            myPageBinding.thereAreNoEndedGoals.visibility = View.VISIBLE
-                        }
                         myPageBinding.thereAreNoOngoingGoals.visibility = View.GONE
                         myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.GONE
                         myPageBinding.myParticipatedEndedRecyclerview.visibility = View.VISIBLE
+                        if(isEndedGoalListEmpty) {
+                            myPageBinding.thereAreNoEndedGoals.visibility = View.VISIBLE
+                            myPageBinding.myParticipatedEndedRecyclerview.visibility = View.GONE
+                        }
                     }
                 }
             }
@@ -129,10 +131,17 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         endedGoalContentSize = 0
         endedGoalIsEnd = false
 
+        var a = myPageBinding.myPageTabLayout.selectedTabPosition
+
+
         if (uId != "") {
             presenter.getOngoingGoalList(uId, ongoingGoalPage)
             presenter.getEndedGoalList(uId, endedGoalPage)
         }
+        if(myPageBinding.myPageTabLayout.selectedTabPosition == 1) {
+            myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.GONE
+        }
+
     }
 
     override fun setNickname(nickname: String) {
@@ -158,10 +167,13 @@ class MyPageFragment : Fragment(), MyPageContract.View {
         if(totalElements == 0) {
             isOnGoingGoalListEmpty = true
             myPageBinding.thereAreNoOngoingGoals.visibility = View.VISIBLE
+            myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.GONE
         }
         else {
             isOnGoingGoalListEmpty = false
             myPageBinding.thereAreNoOngoingGoals.visibility = View.GONE
+            if(myPageBinding.myPageTabLayout.selectedTabPosition == 0)
+                myPageBinding.myParticipatedOngoingRecyclerview.visibility = View.VISIBLE
         }
         myPageBinding.myPageTabLayout.getTabAt(0)?.text = "참여중(${totalElements})"
     }

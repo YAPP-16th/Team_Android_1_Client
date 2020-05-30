@@ -202,7 +202,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
                 }
                 3 -> { // 목표 그만두기
                     startActivityForResult(Intent(this, EroojaDialogActivity::class.java).apply {
-                        putExtra(Consts.DIALOG_TITLE, "목표를 던지시겠습니까?")
+                        putExtra(Consts.DIALOG_TITLE, "")
                         putExtra(Consts.DIALOG_CONTENT, "그만둔 목표는 참여중인 목표에서 사라집니다. 정말 그만두시겠어요?")
                         putExtra(Consts.DIALOG_CONFIRM, true)
                         putExtra(Consts.DIALOG_CANCEL, true)

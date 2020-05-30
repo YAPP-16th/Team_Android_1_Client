@@ -72,5 +72,7 @@ class Consts {
         const val JOIN_OTHER_LIST = "JOIN_OTHER_LIST"
 
         const val INTERESTED_JOB_CLASS = "INTERESTED_JOB_CLASS"
+
+        const val IS_EXISTED_IN_MY_PAGE = "IS_EXISTED_IN_MY_PAGE"
     }
 }
