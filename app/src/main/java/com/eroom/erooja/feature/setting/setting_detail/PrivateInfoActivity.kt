@@ -23,7 +23,7 @@ class PrivateInfoActivity : AppCompatActivity() {
 
     private fun setUpDataBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_private_info)
-        binding.licence = this@PrivateInfoActivity
+        binding.privateInfo = this@PrivateInfoActivity
     }
 
     private fun initView() {
