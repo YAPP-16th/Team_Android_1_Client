@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableField
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eroom.data.entity.GoalType
@@ -25,7 +26,10 @@ import com.eroom.erooja.feature.goalDetail.GoalDetailActivity
 import com.eroom.erooja.feature.joinOtherList.joinTodoListPage.JoinOtherListActivity
 import com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity
 import com.eroom.erooja.singleton.UserInfo
+import kotlinx.android.synthetic.main.include_completed_goal_desc.view.*
 import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.*
+import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.goal_desc
+import kotlinx.android.synthetic.main.include_ongoing_goal_desc.view.keyword_txt
 import org.koin.android.ext.android.get
 import ru.rhanza.constraintexpandablelayout.State
 
@@ -46,6 +50,7 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
     private var mLastClickTime: Long = 0
 
     private lateinit var userTodoList: ArrayList<String>
+    var onlyOneLine: ObservableField<Boolean> = ObservableField(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,9 +88,16 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
         binding.goalNameTxt.text = goalData.title
         binding.include.text.text = goalData.description
 
-        binding.goalDescLayout.goal_desc.apply {
-            showButton = false
-            showShadow = false
+        if(goalData.description.isEmpty()){
+            binding.goalDescLayout.goal_desc.invalidateState(State.Statical)
+            binding.moreBtn.visibility = View.INVISIBLE
+            updateView()
+        }
+        else {
+            binding.include.text.post{
+                binding.include.goalDesc.collapsedHeight = binding.include.text.height
+                binding.include.text.maxLines = Int.MAX_VALUE
+            }
         }
 
         binding.goalDescLayout.keyword_txt.text =
@@ -93,7 +105,11 @@ class OthersOngoingGoalActivity : AppCompatActivity(), OthersOngoingGoalContract
                 if (index == goalData.jobInterests.size - 1) goalType.name else goalType.name add ", "
             }.toList().join()
 
-        //initBottomSheet()
+        binding.include.goneKeywordTxt.text = binding.include.keywordTxt.text
+    }
+
+    private fun updateView() {
+        onlyOneLine.set(true)
     }
 
     @SuppressLint("SetTextI18n")

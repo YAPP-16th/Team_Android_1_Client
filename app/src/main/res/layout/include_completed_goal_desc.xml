@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:text="@string/temp_txt"
             android:paddingBottom="15dp"
+            android:layout_marginTop="8dp"
             android:lineSpacingExtra="8sp"
             android:visibility="@{goalDetail.onlyOneLine ? view.VISIBLE : view.GONE }"
             app:layout_constraintStart_toStartOf="@+id/gone_related_job_interest"
@@ -74,6 +75,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/related_job_interest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"

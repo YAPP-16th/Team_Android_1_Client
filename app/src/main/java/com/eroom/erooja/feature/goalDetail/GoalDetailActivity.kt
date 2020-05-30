@@ -29,7 +29,6 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     lateinit var presenter: GoalDetailPresenter
 
     var description: ObservableField<String> = ObservableField("")
-  //  var jobClass: ObservableField<String> = ObservableField("")
     lateinit var userTodoList : ArrayList<String>
     private var userUid = ""
     private var goalId: Long = -1

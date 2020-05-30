@@ -33,7 +33,7 @@
             android:layout_marginTop="11dp"
             android:textStyle="bold"
             android:textColor="@color/grey7"
-            android:textSize="18sp"
+            android:textSize="21sp"
             app:layout_constraintStart_toEndOf="@+id/closeButton"
             app:layout_constraintTop_toTopOf="parent"
             android:text="@string/filter_text" />
