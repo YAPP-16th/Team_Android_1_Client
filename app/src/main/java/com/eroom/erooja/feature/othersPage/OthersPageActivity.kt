@@ -58,7 +58,7 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
     }
 
     private fun initPresenter() {
-        presenter = OthersPagePresenter(this, get())
+        presenter = OthersPagePresenter(this, get(), get())
     }
 
     private fun setUpDataBinding() {
@@ -73,10 +73,7 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
         saveUid(intent.getStringExtra(Consts.UID) ?: "")
         setNickname(intent.getStringExtra(Consts.NICKNAME) ?: "anonymous")
         othersPageBinding.profileImage.loadUrl(intent.getStringExtra(Consts.IMAGE_PATH))
-
-        mClassList = intent.getStringArrayListExtra(Consts.JOB_INTEREST) ?: ArrayList()
-        setJobInterestInfo(mClassList)
-        //val othersJobInterestedList: ArrayList<JobClass>//타계정의 관심직무&직군
+        presenter.getOthersJobInterest(uId)
 
         othersPageBinding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) {}
@@ -108,6 +105,10 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
         })
     }
 
+    override fun setOthersJobInterest(jobInterest: ArrayList<String>) {
+        setJobInterestInfo(jobInterest)
+    }
+
     override fun saveUid(uid: String) {
         uId = uid
     }
@@ -134,23 +135,6 @@ class OthersPageActivity : AppCompatActivity(), OthersPageContract.View {
     override fun setNickname(nickname: String) {
         nicknameText.set("$nickname 님")
     }
-
-/*    override fun setJobInterestInfo(classList: ArrayList<JobClass>) {
-        mClassList = classList
-        if (classList.size <= 4) {
-            othersPageBinding.jobClassRecycler.adapter =
-                MyPageJobClassAdapter(classList, expandButtonClicked, false)
-        } else {
-            val classListLimitedFour = ArrayList<JobClass>()
-            for ((index, jobClass) in classList.withIndex()) {
-                if (index >= 4)
-                    break
-                classListLimitedFour.add(jobClass)
-            }
-            othersPageBinding.jobClassRecycler.adapter =
-                MyPageJobClassAdapter(classListLimitedFour, expandButtonClicked, true)
-        }
-    }*/
 
     override fun setJobInterestInfo(jobInterestList: ArrayList<String>) {
         if(jobInterestList.size <= 4) {

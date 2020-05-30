@@ -65,7 +65,7 @@ class GoalDetailAdapter(callback: DiffUtil.ItemCallback<MinimalTodoListContent>,
 
         }
 
-        holder.item.setOnClickListener { click(TodoList[position].uid, TodoList[position].nickName add " 님의 리스트" ) }
+        holder.item.setOnClickListener { click(TodoList[position].uid, TodoList[position].nickName ) }
         holder.goalBtn.setOnClickListener { joinTodoList(TodoList[position].uid) }
 }
 

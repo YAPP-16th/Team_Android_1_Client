@@ -92,31 +92,14 @@ class ParticipantsListActivity : AppCompatActivity(), ParticipantsListContract.V
 
     private val memberItemClicked = { member: Member ->
         startActivity(Intent(this@ParticipantsListActivity, OthersPageActivity::class.java).apply {
-            val jobInterestList: ArrayList<String> = ArrayList()
+          //  val jobInterestList: ArrayList<String> = ArrayList()
             putExtra(Consts.UID, member.uid)
             putExtra(Consts.NICKNAME, member.nickname)
             putExtra(Consts.IMAGE_PATH, member.imagePath)
-            member.jobInterests.map {
-                jobInterestList.add(it.name)
-            }
-            putStringArrayListExtra(Consts.JOB_INTEREST, jobInterestList)
-            //putParcelableArrayListExtra(Consts.JOB, member.jobInterests)
         } )
     }
 
-//    putParcelableArrayList(Consts.BOTTOM_SHEET_KEY, arrayListOf(
-//    BottomSheetInfo("다른 참여자 리스트 둘러보기", BottomSheetColor.DEFAULT),
-//    BottomSheetInfo("참여자 목록($count)", BottomSheetColor.DEFAULT),
-//    BottomSheetInfo("리스트 수정하기", BottomSheetColor.DEFAULT),
-//    BottomSheetInfo("목표 그만두기", BottomSheetColor.RED)
-//    ))
 
-//    data class Member(
-//        @JsonProperty("uid") var uid: String,
-//        @JsonProperty("nickname") var nickname: String,
-//        @JsonProperty("imagePath") var imagePath: String?,
-//        @JsonProperty("jobInterests") var jobInterests: ArrayList<JobInterest>
-//    )
 
     fun startBlockAnimation() {
         particiBinding.colorLoading.visibility = View.GONE

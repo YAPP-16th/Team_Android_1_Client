@@ -70,7 +70,7 @@ class OtherListActivity : AppCompatActivity(),
         presenter.getData(userUid, goalId)
         presenter.getProfileImage(userUid)
         //memberNickName = intent.getStringExtra(Consts.NAME)
-        binding.usernameList.text = intent.getStringExtra(Consts.NAME)
+        binding.usernameList.text = intent.getStringExtra(Consts.NAME) add " 님의 리스트"
         binding.goalDateTxt.text = intent.getStringExtra(Consts.DATE)
 
         statusBarColor(this@OtherListActivity, R.color.subLight3)

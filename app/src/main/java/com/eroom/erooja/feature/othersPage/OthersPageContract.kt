@@ -18,6 +18,7 @@ interface OthersPageContract {
         fun setEndedGoalListSizeOnTabLayout(totalElements: Int)
         fun startAnimation()
         fun stopAnimation()
+        fun setOthersJobInterest(jobInterest: ArrayList<String>)
     }
 
     interface Presenter {
@@ -26,5 +27,6 @@ interface OthersPageContract {
         fun onCleared()
         fun getOngoingGoalList(uid: String, page: Int)
         fun getEndedGoalList(uid: String, page: Int)
+        fun getOthersJobInterest(uid: String)
     }
 }
