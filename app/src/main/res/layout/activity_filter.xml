@@ -30,13 +30,13 @@
             android:id="@+id/filterText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
-            android:textStyle="bold"
+            android:text="@string/filter_text"
             android:textColor="@color/grey7"
             android:textSize="21sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/closeButton"
             app:layout_constraintStart_toEndOf="@+id/closeButton"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/filter_text" />
+            app:layout_constraintTop_toTopOf="@+id/closeButton" />
 
 
         <ImageButton
