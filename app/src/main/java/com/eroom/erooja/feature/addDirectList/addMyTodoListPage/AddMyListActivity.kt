@@ -241,7 +241,7 @@ class AddMyListActivity : AppCompatActivity(),
     }
 
     private fun showAlert() {
-            //해당 리스트에 참여하기를 그만두시겠어요?
+            //해당 리스트 추가를 그만두시겠어요?
             startActivityForResult(
                 Intent(
                     this,
@@ -250,7 +250,7 @@ class AddMyListActivity : AppCompatActivity(),
                     putExtra(Consts.DIALOG_TITLE, "")
                     putExtra(
                         Consts.DIALOG_CONTENT,
-                        "해당 리스트에 참여하기를 그만두시겠어요?"
+                        "해당 리스트 추가를 그만두시겠어요?"
                     )
                     putExtra(Consts.DIALOG_CONFIRM, true)
                     putExtra(Consts.DIALOG_CANCEL, true)
