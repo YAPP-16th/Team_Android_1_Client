@@ -40,6 +40,12 @@ https://github.com/airbnb/lottie-android
 
 
 
-jackson
+ExpandableLayout
 
-https://github.com/FasterXML/jackson
+https://github.com/josinSbazin/android_ExpandableLayout
+
+
+
+
+
+
