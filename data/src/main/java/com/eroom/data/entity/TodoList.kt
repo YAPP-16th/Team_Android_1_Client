@@ -1,8 +1,8 @@
 package com.eroom.data.entity
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class TodoList(
-    @JsonProperty("content") var content: String,
-    @JsonProperty("priority") var priority: Long
+    @SerializedName("content") var content: String,
+    @SerializedName("priority") var priority: Long
 )

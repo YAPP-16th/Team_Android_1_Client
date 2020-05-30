@@ -1,9 +1,9 @@
 package com.eroom.data.response
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class TokenResponse(
-    @JsonProperty("token") var token: String,
-    @JsonProperty("refreshToken") var refreshToken: String,
-    @JsonProperty("isAdditionalInfoNeeded") var isAdditionalInfoNeeded: Boolean
+    @SerializedName("token") var token: String,
+    @SerializedName("refreshToken") var refreshToken: String,
+    @SerializedName("isAdditionalInfoNeeded") var isAdditionalInfoNeeded: Boolean
 )

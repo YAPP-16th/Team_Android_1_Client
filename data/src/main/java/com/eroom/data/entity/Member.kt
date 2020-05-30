@@ -1,11 +1,11 @@
 package com.eroom.data.entity
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class Member(
-    @JsonProperty("uid") var uid: String,
-    @JsonProperty("role") var role: String,
-    @JsonProperty("nickname") var nickname: String,
-    @JsonProperty("imagePath") var imagePath: String?,
-    @JsonProperty("jobInterests") var jobInterests: ArrayList<JobInterest>
+    @SerializedName("uid") var uid: String,
+    @SerializedName("role") var role: String,
+    @SerializedName("nickname") var nickname: String,
+    @SerializedName("imagePath") var imagePath: String?,
+    @SerializedName("jobInterests") var jobInterests: ArrayList<JobInterest>
 )

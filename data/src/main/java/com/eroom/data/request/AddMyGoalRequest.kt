@@ -1,11 +1,11 @@
 package com.eroom.data.request
 
 import com.eroom.data.entity.TodoList
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class AddMyGoalRequest(
-    @JsonProperty("goalId") var goalId: Long?,
-    @JsonProperty("ownerUid") var ownerUid: String?,
-    @JsonProperty("endDt") var endDt: String,
-    @JsonProperty("todoList") var todoList: ArrayList<TodoList>
+    @SerializedName("goalId") var goalId: Long?,
+    @SerializedName("ownerUid") var ownerUid: String?,
+    @SerializedName("endDt") var endDt: String,
+    @SerializedName("todoList") var todoList: ArrayList<TodoList>
 )

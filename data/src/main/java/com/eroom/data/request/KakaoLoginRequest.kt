@@ -1,7 +1,7 @@
 package com.eroom.data.request
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class KakaoLoginRequest(
-    @JsonProperty("kakaoId") var kakaoId: String
+    @SerializedName("kakaoId") var kakaoId: String
 )

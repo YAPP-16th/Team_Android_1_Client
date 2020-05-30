@@ -1,12 +1,12 @@
 package com.eroom.data.response
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class TodoResponse(
-    @JsonProperty("createDt") var createDt: String,
-    @JsonProperty("updateDt") var updateDt: String,
-    @JsonProperty("id") var todoId: Long,
-    @JsonProperty("content") var content: String,
-    @JsonProperty("isEnd") var isEnd: Boolean,
-    @JsonProperty("priority") var priority: Int
+    @SerializedName("createDt") var createDt: String,
+    @SerializedName("updateDt") var updateDt: String,
+    @SerializedName("id") var todoId: Long,
+    @SerializedName("content") var content: String,
+    @SerializedName("isEnd") var isEnd: Boolean,
+    @SerializedName("priority") var priority: Int
 )

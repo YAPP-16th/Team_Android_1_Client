@@ -1,8 +1,8 @@
 package com.eroom.data.request
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 class GoalReParticipateRequest (
-    @JsonProperty("changedIsEnd") var changedIsEnd : Boolean,
-    @JsonProperty("endDt") var endDt: String
+    @SerializedName("changedIsEnd") var changedIsEnd : Boolean,
+    @SerializedName("endDt") var endDt: String
 )

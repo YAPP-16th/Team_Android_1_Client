@@ -1,7 +1,7 @@
 package com.eroom.data.request
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class UIdRequest(
-    @JsonProperty("uid") var uid: String
+    @SerializedName("uid") var uid: String
 )

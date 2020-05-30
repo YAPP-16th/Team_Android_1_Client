@@ -1,10 +1,10 @@
 package com.eroom.data.response
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class UserInfoResponse(
-    @JsonProperty("uid") var uid: String,
-    @JsonProperty("nickname") var nickname: String,
-    @JsonProperty("imagePath") var imagePath: String?,
-    @JsonProperty("jobInterests") var jobInterests: ArrayList<JobClassResponse>
+    @SerializedName("uid") var uid: String,
+    @SerializedName("nickname") var nickname: String,
+    @SerializedName("imagePath") var imagePath: String?,
+    @SerializedName("jobInterests") var jobInterests: ArrayList<JobClassResponse>
 )

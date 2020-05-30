@@ -1,9 +1,9 @@
 package com.eroom.data.entity
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class GoalType(
-    @JsonProperty("id") var id: Long,
-    @JsonProperty("name") var name: String,
-    @JsonProperty("jobInterestType") var jobInterestType: String
+    @SerializedName("id") var id: Long,
+    @SerializedName("name") var name: String,
+    @SerializedName("jobInterestType") var jobInterestType: String
 )

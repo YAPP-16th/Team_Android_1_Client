@@ -1,7 +1,7 @@
 package com.eroom.data.request
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class NicknameRequest(
-    @JsonProperty("nickname") var nickname: String
+    @SerializedName("nickname") var nickname: String
 )
