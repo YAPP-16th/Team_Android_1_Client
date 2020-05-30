@@ -57,10 +57,10 @@
     <string name="endDate">종료</string>
     <string name="period">기간</string>
     <string name="isPeriodModifiable">수정 가능</string>
-    <string name="changeable_text">추후 기간 설정이 가능한 목표인가요?</string>
+    <string name="changeable_text">다른 참여자가 자신의 목표 기간을 자유롭게 설정할 수 있나요?</string>
     <string name="end_date_content"><u>YYYY년 MM월 DD일</u></string>
-    <string name="changeable">설정 가능</string>
-    <string name="unchangeable">설정 불가능</string>
+    <string name="changeable">네</string>
+    <string name="unchangeable">아니오</string>
     <string name="goal_item_hint">리스트의 내용을 입력해주세요.</string>
     <string name="goal_list_title">목표 기간 내 달성할 리스트를\n만들어보세요.</string>
     <string name="goal_title_warning">목표명을 5자 이상 입력해주세요</string>
@@ -107,6 +107,7 @@
     <string name="no_notification_text">알림이 존재하지 않습니다.</string>
     <string name="end_goal_noti_text">목표가 종료되었습니다.</string>
     <string name="pull_to_refresh_text">서버 네트워크가 원활하지 않습니다.\n아래로 당겨 새로고침 해주세요.</string>
+    <string name="add_goal_period_notification">한번 설정한 기간은 수정이 불가능합니다.</string>
 
 
 </resources>

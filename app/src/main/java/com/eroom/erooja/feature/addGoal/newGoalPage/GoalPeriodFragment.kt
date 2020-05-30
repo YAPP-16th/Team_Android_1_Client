@@ -24,8 +24,6 @@ import java.util.*
 
 class GoalPeriodFragment : Fragment() {
     private lateinit var goalPeriodBinding: FragmentGoalPeriodBinding
-    //    val startDate: MutableLiveData<String> = MutableLiveData()
-//    val endDate: MutableLiveData<String> = MutableLiveData()
     var isChangeable: MutableLiveData<Boolean> = MutableLiveData(true) //초기값 : 수정가능
 
     //val

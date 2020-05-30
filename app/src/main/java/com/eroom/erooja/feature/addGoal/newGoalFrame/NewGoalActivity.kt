@@ -21,6 +21,7 @@ import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.ProgressBarAnimation
 import com.eroom.domain.utils.toLocalDateFormat
 import com.eroom.domain.utils.toastShort
+import com.eroom.erooja.dialog.EroojaDialogActivity
 import com.eroom.erooja.feature.addGoal.newGoalPage.*
 import com.eroom.erooja.feature.addGoal.newGoalPage.selectjob.SelectJobFragment
 import org.koin.android.ext.android.get
@@ -164,7 +165,7 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
         hideKeyBoard()
         mPage -= 1
         if (mPage < 0) {
-            finish()
+            showAlert()
             return
         }
         nextClickable.set(true)
@@ -200,6 +201,24 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
                 showFragment()
             }
         }
+    }
+
+    private fun showAlert() {
+        //새 목표 추가를 그만두시겠어요?
+        startActivityForResult(
+            Intent(
+                this,
+                EroojaDialogActivity::class.java
+            ).apply {
+                putExtra(Consts.DIALOG_TITLE, "")
+                putExtra(
+                    Consts.DIALOG_CONTENT,
+                    "새 목표 추가를 그만두시겠어요?"
+                )
+                putExtra(Consts.DIALOG_CONFIRM, true)
+                putExtra(Consts.DIALOG_CANCEL, true)
+            }, 1500
+        )
     }
 
     override fun redirectNewGoalFinish(resultId: Long) {
@@ -254,6 +273,15 @@ class NewGoalActivity : AppCompatActivity(), NewGoalContract.View {
                     val time = endDate.split("-")
                     (mFragmentList[3] as GoalPeriodFragment).setEndDate("${time[0]}년 ${time[1]}월 ${time[2]}일")
                     this.endDate = toLocalDateFormat(time[0], time[1], time[2])
+                }
+            }
+        } else if (requestCode == 1500 && resultCode == 6000) {
+            data?.let {
+                val result = it.getBooleanExtra(Consts.DIALOG_RESULT, false) //확인 or 취소
+                if (result) {
+                    finish()
+                } else {
+                    mPage = 0
                 }
             }
         }
