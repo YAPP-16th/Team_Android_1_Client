@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="fragment"
+            type="com.eroom.erooja.feature.signup.page.nickname.NicknameFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/nicknameInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/please_input_nickname"
+            android:textColor="@color/grey7"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.091" />
+
+        <EditText
+            android:id="@+id/nicknameText"
+            android:layout_width="220dp"
+            android:layout_height="55dp"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="@string/nickname_max_info"
+            android:maxLength="5"
+            android:background="@drawable/edit_text_bg_nickname"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nicknameInfo"
+            app:layout_constraintVertical_bias="0.087" />
+
+        <ImageView
+            android:id="@+id/nicknameDuplicatedCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/nicknameText"
+            app:layout_constraintEnd_toEndOf="@+id/nicknameText"
+            app:layout_constraintTop_toTopOf="@+id/nicknameText"
+            app:srcCompat="@drawable/ic_icon_check_btn_success_system" />
+
+        <ImageView
+            android:id="@+id/nicknameDuplicatedCheckError"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/nicknameText"
+            app:layout_constraintEnd_toEndOf="@+id/nicknameText"
+            app:layout_constraintTop_toTopOf="@+id/nicknameText"
+            app:srcCompat="@drawable/ic_icon_check_btn_error_system" />
+
+        <TextView
+            android:id="@+id/nicknameLengthError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/colorError"
+            android:textSize="12sp"
+            android:visibility="invisible"
+            android:text="@string/nickname_rule_info"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nicknameText" />
+
+        <TextView
+            android:id="@+id/nicknameDuplicatedTextError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/colorError"
+            android:textSize="12sp"
+            android:visibility="invisible"
+            android:text="@string/already_using_nickname"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nicknameText"/>
+
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> fragment.nextButtonClicked()}"
+            android:padding="16dp"
+            android:textSize="16sp"
+            android:text="@string/next"
+            android:textColor="@{fragment.nicknameCheck ? @color/colorWhite : @color/grey5}"
+            android:background="@{fragment.nicknameCheck ? @color/orgDefault : @color/grey2}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

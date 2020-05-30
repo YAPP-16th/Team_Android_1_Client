@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="activity"
+            type="com.eroom.erooja.feature.editgoal.EditGoalActivity" />
+        <import type="android.view.View"/>
+        <variable
+            name="view"
+            type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".feature.editgoal.EditGoalActivity">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> activity.onBackPressed()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_icon_navi_arrow_left" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/list_edit_text"
+            android:textColor="@color/grey8"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+            app:layout_constraintStart_toEndOf="@+id/imageView4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/plusImage"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_icon_navi_plus_normal" />
+
+            <ImageView
+                android:id="@+id/deleteImage"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_icon_navi_trash" />
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4"
+            app:layout_constraintBottom_toTopOf="@+id/edit_complete_button">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/editGoalRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/item_edit_goal"
+                    tools:itemCount="3"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/deleteGoalRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    tools:listitem="@layout/item_edit_goal"/>
+
+                <FrameLayout
+                    android:id="@+id/addTodoFrame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <Button
+            android:id="@+id/edit_complete_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@{activity.isButtonActive ? @color/orgDefault : @color/grey3}"
+            android:text="@{activity.isDeleteMode ? activity.deletingCount : @string/edit_complete_text}"
+            android:textColor="@{activity.isButtonActive ? @color/colorWhite : @color/grey5}"
+            android:textSize="16sp"
+            android:visibility="@{activity.isAddMode ? view.GONE : view.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.eroom.domain.customview.BlockView
+            android:id="@+id/blockView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="#80333333" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/whiteLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_fileName="loading.json"
+            app:lottie_loop="true" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/colorLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_fileName="loadingcolor.json"
+            app:lottie_loop="true" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

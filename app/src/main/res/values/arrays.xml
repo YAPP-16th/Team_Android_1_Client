@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="setting">
+        <item>알람 설정</item>
+        <item>닉네임 변경</item>
+        <item>관심 직무 변경</item>
+        <item>도움말</item>
+        <item>오픈소스 라이선스</item>
+        <item>이용약관</item>
+        <item>개인정보 처리방침</item>
+        <item>로그아웃</item>
+    </string-array>
+
+
+    <string-array name="help_question">
+        <item>Q1. 이루자는 어떤 서비스인가요?</item>
+    </string-array>
+
+    <string-array name="help_answer">
+        <item> 💁‍♀️ 이루자는 같은 직무를 꿈꾸는 사람들과 목표를 달성하는 과정을 공유하며 함께 나아갈 수 있는 서비스입니다.
+            다소 생소할 수 있는 IT 직무, 이루자와 함께라면 어렵지 않아요.
+            다양한 목표 내 리스트를 하나씩 달성해나간다면, 어느새 훌쩍 성장한 자신을 만나볼 수 있을 거랍니다! </item>
+    </string-array>
+
+</resources>

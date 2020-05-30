@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="search"
+            type="com.eroom.erooja.feature.search.search_main.SearchFragment" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintlayout1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/search_main_tablayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/search_goal"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="21sp"
+                    android:textStyle="bold" />
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> search.openSearchFilter()}"
+                    android:background="@drawable/ic_icon_navi_filter"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:onClick="@{search::searchClick}"
+                    android:background="@drawable/ic_icon_navi_magnifier"/>
+            </LinearLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/search_main_tablayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:tabMode="scrollable"
+                app:tabTextAppearance="@style/CustomTextAppearanceTab"
+                app:tabTextColor="@color/grey4"
+                app:tabSelectedTextColor="@color/orgDefault"
+                app:tabIndicatorColor="@color/orgDefault"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+            </com.google.android.material.tabs.TabLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/search_constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/search_main_tablayout"
+                app:layout_constraintVertical_bias="0.0">
+
+                <TextView
+                    android:id="@+id/no_content_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/no_content_text"
+                    android:textColor="@color/grey4"
+                    android:textSize="15sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/search_constraintLayout"
+                    app:layout_constraintEnd_toEndOf="@+id/search_constraintLayout"
+                    app:layout_constraintStart_toStartOf="@+id/search_constraintLayout"
+                    app:layout_constraintTop_toTopOf="@+id/search_constraintLayout" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/mainResultRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:scrollAdapter="@{search.recyclerViewScrollListener}"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_main_new_goal" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+</layout>

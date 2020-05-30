@@ -1,8 +1,14 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'com.google.gms.google-services'
+
+apply plugin: 'io.fabric'
+
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -12,24 +18,194 @@ android {
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-debug.pro'
+        }
+        release {
+            shrinkResources true
+            minifyEnabled true
+            debuggable true // debugging 허용 안함
+            zipAlignEnabled false  // apk 최적화
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    kapt {
+        generateStubs = true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    googleServices.disableVersionCheck = true
+
+    dexOptions {
+        jumboMode = true
+        javaMaxHeapSize "4g"
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+    // 이 옵션은 "3rd-party Gradle plug-ins may be the cause" 메시지를 유발함
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/kotlinx-coroutines-core.kotlin_module'
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    configurations {
+        all*.exclude group: 'com.google.guava', module: 'listenablefuture'
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation project(path: ':domain')
+    implementation project(path: ':data')
+    implementation project(path: ':calendar')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.0.2'
+    implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime:2.2.0'
+    //noinspection LifecycleAnnotationProcessorWithJava8
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0' // use kapt for Kotlin
+
+    // Support library
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
+
+    //rxjava
+    implementation "io.reactivex.rxjava2:rxjava:2.2.12"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    implementation "com.github.tbruyelle:rxpermissions:0.10.2"
+    implementation "com.f2prateek.rx.preferences2:rx-preferences:2.0.0"
+    implementation 'io.reactivex:rxandroid:1.2.1'
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.5.0"
+
+    // retrofit, okhttp
+    implementation "com.squareup.retrofit2:retrofit:2.6.1"
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
+    implementation "com.squareup.okhttp3:okhttp:3.12.1"
+    implementation 'com.squareup.retrofit2:converter-jackson:2.4.0'
+    implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
+
+    implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    implementation 'com.jakewharton.rxbinding:rxbinding-design:0.4.0'
+    // these are for retrolambda and streams api
+    implementation 'com.annimon:stream:1.1.2'
+
+    /*
+    //firebase
+    implementation "com.google.firebase:firebase-core:17.2.3"
+    implementation "com.google.firebase:firebase-auth:19.3.0"
+    implementation "com.google.firebase:firebase-crash:16.2.1"
+    implementation 'com.google.firebase:firebase-analytics:17.2.3'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta02'
+     */
+
+    // Koin for Kotlin
+    implementation "org.koin:koin-core:$koin_version"
+    // Koin extended & experimental features
+    implementation "org.koin:koin-core-ext:$koin_version"
+    // Koin for Unit tests
+    testImplementation "org.koin:koin-test:$koin_version"
+
+    // Koin for Android
+    implementation "org.koin:koin-android:$koin_version"
+    // Koin Android Scope features
+    implementation "org.koin:koin-android-scope:$koin_version"
+    // Koin Android ViewModel features
+    implementation "org.koin:koin-android-viewmodel:$koin_version"
+    // Koin Android Experimental features
+    implementation "org.koin:koin-android-ext:$koin_version"
+
+    // Koin AndroidX Scope features
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    // Koin AndroidX ViewModel features
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    // Koin AndroidX Fragment features
+    implementation "org.koin:koin-androidx-fragment:$koin_version"
+    // Koin AndroidX Experimental features
+    implementation "org.koin:koin-androidx-ext:$koin_version"
+
+    // Koin for Ktor Kotlin
+    implementation "org.koin:koin-ktor:$koin_version"
+
+    // etc
+    implementation "com.google.code.gson:gson:2.8.5"
+
+    // 3rd-party
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'android.arch.work:work-runtime-ktx:1.0.1'
+
+
+    //photoview
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
+
+    //lottie
+    implementation 'com.airbnb.android:lottie:3.3.1'
+
+    //expandableLayout
+    implementation 'com.github.josinSbazin:android_ExpandableLayout:0.8'
+
+    implementation 'com.github.rtoshiro.fullscreenvideoview:fullscreenvideoview:1.1.2'
+
+    implementation "com.google.android.exoplayer:exoplayer-core:2.9.3"
+    implementation "com.google.android.exoplayer:exoplayer-ui:2.9.3"
+
+
+    //facebook-shimmer
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    // 카카오 로그인 sdk를 사용하기 위해 필요.
+    implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.28.0'
+
+    // 카카오링크 sdk를 사용하기 위해 필요.
+    implementation group: 'com.kakao.sdk', name: 'kakaolink', version: '1.28.0'
+
+    // 카카오톡 sdk를 사용하기 위해 필요.
+    implementation group: 'com.kakao.sdk', name: 'kakaotalk', version: '1.28.0'
+
+    // 카카오내비 sdk를 사용하기 위해 필요.
+    implementation group: 'com.kakao.sdk', name: 'kakaonavi', version: '1.28.0'
+
+    // 카카오스토리 sdk를 사용하기 위해 필요.
+    implementation group: 'com.kakao.sdk', name: 'kakaostory', version: '1.28.0'
+
+    // push sdk를 사용하기 위해 필요.
+    implementation group: 'com.kakao.sdk', name: 'push', version: '1.28.0'
+
+    // firebase
+    androidTestImplementation 'com.google.code.findbugs:jsr305:1.3.9'
+    implementation 'com.google.firebase:firebase-analytics:17.4.2'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'com.google.firebase:firebase-messaging:20.2.0'
 }

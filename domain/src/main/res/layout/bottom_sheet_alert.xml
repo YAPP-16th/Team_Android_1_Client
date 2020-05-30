@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/alert_bottom_sheet"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="140dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_icon_warning_system"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/alertItemSheetRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/alert_item_sheet"
+            tools:itemCount="1"/>
+    </LinearLayout>
+</layout>

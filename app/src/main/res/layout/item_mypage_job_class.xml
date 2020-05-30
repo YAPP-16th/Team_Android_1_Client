@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/item_class_border"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:background="@drawable/border_inactive_in_mypage"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingStart="9dp"
+            android:paddingEnd="9dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/class_title"
+                android:background="@drawable/border_inactive_in_mypage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey5"
+                android:textSize="12sp"
+                tools:text="모바일 디자인"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/item_class_border2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:background="@drawable/border_inactive_in_mypage"
+            android:gravity="center"
+            android:layout_marginStart="10dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingStart="9dp"
+            android:paddingEnd="9dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/class_title2"
+                android:background="@drawable/border_inactive_in_mypage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey5"
+                android:textSize="12sp"
+                tools:text="Data Engineer"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/expand_btn"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_icon_small_arrow_bottom_white"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </LinearLayout>
+</layout>

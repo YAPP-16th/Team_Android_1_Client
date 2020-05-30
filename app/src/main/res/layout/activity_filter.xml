@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="activity"
+            type="com.eroom.erooja.feature.filter.FilterActivity" />
+
+        <variable
+            name="setting"
+            type="com.eroom.erooja.feature.setting.setting_detail.JobInterestActivity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".feature.filter.FilterActivity">
+
+        <ImageView
+            android:id="@+id/closeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> activity.closeButtonClicked()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_icon_navi_close_black" />
+
+        <TextView
+            android:id="@+id/filterText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filter_text"
+            android:textColor="@color/grey7"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/closeButton"
+            app:layout_constraintStart_toEndOf="@+id/closeButton"
+            app:layout_constraintTop_toTopOf="@+id/closeButton" />
+
+
+        <ImageButton
+            android:id="@+id/resetFilterButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> activity.resetFilterButtonClicked()}"
+            android:background="@drawable/ic_icon_navi_reset_normal"
+            app:layout_constraintBottom_toTopOf="@+id/nestedScrollView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@id/completeButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/closeButton">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/dupli_can_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/duplicated_is_ok_text"
+                    android:textColor="@color/grey5"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/jobGroupRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_group_job" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+            android:id="@+id/completeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@{activity.classCheck ? @color/orgDefault : @color/grey3}"
+            android:gravity="center"
+            android:onClick="@{() -> activity.completeButtonClicked()}"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/resetText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/complete_text"
+                android:textColor="@{activity.classCheck ? @color/colorWhite : @color/grey5}"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <com.eroom.domain.customview.BlockView
+            android:id="@+id/blockView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="#80333333" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/whiteLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_fileName="loading.json"
+            app:lottie_loop="true" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/colorLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_fileName="loadingcolor.json"
+            app:lottie_loop="true" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

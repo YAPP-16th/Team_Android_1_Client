@@ -1,24 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.eroom.erooja">
 
     <dist:module dist:instant="true" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
+        android:name=".EroojaApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".feature.notification.NotificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.othersEndedGoal.OthersEndedGoalActivity"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.task.joinOtherList"/>
+        <activity
+            android:name=".feature.goalEdit.GoalEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.othersOngoingGoal.OthersOngoingGoalActivity"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.task.joinOtherList"/>
+        <activity
+            android:name=".feature.endedGoal.EndedGoalActivity"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.task.joinOtherList"/>
+        <activity
+            android:name=".feature.othersPage.OthersPageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.endPopUp.EndGoalPopUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".dialog.EroojaDialogActivity"
+            android:theme="@style/Theme.EroojaDialog" />
+        <activity android:name=".feature.addGoal.newGoalFrame.NewGoalFinishActivity" />
+        <activity
+            android:name=".feature.filter.FilterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.editgoal.EditGoalActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.addGoal.newGoalFrame.NewGoalActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.onboarding.onboardingframe.OnboardingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.participants_list.ParticipantsListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.signup.kakao.KakaoSignUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.splash.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".feature.login.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.tab.TabActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.goalDetail.GoalDetailActivity"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.task.joinOtherList"/>
+        <activity
+            android:name=".feature.otherList.OtherListActivity"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.task.joinOtherList"/>
+        <activity
+            android:name=".feature.search.search_detail_page.SearchDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.eroom.calendar.AirCalendarDatePickerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".feature.ongoingGoal.OngoingGoalActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.setting.setting_alarm.AlarmActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.setting.setting_help.HelpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.setting.setting_detail.JobInterestActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.setting.setting_profile.ProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.setting.setting_detail.OpensourceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.setting.setting_detail.TOSActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.addDirectList.addMyTodoListPage.AddMyListActivity"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.task.joinOtherList"/>
+        <activity
+            android:name=".feature.joinOtherList.joinTodoListPage.JoinOtherListActivity"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.task.joinOtherList"/>
+        <activity android:name=".feature.setting.setting_nickname.NicknameChangeActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".feature.setting.setting_detail.PrivateInfoActivity"
+            android:screenOrientation="portrait" />
+
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_app_key" />
     </application>
 
 </manifest>

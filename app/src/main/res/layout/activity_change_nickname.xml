@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="changeNickname"
+            type="com.eroom.erooja.feature.setting.setting_nickname.NicknameChangeActivity" />
+
+        <variable
+            name="view"
+            type="android.view.View" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> changeNickname.closeNicknamePage()}"
+            android:background="@drawable/ic_icon_navi_arrow_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/change_nickname"
+            android:textColor="@color/grey8"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/backButton"
+            app:layout_constraintStart_toEndOf="@+id/backButton"
+            app:layout_constraintTop_toTopOf="@+id/backButton" />
+
+
+        <ImageButton
+            android:id="@+id/nickname_pass_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@{changeNickname.nicknameCheck ? @drawable/ic_icon_check_active: @drawable/ic_icon_check_inactive }"
+            android:enabled="@{changeNickname.nicknameCheck ? true : false }"
+            android:onClick="@{() -> changeNickname.saveNickname()}"
+            app:layout_constraintBottom_toBottomOf="@+id/textView7"
+            app:layout_constraintEnd_toEndOf="@+id/nicknameText"
+            app:layout_constraintTop_toTopOf="@+id/textView7" />
+
+        <EditText
+            android:id="@+id/nicknameText"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/border_round_grey"
+            android:hint="5자 이상 한글 닉네임 입력"
+            android:maxLines="1"
+            android:paddingStart="20dp"
+            android:textSize="16sp"
+            android:textCursorDrawable="@drawable/edit_text_cursor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView7"
+            app:layout_constraintVertical_bias="0.04000002" />
+
+
+        <ImageView
+            android:id="@+id/resetNicknameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> changeNickname.resetNickname()}"
+            android:visibility="@{changeNickname.showCheckBtn ? view.INVISIBLE : view.VISIBLE }"
+            android:background="@drawable/ic_icon_check_btn_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/nicknameText"
+            app:layout_constraintEnd_toEndOf="@+id/nicknameText"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="@+id/nicknameText"
+            app:layout_constraintTop_toTopOf="@+id/nicknameText" />
+
+        <ImageView
+            android:id="@+id/NicknameCheckView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{changeNickname.showCheckBtn ? view.VISIBLE : view.INVISIBLE}"
+            android:background="@{changeNickname.nicknameCheck ? @drawable/ic_group: @drawable/ic_group_4 }"
+            app:layout_constraintBottom_toBottomOf="@+id/nicknameText"
+            app:layout_constraintEnd_toEndOf="@+id/nicknameText"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="@+id/nicknameText"
+            app:layout_constraintTop_toTopOf="@+id/nicknameText"/>
+
+        <TextView
+            android:id="@+id/nicknameErrorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_marginTop="8dp"
+            android:text="@string/nickname_rule_info"
+            android:textColor="@color/colorError"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/nicknameText"
+            app:layout_constraintTop_toBottomOf="@+id/nicknameText" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

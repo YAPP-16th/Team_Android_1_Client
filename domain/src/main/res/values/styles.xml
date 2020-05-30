@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/back_layout_white</item>
+    </style>
+
+    <style name="BottomSheet_round" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/back_layout_white_round</item>
+    </style>
+
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+
+    <style name="BaseBottomSheetDialog_round" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheet_round</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog"/>
+
+    <style name="BottomSheetDialogTheme_round" parent="BaseBottomSheetDialog_round">
+    </style>
+
+</resources>
