@@ -6,6 +6,7 @@ import com.eroom.data.localclass.Direction
 import com.eroom.data.localclass.SortBy
 import com.eroom.domain.api.usecase.member.GetMemberInfoUseCase
 import com.eroom.domain.api.usecase.member.GetMemberJobInterestsUseCase
+import com.eroom.domain.api.usecase.member.PostOtherMemberInfoUseCase
 import com.eroom.domain.api.usecase.membergoal.GetGoalsByUserIdUseCase
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.koin.repository.SharedPrefRepository
@@ -17,6 +18,7 @@ import timber.log.Timber
 class OthersPagePresenter (
     override val view: OthersPageContract.View,
     //private val getMemberJobInterestUseCase: GetMemberJobInterestsUseCase,
+    private val postOtherMemberInfoUseCase: PostOtherMemberInfoUseCase,
     private val getGoalsByUserIdUseCase: GetGoalsByUserIdUseCase
 ) : OthersPageContract.Presenter {
     private val compositeDisposable = CompositeDisposable()
@@ -64,6 +66,20 @@ class OthersPagePresenter (
             },{
                 Timber.e(it.localizedMessage)
                 view.stopAnimation()
+            })
+    }
+
+    @SuppressLint("CheckResult")
+    override fun getOthersJobInterest(uid: String) {
+        val othersJobInterest = ArrayList<String>()
+        postOtherMemberInfoUseCase.postMemberInfo(uid)
+            .subscribe({
+                it.jobInterests.map{
+                    othersJobInterest.add(it.name)
+                }
+                view.setOthersJobInterest(othersJobInterest)
+            },{
+                Timber.e(it.localizedMessage)
             })
     }
 

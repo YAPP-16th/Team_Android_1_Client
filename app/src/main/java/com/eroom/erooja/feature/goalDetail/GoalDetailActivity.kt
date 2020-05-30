@@ -81,7 +81,7 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
 
         if(list.description.isEmpty()){
             binding.goalDescLayout.goal_desc.invalidateState(State.Statical)
-            binding.moreBtn.visibility = View.GONE
+            binding.moreBtn.visibility = View.INVISIBLE
             updateView()
         }
         else {

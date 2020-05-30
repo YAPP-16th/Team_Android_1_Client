@@ -69,7 +69,7 @@ class EndedGoalActivity : AppCompatActivity(), EndedGoalContract.View {
 
         if(goalData.description.isEmpty()){
             binding.include.goalDesc.invalidateState(State.Statical)
-            binding.moreBtn.visibility = View.GONE
+            binding.moreBtn.visibility = View.INVISIBLE
             updateView()
         } else {
             binding.include.endedDescText.post{

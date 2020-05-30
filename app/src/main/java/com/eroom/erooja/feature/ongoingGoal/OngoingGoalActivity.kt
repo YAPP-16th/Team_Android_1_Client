@@ -95,7 +95,7 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
 
         if(goalData.description.isEmpty()){
             binding.goalDescLayout.goal_desc.invalidateState(State.Statical)
-            binding.moreBtn.visibility = View.GONE
+            binding.moreBtn.visibility = View.INVISIBLE
             updateView()
 
         } else {
@@ -109,6 +109,8 @@ class OngoingGoalActivity: AppCompatActivity(), OngoingGoalContract.View {
         binding.goalDescLayout.keyword_txt.text = goalData.jobInterests.mapIndexed { index: Int, goalType: GoalType ->
             if (index == goalData.jobInterests.size - 1) goalType.name else goalType.name add ", "
         }.toList().join()
+
+        binding.include.goneKeywordTxt.text = binding.include.keywordTxt.text
 
         initBottomSheet(goalData.joinCount)
         stopAnimation()
