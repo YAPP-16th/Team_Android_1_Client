@@ -39,7 +39,7 @@ class PrivateInfoActivity : AppCompatActivity() {
                 read = buffer.readLine()
 
                 if(read == null) break
-                else if(read.equals("")) sb.append("\n")
+                else if(read.equals("\n")) sb.append("\n")
                 else sb.append(read)
             }
             binding.contentText.text = sb.toString()
