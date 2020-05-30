@@ -7,13 +7,13 @@
 
         <variable
             name="activity"
-            type="com.eroom.erooja.feature.endPopUp.EndGoalPopUpActivity" />
+            type="com.eroom.erooja.app.feature.endPopUp.EndGoalPopUpActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.addGoal.newGoalFrame.NewGoalFinishActivity">
+        tools:context=".app.feature.addGoal.newGoalFrame.NewGoalFinishActivity">
 
         <ImageView
             android:layout_width="70dp"

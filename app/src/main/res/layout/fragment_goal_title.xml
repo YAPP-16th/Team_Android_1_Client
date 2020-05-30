@@ -5,13 +5,13 @@
     <data>
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.addGoal.newGoalPage.GoalTitleFragment" />
+            type="com.eroom.erooja.app.feature.addGoal.newGoalPage.GoalTitleFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.addGoal.newGoalPage.GoalTitleFragment"
+        tools:context=".app.feature.addGoal.newGoalPage.GoalTitleFragment"
         android:onClick="@{() -> fragment.onLayoutClicked()}">
 
         <TextView

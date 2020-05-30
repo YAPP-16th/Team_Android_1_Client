@@ -1,0 +1,23 @@
+package com.eroom.erooja.app.feature.addGoal.newGoalFrame
+
+interface NewGoalContract {
+    interface View {
+        fun redirectNewGoalFinish(resultId: Long)
+        fun failRequest()
+        fun stopAnimation()
+    }
+
+    interface Presenter {
+        val view: View
+        fun addNewGoal(
+            title: String,
+            description: String,
+            isDateFixed: Boolean,
+            endDt: String,
+            interestIdList: ArrayList<Long>,
+            todoList: ArrayList<String>
+        )
+
+        fun onCleared()
+    }
+}

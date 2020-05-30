@@ -5,13 +5,13 @@
     <data>
         <variable
             name="activity"
-            type="com.eroom.erooja.feature.participants_list.ParticipantsListActivity" />
+            type="com.eroom.erooja.app.feature.participants_list.ParticipantsListActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.participants_list.ParticipantsListActivity">
+        tools:context=".app.feature.participants_list.ParticipantsListActivity">
 
         <LinearLayout
             android:id="@+id/topBar"

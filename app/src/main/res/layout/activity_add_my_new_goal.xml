@@ -5,7 +5,7 @@
     <data>
         <variable
             name="activity"
-            type="com.eroom.erooja.feature.addDirectList.addMyTodoListPage.AddMyListActivity" />
+            type="com.eroom.erooja.app.feature.addDirectList.addMyTodoListPage.AddMyListActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

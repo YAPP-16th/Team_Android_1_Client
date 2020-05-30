@@ -5,7 +5,7 @@
     <data>
         <variable
             name="searchResult"
-            type="com.eroom.erooja.feature.search.search_detail_frame.SearchResultFragment" />
+            type="com.eroom.erooja.app.feature.search.search_detail_frame.SearchResultFragment" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:orientation="vertical"

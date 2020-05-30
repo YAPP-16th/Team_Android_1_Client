@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name=".EroojaApplication"
+        android:name=".app.EroojaApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,53 +23,53 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".feature.notification.NotificationActivity"
+        <activity android:name="com.eroom.erooja.app.feature.notification.NotificationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.othersEndedGoal.OthersEndedGoalActivity"
+            android:name="com.eroom.erooja.app.feature.othersEndedGoal.OthersEndedGoalActivity"
             android:screenOrientation="portrait"
             android:taskAffinity="com.task.joinOtherList"/>
         <activity
-            android:name=".feature.goalEdit.GoalEditActivity"
+            android:name="com.eroom.erooja.app.feature.goalEdit.GoalEditActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.othersOngoingGoal.OthersOngoingGoalActivity"
+            android:name="com.eroom.erooja.app.feature.othersOngoingGoal.OthersOngoingGoalActivity"
             android:screenOrientation="portrait"
             android:taskAffinity="com.task.joinOtherList"/>
         <activity
-            android:name=".feature.endedGoal.EndedGoalActivity"
+            android:name="com.eroom.erooja.app.feature.endedGoal.EndedGoalActivity"
             android:screenOrientation="portrait"
             android:taskAffinity="com.task.joinOtherList"/>
         <activity
-            android:name=".feature.othersPage.OthersPageActivity"
+            android:name="com.eroom.erooja.app.feature.othersPage.OthersPageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.endPopUp.EndGoalPopUpActivity"
+            android:name="com.eroom.erooja.app.feature.endPopUp.EndGoalPopUpActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".dialog.EroojaDialogActivity"
+            android:name="com.eroom.erooja.app.dialog.EroojaDialogActivity"
             android:theme="@style/Theme.EroojaDialog" />
-        <activity android:name=".feature.addGoal.newGoalFrame.NewGoalFinishActivity" />
+        <activity android:name="com.eroom.erooja.app.feature.addGoal.newGoalFrame.NewGoalFinishActivity" />
         <activity
-            android:name=".feature.filter.FilterActivity"
+            android:name="com.eroom.erooja.app.feature.filter.FilterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.editgoal.EditGoalActivity"
+            android:name="com.eroom.erooja.app.feature.editgoal.EditGoalActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.addGoal.newGoalFrame.NewGoalActivity"
+            android:name="com.eroom.erooja.app.feature.addGoal.newGoalFrame.NewGoalActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.onboarding.onboardingframe.OnboardingActivity"
+            android:name="com.eroom.erooja.app.feature.onboarding.onboardingframe.OnboardingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.participants_list.ParticipantsListActivity"
+            android:name="com.eroom.erooja.app.feature.participants_list.ParticipantsListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.signup.kakao.KakaoSignUpActivity"
+            android:name="com.eroom.erooja.app.feature.signup.kakao.KakaoSignUpActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.splash.SplashActivity"
+            android:name="com.eroom.erooja.app.feature.splash.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -78,57 +78,57 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".feature.login.LoginActivity"
+            android:name="com.eroom.erooja.app.feature.login.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.tab.TabActivity"
+            android:name="com.eroom.erooja.app.feature.tab.TabActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.goalDetail.GoalDetailActivity"
+            android:name="com.eroom.erooja.app.feature.goalDetail.GoalDetailActivity"
             android:screenOrientation="portrait"
             android:taskAffinity="com.task.joinOtherList"/>
         <activity
-            android:name=".feature.otherList.OtherListActivity"
+            android:name="com.eroom.erooja.app.feature.otherList.OtherListActivity"
             android:screenOrientation="portrait"
             android:taskAffinity="com.task.joinOtherList"/>
         <activity
-            android:name=".feature.search.search_detail_page.SearchDetailActivity"
+            android:name="com.eroom.erooja.app.feature.search.search_detail_page.SearchDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.eroom.calendar.AirCalendarDatePickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".feature.ongoingGoal.OngoingGoalActivity"
+            android:name="com.eroom.erooja.app.feature.ongoingGoal.OngoingGoalActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.setting.setting_alarm.AlarmActivity"
+            android:name="com.eroom.erooja.app.feature.setting.setting_alarm.AlarmActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.setting.setting_help.HelpActivity"
+            android:name="com.eroom.erooja.app.feature.setting.setting_help.HelpActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.setting.setting_detail.JobInterestActivity"
+            android:name="com.eroom.erooja.app.feature.setting.setting_detail.JobInterestActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.setting.setting_profile.ProfileActivity"
+            android:name="com.eroom.erooja.app.feature.setting.setting_profile.ProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.setting.setting_detail.OpensourceActivity"
+            android:name="com.eroom.erooja.app.feature.setting.setting_detail.OpensourceActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.setting.setting_detail.TOSActivity"
+            android:name="com.eroom.erooja.app.feature.setting.setting_detail.TOSActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".feature.addDirectList.addMyTodoListPage.AddMyListActivity"
+            android:name="com.eroom.erooja.app.feature.addDirectList.addMyTodoListPage.AddMyListActivity"
             android:screenOrientation="portrait"
             android:taskAffinity="com.task.joinOtherList"/>
         <activity
-            android:name=".feature.joinOtherList.joinTodoListPage.JoinOtherListActivity"
+            android:name="com.eroom.erooja.app.feature.joinOtherList.joinTodoListPage.JoinOtherListActivity"
             android:screenOrientation="portrait"
             android:taskAffinity="com.task.joinOtherList"/>
-        <activity android:name=".feature.setting.setting_nickname.NicknameChangeActivity"
+        <activity android:name="com.eroom.erooja.app.feature.setting.setting_nickname.NicknameChangeActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".feature.setting.setting_detail.PrivateInfoActivity"
+        <activity android:name="com.eroom.erooja.app.feature.setting.setting_detail.PrivateInfoActivity"
             android:screenOrientation="portrait" />
 
 

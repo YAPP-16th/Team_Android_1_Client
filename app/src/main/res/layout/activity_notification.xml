@@ -5,12 +5,12 @@
     <data>
         <variable
             name="activity"
-            type="com.eroom.erooja.feature.notification.NotificationActivity" />
+            type="com.eroom.erooja.app.feature.notification.NotificationActivity" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.notification.NotificationActivity">
+        tools:context=".app.feature.notification.NotificationActivity">
 
         <ImageButton
             android:id="@+id/backButton"

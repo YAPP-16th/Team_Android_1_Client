@@ -6,7 +6,7 @@
     <data>
         <variable
             name="setting"
-            type="com.eroom.erooja.feature.setting.SettingFragment" />
+            type="com.eroom.erooja.app.feature.setting.SettingFragment" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
 

@@ -3,7 +3,7 @@
     <data>
         <variable
             name="activity"
-            type="com.eroom.erooja.feature.tab.TabActivity" />
+            type="com.eroom.erooja.app.feature.tab.TabActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -11,7 +11,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.tab.TabActivity">
+        tools:context=".app.feature.tab.TabActivity">
 
         <FrameLayout
             android:id="@+id/main_container"

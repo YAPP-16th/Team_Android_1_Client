@@ -4,7 +4,7 @@
     <data>
         <variable
             name="alarm"
-            type="com.eroom.erooja.feature.setting.setting_alarm.AlarmActivity" />
+            type="com.eroom.erooja.app.feature.setting.setting_alarm.AlarmActivity" />
 
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout

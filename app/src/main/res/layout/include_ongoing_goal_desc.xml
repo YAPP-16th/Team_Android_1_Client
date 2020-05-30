@@ -6,7 +6,7 @@
     <data>
         <variable
             name="mygoal"
-            type="com.eroom.erooja.feature.ongoingGoal.OngoingGoalActivity" />
+            type="com.eroom.erooja.app.feature.ongoingGoal.OngoingGoalActivity" />
         <variable
             name="view"
             type="android.view.View" />

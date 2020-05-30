@@ -3,7 +3,7 @@
     <data>
         <variable
             name="privateInfo"
-            type="com.eroom.erooja.feature.setting.setting_detail.PrivateInfoActivity" />
+            type="com.eroom.erooja.app.feature.setting.setting_detail.PrivateInfoActivity" />
 
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout

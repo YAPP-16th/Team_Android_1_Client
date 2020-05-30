@@ -5,7 +5,7 @@
     <data>
         <variable
             name="othersDetail"
-            type="com.eroom.erooja.feature.otherList.OtherListActivity" />
+            type="com.eroom.erooja.app.feature.otherList.OtherListActivity" />
     </data>
 
     <androidx.core.widget.NestedScrollView

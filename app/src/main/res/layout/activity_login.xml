@@ -5,13 +5,13 @@
     <data>
         <variable
             name="activity"
-            type="com.eroom.erooja.feature.login.LoginActivity" />
+            type="com.eroom.erooja.app.feature.login.LoginActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.login.LoginActivity">
+        tools:context=".app.feature.login.LoginActivity">
 
         <ImageView
             android:id="@+id/imageView"

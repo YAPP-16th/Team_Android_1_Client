@@ -6,7 +6,7 @@
         <import type="android.view.View"/>
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.signup.page.jobgroup.JobGroupFragment" />
+            type="com.eroom.erooja.app.feature.signup.page.jobgroup.JobGroupFragment" />
         <variable
             name="view"
             type="android.view.View" />
@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.signup.page.jobgroup.JobGroupFragment">
+        tools:context=".app.feature.signup.page.jobgroup.JobGroupFragment">
 
         <TextView
             android:id="@+id/jobGroupInfo"

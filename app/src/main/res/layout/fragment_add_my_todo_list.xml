@@ -6,7 +6,7 @@
     <data>
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.AddMyTodoListFragment" />
+            type="com.eroom.erooja.app.feature.addDirectList.addMyTodoListFrame.AddMyTodoListFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

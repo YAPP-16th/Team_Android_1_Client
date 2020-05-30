@@ -5,13 +5,13 @@
     <data>
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.addGoal.newGoalPage.selectjob.SelectJobFragment" />
+            type="com.eroom.erooja.app.feature.addGoal.newGoalPage.selectjob.SelectJobFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.addGoal.newGoalPage.selectjob.SelectJobFragment">
+        tools:context=".app.feature.addGoal.newGoalPage.selectjob.SelectJobFragment">
 
 
         <androidx.core.widget.NestedScrollView

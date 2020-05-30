@@ -5,7 +5,7 @@
     <data>
         <variable
             name="searchdetail"
-            type="com.eroom.erooja.feature.search.search_detail_page.SearchDetailActivity" />
+            type="com.eroom.erooja.app.feature.search.search_detail_page.SearchDetailActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

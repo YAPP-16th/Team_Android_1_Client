@@ -5,13 +5,13 @@
     <data>
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.addDirectList.addMyTodoListFrame.InactiveGoalTitleFragment" />
+            type="com.eroom.erooja.app.feature.addDirectList.addMyTodoListFrame.InactiveGoalTitleFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.addGoal.newGoalPage.GoalTitleFragment">
+        tools:context=".app.feature.addGoal.newGoalPage.GoalTitleFragment">
 
         <TextView
             android:id="@+id/question"

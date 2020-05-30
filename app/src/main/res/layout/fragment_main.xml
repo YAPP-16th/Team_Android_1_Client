@@ -5,13 +5,13 @@
     <data>
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.main.MainFragment" />
+            type="com.eroom.erooja.app.feature.main.MainFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.main.MainFragment">
+        tools:context=".app.feature.main.MainFragment">
 
 
         <ImageView

@@ -5,13 +5,13 @@
     <data>
         <variable
             name="activity"
-            type="com.eroom.erooja.feature.splash.SplashActivity" />
+            type="com.eroom.erooja.app.feature.splash.SplashActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.splash.SplashActivity"
+        tools:context=".app.feature.splash.SplashActivity"
         android:background="@color/colorWhite">
 
         <ImageView

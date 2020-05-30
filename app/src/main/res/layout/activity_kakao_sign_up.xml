@@ -5,13 +5,13 @@
     <data>
         <variable
             name="activity"
-            type="com.eroom.erooja.feature.signup.kakao.KakaoSignUpActivity" />
+            type="com.eroom.erooja.app.feature.signup.kakao.KakaoSignUpActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.signup.kakao.KakaoSignUpActivity">
+        tools:context=".app.feature.signup.kakao.KakaoSignUpActivity">
 
 
         <ImageView

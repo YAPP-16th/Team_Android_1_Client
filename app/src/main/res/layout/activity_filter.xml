@@ -5,17 +5,17 @@
     <data>
         <variable
             name="activity"
-            type="com.eroom.erooja.feature.filter.FilterActivity" />
+            type="com.eroom.erooja.app.feature.filter.FilterActivity" />
 
         <variable
             name="setting"
-            type="com.eroom.erooja.feature.setting.setting_detail.JobInterestActivity" />
+            type="com.eroom.erooja.app.feature.setting.setting_detail.JobInterestActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.filter.FilterActivity">
+        tools:context=".app.feature.filter.FilterActivity">
 
         <ImageView
             android:id="@+id/closeButton"

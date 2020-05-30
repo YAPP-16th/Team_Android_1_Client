@@ -7,7 +7,7 @@
     <data>
         <variable
             name="activity"
-            type="com.eroom.erooja.feature.othersEndedGoal.OthersEndedGoalActivity" />
+            type="com.eroom.erooja.app.feature.othersEndedGoal.OthersEndedGoalActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

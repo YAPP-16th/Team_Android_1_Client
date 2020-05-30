@@ -5,7 +5,7 @@
     <data>
         <variable
             name="tos"
-            type="com.eroom.erooja.feature.setting.setting_detail.TOSActivity" />
+            type="com.eroom.erooja.app.feature.setting.setting_detail.TOSActivity" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout

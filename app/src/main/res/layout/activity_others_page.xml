@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".feature.othersPage.OthersPageActivity">
+    tools:context=".app.feature.othersPage.OthersPageActivity">
 
     <data>
         <variable
             name="activity"
-            type="com.eroom.erooja.feature.othersPage.OthersPageActivity" />
+            type="com.eroom.erooja.app.feature.othersPage.OthersPageActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

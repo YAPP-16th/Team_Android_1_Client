@@ -6,7 +6,7 @@
     <data>
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.editgoal.AddListFragment" />
+            type="com.eroom.erooja.app.feature.editgoal.AddListFragment" />
     </data>
 
     <FrameLayout

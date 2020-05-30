@@ -6,7 +6,7 @@
         <import type="android.view.View"/>
         <variable
             name="activity"
-            type="com.eroom.erooja.feature.goalEdit.GoalEditActivity" />
+            type="com.eroom.erooja.app.feature.goalEdit.GoalEditActivity" />
         <variable
             name="view"
             type="android.view.View" />
@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".feature.goalEdit.GoalEditActivity">
+        tools:context=".app.feature.goalEdit.GoalEditActivity">
 
 
         <ImageView

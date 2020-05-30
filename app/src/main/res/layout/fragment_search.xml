@@ -5,7 +5,7 @@
     <data>
         <variable
             name="search"
-            type="com.eroom.erooja.feature.search.search_main.SearchFragment" />
+            type="com.eroom.erooja.app.feature.search.search_main.SearchFragment" />
     </data>
 
     <FrameLayout

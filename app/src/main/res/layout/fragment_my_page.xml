@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".feature.mypage.MyPageFragment">
+    tools:context=".app.feature.mypage.MyPageFragment">
 
     <data>
         <variable
             name="fragment"
-            type="com.eroom.erooja.feature.mypage.MyPageFragment" />
+            type="com.eroom.erooja.app.feature.mypage.MyPageFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
