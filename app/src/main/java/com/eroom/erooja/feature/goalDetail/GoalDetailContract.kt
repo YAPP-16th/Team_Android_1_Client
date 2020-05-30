@@ -12,6 +12,7 @@ interface GoalDetailContract {
         fun setTodoList(todoList:ArrayList<MinimalTodoListDetail>)
         fun stopAnimation()
         fun setInitialView(list: GoalDetailResponse)
+        fun setIsExistedInMyPage(isExistedInMyPage: Boolean)
     }
 
     interface Presenter{

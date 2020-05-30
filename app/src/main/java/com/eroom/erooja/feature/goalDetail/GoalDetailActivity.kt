@@ -36,6 +36,8 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
     private var isJoin: Boolean = false
     var onlyOneLine: ObservableField<Boolean> = ObservableField(false)
 
+    private var isExistedInMyPage = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initPresenter()
@@ -140,34 +142,54 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
                 putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
                 putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
                 putExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, isJoin)
-                putExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, isJoin)
+                putExtra(Consts.IS_EXISTED_IN_MY_PAGE, isExistedInMyPage)
             }
         startActivityForResult(intent, 4000)
     }
 
     //Todo: 카드뷰의 "+ 버튼"을 눌러 TodoList 에 참여하기
     private fun clickPlusBtn() = { uid:String ->
-
-        showAlert(uid)
+        showAlert()
         userUid = uid
     }
 
-    private fun showAlert(uid: String) {
-            startActivityForResult(
-                Intent(
-                    this,
-                    EroojaDialogActivity::class.java
-                ).apply {
-                    putExtra(Consts.DIALOG_TITLE, "")
-                    putExtra(
-                        Consts.DIALOG_CONTENT,
-                        "이 리스트에 참여하시겠어요?"
-                    )
-                    putExtra(Consts.DIALOG_CONFIRM, true)
-                    putExtra(Consts.DIALOG_CANCEL, true)
-                }, 4000
-            )
-        }
+    private fun showAlert() {
+        startActivityForResult(
+            Intent(
+                this,
+                EroojaDialogActivity::class.java
+            ).apply {
+                putExtra(Consts.DIALOG_TITLE, "")
+                putExtra(
+                    Consts.DIALOG_CONTENT,
+                    if(isExistedInMyPage) "이미 목표에 참여한 이력이 존재합니다. 참여 시 해당 이력이 삭제될 수 있습니다." else "이 리스트에 참여하시겠어요?"
+                )
+                putExtra(Consts.DIALOG_CONFIRM, true)
+                putExtra(Consts.DIALOG_CANCEL, true)
+            }, 4000
+        )
+    }
+
+    private fun showDirectAddAlert() {
+        startActivityForResult(
+            Intent(
+                this,
+                EroojaDialogActivity::class.java
+            ).apply {
+                putExtra(Consts.DIALOG_TITLE, "")
+                putExtra(
+                    Consts.DIALOG_CONTENT,
+                    if(isExistedInMyPage) "이미 목표에 참여한 이력이 존재합니다. 참여 시 해당 이력이 삭제될 수 있습니다." else "이 리스트에 참여하시겠어요?"
+                )
+                putExtra(Consts.DIALOG_CONFIRM, true)
+                putExtra(Consts.DIALOG_CANCEL, true)
+            }, 5000
+        )
+    }
+
+    override fun setIsExistedInMyPage(isExistedInMyPage: Boolean) {
+        this.isExistedInMyPage = isExistedInMyPage
+    }
 
 
     override fun setTodoList(todoList: ArrayList<MinimalTodoListDetail>) {
@@ -214,14 +236,18 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
 
     //Todo: "리스트 직접 추가하기" Button
     fun addNewList(){
-        val intent = Intent(this@GoalDetailActivity, AddMyListActivity::class.java)
-            .apply{
-                putExtra(Consts.DATE, binding.goalDateTxt.text)
-                putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
-                putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
-                putExtra(Consts.GOAL_ID,intent.getLongExtra(Consts.GOAL_ID, -1))
-            }
-        startActivity(intent)
+        if(isExistedInMyPage) {
+            showDirectAddAlert()
+        } else {
+            val intent = Intent(this@GoalDetailActivity, AddMyListActivity::class.java)
+                .apply {
+                    putExtra(Consts.DATE, binding.goalDateTxt.text)
+                    putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
+                    putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
+                    putExtra(Consts.GOAL_ID, intent.getLongExtra(Consts.GOAL_ID, -1))
+                }
+            startActivity(intent)
+        }
     }
 
     fun navigateToEdit() {
@@ -239,6 +265,17 @@ class GoalDetailActivity: AppCompatActivity(), GoalDetailContract.View {
         if(requestCode == 4000 && resultCode == 6000){
             if (result!!) {
                 presenter.getUserTodoList(userUid, intent.getLongExtra(Consts.GOAL_ID, -1))
+            }
+        } else if(requestCode == 5000 && resultCode == 6000) {
+            if(result!!) {
+                val intent = Intent(this@GoalDetailActivity, AddMyListActivity::class.java)
+                    .apply {
+                        putExtra(Consts.DATE, binding.goalDateTxt.text)
+                        putExtra(Consts.GOAL_TITLE, binding.goalNameTxt.text)
+                        putExtra(Consts.DESCRIPTION, binding.include.ongoingDescText.text)
+                        putExtra(Consts.GOAL_ID, intent.getLongExtra(Consts.GOAL_ID, -1))
+                    }
+                startActivity(intent)
             }
         }
     }

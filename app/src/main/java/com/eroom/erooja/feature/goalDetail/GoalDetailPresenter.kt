@@ -14,6 +14,9 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import retrofit2.HttpException
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class GoalDetailPresenter(override var view: GoalDetailContract.View,
                           private val getGoalDetailUseCase: GetGoalDetailUseCase,
@@ -81,13 +84,23 @@ class GoalDetailPresenter(override var view: GoalDetailContract.View,
             })
     }
 
-    @SuppressLint("CheckResult")
+    @SuppressLint("CheckResult", "SimpleDateFormat")
     fun getGoalInfo(goalId: Long, content: ArrayList<MinimalTodoListContent>) {
         getGoalInfoByGoalIdUseCase.getInfoByGoalId(goalId)
             .subscribe({
                 it.body()?.let { body ->
-                    view.setRecyclerView(content, body.role == "OWNER", isJoined = true)
+                    view.setIsExistedInMyPage(true)
+                    val endDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(body.endDt)
+                    val currentTime: Date = Calendar.getInstance().time
+                    val isBeforeEndDt = (currentTime.time - endDate.time) < 0
+
+                    if (isBeforeEndDt) {
+                        view.setRecyclerView(content, body.role == "OWNER", isJoined = !body.isEnd)
+                    } else {
+                        view.setRecyclerView(content, false, isJoined = false)
+                    }
                 } ?: run {
+                    view.setIsExistedInMyPage(false)
                     view.setRecyclerView(content, false, isJoined = false)
                 }
             },{

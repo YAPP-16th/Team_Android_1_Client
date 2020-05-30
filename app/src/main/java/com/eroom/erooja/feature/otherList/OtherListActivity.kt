@@ -28,6 +28,7 @@ class OtherListActivity : AppCompatActivity(),
     private var goalId = 0L
     //private var memberNickName = "anonymous"
     private var memberImagePath: String? = null
+    private var isExistedInMyPage: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,11 +60,10 @@ class OtherListActivity : AppCompatActivity(),
     }
 
     fun initView() {
-        if (intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, false)
-            || intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ENDED_GOAL, false)
-        ) {
+        if (intent.getBooleanExtra(Consts.IS_FROM_MYPAGE_ONGOING_GOAL, false)) {
             binding.savelistBtn.visibility = View.INVISIBLE
         }
+        isExistedInMyPage = intent.getBooleanExtra(Consts.IS_EXISTED_IN_MY_PAGE, false)
         userUid = intent.getStringExtra(Consts.UID) ?: ""
         goalId = intent.getLongExtra(Consts.GOAL_ID, -1)
         presenter = OtherListPresenter(this, get(), get())
@@ -90,7 +90,7 @@ class OtherListActivity : AppCompatActivity(),
                 putExtra(Consts.DIALOG_TITLE, "")
                 putExtra(
                     Consts.DIALOG_CONTENT,
-                    "이 리스트에 참여하시겠어요?"
+                    if(isExistedInMyPage) "이미 목표에 참여한 이력이 존재합니다. 참여 시 해당 이력이 삭제될 수 있습니다." else "이 리스트에 참여하시겠어요?"
                 )
                 putExtra(Consts.DIALOG_CONFIRM, true)
                 putExtra(Consts.DIALOG_CANCEL, true)
@@ -136,8 +136,6 @@ class OtherListActivity : AppCompatActivity(),
         }
     }
 
-    //Todo: 참여자 목록의 Todo list 상세보기 (카드뷰)
-    //Todo: 현재 액티비티에서 AddMyListActivity 로 넘어갈 때 필요한 요소: GoalID, UID, NAME, DATE, GoalTITLE, DESC)
     fun memberImageClicked() {
         startActivity(Intent(this@OtherListActivity, OthersPageActivity::class.java).apply {
             val jobInterestList: ArrayList<String> = ArrayList()
