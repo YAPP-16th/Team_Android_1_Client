@@ -7,8 +7,6 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/setting_select_list"
-    android:paddingTop="5dp"
-    android:paddingBottom="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -19,6 +17,8 @@
         android:layout_marginStart="48dp"
         android:textColor="@color/grey8"
         android:textSize="16sp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/setting_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/setting_btn"

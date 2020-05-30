@@ -3,7 +3,7 @@
     <data>
         <variable
             name="licence"
-            type="com.eroom.erooja.feature.setting.setting_detail.OpensourceActivity" />
+            type="com.eroom.erooja.feature.setting.setting_detail.PrivateInfoActivity" />
 
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout

@@ -76,7 +76,8 @@ class SettingFragment : Fragment(), SettingContract.View {
             3 -> startActivity(Intent(context, HelpActivity::class.java))
             4 -> startActivity(Intent(context, OpensourceActivity::class.java))
             5 -> startActivity(Intent(context, TOSActivity::class.java))
-            6 -> isLogout()
+            6 -> startActivity(Intent(context, PrivateInfoActivity::class.java))
+            7 -> isLogout()
         }
     }
 
