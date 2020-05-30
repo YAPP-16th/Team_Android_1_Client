@@ -35,20 +35,8 @@ class InactiveGoalDetailFragment : Fragment() {
     }
 
     private fun initView() {
-        binding.goalDetailContent.text = arguments?.getString(Consts.DESCRIPTION)
-    }
-
-
-    fun onLayoutClicked() {
-        binding.goalDetailContent.requestFocus()
-        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        context?.let {
-            imm.toggleSoftInput(
-                InputMethodManager.SHOW_FORCED,
-                InputMethodManager.HIDE_IMPLICIT_ONLY
-            )
-        }
-
+        val string = arguments?.getString(Consts.DESCRIPTION)
+        binding.goalDetailContent.text = if (string.isNullOrEmpty()) "세부설명이 없는 목표입니다." else string
     }
 }
 

@@ -21,6 +21,7 @@ class GoalTitleFragment : Fragment() {
     val goalTitle: MutableLiveData<String> = MutableLiveData()
     var goalTitleCheck: MutableLiveData<Boolean> = MutableLiveData(false)
     val underlineError: ObservableField<Boolean> = ObservableField(false)
+    val zeroText: ObservableField<Boolean> = ObservableField(true)
 
     private var isMoreThanMaxLength = false
 
@@ -60,6 +61,8 @@ class GoalTitleFragment : Fragment() {
                 val len = it.length
                 goalTitleBinding.goalTitleLength.text = "$len/50"
                 goalTitleCheck.value = len > 4
+                if (len == 0) zeroText.set(true)
+                else zeroText.set(false)
                 if (len in 1..4) {
                     goalTitleBinding.goalTitleLengthError.visibility = View.VISIBLE
                     underlineError.set(true)

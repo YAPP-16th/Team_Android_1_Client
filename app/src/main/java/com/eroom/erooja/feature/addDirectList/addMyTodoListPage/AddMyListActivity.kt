@@ -58,6 +58,8 @@ class AddMyListActivity : AppCompatActivity(),
     private var isMyEndedGoal: Boolean = false
     private var isMyAbandonedGoal: Boolean = false
 
+    var isActive: ObservableField<Boolean> = ObservableField(true)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,6 +136,7 @@ class AddMyListActivity : AppCompatActivity(),
         (mFragmentList[4] as AddMyTodoListFragment).goalList.observe(this, Observer {
             this.goalList = it
             nextClickable.set(!it.isNullOrEmpty())
+            if (mPage == 4) isActive.set(it.size > 0)
         })
         (mFragmentList[4] as AddMyTodoListFragment).goalListCheck.observe(this, Observer {
             nextClickable.set(it)
@@ -212,6 +215,7 @@ class AddMyListActivity : AppCompatActivity(),
 
 
     fun prevButtonClicked() {
+        isActive.set(true)
         hideKeyBoard()
         mPage -= 1
         if (mPage < 0) {
@@ -224,20 +228,26 @@ class AddMyListActivity : AppCompatActivity(),
     }
 
     fun nextButtonClicked() {
-        hideKeyBoard()
-        mPage += 1
-        when {
-            mPage > mFragmentList.size - 1 -> {
-                networkRequest()
-                return
-            }
-            else -> {
-                nextClickable.set(true)
+        isActive.get()?.let {
+            if (it) {
+                hideKeyBoard()
+                mPage += 1
+                when {
+                    mPage > mFragmentList.size - 1 -> {
+                        networkRequest()
+                        return
+                    }
+                    else -> {
+                        if (mPage == 4) {
+                            isActive.set(goalList.size > 0)
+                        }
+                        nextClickable.set(true)
+                    }
+                }
+                setProgressBar(true)
+                showFragment()
             }
         }
-        setProgressBar(true)
-        showFragment()
-
     }
 
     private fun showAlert() {
