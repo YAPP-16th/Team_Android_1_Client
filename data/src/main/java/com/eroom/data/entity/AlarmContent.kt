@@ -1,14 +1,14 @@
 package com.eroom.data.entity
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class AlarmContent(
-    @JsonProperty("createDt") var createDt: String,
-    @JsonProperty("updateDt") var updateDt: String,
-    @JsonProperty("id") var id: Long,
-    @JsonProperty("title") var title: String,
-    @JsonProperty("content") var content: String,
-    @JsonProperty("isChecked") var isChecked: Boolean,
-    @JsonProperty("messageType") var messageType: String,
-    @JsonProperty("goalId") var goalId: Long?
+    @SerializedName("createDt") var createDt: String,
+    @SerializedName("updateDt") var updateDt: String,
+    @SerializedName("id") var id: Long,
+    @SerializedName("title") var title: String,
+    @SerializedName("content") var content: String,
+    @SerializedName("isChecked") var isChecked: Boolean,
+    @SerializedName("messageType") var messageType: String,
+    @SerializedName("goalId") var goalId: Long?
 )

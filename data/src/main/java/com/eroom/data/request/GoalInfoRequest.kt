@@ -1,8 +1,8 @@
 package com.eroom.data.request
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class GoalInfoRequest(
-    @JsonProperty("title") var title: String,
-    @JsonProperty("description") var description: String
+    @SerializedName("title") var title: String,
+    @SerializedName("description") var description: String
 )

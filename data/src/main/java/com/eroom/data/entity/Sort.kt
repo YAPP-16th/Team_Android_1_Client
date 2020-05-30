@@ -1,9 +1,9 @@
 package com.eroom.data.entity
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class Sort(
-    @JsonProperty("sorted") var sorted: Boolean,
-    @JsonProperty("unsorted") var unsorted: Boolean,
-    @JsonProperty("empty") var empty: Boolean
+    @SerializedName("sorted") var sorted: Boolean,
+    @SerializedName("unsorted") var unsorted: Boolean,
+    @SerializedName("empty") var empty: Boolean
 )

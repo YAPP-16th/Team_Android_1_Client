@@ -1,10 +1,10 @@
 package com.eroom.data.response
 
 import com.eroom.data.entity.JobClass
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class JobGroupAndClassResponse(
-    @JsonProperty("id") var id: Long,
-    @JsonProperty("name") var name: String,
-    @JsonProperty("jobInterests") var jobInterests: ArrayList<JobClass>
+    @SerializedName("id") var id: Long,
+    @SerializedName("name") var name: String,
+    @SerializedName("jobInterests") var jobInterests: ArrayList<JobClass>
 )

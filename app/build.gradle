@@ -11,6 +11,14 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+    signingConfigs {
+        release {
+            keyAlias "erooja"
+            keyPassword "dlfnwktjdrhd"
+            storeFile file("erooja.jks")
+            storePassword "dlfnwktjdrhd"
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
@@ -33,6 +41,7 @@ android {
             debuggable true // debugging 허용 안함
             zipAlignEnabled false  // apk 최적화
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 

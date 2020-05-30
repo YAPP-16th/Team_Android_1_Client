@@ -1,12 +1,12 @@
 package com.eroom.data.entity
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class Pageable(
-    @JsonProperty("sort") var sort: Sort,
-    @JsonProperty("offset") var offset: Int,
-    @JsonProperty("pageNumber") var pageNumber: Int,
-    @JsonProperty("pageSize") var pageSize: Int,
-    @JsonProperty("unpaged") var unpaged: Boolean,
-    @JsonProperty("paged") var paged: Boolean
+    @SerializedName("sort") var sort: Sort,
+    @SerializedName("offset") var offset: Int,
+    @SerializedName("pageNumber") var pageNumber: Int,
+    @SerializedName("pageSize") var pageSize: Int,
+    @SerializedName("unpaged") var unpaged: Boolean,
+    @SerializedName("paged") var paged: Boolean
 )

@@ -1,8 +1,8 @@
 package com.eroom.data.request
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 import java.io.File
 
 data class UserProfileRequest(
-    @JsonProperty("multipartImageFile") var multipartImageFile: File
+    @SerializedName("multipartImageFile") var multipartImageFile: File
 )

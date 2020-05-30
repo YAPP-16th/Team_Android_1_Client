@@ -1,16 +1,16 @@
 package com.eroom.data.response
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class ParticipatedGoalInfoResponse (
-    @JsonProperty("createDt") val createDt : String,
-    @JsonProperty("updateDt") val updateDt : String,
-    @JsonProperty("uid") val uid : String,
-    @JsonProperty("goalId") val goalId : Long,
-    @JsonProperty("role") val role : String,
-    @JsonProperty("isEnd") val isEnd : Boolean,
-    @JsonProperty("copyCount") val copyCount : Int,
-    @JsonProperty("startDt") val startDt : String,
-    @JsonProperty("endDt") val endDt : String
+    @SerializedName("createDt") val createDt : String,
+    @SerializedName("updateDt") val updateDt : String,
+    @SerializedName("uid") val uid : String,
+    @SerializedName("goalId") val goalId : Long,
+    @SerializedName("role") val role : String,
+    @SerializedName("isEnd") val isEnd : Boolean,
+    @SerializedName("copyCount") val copyCount : Int,
+    @SerializedName("startDt") val startDt : String,
+    @SerializedName("endDt") val endDt : String
 )
 

@@ -1,15 +1,15 @@
 package com.eroom.data.entity
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class MinimalTodoListContent(
-    @JsonProperty("uid") var uid: String,
-    @JsonProperty("goalId") var goalId: Long,
-    @JsonProperty("role") var role: String,
-    @JsonProperty("isEnd") var isEnd: Boolean,
-    @JsonProperty("copyCount") var copyCount: Int,
-    @JsonProperty("startDt") var startDt: String,
-    @JsonProperty("endDt") var endDt: String,
-    @JsonProperty("todoList") var todoList: ArrayList<MinimalTodoListDetail>,
-    @JsonProperty("nickName") var nickName: String
+    @SerializedName("uid") var uid: String,
+    @SerializedName("goalId") var goalId: Long,
+    @SerializedName("role") var role: String,
+    @SerializedName("isEnd") var isEnd: Boolean,
+    @SerializedName("copyCount") var copyCount: Int,
+    @SerializedName("startDt") var startDt: String,
+    @SerializedName("endDt") var endDt: String,
+    @SerializedName("todoList") var todoList: ArrayList<MinimalTodoListDetail>,
+    @SerializedName("nickName") var nickName: String
 )

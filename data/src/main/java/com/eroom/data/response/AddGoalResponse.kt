@@ -1,15 +1,15 @@
 package com.eroom.data.response
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class AddGoalResponse(
-    @JsonProperty("createDt") var createDt: String,
-    @JsonProperty("updateDt") var updataDt: String,
-    @JsonProperty("uid") var uid: String,
-    @JsonProperty("goalId") var goalId: Long,
-    @JsonProperty("role") var role: String,
-    @JsonProperty("isEnd") var isEnd: Boolean,
-    @JsonProperty("copyCount") var copyCount: Int,
-    @JsonProperty("startDt") var startDt: String,
-    @JsonProperty("endDt") var endDt: String
+    @SerializedName("createDt") var createDt: String,
+    @SerializedName("updateDt") var updataDt: String,
+    @SerializedName("uid") var uid: String,
+    @SerializedName("goalId") var goalId: Long,
+    @SerializedName("role") var role: String,
+    @SerializedName("isEnd") var isEnd: Boolean,
+    @SerializedName("copyCount") var copyCount: Int,
+    @SerializedName("startDt") var startDt: String,
+    @SerializedName("endDt") var endDt: String
 )

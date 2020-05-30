@@ -1,7 +1,7 @@
 package com.eroom.data.request
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 class GoalAbandonedRequest (
-    @JsonProperty("changedIsEnd") var changedIsEnd : Boolean
+    @SerializedName("changedIsEnd") var changedIsEnd : Boolean
 )

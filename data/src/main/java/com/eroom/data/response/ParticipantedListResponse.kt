@@ -1,11 +1,11 @@
 package com.eroom.data.response
 
 import com.eroom.data.entity.Member
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class ParticipantedListResponse(
-    @JsonProperty("members") var members: ArrayList<Member>,
-    @JsonProperty("size") var size: Int,
-    @JsonProperty("totalPages") var totalPages: Int,
-    @JsonProperty("totalElement") var totalElement: Int
+    @SerializedName("members") var members: ArrayList<Member>,
+    @SerializedName("size") var size: Int,
+    @SerializedName("totalPages") var totalPages: Int,
+    @SerializedName("totalElement") var totalElement: Int
 )

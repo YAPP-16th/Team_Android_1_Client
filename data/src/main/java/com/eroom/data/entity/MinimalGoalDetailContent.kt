@@ -1,16 +1,16 @@
 package com.eroom.data.entity
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class MinimalGoalDetailContent(
-    @JsonProperty("goalId") var goalId: Long,
-    @JsonProperty("role") var role: String,
-    @JsonProperty("isEnd") var isEnd: Boolean,
-    @JsonProperty("copyCount") var copyCount: Int,
-    @JsonProperty("startDt") var startDt: String,
-    @JsonProperty("endDt") var endDt: String,
-    @JsonProperty("minimalGoalDetail") var minimalGoalDetail: MinimalGoalDetail,
-    @JsonProperty("checkedTodoRate") var checkedTodoRate: Double
+    @SerializedName("goalId") var goalId: Long,
+    @SerializedName("role") var role: String,
+    @SerializedName("isEnd") var isEnd: Boolean,
+    @SerializedName("copyCount") var copyCount: Int,
+    @SerializedName("startDt") var startDt: String,
+    @SerializedName("endDt") var endDt: String,
+    @SerializedName("minimalGoalDetail") var minimalGoalDetail: MinimalGoalDetail,
+    @SerializedName("checkedTodoRate") var checkedTodoRate: Double
 )
 {
     override fun equals(other: Any?): Boolean {

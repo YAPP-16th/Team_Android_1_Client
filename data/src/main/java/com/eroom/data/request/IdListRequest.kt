@@ -1,7 +1,7 @@
 package com.eroom.data.request
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class IdListRequest(
-    @JsonProperty("ids") var ids: ArrayList<Long>
+    @SerializedName("ids") var ids: ArrayList<Long>
 )
