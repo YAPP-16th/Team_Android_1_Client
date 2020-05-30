@@ -32,14 +32,28 @@
             app:layout_constraintVertical_bias="0.05" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey5"
+            android:textSize="12sp"
+            tools:layout_editor_absoluteX="27dp"
+            tools:layout_editor_absoluteY="89dp"
+            android:text="@string/add_goal_period_notification"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="@+id/goal_period_title"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/goal_period_title"
+            app:layout_constraintTop_toBottomOf="@+id/goal_period_title"/>
+
+        <TextView
             android:id="@+id/start_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="70dp"
             android:lineSpacingExtra="15sp"
             android:text="@string/startDate"
-            android:textColor="@color/grey7"
-            android:textSize="15sp"
+            android:textColor="@color/grey5"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/goal_period_title"
             app:layout_constraintHorizontal_bias="0.0"
@@ -53,8 +67,8 @@
             android:layout_height="wrap_content"
             android:lineSpacingExtra="15sp"
             android:text="@string/endDate"
-            android:textColor="@color/grey7"
-            android:textSize="15sp"
+            android:textColor="@color/grey5"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/start_date"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,8 +82,8 @@
             android:layout_marginTop="173dp"
             android:lineSpacingExtra="15sp"
             android:text="@string/changeable_text"
-            android:textColor="@color/grey7"
-            android:textSize="15sp"
+            android:textColor="@color/grey5"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/start_date_content"
             app:layout_constraintTop_toBottomOf="@+id/goal_period_title" />
@@ -85,7 +99,7 @@
             app:layout_constraintBottom_toTopOf="@+id/is_changeable_text"
             app:layout_constraintStart_toStartOf="@+id/start_date"
             app:layout_constraintTop_toBottomOf="@+id/start_date"
-            app:layout_constraintVertical_bias="0.3" />
+            app:layout_constraintVertical_bias="0.2" />
 
         <LinearLayout
             android:layout_width="wrap_content"
