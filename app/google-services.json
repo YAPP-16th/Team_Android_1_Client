@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "776280153125",
+    "firebase_url": "https://erooja-fd7d9.firebaseio.com",
+    "project_id": "erooja-fd7d9",
+    "storage_bucket": "erooja-fd7d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776280153125:android:44627831e65851602b73cc",
+        "android_client_info": {
+          "package_name": "com.eroom.erooja"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "776280153125-tq0sdgsanvmc117u03r4upc16hajis78.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARfBUWeWnCW1TgGDDqXzKXc74NyKbWeEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "776280153125-tq0sdgsanvmc117u03r4upc16hajis78.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

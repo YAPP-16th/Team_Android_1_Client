@@ -1,2 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.eroom.domain" />
+    package="com.eroom.domain" >
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+</manifest>

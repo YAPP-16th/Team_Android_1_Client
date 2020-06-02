@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="activity"
+            type="com.eroom.erooja.feature.endedGoal.EndedGoalActivity" />
+        <variable
+            name="view"
+            type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ended_parent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="38dp"
+        android:orientation="vertical">
+
+        <!--        설명이 한 줄도 없을때 보여질 뷰-->
+        <TextView
+            android:id="@+id/gone_related_job_interest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connected_job"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/gone_keyword_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/temp_txt"
+            android:paddingBottom="15dp"
+            android:paddingTop="8dp"
+            android:lineSpacingExtra="8sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/gone_related_job_interest"
+            app:layout_constraintTop_toBottomOf="@+id/gone_related_job_interest"
+            tools:text="ui, ux ~, Android, IOS" />
+
+        <ru.rhanza.constraintexpandablelayout.ExpandableLayout
+            android:id="@+id/goal_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:el_animationDuration="300"
+            app:el_collapsedHeight="100dp"
+            app:el_initialState="collapsed"
+            app:el_showShadow="false"
+            app:el_showButton="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/ended_desc_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:lineSpacingExtra="11sp"
+                android:text="@string/temp_txt"
+                android:maxLines="3"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/related_job_interest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/connected_job"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/keyword_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:lineSpacingExtra="8sp"
+                android:text="@string/temp_txt"
+                tools:text="ui, ux ~, Android, IOS"
+                app:layout_constraintStart_toStartOf="@id/text"
+                app:layout_constraintTop_toBottomOf="@+id/text" />
+
+
+        </ru.rhanza.constraintexpandablelayout.ExpandableLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+

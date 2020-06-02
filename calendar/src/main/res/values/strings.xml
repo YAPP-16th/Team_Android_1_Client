@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">AirCalendar</string>
+
+    <string name="sans_serif" translatable="false">sans-serif</string>
+    <string-array name="label_calender_week">
+        <item name="1">일</item>
+        <item name="2">월</item>
+        <item name="3">화</item>
+        <item name="4">수</item>
+        <item name="5">목</item>
+        <item name="6">금</item>
+        <item name="7">토</item>
+    </string-array>
+    <string-array name="label_calendar_en">
+        <item name="1">M</item>
+        <item name="2">T</item>
+        <item name="3">W</item>
+        <item name="4">T</item>
+        <item name="5">F</item>
+        <item name="6">S</item>
+        <item name="7">S</item>
+    </string-array>
+</resources>

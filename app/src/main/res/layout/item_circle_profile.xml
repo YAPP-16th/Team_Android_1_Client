@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:id="@+id/frame"
+        xmlns:tools="http://schemas.android.com/tools">
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/profile"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:padding="1dp" />
+    </FrameLayout>
+</layout>
