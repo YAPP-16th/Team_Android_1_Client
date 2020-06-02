@@ -116,7 +116,7 @@ class NotificationActivity : AppCompatActivity(), NotificationContract.View {
                 putExtra(Consts.UID, UserInfo.myUId)
             })
             mAdapter.submitList(contentList)
-            mAdapter.notifyItemChanged(position)
+            mAdapter.notifyItemChanged(position + 1)
         } else this.toastShort("알 수 없는 에러입니다")
     }
 
