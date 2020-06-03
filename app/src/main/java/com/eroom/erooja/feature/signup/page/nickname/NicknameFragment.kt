@@ -12,7 +12,6 @@ import androidx.lifecycle.MutableLiveData
 import com.eroom.domain.globalconst.Consts
 import com.eroom.erooja.databinding.FragmentNicknameBinding
 import com.eroom.erooja.feature.signup.kakao.KakaoSignUpActivity
-import kotlinx.android.synthetic.main.fragment_nickname.*
 import org.koin.android.ext.android.get
 
 class NicknameFragment : Fragment(), NicknameContract.View {
@@ -109,11 +108,11 @@ class NicknameFragment : Fragment(), NicknameContract.View {
     }
 
     override fun setDuplicatedNickname() {
-        nicknameDuplicatedTextError.visibility = View.VISIBLE
+        nicknameBinding.nicknameDuplicatedTextError.visibility = View.VISIBLE
     }
 
     override fun unsetDuplicatedNickname() {
-        nicknameDuplicatedTextError.visibility = View.INVISIBLE
+        nicknameBinding.nicknameDuplicatedTextError.visibility = View.INVISIBLE
     }
 
     override fun setValidatedNickname() = nicknameCheck.set(true)
