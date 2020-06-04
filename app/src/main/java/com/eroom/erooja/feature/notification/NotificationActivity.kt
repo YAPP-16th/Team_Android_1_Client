@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.eroom.data.entity.AlarmContent
+import com.eroom.domain.customview.wrapperclass.LinearLayoutManagerWrapper
 import com.eroom.domain.globalconst.Consts
 import com.eroom.domain.utils.toastShort
 import com.eroom.erooja.R
@@ -70,7 +70,7 @@ class NotificationActivity : AppCompatActivity(), NotificationContract.View {
                 NotificationAdapter(presenter.mAlarmDiffCallback, contentList, this, gotoAlarm)
             binding.alarmRecycler.apply {
                 adapter = mAdapter
-                layoutManager = LinearLayoutManager(this@NotificationActivity)
+                layoutManager = LinearLayoutManagerWrapper(this@NotificationActivity)
             }
         } else {
             mAdapter.submitList(contentList)
@@ -99,7 +99,7 @@ class NotificationActivity : AppCompatActivity(), NotificationContract.View {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy >= 0 && contentList.size > 0) {
-                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManagerWrapper
                     if (layoutManager.findLastCompletelyVisibleItemPosition() == contentList.size - 1 && !isEnd) {
                         presenter.requestAlarms(mPage)
                     }
@@ -116,7 +116,6 @@ class NotificationActivity : AppCompatActivity(), NotificationContract.View {
                 putExtra(Consts.UID, UserInfo.myUId)
             })
             mAdapter.submitList(contentList)
-            mAdapter.notifyItemChanged(position + 1)
         } else this.toastShort("알 수 없는 에러입니다")
     }
 
