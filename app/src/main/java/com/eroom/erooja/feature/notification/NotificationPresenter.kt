@@ -20,7 +20,7 @@ class NotificationPresenter(
         }
 
         override fun areContentsTheSame(oldItem: AlarmContent, newItem: AlarmContent): Boolean {
-            return (oldItem.title == newItem.title) && (oldItem.id == newItem.id)
+            return oldItem == newItem
         }
     }
 
